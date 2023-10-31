@@ -47,3 +47,9 @@ p, h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
 }
+
+#modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+}

@@ -7,6 +7,7 @@ import KothPage from "./pages/KothPage"
 import PicksPage from "./pages/PicksPage"
 import PostsPage from "./pages/PostsPage"
 import RecordsPage from "./pages/RecordsPage"
+// import AuthModal from "./components/AuthModal"
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route path="/suggestions" element={<PostsPage />}></Route>
         <Route path="/records" element={<RecordsPage />}></Route>
       </Routes>
+      {/* AuthModal to be moved to suggestions page (conditional render */}
+      {/* <AuthModal /> */}
     </BrowserRouter>
   )
 }
