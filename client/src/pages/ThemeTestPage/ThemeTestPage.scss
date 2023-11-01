@@ -1,0 +1,262 @@
+$primary: rgba(0, 76, 84, 1);
+$border-color: rgba(0, 76, 84, 1);
+$card-background: #1f1f1f;
+$background-hover: rgba(0, 76, 84, 0.6);
+$background-active: rgba(0, 76, 84, 0.4);
+$text: white;
+
+.page-test {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+  height: 100%;
+  padding-top: 3rem;
+  align-items: center;
+  justify-content: center;
+  background-color: #121212;
+  h1 {
+    color: $text;
+  }
+  .theme {
+    width: 150px;
+    text-align: center;
+  }
+  .eagles-midnight {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 2px solid $primary;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: $card-background;
+    button {
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+    .btn {
+      background-color: $primary;
+      color: $text;
+      border: 2px solid transparent;
+      transition: all 300ms;
+      &:hover {
+        border-color: $primary;
+        background-color: $background-hover;
+      }
+      &:active {
+        background-color: $background-active;
+      }
+    }
+  }
+
+$primary: rgba(4,106,56,1);
+$border-color: rgba(4,106,56,1);
+$background-hover: rgba(4,106,56, 0.6);
+$background-active: rgba(4,106,56, 0.4);
+$text: white;
+
+  .eagles-kelly {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 2px solid $primary;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: $card-background;
+    button {
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+    .btn {
+      background-color: $primary;
+      color: $text;
+      border: 2px solid transparent;
+      transition: all 300ms;
+      &:hover {
+        border-color: $primary;
+        background-color: $background-hover;
+      }
+      &:active {
+        background-color: $background-active;
+      }
+    }
+  }
+}
+
+$primary: rgba(200, 16, 46, 1);
+$border-color: rgba(200, 16, 46, 1);
+$background-hover: rgba(200, 16, 46, 0.6);
+$background-active: rgba(200, 16, 46, 0.4);
+$text: white;
+
+  .liverpool {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 2px solid $primary;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: $card-background;
+    button {
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+    .btn {
+      background-color: $primary;
+      color: $text;
+      border: 2px solid transparent;
+      transition: all 300ms;
+      &:hover {
+        border-color: $primary;
+        background-color: $background-hover;
+      }
+      &:active {
+        background-color: $background-active;
+      }
+    }
+  }
+
+$primary: rgba(232, 24, 40, 1);
+$border-color: rgba(232, 24, 40, 1);;
+$background-hover: rgba(232, 24, 40, 0.6);;
+$background-active: rgba(232, 24, 40, 0.4);;
+$text: white;
+
+  .phillies {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 2px solid $primary;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: $card-background;
+    button {
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+    .btn {
+      background-color: $primary;
+      color: $text;
+      border: 2px solid transparent;
+      transition: all 300ms;
+      &:hover {
+        border-color: $primary;
+        background-color: $background-hover;
+      }
+      &:active {
+        background-color: $background-active;
+      }
+    }
+  }
+
+$primary: rgba(7, 27, 44, 1);
+$border-color: rgba(7, 27, 44, 1);
+$background-hover: rgba(7, 27, 44, 0.6);
+$background-active: rgba(7, 27, 44, 0.4);
+$text: white;
+
+  .union {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 2px solid $primary;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: $card-background;
+    button {
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+    .btn {
+      background-color: $primary;
+      color: $text;
+      border: 2px solid transparent;
+      transition: all 300ms;
+      &:hover {
+        border-color: $primary;
+        background-color: $background-hover;
+      }
+      &:active {
+        background-color: $background-active;
+      }
+    }
+  }
+
+$primary: rgba(1, 35, 82, 1);
+$border-color: rgba(7, 27, 44, 1);
+$background-hover: rgba(1, 35, 82, 0.6);
+$background-active: rgba(1, 35, 82, 0.4);
+$text: white;
+
+  .giants {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 2px solid $primary;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: $card-background;
+    button {
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+    .btn {
+      background-color: $primary;
+      color: $text;
+      border: 2px solid transparent;
+      transition: all 300ms;
+      &:hover {
+        border-color: $primary;
+        background-color: $background-hover;
+      }
+      &:active {
+        background-color: $background-active;
+      }
+    }
+  }
+
+$primary: rgba(108, 171, 221, 1);
+$border-color: rgba(108, 171, 221, 1);
+$background-hover: rgba(108, 171, 221, 0.6);
+$background-active: rgba(108, 171, 221, 0.4);
+$text: white;
+
+  .city {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 2px solid $primary;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: $card-background;
+    button {
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+    .btn {
+      background-color: $primary;
+      color: $text;
+      border: 2px solid transparent;
+      transition: all 300ms;
+      &:hover {
+        border-color: $primary;
+        background-color: $background-hover;
+      }
+      &:active {
+        background-color: $background-active;
+      }
+    }
+  }

@@ -1,0 +1,21 @@
+Needed Themes:
+- Liverpool
+- Eagles (current)
+- Eagles (kelly)
+- Phillies
+- Union
+- USA
+
+- Chelsea (Joke)
+- Giants (Joke)
+- Man City (Joke)
+
+Accentuation: With a dark theme, you can use team colors for accent elements like buttons, borders, icons, and typography. This way, the distinct colors of each team can be featured without overwhelming the interface.
+
+Background: Use a consistent dark charcoal for the main background.
+
+Primary Color Usage: Employ a team's primary color for primary actions, highlights, or headings.
+
+Secondary & Tertiary Colors: Use them for secondary actions, icons, or other UI elements. If a particular secondary or tertiary color clashes or doesn't contrast well, you can either adjust its shade or use it more sparingly.
+
+Readability: Ensure that text is easily readable against the dark background. Light grays, off-whites, or team colors (if they're light enough) can work well for text.
