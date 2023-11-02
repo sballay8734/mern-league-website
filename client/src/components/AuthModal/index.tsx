@@ -1,10 +1,57 @@
-import "./AuthModal.scss"
+import { useState } from "react"
 import { createPortal } from "react-dom"
+import "./AuthModal.scss"
+
+interface FormData {
+  email: string
+  password: string
+}
 
 export default function AuthModal() {
+  const [formData, setFormData] = useState<FormData>({
+    email: "",
+    password: ""
+  })
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    try {
+      // try to log in
+    } catch (error) {
+      // catch error
+    }
+    console.log("submitted")
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value
+    })
+  }
+
   const children = (
     <div className="modal-wrapper">
-      <div className="modal-content">MODAL</div>
+      <div className="modal-content">
+        <h1>You must be logged in to access this page</h1>
+        <form onSubmit={(e) => handleSubmit(e)} className="signin-form">
+          <input
+            onChange={(e) => handleChange(e)}
+            type="email"
+            name="email"
+            id="email"
+            placeholder="email"
+          />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="password"
+            onChange={(e) => handleChange(e)}
+          />
+          <button type="submit">Sign in</button>
+        </form>
+      </div>
       <div className="modal-background"></div>
     </div>
   )
