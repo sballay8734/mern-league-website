@@ -10,12 +10,95 @@ Needed Themes:
 - Giants (Joke)
 - Man City (Joke)
 
-Accentuation: With a dark theme, you can use team colors for accent elements like buttons, borders, icons, and typography. This way, the distinct colors of each team can be featured without overwhelming the interface.
+- DATABASE STRUCTURE
+// Games collection
+{
+  "_id": "game12345",
+  "year": 2023,
+  "week": 5,
+  "team1": {
+    "name": "Bears",
+    "spread": "+3.5"
+  },
+  "team2": {
+    "name": "Lions",
+    "spread": "-3.5"
+  },
+  "result": null
+  "statsComputed": false
+}
 
-Background: Use a consistent dark charcoal for the main background.
 
-Primary Color Usage: Employ a team's primary color for primary actions, highlights, or headings.
+// Picks collection
+{
+  "_id": "pick98765",
+  "gameId": "game12345",
+  "userId": "userABC",
+  "selectedTeam": "team1", // The team the user picked to win
+  "wasCorrect": false, // This can be updated later when the game result is known
+  "year": 2023,
+  "week": 5
+}
 
-Secondary & Tertiary Colors: Use them for secondary actions, icons, or other UI elements. If a particular secondary or tertiary color clashes or doesn't contrast well, you can either adjust its shade or use it more sparingly.
+// Updating results
+{
+  "_id": "game12345",
+  ...
+  "result": "team1"
+}
 
-Readability: Ensure that text is easily readable against the dark background. Light grays, off-whites, or team colors (if they're light enough) can work well for text.
+// Users collection (Only put data that requires user login here)
+{
+  "_id": "user001",
+  "username": "johnDoe",
+  "email": "john@example.com",
+  "stats": {
+    "totalPicks": 100,
+    "correctPicks": 65,
+    "winPercentage": 65.0
+  }
+}
+
+// computedUsers collection
+{
+    "userId": "uniqueUserId",
+    "stats": {
+        "byYear": {
+            "2023": {
+                "regularSeason": {
+                    "wins": 10,
+                    "losses": 5,
+                    // ... any other regular season stats
+                },
+                "playoffs": {
+                    "wins": 2,
+                    "losses": 1,
+                    // ... any other playoff stats
+                },
+                "combined": {
+                    "wins": 12,
+                    "losses": 6,
+                    // ... combined stats
+                }
+            },
+            // ... other years
+        },
+        "allTime": {
+            "regularSeason": {
+                "wins": 50,
+                "losses": 25,
+                // ... all-time regular season stats
+            },
+            "playoffs": {
+                "wins": 10,
+                "losses": 5,
+                // ... all-time playoff stats
+            },
+            "combined": {
+                "wins": 60,
+                "losses": 30,
+                // ... all-time combined stats
+            }
+        }
+    }
+}

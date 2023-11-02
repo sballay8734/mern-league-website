@@ -29,7 +29,6 @@ export const signup = async (
     await newUser.save()
     res.status(200).json({ message: "User created successfully!" })
   } catch (error) {
-    // WHY DOES THIS PREVENT APP FROM CRASHING (ASK CHAT GPT)
     next(error)
   }
 }

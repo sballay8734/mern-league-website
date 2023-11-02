@@ -1,5 +1,12 @@
 import { useState } from "react"
 import { createPortal } from "react-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../../redux/store"
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure
+} from "../../redux/user/userSlice"
 import "./AuthModal.scss"
 
 interface FormData {
@@ -12,16 +19,34 @@ export default function AuthModal() {
     email: "",
     password: ""
   })
-  console.log(formData) // working
+  const { error, loading } = useSelector((state: RootState) => state.user)
+  const dispatch = useDispatch<AppDispatch>()
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     try {
-      // try to log in
+      dispatch(signInStart())
+      const requestOptions: RequestInit = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      }
+
+      const res = await fetch("/api/auth/signin", requestOptions)
+      const data = await res.json()
+
+      if (data.success === false) {
+        dispatch(signInFailure(data.message))
+        return
+      }
+      dispatch(signInSuccess(data))
     } catch (error) {
-      // catch error
+      if (error instanceof Error) {
+        dispatch(signInFailure(error.message))
+      }
     }
-    console.log("submitted")
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -50,8 +75,11 @@ export default function AuthModal() {
             placeholder="password"
             onChange={(e) => handleChange(e)}
           />
-          <button type="submit">Sign in</button>
+          <button disabled={loading} type="submit">
+            {loading ? "Loading..." : "Sign in"}
+          </button>
         </form>
+        {error !== null ? <p className="error-message">{error}</p> : ""}
       </div>
       <div className="modal-background"></div>
     </div>

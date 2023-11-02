@@ -35,6 +35,19 @@
       input {
         padding: 0.2rem 0.3rem;
       }
+      button {
+        cursor: pointer;
+        width: 100px;
+        background-color: rgb(33, 33, 107);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 0.3rem;
+      }
+    }
+    .error-message {
+      margin: 0;
+      color: red;
     }
   }
 }
