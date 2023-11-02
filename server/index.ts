@@ -23,7 +23,6 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/auth", authRouter)
 
-// WHY DOES THIS PREVENT APP FROM CRASHING (ASK CHAT GPT)
 app.use((err: Err, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500
   const message = err.message || "Internal server error"

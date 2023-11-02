@@ -49,7 +49,9 @@ export const signin = async (
 
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET!)
 
+    // typescript thing
     const userObject = validUser.toObject()
+    // take off password
     const { password: pass, ...rest } = userObject
 
     res.cookie("access_token", token, { httpOnly: true }).status(201).json(rest)
