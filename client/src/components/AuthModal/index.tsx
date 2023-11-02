@@ -12,6 +12,7 @@ export default function AuthModal() {
     email: "",
     password: ""
   })
+  console.log(formData) // working
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
