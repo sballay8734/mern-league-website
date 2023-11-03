@@ -5,6 +5,7 @@ interface User {
   firstName: string
   lastName: string
   displayName: string
+  isAdmin: boolean
 }
 
 interface UserState {

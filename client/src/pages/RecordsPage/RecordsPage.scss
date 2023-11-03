@@ -1,0 +1,19 @@
+.records-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.records-wrapper {
+  display: flex;
+  gap: 1rem;
+  .record {
+    border: 1px solid black;
+    padding: 1rem;
+    background-color: white;
+    height: 200px;
+    width: 200px;
+    border-radius: 5px;
+    font-size: .75rem;
+  }
+}

@@ -7,7 +7,7 @@ interface IRecord extends Document {
   value: number | null
   holder: string | null
   year: number | null
-  wasPlayoffs: Boolean | null
+  wasPlayoffs: boolean | null
 }
 
 const recordSchema = new Schema({

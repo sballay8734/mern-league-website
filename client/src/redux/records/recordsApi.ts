@@ -1,24 +1,39 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
+interface Record {
+  _id: string
+  name: string
+  displayName: string
+  description: string
+  value: number
+  holder: string
+  year: number
+  wasPlayoffs: boolean
+}
+
+// initialize api
 const recordsApi = createApi({
   // (1)reducerPath, (2)baseQuery, (3)endpoints
   reducerPath: "records",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001/api"
+    baseUrl: "/api"
   }),
   endpoints: (builder) => ({
-    fetchRecords: builder.query({
-      // recordsApi.useFetchRecordsQuery()
+    // builder.query<ReturnValueHere, ArgumentTypeHere>
+    fetchRecords: builder.query<Record[], void>({
       query: () => ({
         url: "/records",
         method: "GET"
+      })
+    }),
+    updateRecord: builder.query<Record, string>({
+      query: (id) => ({
+        url: `/records/${id}`,
+        method: "PUT"
       })
     })
   })
 })
 
-// /api/records             GET
-// /api/records             POST
-
-export const { useFetchRecordsQuery } = recordsApi
+export const { useFetchRecordsQuery, useUpdateRecordQuery } = recordsApi
 export { recordsApi }

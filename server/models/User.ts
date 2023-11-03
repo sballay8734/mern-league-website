@@ -6,6 +6,7 @@ interface IUser extends Document {
   firstName: string
   lastName: string
   displayName: string
+  isAdmin: boolean
 }
 
 const userSchema = new Schema({
@@ -13,7 +14,8 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  displayName: { type: String, required: true, unique: true }
+  displayName: { type: String, required: true, unique: true },
+  isAdmin: { type: Boolean, default: false }
 })
 
 const User = mongoose.model<IUser>("User", userSchema)
