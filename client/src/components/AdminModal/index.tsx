@@ -13,7 +13,7 @@ export default function AdminModal() {
     setPassword(e.target.value)
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (password === import.meta.env.VITE_ADMIN_PASSWORD) {
       setHideModal(true)
