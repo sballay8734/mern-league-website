@@ -2,7 +2,7 @@ import { useState } from "react"
 import { createPortal } from "react-dom"
 import "./AdminModal.scss"
 
-// Actually, you do NOT want this to persist. But you SHOULD remove the link.
+// Actually, you do NOT want this to persist. But you SHOULD remove the link in the header.
 // It should only be reachable by typing /admin in the address bar
 
 export default function AdminModal() {
