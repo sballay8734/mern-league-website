@@ -8,6 +8,7 @@ import PicksPage from "./pages/PicksPage"
 import PostsPage from "./pages/PostsPage"
 import RecordsPage from "./pages/RecordsPage"
 import ThemeTestPage from "./pages/ThemeTestPage"
+import AdminPage from "./pages/AdminPage"
 // import AuthModal from "./components/AuthModal"
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
+        <Route path="admin" element={<AdminPage />}></Route>
         <Route path="/compare" element={<ComparePage />}></Route>
         <Route path="/kingofthehill" element={<KothPage />}></Route>
         <Route path="/picks" element={<PicksPage />}></Route>

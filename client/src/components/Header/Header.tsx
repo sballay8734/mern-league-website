@@ -5,6 +5,7 @@ export default function Header() {
   return (
     <div className="header-wrapper">
       <div className="header">
+        <Link to="/admin">Admin</Link>
         <Link to="/">Home</Link>
         <Link to="/compare">Compare</Link>
         <Link to="/kingofthehill">KOTH</Link>

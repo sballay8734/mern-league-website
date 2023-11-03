@@ -1,0 +1,48 @@
+Records
+
+- Most points in a single week
+- Least points in a single week
+- Biggest margin of victory/defeat (No need to have a separate stat for both)
+- Highest Avg. points per week
+- Lowest Avg. points per week
+- Lowest playoff participation percentage
+- Highest playoff participation percentage
+
+{
+  "_id": "507f1f77bcf86cd799439011",
+  "name": "mostPointsScoredWeek",       // USED FOR FUNCTION REFERENCE
+  "displayName": Most Points Scored // USED FOR DISPLAY
+  "description": "The most points scored in a single week",
+  "value": 320,
+  "holder": "John Doe",
+  "year": 2023,
+  "isAllTime": false,
+  "updatedAt": "2023-11-03T06:52:00.000Z"
+}
+
+|-- /src/
+    |-- /redux/
+        |-- store.js               # Redux store configuration
+        |-- /records/
+            |-- recordsSlice.js    # Redux slice for records, includes actions and reducers
+        |-- rootReducer.js         # Combines different slices into the root reducer
+    |-- /components/
+        |-- AdminDashboard.js      # Functional component for admin actions
+    |-- /api/
+        |-- recordsApi.js          # API service calls related to records
+    |-- /models/
+        |-- Record.js              # Mongoose model for a record
+    |-- /controllers/
+        |-- recordController.js    # Controller with logic to update records
+    |-- /routes/
+        |-- adminRoutes.js         # Routes related to admin functionalities
+    |-- app.js                     # Main server file to setup middleware and routes
+    |-- server.js                  # Entry point to run your Node.js server (if separate from app.js)
+|-- package.json                   # Node project manifest
+|-- .env   
+
+services/: More complex or business logic-heavy functions. For instance:
+
+recordServices.ts: Could contain the logic to update records.
+
+leagueStatsService.ts: Could contain the functions that handle extracting and calculating stats from league data, such as findHighestScore.
