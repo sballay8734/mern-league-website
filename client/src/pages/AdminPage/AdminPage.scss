@@ -1,0 +1,32 @@
+.admin-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  button {
+    cursor: pointer;
+  }
+  .update-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    .update-group {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid black;
+      padding: 0.2rem 0.5rem;
+      border-radius: 5px;
+      justify-content: space-between;
+      button {
+        padding: 0.2rem 0.3rem;
+        cursor: pointer;
+        border-radius: 5px;
+        border: 1px solid black;;
+      }
+    }
+  }
+}
+

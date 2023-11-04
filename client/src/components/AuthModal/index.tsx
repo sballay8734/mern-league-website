@@ -57,10 +57,14 @@ export default function AuthModal() {
   }
 
   const children = (
-    <div className="modal-wrapper">
+    <div className="auth-modal-wrapper">
       <div className="modal-content">
         <h1>You must be logged in to access this page</h1>
-        <form onSubmit={(e) => handleSubmit(e)} className="signin-form">
+        <form
+          id="auth-form"
+          onSubmit={(e) => handleSubmit(e)}
+          className="signin-form"
+        >
           <input
             onChange={(e) => handleChange(e)}
             type="email"
@@ -81,6 +85,7 @@ export default function AuthModal() {
         </form>
         {error !== null ? <p className="error-message">{error}</p> : ""}
       </div>
+      {/* THIS LINE BELOW IS CAUSING THE LAG */}
       <div className="modal-background"></div>
     </div>
   )

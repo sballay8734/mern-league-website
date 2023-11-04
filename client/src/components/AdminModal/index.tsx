@@ -10,9 +10,10 @@ export default function AdminModal() {
   const { user } = useSelector((state: RootState) => state.user)
 
   const children = (
-    <div className="modal-wrapper">
+    <div className="admin-modal-wrapper">
       <div className="modal-content">
         Sorry {user?.firstName}, this page is for tiny dick admins only
+        <input type="text" />
       </div>
       <div className="modal-background"></div>
     </div>

@@ -2,17 +2,20 @@ import { configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 
 import userReducer from "./user/userSlice"
-// import recordsReducer from "./records/recordsSlice"
 import { recordsApi } from "./records/recordsApi"
+import { ownersApi } from "./owners/ownersApi"
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    // records: recordsReducer,
-    [recordsApi.reducerPath]: recordsApi.reducer
+    [recordsApi.reducerPath]: recordsApi.reducer,
+    [ownersApi.reducerPath]: ownersApi.reducer
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(recordsApi.middleware)
+    return getDefaultMiddleware().concat(
+      recordsApi.middleware,
+      ownersApi.middleware
+    )
   }
 })
 

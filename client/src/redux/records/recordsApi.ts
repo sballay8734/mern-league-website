@@ -32,6 +32,8 @@ const recordsApi = createApi({
       })
     }),
     updateRecord: builder.query<Record, string>({
+      // does this actually need to take the owners?
+      // and loop through the owners on the server?
       query: (id) => ({
         url: `/records/${id}`,
         method: "PUT"
