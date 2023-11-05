@@ -13,6 +13,7 @@ const ownersApi = createApi({
         method: "GET"
       })
     })
+    // update computed owners here
   })
 })
 

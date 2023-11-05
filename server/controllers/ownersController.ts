@@ -13,3 +13,13 @@ export const getOwners = async (
     next(error)
   }
 }
+
+try {
+  // after fetching owners
+  // then try to update owner in database
+} catch (error) {}
+
+// statCategory: {
+//     type: String,
+//     enum: ['RegSznYearly', 'PlayoffYearly', 'RegSznAllTime', 'PlayoffAllTime', 'CombinedYearly', 'CombinedAllTime']
+// }
