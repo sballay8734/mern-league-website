@@ -14,10 +14,10 @@ export const getOwners = async (
   }
 }
 
-try {
-  // after fetching owners
-  // then try to update owner in database
-} catch (error) {}
+// updateOwners
+// update computedOwnerStats (RSAT, RSYearly, PAT, PYearly, CAT, CYearly)
+// update computedH2HStats (RegSzn, Playoffs, and Combined - NO YEARLY)
+// update computedMiscellaneousStats (No toggles)
 
 // statCategory: {
 //     type: String,

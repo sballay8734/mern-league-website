@@ -1,5 +1,8 @@
-- computedOwners (collection 1)
-- computedH2H    (collection 2)
+###############################################################################
+- computedOwners        (collection 1)
+- computedH2H           (collection 2)
+- computedMiscellaneous (collection 3)
+###############################################################################
 
 ALL STATS WILL REQUIRE 6 DIFFERENT DOCUMENTS PER OWNER (EXAMPLE BELOW)
 
@@ -14,7 +17,7 @@ BELOW THE EXAMPLE IS A LIST OF STATS YOU WILL NEED
     "statID": 1,
     "year": 2014,
     "allTime": false,
-    "statName": "Average Points For",
+    "statName": "Average Points Per Week",
     "value": 110.23
 }
 {
@@ -24,7 +27,7 @@ BELOW THE EXAMPLE IS A LIST OF STATS YOU WILL NEED
     "statID": 2,
     "year": 2014,
     "allTime": false,
-    "statName": "Average Points For",
+    "statName": "Average Points Per Week",
     "value": 110.23
 }
 {
@@ -34,7 +37,7 @@ BELOW THE EXAMPLE IS A LIST OF STATS YOU WILL NEED
     "statID": 3,
     "year": 2014,
     "allTime": false,
-    "statName": "Average Points For",
+    "statName": "Average Points Per Week",
     "value": 110.23
 }
 {
@@ -44,7 +47,7 @@ BELOW THE EXAMPLE IS A LIST OF STATS YOU WILL NEED
     "statID": 4,
     "year": null,
     "allTime": true,
-    "statName": "Average Points For",
+    "statName": "Average Points Per Week",
     "value": 110.23
 }
 {
@@ -54,7 +57,7 @@ BELOW THE EXAMPLE IS A LIST OF STATS YOU WILL NEED
     "statID": 5,
     "year": null,
     "allTime": true,
-    "statName": "Average Points For",
+    "statName": "Average Points Per Week",
     "value": 110.23
 }
 {
@@ -64,21 +67,30 @@ BELOW THE EXAMPLE IS A LIST OF STATS YOU WILL NEED
     "statID": 6,
     "year": null,
     "allTime": true,
-    "statName": "Average Points For",
+    "statName": "Average Points Per Week",
     "value": 110.23
 }
 
 ###############################################################################
-FORMAT MAIN STATS
+FORMAT MAIN STATS (6 documents for each stat [below])
+- RegSznYearly & RegSznAllTime & PlayoffYearly & PlayoffAllTime & CombinedYearly & CombinedAllTime
+
+{
+    "type": "RegSznYearly",
+    "ownerName": "John Smith",
+    "ownerID": 1,
+    "statID": 1,
+    "year": 2014,
+    "allTime": false,
+    "statName": "Average Points Per Week",
+    "value": 110.23
+}
 
 StatName 
   -StatType (statID)
-
-NOTE: Not ALL stats will need 6 sub categories (Like Koth Victories & Seasons)
-(Koth Victories and Seasons would be Miscellaneous stats)
 ###############################################################################
 
-Points For
+Points Per Week
   -RegSznAllTime   (1)
   -PlayoffAllTime  (2)
   -CombinedAllTime (3)
@@ -86,7 +98,7 @@ Points For
   -PlayoffYearly   (5)
   -CombinedYearly  (6)
 
-Points Against
+Points Against Per Week
   -RegSznAllTime   (7)
   -PlayoffAllTime  (8)
   -CombinedAllTime (9)
@@ -134,58 +146,53 @@ Close Ws (Wins by less than 3 points)
   -PlayoffYearly   (41)
   -CombinedYearly  (42)
 
+ETEW Record & Win%(Calculated) (Every Team Every Week) (ID)
+  -RegSznAllTime   (43)
+  -RegSznYearly    (44)
 
+############################################################################### ###############################################################################
 ###############################################################################
+###############################################################################
+
 Miscellaneous STATS
 
 StatName 
   -StatType (statID)
 ###############################################################################
 
-Koth Victories     (ID)    - example below
+EXAMPLE Koth Victories
 {
     "type": "Miscellaneous",
     "ownerName": "John Smith",
     "ownerID": 1,
     "statID": 19,
-    "year": null,
-    "allTime": true,
     "statName": "Koth Victories",
     "value": 3
 }
 
-Seasons            (ID)    - example below
-{
-    "type": "Miscellaneous",
-    "ownerName": "John Smith",
-    "ownerID": 1,
-    "statID": 20,
-    "year": null,
-    "allTime": true,
-    "statName": "Seasons Participated",
-    "value": 8
-}
+Koth Victories                      (ID)
+Seasons Participated                (ID)
+Most Points Single Week             (ID)
+Least Points Single Week            (ID)
+Playoff Appearances                 (ID)
+Playoff Participation Rate          (ID)
+Finals Appearances                  (ID)
+Last Place Finishes                 (ID)
+Average Finishing Place             (ID)
+Biggest Blowout Win                 (ID)
+Biggest Blowout Loss                (ID)
+Worst PF Season                     (ID)
+Best PF Season                      (ID)
+Longest Win Streak                  (ID)
+Longest Losing Streak               (ID)
+Average Strength of Schedule        (ID)
+Active Streak (Win or Loss)         (ID)
 
-Koth Victories                   (ID)
-Seasons Participated             (ID)
-Most Points Single Week          (ID)
-Least Points Single Week         (ID)
-Playoff Appearances              (ID)
-Playoff Participation Rate       (ID)
-Finals Appearances               (ID)
-Last Place Finishes              (ID)
-Average Finishing Place          (ID)
-Biggest Blowout Win              (ID)
-Biggest Blowout Loss             (ID)
-Worst PPW Season                 (ID)
-Best PPW Season                  (ID)
-Longest Win Streak               (ID)
-Longest Losing Streak            (ID)
-Average Strength of Schedule     (ID)
-Active Streak (Win or Loss)      (ID)
-
+############################################################################### ###############################################################################
 ###############################################################################
-HEAD 2 HEAD STATS (PUT IN DIFFERENT COLLECTION)
+###############################################################################
+
+HEAD 2 HEAD STATS
 
 StatName 
   -StatType (statID)
