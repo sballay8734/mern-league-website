@@ -1,7 +1,7 @@
 ###############################################################################
 - computedOwners        (collection 1)
-- computedH2H           (collection 2)
-- computedMiscellaneous (collection 3)
+- computedMiscellaneous (collection 2)
+- computedH2H           (collection 3)
 ###############################################################################
 
 ALL STATS WILL REQUIRE 6 DIFFERENT DOCUMENTS PER OWNER (EXAMPLE BELOW)
