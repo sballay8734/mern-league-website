@@ -32,8 +32,10 @@
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
+      width: 100%;
       input {
         padding: 0.2rem 0.3rem;
+        width: 100%;
       }
       button {
         cursor: pointer;
@@ -43,6 +45,10 @@
         border: none;
         border-radius: 5px;
         padding: 0.3rem;
+        width: 100%;
+      }
+      .google-button {
+        background-color: rgb(73, 106, 255);
       }
     }
     .error-message {

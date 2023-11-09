@@ -1,0 +1,24 @@
+.google-button {
+    background-color: rgb(87, 118, 255);
+    color: white;
+    border: none;
+    padding: .7rem .5rem;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    width: 100%;
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &:hover {
+      cursor: pointer;
+      opacity: .95;
+    }
+    &:disabled {
+      opacity: .8;
+    }
+  }

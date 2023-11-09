@@ -59,3 +59,13 @@ export const signin = async (
     next(error)
   }
 }
+
+export const google = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { displayName, email } = req.body
+
+  console.log(displayName, email)
+}

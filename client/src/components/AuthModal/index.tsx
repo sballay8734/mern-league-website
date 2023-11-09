@@ -8,6 +8,7 @@ import {
   signInFailure
 } from "../../redux/user/userSlice"
 import "./AuthModal.scss"
+import OAuth from "../OAuth/OAuth"
 
 interface FormData {
   email: string
@@ -82,6 +83,7 @@ export default function AuthModal() {
           <button disabled={loading} type="submit">
             {loading ? "Loading..." : "Sign in"}
           </button>
+          <OAuth />
         </form>
         {error !== null ? <p className="error-message">{error}</p> : ""}
       </div>
