@@ -4,15 +4,20 @@ import { errorHandler } from "../utils/error"
 import bcrypt from "bcrypt"
 import User from "../models/User"
 import jwt from "jsonwebtoken"
+import { whitelistedEmails } from "../emailConfig"
 
 export const signup = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { email, password, firstName, lastName, displayName } = req.body
+  const { email, password, displayName } = req.body
 
-  if (!email || !password || !firstName || !lastName || !displayName) {
+  if (!whitelistedEmails.includes(email)) {
+    next(errorHandler(400, "That email has not been whitelisted"))
+  }
+
+  if (!email || !password || !displayName) {
     next(errorHandler(400, "All fields are required"))
   }
 
@@ -22,8 +27,6 @@ export const signup = async (
     const newUser = new User({
       email,
       password: hashedPassword,
-      firstName,
-      lastName,
       displayName
     })
     await newUser.save()
@@ -67,5 +70,50 @@ export const google = async (
 ) => {
   const { displayName, email } = req.body
 
-  console.log(displayName, email)
+  if (!whitelistedEmails.includes(email)) {
+    next(errorHandler(401, "That email has not been whitelisted"))
+    return
+  }
+  // check if user exists
+  try {
+    const user = await User.findOne({ email })
+
+    if (user) {
+      // sign in user if they do
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!)
+      const userObject = user.toObject()
+      const { password: pass, ...rest } = userObject
+      res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest)
+    } else {
+      // if not, generate a random password and create a newUser
+      const randomPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8)
+
+      const hashedPassword = bcrypt.hashSync(randomPassword, 12)
+      // then create them and sign them in
+
+      const newUser = new User({
+        email,
+        password: hashedPassword,
+        displayName
+      })
+      await newUser.save()
+
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET!)
+
+      const newUserObject = newUser.toObject()
+      const { password: pass, ...rest } = newUserObject
+
+      res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest)
+    }
+  } catch (error) {
+    next(error)
+  }
 }

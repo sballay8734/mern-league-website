@@ -87,7 +87,6 @@ export default function AuthModal() {
         </form>
         {error !== null ? <p className="error-message">{error}</p> : ""}
       </div>
-      {/* THIS LINE BELOW IS CAUSING THE LAG */}
       <div className="modal-background"></div>
     </div>
   )

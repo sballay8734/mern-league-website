@@ -1,0 +1,525 @@
+.circle__center {
+  position: relative;
+  height: 25rem;
+  width: 25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: rgb(255, 255, 255); */
+  border-radius: 100%;
+}
+
+.hero__image {
+  background-image: url("../../public/simple_dashed.png");
+  background-size: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--primary-color-background);
+}
+
+.established-large {
+  color: var(--primary-color-light)
+}
+
+.fixed-items {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  padding: 0 2rem;
+  background-color: transparent;
+  justify-content: space-between;
+  align-items: center;
+  display: none;
+}
+
+.league-logo,
+.theme-changer {
+  color: var(--tertiary-color);
+}
+
+.league-logo {
+  font-family: 'Rampart One', cursive;
+  font-size: 1.4rem;
+  padding: 0.2rem 0.2rem;
+  transition: var(--transition);
+}
+
+.league-logo:hover {
+  cursor: pointer;
+  color: var(--primary-color-dark);
+  transition: var(--transition);
+}
+
+.theme-changer {
+  font-size: 1.6rem;
+  padding-top: .2rem;
+  transition: var(--transition);
+}
+
+.theme-changer:hover {
+  cursor: pointer;
+  color: var(--primary-color-dark);
+  transition: var(--transition);
+}
+
+.icon {
+  border: 4px solid var(--primary-color);
+  border-radius: 100%;
+}
+
+.icon > img {
+  height: 4rem;
+}
+
+.title-text-wrapper {
+  position: absolute;;
+}
+
+.hero__text {
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 2.5rem;
+  max-width: 18rem;
+  text-align: center;
+  transform: rotate(-10deg);
+  color: white;
+}
+
+.auth-buttons {
+  position: absolute;
+  bottom: 75px;
+  display: flex;
+  gap: 2rem;
+  a {
+    text-decoration: none;
+    color: black
+  }
+  .signin {
+    cursor: pointer;
+    border: none;
+    padding: 0.3rem 1rem;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    background-color: rgb(255, 0, 0);
+    &:hover {
+      opacity: .90;
+    }
+  }
+  .signup {
+    cursor: pointer;
+    border: none;
+    padding: 0.3rem 1rem;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    background-color: rgb(255, 0, 0);
+    &:hover {
+      opacity: .90;
+    }
+  }
+}
+
+.ex {
+  color: var(--primary-color);
+}
+
+.icon__wrapper {
+  border-radius: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon__pole {
+  height: 25rem;
+}
+
+.icon__wrapper-two {
+  transform: rotate(30deg);
+}
+
+.icon__two {
+  transform: rotate(-30deg);
+}
+
+.icon__wrapper-three {
+  transform: rotate(60deg);
+}
+.icon__three {
+  transform: rotate(-60deg);
+}
+
+.icon__wrapper-four {
+  transform: rotate(90deg);
+}
+
+.icon__four {
+  transform: rotate(-90deg);
+}
+
+.icon__wrapper-five {
+  transform: rotate(120deg);
+}
+
+.icon__five {
+  transform: rotate(-120deg);
+}
+
+.icon__wrapper-six {
+  transform: rotate(150deg);
+}
+
+.icon__six {
+  transform: rotate(-150deg);
+}
+
+.icon__wrapper-seven {
+  transform: rotate(180deg);
+}
+
+.icon__seven {
+  transform: rotate(-180deg);
+}
+
+.icon__wrapper-eight {
+  transform: rotate(210deg);
+}
+
+.icon__eight {
+  transform: rotate(-210deg);
+}
+
+.icon__wrapper-nine {
+  transform: rotate(240deg);
+}
+
+.icon__nine {
+  transform: rotate(-240deg);
+}
+
+.icon__wrapper-ten {
+  transform: rotate(270deg);
+}
+
+.icon__ten {
+  transform: rotate(-270deg);
+}
+
+.icon__wrapper-eleven {
+  transform: rotate(300deg);
+}
+
+.icon__eleven {
+  transform: rotate(-300deg);
+}
+
+.icon__twelve {
+  transform: rotate(-330deg);
+}
+
+.icon__wrapper-twelve {
+  transform: rotate(330deg);
+}
+
+.icon__one {
+  animation: animateIconOne 25s linear infinite;
+}
+
+.icon__two {
+  animation: animateIconTwo 25s linear infinite;
+}
+
+.icon__three {
+  animation: animateIconThree 25s linear infinite;
+}
+
+.icon__four {
+  animation: animateIconFour 25s linear infinite;
+}
+
+.icon__five {
+  animation: animateIconFive 25s linear infinite;
+}
+
+.icon__six {
+  animation: animateIconSix 25s linear infinite;
+}
+
+.icon__seven {
+  animation: animateIconSeven 25s linear infinite;
+}
+
+.icon__eight {
+  animation: animateIconEight 25s linear infinite;
+}
+
+.icon__nine {
+  animation: animateIconNine 25s linear infinite;
+}
+
+.icon__ten {
+  animation: animateIconTen 25s linear infinite;
+}
+
+.icon__eleven {
+  animation: animateIconEleven 25s linear infinite;
+}
+
+.icon__twelve {
+  animation: animateIconTwelve 25s linear infinite;
+}
+
+.animate-rotate {
+  animation: animateSpin 25s linear infinite;
+}
+
+@keyframes animateSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animateIconOne {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes animateIconTwo {
+  from {
+    transform: rotate(330deg);
+  }
+  to {
+    transform: rotate(-30deg);
+  }
+}
+
+@keyframes animateIconThree {
+  from {
+    transform: rotate(300deg);
+  }
+  to {
+    transform: rotate(-60deg);
+  }
+}
+
+@keyframes animateIconFour {
+  from {
+    transform: rotate(270deg);
+  }
+  to {
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes animateIconFive {
+  from {
+    transform: rotate(240deg);
+  }
+  to {
+    transform: rotate(-120deg);
+  }
+}
+
+@keyframes animateIconSix {
+  from {
+    transform: rotate(210deg);
+  }
+  to {
+    transform: rotate(-150deg);
+  }
+}
+
+@keyframes animateIconSeven {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(-180deg);
+  }
+}
+
+@keyframes animateIconEight {
+  from {
+    transform: rotate(150deg);
+  }
+  to {
+    transform: rotate(-210deg);
+  }
+}
+
+@keyframes animateIconNine {
+  from {
+    transform: rotate(120deg);
+  }
+  to {
+    transform: rotate(-240deg);
+  }
+}
+
+@keyframes animateIconTen {
+  from {
+    transform: rotate(90deg);
+  }
+  to {
+    transform: rotate(-270deg);
+  }
+}
+
+@keyframes animateIconEleven {
+  from {
+    transform: rotate(60deg);
+  }
+  to {
+    transform: rotate(-300deg);
+  }
+}
+
+@keyframes animateIconTwelve {
+  from {
+    transform: rotate(30deg);
+  }
+  to {
+    transform: rotate(-330deg);
+  }
+}
+
+@media screen and (max-width: 700px),
+        screen and (max-height: 800px) {
+  .circle__center {
+    height: 20rem;
+    width: 20rem;
+  }
+
+  .icon__pole {
+    height: 20rem;
+  }
+
+  .icon {
+    border: 4px solid var(--primary-color);
+    border-radius: 100%;
+  }
+
+  .icon > img {
+    height: 3rem;
+  }
+
+  .hero__text {
+    font-size: 2rem;
+    max-width: 14rem;
+  }
+}
+
+@media screen and (max-width: 600px),
+        screen and (max-height: 600px) {
+  .hero__image {
+    margin-top: 0;
+    height: 100vh;
+  }
+}
+
+@media screen and (max-width: 505px),
+        screen and (max-height: 600px) {
+  .circle__center {
+    height: 18rem;
+    width: 18rem;
+  }
+
+  .icon__pole {
+    height: 18rem;
+  }
+
+  .icon {
+    border: 3px solid var(--primary-color);
+    border-radius: 100%;
+  }
+
+  .icon > img {
+    height: 2.8rem;
+  }
+
+  .hero__text {
+    font-size: 1.8rem;
+    max-width: 13rem;
+  }
+  .established-large {
+    font-size: 1.4rem;
+  }
+}
+
+@media screen and (max-width: 400px),
+        screen and (max-height: 550px ) {
+  .circle__center {
+    height: 16rem;
+    width: 16rem;
+  }
+
+  .icon__pole {
+    height: 16rem;
+  }
+
+  .icon {
+    border: 2px solid var(--primary-color);
+    border-radius: 100%;
+  }
+
+  .icon > img {
+    height: 2.4rem;
+  }
+
+  .hero__text {
+    font-size: 1.5rem;
+    max-width: 11rem;
+  }
+}
+
+@media screen and (max-width: 325px) {
+  .circle__center {
+    height: 13rem;
+    width: 13rem;
+  }
+
+  .icon__pole {
+    height: 13rem;
+  }
+
+  .icon {
+    border: 2px solid var(--primary-color);
+    border-radius: 100%;
+  }
+
+  .icon > img {
+    height: 2rem;
+  }
+
+  .hero__text {
+    font-size: 1.3rem;
+    max-width: 10rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .fixed-items {
+    display: flex;
+  }
+}

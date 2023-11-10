@@ -14,10 +14,10 @@ const authApi = createApi({
   }),
   endpoints: (builder) => ({
     signInUser: builder.mutation<User, { code: string }>({
-      query: ({ code }) => ({
+      query: (user) => ({
         url: "/auth/google",
         method: "POST",
-        body: JSON.stringify({ code }),
+        body: JSON.stringify(user),
         headers: {
           "Content-Type": "application/json"
         }
