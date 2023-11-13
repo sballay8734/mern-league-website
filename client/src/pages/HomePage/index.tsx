@@ -6,16 +6,12 @@ export default function HomePage() {
   return (
     <div className="page hero__image">
       <div className="overlay"></div>
+      <div className="established">EST. 2014</div>
       <div className="title-text-wrapper">
         <h1 className="hero__text absolute">
           Welcome to the Legendary League of Ex-Athletes
         </h1>
       </div>
-      {/* <h1 className="established-large">EST. 2014</h1>
-      <h1 className="hero__text absolute">
-        Welcome to the Legendary League of <span className="ex">Ex</span>
-        -Athletes
-      </h1> */}
       <div className="circle__center animate-rotate">
         <div className="icon__wrapper icon__wrapper-one">
           <div className="relative icon__one icon">
