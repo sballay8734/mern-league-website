@@ -1,0 +1,80 @@
+.sign-in-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background-color: white;
+  padding: 1.5rem 2rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  max-width: 350px;
+  border-radius: 5px;
+  .description {
+    opacity: 0.5;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  h1 {
+    font-weight: 600;
+    font-size: 1.8rem;
+  }
+  button {
+    width: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 0.2rem 0.3rem;
+    border: 1px solid black;
+  }
+  .error {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: red;
+  }
+  .success {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: green;
+  }
+  .spinner {
+    width: 24px;
+    height: 24px;
+    border: 5px solid #FFF;
+    border-bottom-color: #000000;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
+  .sign-in-button {
+    margin-top: 1rem;
+  }
+  .google-button {
+    .logo {
+      display: flex;
+      margin-left: 0.2rem;
+    }
+  }
+  .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.2rem;
+    label {
+      font-size: 0.8rem;
+    }
+    input {
+      border-radius: 5px;
+      padding: 0.4rem 0.5rem;
+      border: 1px solid black;
+      font-size: 0.8rem;
+    }
+  }
+}

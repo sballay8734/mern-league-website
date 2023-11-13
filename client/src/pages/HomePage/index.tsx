@@ -1,8 +1,12 @@
 import "./HomePage.scss"
 import logo from "../../public/profileImg.png"
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { RootState } from "../../redux/store"
 
 export default function HomePage() {
+  const { user } = useSelector((state: RootState) => state.user)
+
   return (
     <div className="page hero__image">
       <div className="overlay"></div>
@@ -86,14 +90,20 @@ export default function HomePage() {
           <div className="icon__pole"></div>
         </div>
       </div>
-      <div className="auth-buttons">
-        <Link className="signin" to="/signin">
-          Sign In
-        </Link>
-        <Link className="signup" to="/signup">
-          Sign Up
-        </Link>
-      </div>
+      {user ? (
+        <div className="greeting">
+          Welcome <span className="name">{user.firstName}</span>! Ya bitchhhhh
+        </div>
+      ) : (
+        <div className="auth-buttons">
+          <Link className="signin" to="/signin">
+            Sign In
+          </Link>
+          <Link className="signup" to="/signup">
+            Sign Up
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
+import { persistStore, persistReducer } from "redux-persist"
+import storage from "redux-persist/lib/storage"
 
 import userReducer from "./user/userSlice"
 import { recordsApi } from "./records/recordsApi"
@@ -16,7 +18,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(
       recordsApi.middleware,
-      ownersApi.middleware
+      ownersApi.middleware,
+      authApi.middleware
     )
   }
 })
