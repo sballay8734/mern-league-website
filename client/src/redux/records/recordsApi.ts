@@ -28,19 +28,14 @@ const recordsApi = createApi({
     fetchRecords: builder.query<Record[], void>({
       query: () => ({
         url: "/records",
-        method: "GET"
-      })
-    }),
-    updateRecord: builder.query<Record, string>({
-      // does this actually need to take the owners?
-      // and loop through the owners on the server?
-      query: (id) => ({
-        url: `/records/${id}`,
-        method: "PUT"
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
       })
     })
   })
 })
 
-export const { useFetchRecordsQuery, useUpdateRecordQuery } = recordsApi
+export const { useFetchRecordsQuery } = recordsApi
 export { recordsApi }

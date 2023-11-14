@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom"
 import { AiFillGoogleSquare, AiFillCheckCircle } from "react-icons/ai"
 import { useDispatch } from "react-redux"
 import { setUser } from "../../redux/user/userSlice"
-import "./Signin.scss"
 import { useLazyStandardSignInMutation } from "../../redux/auth/authApi"
+import "./Signin.scss"
 
 // NEED TO USE useLazyQuery
 
@@ -41,6 +41,7 @@ export default function Signin() {
     const response = await trigger(formData)
 
     if ("data" in response) {
+      console.log(response)
       dispatch(setUser(response.data))
       setTimeout(() => {
         navigate("/")

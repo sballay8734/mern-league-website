@@ -3,12 +3,9 @@ import { useNavigate } from "react-router-dom"
 import { app } from "../../firebase"
 import { AiFillGoogleSquare } from "react-icons/ai"
 import "./OAuth.scss"
-import { signInFailure, signInSuccess } from "../../redux/user/userSlice"
-import { useDispatch } from "react-redux"
 
 export default function OAuth() {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   async function handleGoogleClick() {
     try {
       const provider = new GoogleAuthProvider()
@@ -33,10 +30,10 @@ export default function OAuth() {
 
       console.log("data", data)
       if (data.success === false) {
-        dispatch(signInFailure(data.message))
+        console.log("Fail")
         return
       }
-      dispatch(signInSuccess(data))
+      console.log("Success")
       navigate("/")
     } catch (error) {
       console.log("Could not sign in with google", error)

@@ -10,39 +10,22 @@ interface User {
 
 interface UserState {
   user: null | User
-  error: null | string
-  loading: boolean
 }
 
 const initialState: UserState = {
-  user: null,
-  error: null,
-  loading: false
+  user: null
 }
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signInStart: (state) => {
-      state.loading = true
-    },
-    signInSuccess: (state, action: PayloadAction<User>) => {
-      state.user = action.payload
-      state.error = null
-      state.loading = false
-    },
-    signInFailure: (state, action: PayloadAction<string>) => {
-      state.error = action.payload
-      state.loading = false
-    },
-    setUser: (state, action) => {
+    setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     }
   }
 })
 
-export const { signInStart, signInSuccess, signInFailure, setUser } =
-  userSlice.actions
+export const { setUser } = userSlice.actions
 
 export default userSlice.reducer

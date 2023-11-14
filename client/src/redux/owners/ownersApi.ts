@@ -10,10 +10,12 @@ const ownersApi = createApi({
     fetchOwners: builder.query<Owner[], void>({
       query: () => ({
         url: "/owners",
-        method: "GET"
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
       })
     })
-    // update computed owners here
   })
 })
 
