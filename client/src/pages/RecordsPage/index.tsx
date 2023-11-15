@@ -10,6 +10,7 @@ export default function RecordsPage() {
   const { data, error, isLoading } = useFetchRecordsQuery()
   const [filterString, setFilterString] = useState("")
 
+  // Just to remove errors (actually do something with this once it's setup)
   console.log(error, isLoading)
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {

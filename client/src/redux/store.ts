@@ -16,13 +16,15 @@ import compareReducer from "./owners/compareSlice"
 import { recordsApi } from "./records/recordsApi"
 import { ownersApi } from "./owners/ownersApi"
 import { authApi } from "./auth/authApi"
+import { kingApi } from "./king/kingApi"
 
 const rootReducer = combineReducers({
   user: userReducer,
   compare: compareReducer,
   [recordsApi.reducerPath]: recordsApi.reducer,
   [ownersApi.reducerPath]: ownersApi.reducer,
-  [authApi.reducerPath]: authApi.reducer
+  [authApi.reducerPath]: authApi.reducer,
+  [kingApi.reducerPath]: kingApi.reducer
 })
 
 const persistConfig = {
@@ -40,7 +42,12 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, REGISTER]
       }
-    }).concat(recordsApi.middleware, ownersApi.middleware, authApi.middleware)
+    }).concat(
+      recordsApi.middleware,
+      ownersApi.middleware,
+      authApi.middleware,
+      kingApi.middleware
+    )
   }
 })
 

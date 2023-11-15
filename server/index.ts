@@ -5,6 +5,7 @@ import mongoose from "mongoose"
 import authRouter from "./routes/authRoute"
 import recordsRouter from "./routes/recordsRoute"
 import ownersRouter from "./routes/ownersRoute"
+import kingsRouter from "./routes/kingsRoute"
 
 import { Err } from "./types/errorTypes"
 dotenv.config()
@@ -28,6 +29,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/auth", authRouter)
 app.use("/api/records", recordsRouter)
 app.use("/api/owners", ownersRouter)
+app.use("/api/kings", kingsRouter)
 
 app.use((err: Err, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500

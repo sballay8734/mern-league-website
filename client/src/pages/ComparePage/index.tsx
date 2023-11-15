@@ -1,3 +1,6 @@
+/* 
+THIS COMPONENT IS ALL SET UP, JUST NEED TO PASS computedOwners instead of Owners
+*/
 import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react"
 
@@ -12,6 +15,8 @@ import { FaAngleLeft } from "react-icons/fa6"
 export default function ComparePage() {
   const dispatch = useDispatch()
   const { data, error, isLoading } = useFetchOwnersQuery()
+  // below is just to remove error
+  console.log(error, isLoading)
 
   const [ownerOneIndex, setOwnerOneIndex] = useState(0)
   const [ownerTwoIndex, setOwnerTwoIndex] = useState(1)
