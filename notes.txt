@@ -1,3 +1,23 @@
+// TODO ************************************************************************
+
+NOW ---------------------------------------
+1. I don't believe google OAuth is set up anymore so that needs to be fixed
+
+START AT #2 on FRIDAY
+
+2. Add profile page (should be protected - create private route)
+    - use Outlet and Navigate components (not the navigate function)
+    - should include forgot password, delete account, sign out, and update functionality
+    - clicking image should open file browser
+3. Image upload capability (With Firebase fire store)
+
+LATER -------------------------------------
+
+AT END ------------------------------------
+1. Update firebase storage rules to be MORE restrictive (see mern-estate)
+
+********************************************************************************
+
 Needed Themes:
 - Liverpool
 - Eagles (current)
