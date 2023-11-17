@@ -1,11 +1,12 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
-
-import { AiFillGoogleSquare, AiFillCheckCircle } from "react-icons/ai"
 import { useDispatch } from "react-redux"
+import { AiFillCheckCircle } from "react-icons/ai"
+
 import { setUser } from "../../redux/user/userSlice"
 import { useLazyStandardSignInMutation } from "../../redux/auth/authApi"
+import OAuth from "../../components/OAuth/OAuth"
 import "./Signin.scss"
 
 // NEED TO USE useLazyQuery
@@ -19,7 +20,6 @@ export default function Signin() {
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
   const [formData, setFormData] = useState<formData>({
     email: "",
     password: ""
@@ -62,7 +62,7 @@ export default function Signin() {
       <form onSubmit={handleSubmit} className="sign-in-form">
         <h1>Sign in to the LLoEA</h1>
         <p className="description">
-          Only necessary in order to submit picks and suggestions
+          Only necessary in order to submit picks and rule proposals
         </p>
         <div className="input-wrapper">
           <label htmlFor="email">Email</label>
@@ -95,12 +95,7 @@ export default function Signin() {
           </div>
         )}
         <h3>Or</h3>
-        <button type="button" className="google-button">
-          Sign in with Google{" "}
-          <span>
-            <AiFillGoogleSquare className="logo" />
-          </span>
-        </button>
+        <OAuth />
         <p className="description">
           Your bitch-ass didn't register yet?{" "}
           <span>

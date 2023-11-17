@@ -2,10 +2,13 @@ import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import { app } from "../../firebase"
 import { AiFillGoogleSquare } from "react-icons/ai"
+import { useDispatch } from "react-redux"
+import { setUser } from "../../redux/user/userSlice"
 import "./OAuth.scss"
 
 export default function OAuth() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   async function handleGoogleClick() {
     try {
       const provider = new GoogleAuthProvider()
@@ -33,7 +36,8 @@ export default function OAuth() {
         console.log("Fail")
         return
       }
-      console.log("Success")
+      console.log(data)
+      dispatch(setUser(data))
       navigate("/")
     } catch (error) {
       console.log("Could not sign in with google", error)
@@ -41,10 +45,10 @@ export default function OAuth() {
   }
 
   return (
-    <button onClick={handleGoogleClick} className="google-button" type="button">
+    <button onClick={handleGoogleClick} type="button" className="google-button">
       Sign in with Google{" "}
       <span>
-        <AiFillGoogleSquare />
+        <AiFillGoogleSquare className="logo" />
       </span>
     </button>
   )

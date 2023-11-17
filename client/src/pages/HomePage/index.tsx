@@ -3,9 +3,12 @@ import logo from "../../public/profileImg.png"
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
+import { useEffect } from "react"
 
 export default function HomePage() {
   const { user } = useSelector((state: RootState) => state.user)
+
+  useEffect(() => {}, [user])
 
   return (
     <div className="page hero__image">
@@ -90,7 +93,7 @@ export default function HomePage() {
           <div className="icon__pole"></div>
         </div>
       </div>
-      {user ? (
+      {user !== null ? (
         <div className="greeting">
           Welcome <span className="name">{user.firstName}</span>! Ya bitchhhhh
         </div>

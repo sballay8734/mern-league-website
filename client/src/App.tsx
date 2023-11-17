@@ -11,6 +11,8 @@ import ThemeTestPage from "./pages/ThemeTestPage"
 import AdminPage from "./pages/AdminPage"
 import Signin from "./pages/Signin/Signin"
 import Signup from "./pages/Signup/Signup"
+import PrivateRoute from "./components/PrivateRoute"
+import ProfilePage from "./pages/ProfilePage"
 
 function App() {
   return (
@@ -18,7 +20,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
-        <Route path="admin" element={<AdminPage />}></Route>
+        <Route path="/admin" element={<AdminPage />}></Route>
         <Route path="/compare" element={<ComparePage />}></Route>
         <Route path="/kingofthehill" element={<KothPage />}></Route>
         <Route path="/picks" element={<PicksPage />}></Route>
@@ -27,6 +29,9 @@ function App() {
         <Route path="/theme" element={<ThemeTestPage />}></Route>
         <Route path="/signin" element={<Signin />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
+        <Route element={<PrivateRoute />}>
+          <Route path="/profile" element={<ProfilePage />}></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   )

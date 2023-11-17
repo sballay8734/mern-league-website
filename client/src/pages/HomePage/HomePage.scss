@@ -11,11 +11,12 @@
 
 .greeting {
   color: white;
+  text-align: center;
   font-weight: 400;
   opacity: 0.7;
   font-size: 1.5rem;
   position: absolute;
-  bottom: 75px;
+  bottom: 50px;
   span {
     color: red
   }
@@ -103,10 +104,10 @@
 
 .established {
   position: absolute;
-  color: white;
+  color: rgb(150,150,150);
   font-size: 1.5rem;
-  opacity: 0.2;
-  top: 75px;
+  opacity: 0.5;
+  top: 50px;
 }
 
 .hero__text {
@@ -490,8 +491,8 @@
 @media screen and (max-width: 400px),
         screen and (max-height: 550px ) {
   .circle__center {
-    height: 16rem;
-    width: 16rem;
+    height: 14rem;
+    width: 14rem;
   }
 
   .icon__pole {
