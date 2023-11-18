@@ -6,12 +6,14 @@ interface User {
   firstName: string
   lastName: string
   displayName: string
+  avatar: string
   isAdmin: boolean
 }
 
 interface FormData {
   email: string
   password: string
+  displayName?: string
 }
 
 const authApi = createApi({
@@ -29,9 +31,20 @@ const authApi = createApi({
           "Content-Type": "application/json"
         }
       })
+    }),
+    lazyStandardSignup: builder.mutation<User, FormData>({
+      query: (formData) => ({
+        url: "/auth/signup",
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
     })
   })
 })
 
-export const { useLazyStandardSignInMutation } = authApi
+export const { useLazyStandardSignInMutation, useLazyStandardSignupMutation } =
+  authApi
 export { authApi }

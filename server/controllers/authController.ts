@@ -15,10 +15,12 @@ export const signup = async (
 
   if (!whitelistedEmails.includes(email)) {
     next(errorHandler(400, "That email has not been whitelisted"))
+    return
   }
 
   if (!email || !password || !displayName) {
     next(errorHandler(400, "All fields are required"))
+    return
   }
 
   const hashedPassword = bcrypt.hashSync(password, 12)
@@ -30,7 +32,11 @@ export const signup = async (
       displayName
     })
     await newUser.save()
-    res.status(200).json({ message: "User created successfully!" })
+
+    const userObject = newUser.toObject()
+    const { password, ...rest } = userObject
+
+    res.status(200).json(rest)
   } catch (error) {
     next(error)
   }

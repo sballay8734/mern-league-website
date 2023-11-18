@@ -14,6 +14,7 @@ import "./Signin.scss"
 interface formData {
   email: string
   password: string
+  avatar?: string
 }
 
 export default function Signin() {
@@ -22,7 +23,8 @@ export default function Signin() {
   const dispatch = useDispatch()
   const [formData, setFormData] = useState<formData>({
     email: "",
-    password: ""
+    password: "",
+    avatar: ""
   })
 
   const [trigger, { isError, isLoading, isSuccess }] =
@@ -41,7 +43,6 @@ export default function Signin() {
     const response = await trigger(formData)
 
     if ("data" in response) {
-      console.log(response)
       dispatch(setUser(response.data))
       setTimeout(() => {
         navigate("/")
@@ -72,6 +73,8 @@ export default function Signin() {
             type="email"
             name="email"
             id="email"
+            placeholder="fleshlightlover@gmail.com"
+            required
           />
         </div>
         <div className="input-wrapper">
@@ -82,6 +85,8 @@ export default function Signin() {
             type="password"
             name="password"
             id="password"
+            placeholder="•••••••"
+            required
           />
         </div>
         <button disabled={isLoading} type="submit" className="sign-in-button">
@@ -99,7 +104,7 @@ export default function Signin() {
         <p className="description">
           Your bitch-ass didn't register yet?{" "}
           <span>
-            <Link to="/signup">Sign up here</Link>
+            <Link to="/signup">Register here</Link>
           </span>
         </p>
       </form>

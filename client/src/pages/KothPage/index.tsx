@@ -24,7 +24,7 @@ export default function KothPage() {
   console.log(standingsError, standingsLoading, resultsError, resultsLoading)
 
   return (
-    <div className="page">
+    <div className="page koth-page">
       {standingsData?.map((item) => {
         return <div key={item.year}>{item.year}</div>
       })}

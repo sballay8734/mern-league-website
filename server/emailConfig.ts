@@ -9,5 +9,8 @@ export const whitelistedEmails = [
   "danielgeorge1324@gmail.com",
   "shawnballay1@gmail.com",
   "steventsmith24@gmail.com",
-  "ddflipp@gmail.com"
+  "ddflipp@gmail.com",
+  "lloyd",
+  // Test Email
+  "testingEmail@yahoo.com"
 ]

@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage"
 import ComparePage from "./pages/ComparePage"
 import KothPage from "./pages/KothPage"
 import PicksPage from "./pages/PicksPage"
-import PostsPage from "./pages/PostsPage"
+import ProposalsPage from "./pages/ProposalsPage"
 import RecordsPage from "./pages/RecordsPage"
 import ThemeTestPage from "./pages/ThemeTestPage"
 import AdminPage from "./pages/AdminPage"
@@ -24,7 +24,7 @@ function App() {
         <Route path="/compare" element={<ComparePage />}></Route>
         <Route path="/kingofthehill" element={<KothPage />}></Route>
         <Route path="/picks" element={<PicksPage />}></Route>
-        <Route path="/suggestions" element={<PostsPage />}></Route>
+        <Route path="/suggestions" element={<ProposalsPage />}></Route>
         <Route path="/records" element={<RecordsPage />}></Route>
         <Route path="/theme" element={<ThemeTestPage />}></Route>
         <Route path="/signin" element={<Signin />}></Route>

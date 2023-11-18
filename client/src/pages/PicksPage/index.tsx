@@ -7,7 +7,7 @@ export default function PicksPage() {
   const { user } = useSelector((state: RootState) => state.user)
 
   return (
-    <div className="page">
+    <div className="page picks-page">
       {user ? (
         <div>Picks page</div>
       ) : (

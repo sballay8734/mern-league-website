@@ -6,6 +6,7 @@ interface IUser extends Document {
   firstName?: string
   lastName?: string
   displayName: string
+  avatar: string
   isAdmin: boolean
 }
 
@@ -15,6 +16,7 @@ const userSchema = new Schema({
   firstName: { type: String, required: false },
   lastName: { type: String, required: false },
   displayName: { type: String, required: true, unique: true },
+  // avatar: { type: String, default: "../../public/profileImg.png" },
   isAdmin: { type: Boolean, default: false }
 })
 

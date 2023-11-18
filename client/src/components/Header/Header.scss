@@ -30,14 +30,48 @@
     height: 50%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 2rem 1.5rem;
     gap: 2rem;
+    .nav-left, .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .nav-right {
+      .proposals-img {
+        height: 1.3rem;
+        width: 1.3rem;
+        color: white;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+      .picks-img {
+        display: flex;
+        height: 1.3rem;
+        width: 1.3rem;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+      .profile-img {
+        display: flex;
+        height: 2rem;
+        width: 2rem;
+        border: 2px solid rgb(98, 37, 37);
+        border-radius: 100%;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
     a {
       text-decoration: none;
-      color: blue;
+      color: white;
       cursor: pointer;
       &:hover {
-        color: rgb(44, 44, 44);
+        color: rgb(125, 125, 125);
       }
     }
   }

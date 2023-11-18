@@ -1,20 +1,22 @@
 // TODO ************************************************************************
 
 NOW ---------------------------------------
-1. I don't believe google OAuth is set up anymore so that needs to be fixed
-
-START AT #2 on FRIDAY
-
-2. Add profile page (should be protected - create private route)
-    - use Outlet and Navigate components (not the navigate function)
-    - should include forgot password, delete account, sign out, and update functionality
-    - clicking image should open file browser
-3. Image upload capability (With Firebase fire store)
+1. Modify header (picks, proposals, profile/signin ON RIGHT) - DONE
+2. Set background to all pages to be the same - DONE
+3. Update user route (password, image, & displayName) - NEED TO DO IMAGE
+  - IF FINISHED 1 & 2
+  4. NEED TO SET UP FIRESTORE FOR PROFILE IMAGES
+  5. Research best practice for mobile nav (Need to save on screen real estate)
 
 LATER -------------------------------------
 
 AT END ------------------------------------
 1. Update firebase storage rules to be MORE restrictive (see mern-estate)
+2. Password Reset Capability
+3. Form inputs should be outlined red if incorrect
+
+BUGS --------------------------------------
+1. 
 
 ********************************************************************************
 
