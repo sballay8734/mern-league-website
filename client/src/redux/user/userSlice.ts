@@ -6,6 +6,7 @@ interface User {
   lastName?: string
   displayName: string
   avatar: string
+  preferredTheme?: string
   isAdmin: boolean
 }
 

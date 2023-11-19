@@ -6,7 +6,6 @@ NOW ---------------------------------------
 3. Update user route (password, image, & displayName) - NEED TO DO IMAGE
   - IF FINISHED 1 & 2
   4. NEED TO SET UP FIRESTORE FOR PROFILE IMAGES
-  5. Research best practice for mobile nav (Need to save on screen real estate)
 
 LATER -------------------------------------
 
@@ -16,7 +15,8 @@ AT END ------------------------------------
 3. Form inputs should be outlined red if incorrect
 
 BUGS --------------------------------------
-1. 
+1. When closing side-nav, button may propagate to profile page
+2. Widths on (signin, signup, and profile are not consistent)
 
 ********************************************************************************
 
@@ -26,7 +26,6 @@ Needed Themes:
 - Eagles (kelly)
 - Phillies
 - Union
-- USA
 
 - Chelsea (Joke)
 - Giants (Joke)

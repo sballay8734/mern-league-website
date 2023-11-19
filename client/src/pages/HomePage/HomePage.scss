@@ -9,41 +9,55 @@
   border-radius: 100%;
 }
 
+.established {
+  position: absolute;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  opacity: 0.5;
+  bottom: 50px;
+}
+
 .greeting {
-  color: white;
+  color: var(--white);
   text-align: center;
   font-weight: 400;
   opacity: 0.7;
   font-size: 1.5rem;
   position: absolute;
-  bottom: 50px;
+  top: 60px;
+  padding: 0 1rem;
+  @media screen and (max-width: 400px) {
+    font-size: 1rem;
+  }
   span {
-    color: red
+    color: var(--primary-color);
+    font-weight: bold;
   }
 }
 
-.hero__image {
-  background-image: url("../../public/simple_dashed.png");
-  background-size: 20px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
+// .hero__image {
+//   // background-image: var(--background-img);
+//   background-size: 20px;
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   position: relative;
+//   align-items: center;
+//   justify-content: center;
+//   overflow: hidden;
+// }
 
 .overlay {
   position: absolute;
   left: 0;
   top: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100svh;
+  width: 100%;
   background-color: var(--primary-color-background);
 }
 
 .established-large {
-  color: var(--primary-color-light)
+  color: var(--primary-color)
 }
 
 .fixed-items {
@@ -95,59 +109,52 @@
 }
 
 .icon > img {
-  height: 4rem;
+  height: 3.5rem;
 }
 
 .title-text-wrapper {
   position: absolute;
 }
 
-.established {
-  position: absolute;
-  color: rgb(150,150,150);
-  font-size: 1.5rem;
-  opacity: 0.5;
-  top: 60px;
-}
-
 .hero__text {
   // font-family: 'Shadows Into Light', cursive;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   max-width: 18rem;
   text-align: center;
   transform: rotate(-10deg);
-  color: white;
+  color: var(--primary-color);
+  font-weight: 400;
 }
 
 .auth-buttons {
   position: absolute;
-  bottom: 50px;
+  bottom: 100px;
   display: flex;
   gap: 2rem;
   a {
     text-decoration: none;
     color: black
   }
-  .signin {
+  .signin, .signup {
+    width: 120px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color-darker);
+    border-radius: 3px;
+    color: var(--white);
     cursor: pointer;
-    border: none;
+    border: 1px solid var(--primary-color);
     padding: 0.3rem 1rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    background-color: rgb(255, 0, 0);
+    font-size: 1.1rem;
     &:hover {
       opacity: .90;
+      color: white;
     }
-  }
-  .signup {
-    cursor: pointer;
-    border: none;
-    padding: 0.3rem 1rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    background-color: rgb(255, 0, 0);
-    &:hover {
-      opacity: .90;
+    &:active {
+      opacity: .80;
+      color: var(--white-active)
     }
   }
 }
@@ -166,7 +173,7 @@
 }
 
 .icon__pole {
-  height: 25rem;
+  height: 27rem;
 }
 
 .icon__wrapper-two {
@@ -496,7 +503,7 @@
   }
 
   .icon__pole {
-    height: 16rem;
+    height: 14rem;
   }
 
   .icon {
@@ -505,23 +512,48 @@
   }
 
   .icon > img {
-    height: 2.4rem;
+    height: 2.1rem;
   }
 
   .hero__text {
-    font-size: 1.5rem;
-    max-width: 11rem;
+    font-size: 1.1rem;
+    max-width: 8rem;
   }
 }
 
+// @media screen and (max-width: 400px) {
+//   .circle__center {
+//     height: 12rem;
+//     width: 12rem;
+//   }
+
+//   .icon__pole {
+//     height: 12rem;
+//   }
+
+//   .icon {
+//     border: 2px solid var(--primary-color);
+//     border-radius: 100%;
+//   }
+
+//   .icon > img {
+//     height: 2rem;
+//   }
+
+//   .hero__text {
+//     font-size: 1rem;
+//     max-width: 8rem;
+//   }
+// }
+
 @media screen and (max-width: 325px) {
   .circle__center {
-    height: 13rem;
-    width: 13rem;
+    height: 10rem;
+    width: 10rem;
   }
 
   .icon__pole {
-    height: 13rem;
+    height: 10rem;
   }
 
   .icon {
@@ -530,12 +562,12 @@
   }
 
   .icon > img {
-    height: 2rem;
+    height: 1.5rem;
   }
 
   .hero__text {
-    font-size: 1.3rem;
-    max-width: 10rem;
+    font-size: 0.9rem;
+    max-width: 7rem;
   }
 }
 

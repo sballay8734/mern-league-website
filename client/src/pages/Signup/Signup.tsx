@@ -164,7 +164,7 @@ export default function Signup() {
             <AiFillCheckCircle />
           </div>
         )}
-        <h3 className="or">Or</h3>
+        {/* <h3 className="or">Or</h3> */}
         <OAuth />
         <p className="description">
           Already registered?{" "}

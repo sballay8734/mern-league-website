@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.6rem;
-  background-color: white;
+  background-color: var(--off-white);
   padding: 1.5rem 2rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   max-width: 350px;
@@ -16,22 +16,29 @@
   }
   .description {
     opacity: 0.5;
+    margin-top: 0.6rem;
     font-size: 0.8rem;
     text-align: center;
     text-wrap: balance;
     color: black;
   }
   h1 {
-    font-weight: 600;
-    font-size: 1.8rem;
+    font-weight: 900;
+    font-size: 2rem;
     color: black;
   }
   button {
     width: 100%;
     cursor: pointer;
     border-radius: 5px;
-    padding: 0.2rem 0.3rem;
+    padding: 0.4rem 0.3rem;
     border: 1px solid black;
+    &:hover {
+      opacity: 0.95;
+    }
+    &:active {
+      opacity: 0.9;
+    }
   }
   .error {
     font-size: 0.7rem;
@@ -63,7 +70,10 @@
     }
     } 
   .sign-in-button {
-    margin-top: 0rem;
+    margin-bottom: 1rem;
+    background-color: var(--primary-color-darker);
+    border: 1px solid var(--primary-color);
+    color: var(--white);
   }
   // .spacer {
   //   width: 100%;
@@ -76,8 +86,10 @@
     align-items: center;
     justify-content: center;
     gap: 0.2rem;
-    background-color: rgb(57, 57, 136);
+    background-color: #4789f4;
     color: white;
+    font-weight: 500;
+    border: 1px solid transparent;
     .logo {
       display: flex;
       margin-left: 0.2rem;
@@ -90,14 +102,22 @@
     gap: 0.2rem;
     label {
       font-size: 0.7rem;
-      font-weight: bold;
       color: black;
+      font-weight: bold;
     }
     input {
-      border-radius: 5px;
-      padding: 0.4rem 0.5rem;
-      border: 1px solid black;
+      border-radius: 3px;
+      padding: 0.5rem 0.5rem;
+      border: 2px solid transparent;
       font-size: 0.8rem;
+      transition: 300ms all;
+      &:focus {
+        outline: none;
+        border: 2px solid var(--primary-color);
+        background-color: var(--primary-color-lighter);
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        transition: 300ms all;
+      }
     }
   }
   .password-checks {

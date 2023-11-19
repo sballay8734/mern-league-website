@@ -14,7 +14,6 @@ import "./Signin.scss"
 interface formData {
   email: string
   password: string
-  avatar?: string
 }
 
 export default function Signin() {
@@ -23,8 +22,7 @@ export default function Signin() {
   const dispatch = useDispatch()
   const [formData, setFormData] = useState<formData>({
     email: "",
-    password: "",
-    avatar: ""
+    password: ""
   })
 
   const [trigger, { isError, isLoading, isSuccess }] =
@@ -61,7 +59,7 @@ export default function Signin() {
   return (
     <div className="page">
       <form onSubmit={handleSubmit} className="sign-in-form">
-        <h1>Sign in to the LLoEA</h1>
+        <h1>Sign In</h1>
         <p className="description">
           Only necessary in order to submit picks and rule proposals
         </p>
@@ -90,7 +88,7 @@ export default function Signin() {
           />
         </div>
         <button disabled={isLoading} type="submit" className="sign-in-button">
-          Sign in
+          Sign In
         </button>
         {isLoading && <div className="spinner"></div>}
         {isError && <div className="error">{error}</div>}
@@ -99,7 +97,7 @@ export default function Signin() {
             <AiFillCheckCircle />
           </div>
         )}
-        <h3>Or</h3>
+        {/* <h3>Or</h3> */}
         <OAuth />
         <p className="description">
           Your bitch-ass didn't register yet?{" "}

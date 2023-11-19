@@ -101,6 +101,22 @@ export default function ProfilePage() {
             Passwords match
           </p>
         </div>
+        <div className="theme-select">
+          <h3 className="theme-select-description">Choose Your Theme</h3>
+          <div className="themes-wrapper">
+            <img src="/src/public/profileImg.png" alt="" />
+            <img src="/src/public/profileImg.png" alt="" />
+            <img src="/src/public/profileImg.png" alt="" />
+            <img src="/src/public/profileImg.png" alt="" />
+            <img src="/src/public/profileImg.png" alt="" />
+            <img src="/src/public/profileImg.png" alt="" />
+            <img src="/src/public/profileImg.png" alt="" />
+            <img src="/src/public/profileImg.png" alt="" />
+            <img src="/src/public/profileImg.png" alt="" />
+            <img src="/src/public/profileImg.png" alt="" />
+            <img src="/src/public/profileImg.png" alt="" />
+          </div>
+        </div>
         <button type="submit" className="sign-in-button">
           Update
         </button>
