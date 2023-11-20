@@ -94,7 +94,9 @@ export default function HomePage() {
       </div>
       {user !== null ? (
         <div className="greeting">
-          Welcome <span className="name">{user.displayName}!</span> Ya bitchhhhh
+          <span className="welcome">Welcome</span>{" "}
+          <span className="name">{user.displayName}!</span>{" "}
+          {/* <span className="insult">Ya bitchhhhh</span> */}
         </div>
       ) : (
         <div className="auth-buttons">

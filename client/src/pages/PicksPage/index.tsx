@@ -1,192 +1,38 @@
-import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
 
-import { RootState } from "../../redux/store"
-import { GoTriangleDown } from "react-icons/go"
+import AllTimeRate from "../../components/PicksPageComps/AllTimeRate"
+import SeasonalRate from "../../components/PicksPageComps/SeasonalRate"
+import Picks from "../../components/PicksPageComps/Picks"
+
 import "./PicksPage.scss"
 
 export default function PicksPage() {
-  const { user } = useSelector((state: RootState) => state.user)
+  const [viewportWidth, setViewportWidth] = useState<number | undefined>(
+    window.innerWidth
+  )
 
-  // ALL THREE SECTIONS NEED TO BE MOVED TO THEIR OWN COMPONENT (picksAT, picks-section, picks-by-season)
+  useEffect(() => {
+    function handleResize() {
+      setViewportWidth(window.innerWidth)
+    }
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  })
 
   return (
     <div className="page picks-page">
-      {/* Move to own component */}
-      <div className="picks-all-time">
-        <h1 className="header">All-time Performance</h1>
-        <table className="at-picks-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Fraction</th>
-              <th>Pct.</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="active-row">
-              <td>Shawn B.</td>
-              <td>218/478</td>
-              <td className="percentage">43%</td>
-            </tr>
-            <tr>
-              <td>Steve S.</td>
-              <td>218/478</td>
-              <td className="percentage">37%</td>
-            </tr>
-            <tr>
-              <td>Don I.</td>
-              <td>218/478</td>
-              <td className="percentage">49%</td>
-            </tr>
-            <tr>
-              <td>Cody Z.</td>
-              <td>218/478</td>
-              <td className="percentage">31%</td>
-            </tr>
-            <tr>
-              <td>Shawn B.</td>
-              <td>218/478</td>
-              <td className="percentage">43%</td>
-            </tr>
-            <tr>
-              <td>Steve S.</td>
-              <td>218/478</td>
-              <td className="percentage">37%</td>
-            </tr>
-            <tr>
-              <td>Don I.</td>
-              <td>218/478</td>
-              <td className="percentage">49%</td>
-            </tr>
-            <tr>
-              <td>Cody Z.</td>
-              <td>218/478</td>
-              <td className="percentage">31%</td>
-            </tr>
-            <tr>
-              <td>Shawn B.</td>
-              <td>218/478</td>
-              <td className="percentage">43%</td>
-            </tr>
-            <tr>
-              <td>Steve S.</td>
-              <td>218/478</td>
-              <td className="percentage">37%</td>
-            </tr>
-            <tr>
-              <td>Don I.</td>
-              <td>218/478</td>
-              <td className="percentage">49%</td>
-            </tr>
-            <tr>
-              <td>Cody Z.</td>
-              <td>218/478</td>
-              <td className="percentage">31%</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      {user ? (
-        // Move to own component
-        <div className="picks-section">
-          <div className="picks-header"></div>
-          <div className="picks"></div>
+      {viewportWidth && viewportWidth > 820 ? (
+        <div className="desktop">
+          <AllTimeRate />
+          <Picks />
+          <SeasonalRate />
         </div>
       ) : (
-        <div className="picks-section-unauth">
-          You must be logged in to make picks
-          <Link to={"/signin"}>Sign in</Link>
-        </div>
+        <div>Too Small</div>
       )}
-      {/* Move to own component */}
-      <div className="picks-by-season">
-        <h1 className="header">
-          <div className="years">
-            <span className="year">2023</span>
-            <span className="word">Pick Rate</span>
-            <span className="arrow">
-              <GoTriangleDown />
-            </span>
-          </div>
-        </h1>
-        <table className="at-picks-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Fraction</th>
-              <th>Pct.</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="active-row">
-              <td>Shawn B.</td>
-              <td>27/52</td>
-              <td className="percentage">43%</td>
-            </tr>
-            <tr>
-              <td>Steve S.</td>
-              <td>27/52</td>
-              <td className="percentage">37%</td>
-            </tr>
-            <tr>
-              <td>Don I.</td>
-              <td>27/52</td>
-              <td className="percentage">49%</td>
-            </tr>
-            <tr>
-              <td>Cody Z.</td>
-              <td>27/52</td>
-              <td className="percentage">31%</td>
-            </tr>
-            <tr>
-              <td>Shawn B.</td>
-              <td>27/52</td>
-              <td className="percentage">43%</td>
-            </tr>
-            <tr>
-              <td>Steve S.</td>
-              <td>27/52</td>
-              <td className="percentage">37%</td>
-            </tr>
-            <tr>
-              <td>Don I.</td>
-              <td>27/52</td>
-              <td className="percentage">49%</td>
-            </tr>
-            <tr>
-              <td>Cody Z.</td>
-              <td>27/52</td>
-              <td className="percentage">31%</td>
-            </tr>
-            <tr>
-              <td>Shawn B.</td>
-              <td>27/52</td>
-              <td className="percentage">43%</td>
-            </tr>
-            <tr>
-              <td>Steve S.</td>
-              <td>27/52</td>
-              <td className="percentage">37%</td>
-            </tr>
-            <tr>
-              <td>Don I.</td>
-              <td>27/52</td>
-              <td className="percentage">49%</td>
-            </tr>
-            <tr>
-              <td>Cody Z.</td>
-              <td>27/52</td>
-              <td className="percentage">31%</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      {/* {user ? (
-        <div>Picks page</div>
-      ) : (
-        <div>You must be logged in to view this page</div>
-      )} */}
     </div>
   )
 }

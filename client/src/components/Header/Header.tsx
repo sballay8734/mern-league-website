@@ -76,26 +76,22 @@ export default function Header() {
             <img src="../src/public/eaglesLogo.png" alt="" />
           </div>
           <div onClick={() => setNavIsShown(false)} className="nav-bottom">
-            {user && (
-              <Link to="/picks">
-                <span>Picks</span>
-                <img
-                  className="picks-img"
-                  src="./src/public/picks.png"
-                  alt="Picks"
-                />
-              </Link>
-            )}
-            {user && (
-              <Link to="/suggestions">
-                <span>Proposals</span>
-                <img
-                  className="proposals-img"
-                  src="./src/public/proposals.png"
-                  alt="Proposals"
-                />
-              </Link>
-            )}
+            <Link to="/picks">
+              <span>Picks</span>
+              <img
+                className="picks-img"
+                src="./src/public/picks.png"
+                alt="Picks"
+              />
+            </Link>
+            <Link to="/suggestions">
+              <span>Proposals</span>
+              <img
+                className="proposals-img"
+                src="./src/public/proposals.png"
+                alt="Proposals"
+              />
+            </Link>
             <Link to="/profile">
               {user ? (
                 <>
