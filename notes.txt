@@ -7,6 +7,7 @@ NOW ---------------------------------------
   - IF FINISHED 1 & 2
   4. NEED TO SET UP FIRESTORE FOR PROFILE IMAGES
 
+
 LATER -------------------------------------
 
 AT END ------------------------------------
@@ -17,6 +18,8 @@ AT END ------------------------------------
 BUGS --------------------------------------
 1. When closing side-nav, button may propagate to profile page
 2. Widths on (signin, signup, and profile are not consistent)
+3. Decide if you want to accommodate surface/iPad pro (weird breakpoints)
+4. Remove "Hover here for navigation" from every page but homepage
 
 ********************************************************************************
 
