@@ -16,7 +16,7 @@ export default function Picks() {
         </div>
       ) : (
         <div className="picks-section-unauth">
-          You must be logged in to make picks
+          You must be signed in to make picks
           <Link to={"/signin"}>Sign in</Link>
         </div>
       )}
