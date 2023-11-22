@@ -38,6 +38,9 @@ export default function ProfilePage() {
   const dispatch = useDispatch()
   const [updateLoading, setUpdateLoading] = useState<boolean>(false)
   const [updateSuccess, setUpdateSuccess] = useState<boolean>(false)
+  const [activeTheme, setActiveTheme] = useState<string>(
+    user?.preferredTheme || "eagles"
+  )
 
   useEffect(() => {
     if (file) {
@@ -49,6 +52,14 @@ export default function ProfilePage() {
       }
     }
   }, [file])
+
+  function handleThemeSelect(theme: string) {
+    setActiveTheme(theme)
+    setFormData({
+      ...formData,
+      preferredTheme: theme
+    })
+  }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFileUploadError(null)
@@ -274,7 +285,13 @@ export default function ProfilePage() {
           <h3 className="theme-select-description">Choose Your Theme</h3>
           <div className="themes-wrapper">
             {themeOptions.map((item) => (
-              <div key={item.theme} className="theme-img-wrapper">
+              <div
+                onClick={() => handleThemeSelect(item.theme)}
+                key={item.theme}
+                className={`theme-img-wrapper ${
+                  activeTheme === item.theme ? "active" : ""
+                }`}
+              >
                 <img className={item.theme} src={item.logo} alt={item.theme} />
               </div>
             ))}
