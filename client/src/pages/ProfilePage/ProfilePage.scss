@@ -9,6 +9,20 @@
   min-width: 280px;
   max-width: 350px;
   border-radius: 5px;
+  .status-div {
+    height: 0rem;
+    opacity: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 300ms;
+    &.show {
+      height: 1.8rem;
+      opacity: 1;
+      transition: all 300ms;
+    }
+  }
   .upload-status {
     text-align: center;
     .success {
@@ -46,6 +60,14 @@
   }
   .password-checks {
     width: 100%;
+    height: 0rem;
+    opacity: 0;
+    transition: all 300ms;
+    &.show {
+      height: 1.5rem;
+      transition: all 300ms;
+      opacity: 1;
+    }
     .length, .match {
       font-size: 0.7rem;
       margin: 0;
@@ -83,14 +105,21 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      img {
+      .theme-img-wrapper {
         height: 1.5rem;
         width: 1.5rem;
-        border: 2px solid var(--primary-color);
-        border-radius: 100%;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.9;
+        img {
+          height: 100%;
+          width: 100%;
+          padding: 0.1rem;
+          background-color: rgb(255, 255, 255);
+          width: 1.5rem;
+          border: 1px solid var(--primary-color);
+          border-radius: 100%;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.9;
+          }
         }
       }
     }
@@ -127,9 +156,15 @@
     color: red;
   }
   .success {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
     color: green;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    span {
+      font-size: 0.6rem;
+    }
   }
   .spinner {
     width: 24px;
@@ -151,7 +186,6 @@
     }
     } 
   .sign-in-button {
-    margin-top: 1rem;
     background-color: var(--primary-color-darker);
     border: 1px solid var(--primary-color);
     color: var(--white);

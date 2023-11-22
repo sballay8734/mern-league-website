@@ -11,11 +11,13 @@ export const updateProfile = async (
   if (!req.user || req.user.id !== req.params.id) {
     return next(errorHandler(401, "You can only update your own account!"))
   }
-  console.log(req.body)
   // if password exists, hash it
   let hashedPassword
 
-  if (req.body.newPassword === req.body.confirmPassword) {
+  if (
+    req.body.newPassword &&
+    req.body.newPassword === req.body.confirmPassword
+  ) {
     hashedPassword = bcrypt.hashSync(req.body.newPassword, 12)
   }
 

@@ -8,6 +8,8 @@ import {
 
 import { FaCheck } from "react-icons/fa6"
 import { IoMdCloseCircle } from "react-icons/io"
+import { AiFillCheckCircle } from "react-icons/ai"
+import { themeOptions } from "./themeData"
 import "./ProfilePage.scss"
 import { app } from "../../firebase"
 import { useDispatch, useSelector } from "react-redux"
@@ -18,6 +20,7 @@ interface formData {
   newPassword: string
   confirmPassword: string
   avatar: string
+  preferredTheme: string
 }
 
 export default function ProfilePage() {
@@ -29,10 +32,12 @@ export default function ProfilePage() {
   const [formData, setFormData] = useState<formData>({
     newPassword: "",
     confirmPassword: "",
-    avatar: user?.avatar || ""
+    avatar: user?.avatar || "",
+    preferredTheme: user?.preferredTheme || "eagles"
   })
-  const [filePermanent, setFilePermanent] = useState<boolean>(false)
   const dispatch = useDispatch()
+  const [updateLoading, setUpdateLoading] = useState<boolean>(false)
+  const [updateSuccess, setUpdateSuccess] = useState<boolean>(false)
 
   useEffect(() => {
     if (file) {
@@ -46,6 +51,7 @@ export default function ProfilePage() {
   }, [file])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setFileUploadError(null)
     setFormData({
       ...formData,
       [e.target.id]: e.target.value
@@ -60,7 +66,19 @@ export default function ProfilePage() {
     return file.type.startsWith("image/") && file.size <= 2 * 1024 * 1024
   }
 
+  function resetFormData() {
+    setFormData({
+      ...formData,
+      newPassword: "",
+      confirmPassword: ""
+    })
+  }
+
   function handleFileUpload(file: File) {
+    setFilePct(0)
+    setFileUploadError(null)
+    setUpdateSuccess(false)
+
     const storage = getStorage(app)
     const fileName = new Date().getTime() + file.name
 
@@ -89,31 +107,68 @@ export default function ProfilePage() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
+    setUpdateSuccess(false)
+    setFileUploadError(null)
+    setUpdateLoading(true)
+
+    // if image is unchanged
+
+    if (formData.avatar === user?.avatar && formData.newPassword.length === 0) {
+      setFileUploadError("You need to make a change")
+      setUpdateLoading(false)
+      return
+    }
+
+    if (formData.newPassword !== formData.confirmPassword) {
+      setFileUploadError("Passwords must match")
+      setUpdateLoading(false)
+      return
+    }
+
+    if (formData.newPassword.length > 0 && formData.newPassword.length < 8) {
+      setFileUploadError("Password must be at least 8 characters")
+      setUpdateLoading(false)
+      return
+    }
+
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const updateData: any = { avatar: formData.avatar }
+
+      if (formData.newPassword.length > 0) {
+        updateData.newPassword = formData.newPassword
+        updateData.confirmPassword = formData.confirmPassword
+      }
+
       const response = await fetch(`/api/profile/update/${user?._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(updateData)
       })
       const data = await response.json()
 
       if (data.success === false) {
         console.log("Error updating user")
+        setUpdateLoading(false)
         return
       }
 
       console.log(data)
       dispatch(setUser(data))
-      setFilePermanent(true)
+      setUpdateSuccess(true)
+      setUpdateLoading(false)
+      setFileUploadError(null)
+      setFilePct(0)
+      resetFormData()
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message)
       }
     }
   }
-  console.log(filePermanent)
+
   return (
     <div className="page">
       <form onSubmit={handleSubmit} className="update-profile-form">
@@ -132,8 +187,9 @@ export default function ProfilePage() {
           alt="profile"
         />
         <p className="upload-status">
-          {fileUploadError || filePermanent ? (
-            <span className="error">{fileUploadError}</span>
+          {fileUploadError ? (
+            // moved this logic elsewhere
+            ""
           ) : filePct > 0 && filePct < 100 ? (
             <span>{`Uploading... ${filePct}%`}</span>
           ) : filePct === 100 ? (
@@ -174,7 +230,12 @@ export default function ProfilePage() {
             placeholder="••••••••"
           />
         </div>
-        <div className="password-checks">
+
+        <div
+          className={`password-checks ${
+            formData.newPassword.length > 0 ? "show" : ""
+          }`}
+        >
           <p
             className={`length ${
               formData.newPassword.length >= 8 ? "okay" : ""
@@ -208,23 +269,40 @@ export default function ProfilePage() {
             Passwords match
           </p>
         </div>
+
         <div className="theme-select">
           <h3 className="theme-select-description">Choose Your Theme</h3>
           <div className="themes-wrapper">
-            <img src="/src/public/profileImg.png" alt="" />
-            <img src="/src/public/profileImg.png" alt="" />
-            <img src="/src/public/profileImg.png" alt="" />
-            <img src="/src/public/profileImg.png" alt="" />
-            <img src="/src/public/profileImg.png" alt="" />
-            <img src="/src/public/profileImg.png" alt="" />
-            <img src="/src/public/profileImg.png" alt="" />
-            <img src="/src/public/profileImg.png" alt="" />
-            <img src="/src/public/profileImg.png" alt="" />
-            <img src="/src/public/profileImg.png" alt="" />
-            <img src="/src/public/profileImg.png" alt="" />
+            {themeOptions.map((item) => (
+              <div className="theme-img-wrapper">
+                <img
+                  className={item.theme}
+                  key={item.theme}
+                  src={item.logo}
+                  alt={item.theme}
+                />
+              </div>
+            ))}
           </div>
         </div>
-        <button type="submit" className="sign-in-button">
+        <div
+          className={`status-div ${
+            fileUploadError || updateLoading || updateSuccess ? "show" : ""
+          }`}
+        >
+          {updateLoading && <div className="spinner"></div>}
+          {fileUploadError && <div className="error">{fileUploadError}</div>}
+          {updateSuccess && (
+            <div className="success">
+              <AiFillCheckCircle /> <span>Profile update was successful!</span>
+            </div>
+          )}
+        </div>
+        <button
+          disabled={updateLoading}
+          type="submit"
+          className="sign-in-button"
+        >
           Update
         </button>
       </form>
