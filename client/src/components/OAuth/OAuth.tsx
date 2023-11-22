@@ -16,8 +16,6 @@ export default function OAuth() {
 
       const result = await signInWithPopup(auth, provider)
 
-      console.log(result)
-
       const res = await fetch("/api/auth/google", {
         method: "POST",
         headers: {
@@ -25,7 +23,8 @@ export default function OAuth() {
         },
         body: JSON.stringify({
           displayName: result.user.displayName,
-          email: result.user.email
+          email: result.user.email,
+          avatar: result.user.photoURL
         })
       })
 
@@ -36,7 +35,6 @@ export default function OAuth() {
         console.log("Fail")
         return
       }
-      console.log(data)
       dispatch(setUser(data))
       navigate("/")
     } catch (error) {

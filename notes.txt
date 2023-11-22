@@ -1,12 +1,6 @@
 // TODO ************************************************************************
 
 NOW ---------------------------------------
-1. Modify header (picks, proposals, profile/signin ON RIGHT) - DONE
-2. Set background to all pages to be the same - DONE
-3. Update user route (password, image, & displayName) - NEED TO DO IMAGE
-  - IF FINISHED 1 & 2
-  4. NEED TO SET UP FIRESTORE FOR PROFILE IMAGES
-
 
 LATER -------------------------------------
 

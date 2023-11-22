@@ -9,6 +9,19 @@
   min-width: 280px;
   max-width: 350px;
   border-radius: 5px;
+  .upload-status {
+    text-align: center;
+    .success {
+      font-size: 0.7rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      .success-details {
+        font-size: 0.5rem;
+        color: rgb(176, 0, 0);
+      }
+    }
+  }
   @media screen and (max-width: 320px) {
     width: 280px;
   }

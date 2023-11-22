@@ -13,13 +13,3 @@ export const getOwners = async (
     next(error)
   }
 }
-
-// updateOwners
-// update computedOwnerStats (RSAT, RSYearly, PAT, PYearly, CAT, CYearly)
-// update computedH2HStats (RegSzn, Playoffs, and Combined - NO YEARLY)
-// update computedMiscellaneousStats (No toggles)
-
-// statCategory: {
-//     type: String,
-//     enum: ['RegSznYearly', 'PlayoffYearly', 'RegSznAllTime', 'PlayoffAllTime', 'CombinedYearly', 'CombinedAllTime']
-// }

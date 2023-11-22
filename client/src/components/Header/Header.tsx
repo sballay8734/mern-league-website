@@ -49,7 +49,7 @@ export default function Header() {
                 <img
                   className="profile-img"
                   // this will change to user profile img
-                  src="./src/public/profileImg.png"
+                  src={user.avatar}
                   alt="Profile"
                 />
               ) : (
@@ -73,7 +73,7 @@ export default function Header() {
             <Link to="/records">Records</Link>
           </div>
           <div className="mobile-nav-spacer">
-            <img src="../src/public/eaglesLogo.png" alt="" />
+            <img src={"../src/public/eaglesLogo.png"} alt="" />
           </div>
           <div onClick={() => setNavIsShown(false)} className="nav-bottom">
             <Link to="/picks">
@@ -99,7 +99,7 @@ export default function Header() {
                   <img
                     className="profile-img"
                     // this will change to user profile img
-                    src="./src/public/profileImg.png"
+                    src={user.avatar}
                     alt="Profile"
                   />
                 </>
