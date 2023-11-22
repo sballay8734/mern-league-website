@@ -274,13 +274,8 @@ export default function ProfilePage() {
           <h3 className="theme-select-description">Choose Your Theme</h3>
           <div className="themes-wrapper">
             {themeOptions.map((item) => (
-              <div className="theme-img-wrapper">
-                <img
-                  className={item.theme}
-                  key={item.theme}
-                  src={item.logo}
-                  alt={item.theme}
-                />
+              <div key={item.theme} className="theme-img-wrapper">
+                <img className={item.theme} src={item.logo} alt={item.theme} />
               </div>
             ))}
           </div>
