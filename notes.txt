@@ -9,6 +9,9 @@ AT END ------------------------------------
 1. Update firebase storage rules to be MORE restrictive (see mern-estate)
 2. Password Reset Capability
 3. Form inputs should be outlined red if incorrect
+4. Remove border around side nav
+5. prevent zoom when click on form on mobile
+6. add note to install cors and cors types to Notion
 
 BUGS --------------------------------------
 1. When closing side-nav, button may propagate to profile page

@@ -9,9 +9,9 @@ export default function HomePage() {
   const { user } = useSelector((state: RootState) => state.user)
   const { refetch, data, isError, isLoading } = useFetchUserImagesQuery()
 
-  console.log(isError, isLoading)
+  // console.log(isError, isLoading)
 
-  console.log(data)
+  // console.log(data)
 
   useEffect(() => {
     refetch()

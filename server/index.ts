@@ -8,6 +8,7 @@ import recordsRouter from "./routes/recordsRoute"
 import ownersRouter from "./routes/ownersRoute"
 import kingsRouter from "./routes/kingsRoute"
 import updateProfileRouter from "./routes/updateProfileRoute"
+// import cors from "cors"
 
 import { Err } from "./types/errorTypes"
 dotenv.config()
@@ -22,8 +23,16 @@ mongoose
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
+// app.use(
+//   cors({
+//     origin: ["https://league-website-client.vercel.app"],
+//     methods: ["POST", "GET"],
+//     credentials: true
+//   })
+// )
 
-app.listen(3001)
+const port = process.env.PORT || 5000
+app.listen(port, () => console.log(`Server Running on port ${port}`))
 
 app.get("/", (req: Request, res: Response) => {
   res.send("API HOME!")
