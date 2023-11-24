@@ -3,9 +3,8 @@ import mongoose, { Schema, Document } from "mongoose"
 interface IUser extends Document {
   email: string
   password: string
-  firstName?: string
-  lastName?: string
-  displayName: string
+  firstName: string
+  lastInitial: string
   avatar: string
   preferredTheme: string
   isAdmin: boolean
@@ -14,9 +13,8 @@ interface IUser extends Document {
 const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  firstName: { type: String, required: false },
-  lastName: { type: String, required: false },
-  displayName: { type: String, required: true, unique: true },
+  firstName: { type: String, required: true },
+  lastInitial: { type: String },
   avatar: {
     type: String,
     default:

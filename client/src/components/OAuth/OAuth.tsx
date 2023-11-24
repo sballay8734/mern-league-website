@@ -1,9 +1,9 @@
-import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth"
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import { app } from "../../firebase"
 import { AiFillGoogleSquare } from "react-icons/ai"
 import { useDispatch } from "react-redux"
-import { setUser } from "../../redux/user/userSlice"
+import { setUser, setOAuthError } from "../../redux/user/userSlice"
 import "./OAuth.scss"
 
 export default function OAuth() {
@@ -30,11 +30,11 @@ export default function OAuth() {
 
       const data = await res.json()
 
-      console.log("data", data)
       if (data.success === false) {
-        console.log("Fail")
+        dispatch(setOAuthError(data.message))
         return
       }
+
       dispatch(setUser(data))
       navigate("/")
     } catch (error) {

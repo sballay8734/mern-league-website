@@ -119,11 +119,37 @@
 .icon {
   border: 4px solid var(--primary-color);
   border-radius: 100%;
+  position: relative;
+  background-color: var(--primary-color-darker);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    border-radius: 100%;
+    object-fit: cover;
+    aspect-ratio: 1/1;
+  }
+  .icon__name {
+    position: absolute;
+    color: black;
+    background-color: white;
+    font-size: 0.4rem;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, 70%);
+    width: 100%;
+    text-align: center;
+    border-radius: 3px;
+    font-weight: bold;
+    border: 2px solid var(--primary-color);
+  }
 }
 
-.icon > img {
-  height: 3.5rem;
-}
+// .icon > img {
+//   height: 3.5rem;
+// }
 
 // .title-text-wrapper {
 //   position: absolute;
@@ -189,138 +215,138 @@
   height: 27rem;
 }
 
-.icon__wrapper-two {
+.icon__wrapper-1 {
   transform: rotate(30deg);
 }
 
-.icon__two {
+.icon__1 {
   transform: rotate(-30deg);
 }
 
-.icon__wrapper-three {
+.icon__wrapper-2 {
   transform: rotate(60deg);
 }
-.icon__three {
+.icon__2 {
   transform: rotate(-60deg);
 }
 
-.icon__wrapper-four {
+.icon__wrapper-3 {
   transform: rotate(90deg);
 }
 
-.icon__four {
+.icon__3 {
   transform: rotate(-90deg);
 }
 
-.icon__wrapper-five {
+.icon__wrapper-4 {
   transform: rotate(120deg);
 }
 
-.icon__five {
+.icon__4 {
   transform: rotate(-120deg);
 }
 
-.icon__wrapper-six {
+.icon__wrapper-5 {
   transform: rotate(150deg);
 }
 
-.icon__six {
+.icon__5 {
   transform: rotate(-150deg);
 }
 
-.icon__wrapper-seven {
+.icon__wrapper-6 {
   transform: rotate(180deg);
 }
 
-.icon__seven {
+.icon__6 {
   transform: rotate(-180deg);
 }
 
-.icon__wrapper-eight {
+.icon__wrapper-7 {
   transform: rotate(210deg);
 }
 
-.icon__eight {
+.icon__7 {
   transform: rotate(-210deg);
 }
 
-.icon__wrapper-nine {
+.icon__wrapper-8 {
   transform: rotate(240deg);
 }
 
-.icon__nine {
+.icon__8 {
   transform: rotate(-240deg);
 }
 
-.icon__wrapper-ten {
+.icon__wrapper-9 {
   transform: rotate(270deg);
 }
 
-.icon__ten {
+.icon__9 {
   transform: rotate(-270deg);
 }
 
-.icon__wrapper-eleven {
+.icon__wrapper-10 {
   transform: rotate(300deg);
 }
 
-.icon__eleven {
+.icon__10 {
   transform: rotate(-300deg);
 }
 
-.icon__twelve {
+.icon__11 {
   transform: rotate(-330deg);
 }
 
-.icon__wrapper-twelve {
+.icon__wrapper-11 {
   transform: rotate(330deg);
 }
 
-.icon__one {
+.icon__0 {
   animation: animateIconOne 25s linear infinite;
 }
 
-.icon__two {
+.icon__1 {
   animation: animateIconTwo 25s linear infinite;
 }
 
-.icon__three {
+.icon__2 {
   animation: animateIconThree 25s linear infinite;
 }
 
-.icon__four {
+.icon__3 {
   animation: animateIconFour 25s linear infinite;
 }
 
-.icon__five {
+.icon__4 {
   animation: animateIconFive 25s linear infinite;
 }
 
-.icon__six {
+.icon__5 {
   animation: animateIconSix 25s linear infinite;
 }
 
-.icon__seven {
+.icon__6 {
   animation: animateIconSeven 25s linear infinite;
 }
 
-.icon__eight {
+.icon__7 {
   animation: animateIconEight 25s linear infinite;
 }
 
-.icon__nine {
+.icon__8 {
   animation: animateIconNine 25s linear infinite;
 }
 
-.icon__ten {
+.icon__9 {
   animation: animateIconTen 25s linear infinite;
 }
 
-.icon__eleven {
+.icon__10 {
   animation: animateIconEleven 25s linear infinite;
 }
 
-.icon__twelve {
+.icon__11 {
   animation: animateIconTwelve 25s linear infinite;
 }
 
@@ -461,9 +487,9 @@
     border-radius: 100%;
   }
 
-  .icon > img {
-    height: 3rem;
-  }
+  // .icon > img {
+  //   height: 3rem;
+  // }
 
   .hero__text {
     font-size: 2rem;
@@ -495,9 +521,9 @@
     border-radius: 100%;
   }
 
-  .icon > img {
-    height: 2.8rem;
-  }
+  // .icon > img {
+  //   height: 2.8rem;
+  // }
 
   .hero__text {
     font-size: 1.8rem;
@@ -524,9 +550,9 @@
     border-radius: 100%;
   }
 
-  .icon > img {
-    height: 2.1rem;
-  }
+  // .icon > img {
+  //   height: 2.1rem;
+  // }
 
   .hero__text {
     font-size: 1.1rem;
@@ -574,9 +600,9 @@
     border-radius: 100%;
   }
 
-  .icon > img {
-    height: 1.5rem;
-  }
+  // .icon > img {
+  //   height: 1.5rem;
+  // }
 
   .hero__text {
     font-size: 0.9rem;

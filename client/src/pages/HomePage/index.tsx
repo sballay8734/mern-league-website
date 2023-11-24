@@ -1,11 +1,21 @@
 import "./HomePage.scss"
-import logo from "../../public/profileImg.png"
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
+import { useFetchUserImagesQuery } from "../../redux/owners/ownersApi"
+import { useEffect } from "react"
 
 export default function HomePage() {
   const { user } = useSelector((state: RootState) => state.user)
+  const { refetch, data, isError, isLoading } = useFetchUserImagesQuery()
+
+  console.log(isError, isLoading)
+
+  console.log(data)
+
+  useEffect(() => {
+    refetch()
+  }, [user])
 
   return (
     <div className="page hero__image">
@@ -18,13 +28,22 @@ export default function HomePage() {
           </h1>
         </div>
         <div className="circle__center animate-rotate">
-          <div className="icon__wrapper icon__wrapper-one">
-            <div className="relative icon__one icon">
-              <img src={logo} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-two">
+          {data &&
+            data.map((account, index) => (
+              <div
+                key={account.email}
+                className={`icon__wrapper icon__wrapper-${index}`}
+              >
+                <div className={`relative icon__${index} icon`}>
+                  <img src={account.avatar} alt="profile"></img>
+                  <span className="icon__name">
+                    {account.firstName} {account.lastInitial}.
+                  </span>
+                </div>
+                <div className="icon__pole"></div>
+              </div>
+            ))}
+          {/* <div className="icon__wrapper icon__wrapper-two">
             <div className="relative icon__two icon">
               <img src={logo} alt="profile"></img>
             </div>
@@ -89,13 +108,13 @@ export default function HomePage() {
               <img src={logo} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
-          </div>
+          </div> */}
         </div>
       </div>
       {user !== null ? (
         <div className="greeting">
           <span className="welcome">Welcome</span>{" "}
-          <span className="name">{user.displayName}!</span>{" "}
+          <span className="name">{user.firstName}!</span>{" "}
           {/* <span className="insult">Ya bitchhhhh</span> */}
         </div>
       ) : (

@@ -1,13 +1,14 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { AiFillCheckCircle } from "react-icons/ai"
 
-import { setUser } from "../../redux/user/userSlice"
+import { setOAuthError, setUser } from "../../redux/user/userSlice"
 import { useLazyStandardSignInMutation } from "../../redux/auth/authApi"
 import OAuth from "../../components/OAuth/OAuth"
 import "./Signin.scss"
+import { RootState } from "../../redux/store"
 
 // NEED TO USE useLazyQuery
 
@@ -17,7 +18,8 @@ interface formData {
 }
 
 export default function Signin() {
-  const [error, setError] = useState<string | null>(null)
+  const [standardError, setStandardError] = useState<string | null>(null)
+  const { error } = useSelector((state: RootState) => state.user)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [formData, setFormData] = useState<formData>({
@@ -29,6 +31,7 @@ export default function Signin() {
     useLazyStandardSignInMutation()
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    dispatch(setOAuthError(null))
     setFormData({
       ...formData,
       [e.target.id]: e.target.value
@@ -37,7 +40,7 @@ export default function Signin() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setError(null)
+    setStandardError(null)
     const response = await trigger(formData)
 
     if ("data" in response) {
@@ -50,7 +53,7 @@ export default function Signin() {
       if (errorData.data && typeof errorData.data === "object") {
         const data = errorData.data as { message?: string }
         if (data.message) {
-          setError(data.message)
+          setStandardError(data.message)
         }
       }
     }
@@ -90,13 +93,20 @@ export default function Signin() {
         <button disabled={isLoading} type="submit" className="sign-in-button">
           Sign In
         </button>
-        {isLoading && <div className="spinner"></div>}
-        {isError && <div className="error">{error}</div>}
-        {isSuccess && (
-          <div className="success">
-            <AiFillCheckCircle />
-          </div>
-        )}
+        <div
+          className={`status-message ${
+            isLoading || isError || error || isSuccess ? "show" : ""
+          }`}
+        >
+          {isLoading && <div className="spinner"></div>}
+          {isError && <div className="error">{standardError}</div>}
+          {error && <div className="error">{error}</div>}
+          {isSuccess && (
+            <div className="success">
+              <AiFillCheckCircle />
+            </div>
+          )}
+        </div>
         {/* <h3>Or</h3> */}
         <OAuth />
         <p className="description">

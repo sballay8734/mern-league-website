@@ -11,25 +11,29 @@ export const signup = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { email, password, displayName } = req.body
+  const { email, password, firstName, lastInitial } = req.body
 
   if (!whitelistedEmails.includes(email)) {
     next(errorHandler(400, "That email has not been whitelisted"))
     return
   }
 
-  if (!email || !password || !displayName) {
+  if (!email || !password || !firstName || !lastInitial) {
     next(errorHandler(400, "All fields are required"))
     return
   }
 
   const hashedPassword = bcrypt.hashSync(password, 12)
+  const capitalizedName =
+    firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase()
+  const capitalizedInitial = lastInitial.toUpperCase()
 
   try {
     const newUser = new User({
       email,
       password: hashedPassword,
-      displayName
+      firstName: capitalizedName,
+      lastInitial: capitalizedInitial
     })
     await newUser.save()
 
@@ -74,6 +78,7 @@ export const google = async (
   res: Response,
   next: NextFunction
 ) => {
+  console.log(req.body)
   const { displayName, email } = req.body
 
   if (!whitelistedEmails.includes(email)) {
@@ -102,10 +107,20 @@ export const google = async (
       const hashedPassword = bcrypt.hashSync(randomPassword, 12)
       // then create them and sign them in
 
+      const firstName =
+        displayName.split(" ")[0].charAt(0).toUpperCase() +
+        displayName.split(" ")[0].slice(1)
+
+      let lastInitial = ""
+      if (displayName.split(" ")[1]) {
+        lastInitial = displayName.split(" ")[1].charAt(0).toUpperCase()
+      }
+
       const newUser = new User({
         email,
         password: hashedPassword,
-        displayName
+        firstName,
+        lastInitial
       })
       await newUser.save()
 

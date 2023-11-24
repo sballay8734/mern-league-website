@@ -8,9 +8,21 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   max-width: 350px;
   border-radius: 5px;
+  .status-message {
+    height: 0px;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    transition: all 300ms;
+    &.show {
+      height: 25px;
+      opacity: 1;
+      transition: all 300ms;
+    }
+  }
   .description {
     opacity: 0.5;
-    margin-top: 0.5rem;
+    // margin-top: 0.5rem;
     font-size: 0.8rem;
     text-align: center;
     text-wrap: balance;

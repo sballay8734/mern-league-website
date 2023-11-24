@@ -11,12 +11,30 @@
   max-width: 350px;
   min-width: 350px;
   border-radius: 5px;
-  .or {
-    color: black;
+  .first-last {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    .input-wrapper {
+      width: 125px;
+    }
+  }
+  .status-message {
+    height: 0px;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    transition: all 300ms;
+    &.show {
+      height: 25px;
+      opacity: 1;
+      transition: all 300ms;
+    }
   }
   .description {
     opacity: 0.5;
-    margin-top: 0.6rem;
+    // margin-top: 0.6rem;
     font-size: 0.8rem;
     text-align: center;
     text-wrap: balance;
@@ -70,7 +88,6 @@
     }
     } 
   .sign-in-button {
-    margin-bottom: 1rem;
     background-color: var(--primary-color-darker);
     border: 1px solid var(--primary-color);
     color: var(--white);

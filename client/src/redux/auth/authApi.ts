@@ -4,16 +4,22 @@ interface User {
   _id: string
   email: string
   firstName: string
-  lastName: string
-  displayName: string
+  lastInitial: string
   avatar: string
+  preferredTheme: string
   isAdmin: boolean
+}
+
+interface signInData {
+  email: string
+  password: string
 }
 
 interface FormData {
   email: string
   password: string
-  displayName?: string
+  firstName: string
+  lastInitial: string
 }
 
 const authApi = createApi({
@@ -22,7 +28,7 @@ const authApi = createApi({
     baseUrl: "/api"
   }),
   endpoints: (builder) => ({
-    lazyStandardSignIn: builder.mutation<User, FormData>({
+    lazyStandardSignIn: builder.mutation<User, signInData>({
       query: (formData) => ({
         url: "/auth/signin",
         method: "POST",

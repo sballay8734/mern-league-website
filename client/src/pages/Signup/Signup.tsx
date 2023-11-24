@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
-import { setUser } from "../../redux/user/userSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { setOAuthError, setUser } from "../../redux/user/userSlice"
 
 import { useLazyStandardSignupMutation } from "../../redux/auth/authApi"
 import OAuth from "../../components/OAuth/OAuth"
@@ -9,10 +9,12 @@ import { AiFillCheckCircle } from "react-icons/ai"
 import { FaCheck } from "react-icons/fa6"
 import { IoMdCloseCircle } from "react-icons/io"
 import "./Signup.scss"
+import { RootState } from "../../redux/store"
 
 interface FormData {
   email: string
-  displayName: string
+  firstName: string
+  lastInitial: string
   password: string
   confirmPassword: string
 }
@@ -20,21 +22,25 @@ interface FormData {
 export default function Signup() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { error } = useSelector((state: RootState) => state.user)
   const [trigger, { isError, isLoading, isSuccess }] =
     useLazyStandardSignupMutation()
   const [formData, setFormData] = useState<FormData>({
     email: "",
-    displayName: "",
+    firstName: "",
+    lastInitial: "",
     password: "",
     confirmPassword: ""
   })
-  const [error, setError] = useState<string | null>(null)
+  const [standardError, setStandardError] = useState<string | null>(null)
 
   function isMatching(pass1: string, pass2: string) {
     return pass1 === pass2
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    dispatch(setOAuthError(null))
+    setStandardError(null)
     setFormData({
       ...formData,
       [e.target.id]: e.target.value
@@ -43,6 +49,11 @@ export default function Signup() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+
+    if (formData.password !== formData.confirmPassword) {
+      setStandardError("Passwords must match")
+      return
+    }
 
     try {
       const response = await trigger(formData)
@@ -57,7 +68,7 @@ export default function Signup() {
         if (errorData.data && typeof errorData.data === "object") {
           const data = errorData.data as { message?: string }
           if (data.message) {
-            setError(data.message)
+            setStandardError(data.message)
           }
         }
       }
@@ -82,19 +93,37 @@ export default function Signup() {
             required
           />
         </div>
-        <div className="input-wrapper">
-          <label htmlFor="displayName">Display Name</label>
-          <input
-            value={formData.displayName}
-            onChange={handleChange}
-            type="text"
-            name="displayName"
-            id="displayName"
-            placeholder="BabyDickRick"
-            minLength={3}
-            maxLength={15}
-            required
-          />
+        <div className="first-last">
+          <div className="input-wrapper">
+            <label htmlFor="displayName">First Name</label>
+            <input
+              value={formData.firstName}
+              onChange={handleChange}
+              type="text"
+              name="firstName"
+              id="firstName"
+              placeholder="Shawn"
+              pattern="[A-Za-z]+"
+              minLength={3}
+              maxLength={12}
+              required
+            />
+          </div>
+          <div className="input-wrapper">
+            <label htmlFor="displayName">Last Initial</label>
+            <input
+              value={formData.lastInitial}
+              onChange={handleChange}
+              type="text"
+              name="lastInitial"
+              id="lastInitial"
+              placeholder="B"
+              pattern="[A-Za-z]+"
+              minLength={1}
+              maxLength={1}
+              required
+            />
+          </div>
         </div>
         <div className="input-wrapper">
           <label htmlFor="password">Password</label>
@@ -157,14 +186,26 @@ export default function Signup() {
         <button disabled={isLoading} type="submit" className="sign-in-button">
           Register
         </button>
-        {isLoading && <div className="spinner"></div>}
-        {isError && <div className="error">{error}</div>}
-        {isSuccess && (
-          <div className="success">
-            <AiFillCheckCircle />
-          </div>
-        )}
-        {/* <h3 className="or">Or</h3> */}
+
+        <div
+          className={`status-message ${
+            isLoading || error || isSuccess || (standardError && isError)
+              ? "show"
+              : ""
+          }`}
+        >
+          {isLoading && <div className="spinner"></div>}
+          {(isError || standardError) && (
+            <div className="error">{standardError}</div>
+          )}
+          {/* {standardError && <div className="error">{standardError}</div>} */}
+          {error && <div className="error">{error}</div>}
+          {isSuccess && (
+            <div className="success">
+              <AiFillCheckCircle />
+            </div>
+          )}
+        </div>
         <OAuth />
         <p className="description">
           Already registered?{" "}
