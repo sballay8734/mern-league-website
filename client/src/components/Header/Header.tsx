@@ -21,12 +21,12 @@ export default function Header() {
         <div className="header">
           <div className="nav-left">
             <Link to="/">Home</Link>
-            <Link to="/compare">Compare</Link>
+            {/* <Link to="/compare">Compare</Link>
             <Link to="/kingofthehill">KOTH</Link>
-            <Link to="/records">Records</Link>
+            <Link to="/records">Records</Link> */}
           </div>
           <div className="nav-right">
-            {user && (
+            {/* {user && (
               <Link to="/picks">
                 <img
                   className="picks-img"
@@ -43,7 +43,7 @@ export default function Header() {
                   alt="Proposals"
                 />
               </Link>
-            )}
+            )} */}
             <Link to="/profile">
               {user ? (
                 <img
@@ -68,15 +68,15 @@ export default function Header() {
         <div className={`side-nav ${navIsShown ? "show" : ""}`}>
           <div onClick={() => setNavIsShown(false)} className="nav-top">
             <Link to="/">Home</Link>
-            <Link to="/compare">Compare</Link>
+            {/* <Link to="/compare">Compare</Link>
             <Link to="/kingofthehill">KOTH</Link>
-            <Link to="/records">Records</Link>
+            <Link to="/records">Records</Link> */}
           </div>
           <div className="mobile-nav-spacer">
             <img src={"../src/public/eaglesLogo.png"} alt="" />
           </div>
           <div onClick={() => setNavIsShown(false)} className="nav-bottom">
-            <Link to="/picks">
+            {/* <Link to="/picks">
               <span>Picks</span>
               <img
                 className="picks-img"
@@ -91,7 +91,7 @@ export default function Header() {
                 src="./src/public/proposals.png"
                 alt="Proposals"
               />
-            </Link>
+            </Link> */}
             <Link to="/profile">
               {user ? (
                 <>
