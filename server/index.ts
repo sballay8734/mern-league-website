@@ -21,15 +21,31 @@ mongoose
   })
   .catch((err) => console.log(err))
 
+const corsOptions = {
+  origin: "https://mern-league-website-client.onrender.com",
+  credentials: true,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  optionsSuccessStatus: 204,
+  allowedHeaders: "Content-Type,Authorization"
+}
+
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
-app.use(
-  cors({
-    origin: "https://mern-league-website-client.onrender.com",
-    credentials: true
-  })
-)
+app.use(cors(corsOptions))
+
+app.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  )
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  )
+  res.header("Access-Control-Allow-Credentials", "true")
+  next()
+})
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server Running on port ${port}`))

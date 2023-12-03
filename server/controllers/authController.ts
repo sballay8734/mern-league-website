@@ -67,7 +67,14 @@ export const signin = async (
     // take off password
     const { password: pass, ...rest } = userObject
 
-    res.cookie("access_token", token, { httpOnly: true }).status(201).json(rest)
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+        domain: "https://mern-league-website-client.onrender.com",
+        secure: true
+      })
+      .status(201)
+      .json(rest)
   } catch (error) {
     next(error)
   }
