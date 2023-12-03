@@ -5,7 +5,7 @@ import { IKothStanding, IWeeklyResult } from "./interfaces"
 const kingApi = createApi({
   reducerPath: "king",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://mern-league-website-server.onrender.com/api/kings"
+    baseUrl: "/api/kings"
   }),
   endpoints: (builder) => ({
     fetchKingStandings: builder.query<IKothStanding[], void>({

@@ -25,9 +25,9 @@
     "typescript": "^5.3.2"
   },
   "scripts": {
-    "dev": "nodemon index.ts",
+    "dev": "nodemon ./server/index.ts",
     "build": "npm install && tsc && npm install --prefix client && tsc --prefix client && vite build --prefix client",
-    "start": "node index.js"
+    "start": "node server/index.js"
   },
   "author": "",
   "license": "ISC",

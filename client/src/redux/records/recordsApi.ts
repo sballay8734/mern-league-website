@@ -21,7 +21,7 @@ const recordsApi = createApi({
   // (1)reducerPath, (2)baseQuery, (3)endpoints
   reducerPath: "records",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://mern-league-website-server.onrender.com/api"
+    baseUrl: "/api"
   }),
   endpoints: (builder) => ({
     // builder.query<ReturnValueHere, ArgumentTypeHere>

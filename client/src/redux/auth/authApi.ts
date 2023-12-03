@@ -25,7 +25,7 @@ interface FormData {
 const authApi = createApi({
   reducerPath: "auth",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://mern-league-website-server.onrender.com/api"
+    baseUrl: "/api"
   }),
   endpoints: (builder) => ({
     lazyStandardSignIn: builder.mutation<User, signInData>({
