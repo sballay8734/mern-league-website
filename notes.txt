@@ -5,6 +5,7 @@ NOW ---------------------------------------
 2. Sign out functionality
 3. Update User to also contain isCommissioner flag (default = false)
 4. Home page should render 12 icons (Currently just renders 1)
+5. For some reason, the first time you press sign in with google it doesn't work
 
 LATER -------------------------------------
 
