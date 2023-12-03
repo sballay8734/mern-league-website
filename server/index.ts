@@ -33,10 +33,10 @@ app.use("/api/owners", ownersRouter)
 app.use("/api/kings", kingsRouter)
 app.use("/api/profile", updateProfileRouter)
 
-app.use(express.static(path.join(__dirname, "client/dist")))
+app.use(express.static(path.join(__dirname, "../client/dist")))
 
 app.get("*", (req: Request, res: Response) => {
-  const indexPath = path.join(__dirname, "client", "dist", "index.html")
+  const indexPath = path.join(__dirname, "../client/dist", "index.html")
   res.sendFile(indexPath)
 })
 

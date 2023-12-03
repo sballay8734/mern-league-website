@@ -10,3 +10,4 @@ export default defineConfig({
   },
   plugins: [react()]
 })
+// /opt/render/project/src/server/client/dist/index.html'
