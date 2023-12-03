@@ -151,13 +151,16 @@ export default function ProfilePage() {
         updateData.confirmPassword = formData.confirmPassword
       }
 
-      const response = await fetch(`/api/profile/update/${user?._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(updateData)
-      })
+      const response = await fetch(
+        `https://mern-league-website-server.onrender.com/api/profile/update/${user?._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(updateData)
+        }
+      )
       const data = await response.json()
 
       if (data.success === false) {
