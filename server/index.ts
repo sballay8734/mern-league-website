@@ -36,7 +36,8 @@ app.use("/api/profile", updateProfileRouter)
 app.use(express.static(path.join(__dirname, "/client/dist")))
 
 app.get("*", (req: Request, res: Response) => {
-  res.sendFile(path.resolve(__dirname, "client/dist/index.html"))
+  const indexPath = path.resolve(__dirname, "../client/dist/index.html")
+  res.sendFile(indexPath)
 })
 
 app.use((err: Err, req: Request, res: Response, next: NextFunction) => {
