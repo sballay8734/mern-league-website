@@ -33,12 +33,12 @@ app.use("/api/owners", ownersRouter)
 app.use("/api/kings", kingsRouter)
 app.use("/api/profile", updateProfileRouter)
 
-const clientDistPath = path.join(__dirname, "client/dist")
+const clientDistPath = path.join(__dirname, "../../client/dist")
 console.log("Client Dist Path:", clientDistPath)
 app.use(express.static(clientDistPath))
 
 // Adjusted path for sending the index.html file
-const indexPath = path.join(__dirname, "client/dist/index.html")
+const indexPath = path.join(__dirname, "../../client/dist/index.html")
 console.log("Index HTML Path:", indexPath)
 app.get("*", (req: Request, res: Response) => {
   res.sendFile(indexPath)
