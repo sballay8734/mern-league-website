@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import cookieParser from "cookie-parser"
+import cors from "cors"
 import path from "path"
 
 import authRouter from "./routes/authRoute"
@@ -23,6 +24,7 @@ mongoose
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors())
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server Running on port ${port}`))
