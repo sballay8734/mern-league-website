@@ -24,7 +24,12 @@ mongoose
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors())
+app.use(
+  cors({
+    origin: "https://mern-league-website-server.onrender.com",
+    credentials: true
+  })
+)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server Running on port ${port}`))
