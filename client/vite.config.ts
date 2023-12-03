@@ -7,7 +7,8 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "https://mern-league-website-server.onrender.com",
-        secure: false
+        secure: false,
+        changeOrigin: true
       }
     }
   },
