@@ -12,6 +12,7 @@ AT END ------------------------------------
 4. Remove border around side nav
 5. prevent zoom when click on form on mobile
 6. add note to install cors and cors types to Notion
+7. Try and get deployment to work without pushing dist folder (render should auto generate a dist folder during build)
 
 BUGS --------------------------------------
 1. When closing side-nav, button may propagate to profile page
