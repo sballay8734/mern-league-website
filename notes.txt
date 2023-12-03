@@ -1,7 +1,10 @@
 // TODO ************************************************************************
 
 NOW ---------------------------------------
-1. New Collection for user images
+1. Verify forms are functioning properly 
+2. Sign out functionality
+3. Update User to also contain isCommissioner flag (default = false)
+4. Home page should render 12 icons (Currently just renders 1)
 
 LATER -------------------------------------
 

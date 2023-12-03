@@ -108,8 +108,8 @@
       justify-content: center;
       gap: 0.5rem;
       .theme-img-wrapper {
-        height: 1.5rem;
-        width: 1.5rem;
+        height: 2.5rem;
+        width: 2.5rem;
         transition: all 300ms;
         border-radius: 100%;
         &.active {
@@ -124,7 +124,7 @@
           width: 100%;
           padding: 0.1rem;
           background-color: rgb(255, 255, 255);
-          width: 1.5rem;
+          width: 2.5rem;
           border-radius: 100%;
           cursor: pointer;
           &:hover {
