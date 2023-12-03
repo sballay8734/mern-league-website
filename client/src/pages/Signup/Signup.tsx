@@ -95,7 +95,7 @@ export default function Signup() {
         </div>
         <div className="first-last">
           <div className="input-wrapper">
-            <label htmlFor="displayName">First Name</label>
+            <label htmlFor="firstName">First Name</label>
             <input
               value={formData.firstName}
               onChange={handleChange}
@@ -110,7 +110,7 @@ export default function Signup() {
             />
           </div>
           <div className="input-wrapper">
-            <label htmlFor="displayName">Last Initial</label>
+            <label htmlFor="lastInitial">Last Initial</label>
             <input
               value={formData.lastInitial}
               onChange={handleChange}
