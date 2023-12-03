@@ -27,10 +27,6 @@ app.use(cookieParser())
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server Running on port ${port}`))
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("API HOME!")
-})
-
 app.use("/api/auth", authRouter)
 app.use("/api/records", recordsRouter)
 app.use("/api/owners", ownersRouter)
