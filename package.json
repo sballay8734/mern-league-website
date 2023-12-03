@@ -26,7 +26,7 @@
   },
   "scripts": {
     "dev": "nodemon ./server/index.ts",
-    "build": "npm install && npm ci --prefix client",
+    "build": "npm install && npm ci --prefix client && tsc --prefix server",
     "start": "node server/index.js"
   },
   "author": "",
