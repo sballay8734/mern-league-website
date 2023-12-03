@@ -26,7 +26,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(
   cors({
-    origin: "https://mern-league-website-server.onrender.com",
+    origin: "https://mern-league-website-client.onrender.com",
     credentials: true
   })
 )
