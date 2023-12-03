@@ -24,7 +24,8 @@
     "ts-node": "^10.9.1"
   },
   "scripts": {
-    "dev": "nodemon index.ts"
+    "dev": "nodemon index.ts",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
   "license": "ISC",
