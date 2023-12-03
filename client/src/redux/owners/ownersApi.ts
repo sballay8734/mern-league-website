@@ -12,7 +12,7 @@ interface User {
 const ownersApi = createApi({
   reducerPath: "owners",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api"
+    baseUrl: "https://mern-league-website-server.onrender.com/api"
   }),
   endpoints: (builder) => ({
     fetchOwners: builder.query<Owner[], void>({
