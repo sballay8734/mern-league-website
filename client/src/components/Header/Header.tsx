@@ -59,7 +59,7 @@ export default function Header() {
           </div>
         </div>
         <div className="header-hover-effect"></div>
-        <img className="hover-image" src="/public/hover.svg" alt="hover" />
+        <img className="hover-image" src="/hover.svg" alt="hover" />
       </div>
       <div className="mobile-header-wrapper">
         <div onClick={handleNavToggle} className="menu-icon">
