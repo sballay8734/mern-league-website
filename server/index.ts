@@ -44,12 +44,6 @@ app.use("/api/owners", ownersRouter)
 app.use("/api/kings", kingsRouter)
 app.use("/api/profile", updateProfileRouter)
 
-app.use(express.static(path.join(__dirname, "/client/dist")))
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/client/dist/index.html"))
-})
-
 app.use((err: Err, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500
   const message = err.message || "Internal server error"
