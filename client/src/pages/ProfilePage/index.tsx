@@ -155,6 +155,7 @@ export default function ProfilePage() {
         `https://mern-league-website-server.onrender.com/api/profile/update/${user?._id}`,
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json"
           },
