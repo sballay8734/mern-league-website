@@ -9,8 +9,8 @@ import recordsRouter from "./routes/recordsRoute"
 import ownersRouter from "./routes/ownersRoute"
 import kingsRouter from "./routes/kingsRoute"
 import updateProfileRouter from "./routes/updateProfileRoute"
-
 import { Err } from "./types/errorTypes"
+
 dotenv.config()
 
 mongoose
@@ -19,14 +19,6 @@ mongoose
     console.log("Connected to DB!")
   })
   .catch((err) => console.log(err))
-
-const corsOptions = {
-  origin: "https://mern-league-website-client.onrender.com",
-  credentials: true,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  optionsSuccessStatus: 204,
-  allowedHeaders: "Content-Type,Authorization"
-}
 
 const app = express()
 app.use(express.json())
@@ -44,6 +36,12 @@ app.use("/api/records", recordsRouter)
 app.use("/api/owners", ownersRouter)
 app.use("/api/kings", kingsRouter)
 app.use("/api/profile", updateProfileRouter)
+
+app.use(express.static(path.join(__dirname, "/client/dist")))
+
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "client/dist/index.html"))
+})
 
 app.use((err: Err, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500

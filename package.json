@@ -26,7 +26,7 @@
   },
   "scripts": {
     "dev": "nodemon index.ts",
-    "build": "npm install && tsc",
+    "build": "npm install && tsc && npm install --prefix client && tsc --prefix client && vite build --prefix client",
     "start": "node index.js"
   },
   "author": "",
