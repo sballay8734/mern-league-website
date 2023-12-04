@@ -14,7 +14,7 @@ import "./ProfilePage.scss"
 import { app } from "../../firebase"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
-import { setUser } from "../../redux/user/userSlice"
+import { setUser, setUserTheme } from "../../redux/user/userSlice"
 
 interface formData {
   newPassword: string
@@ -55,6 +55,7 @@ export default function ProfilePage() {
 
   function handleThemeSelect(theme: string) {
     setActiveTheme(theme)
+    dispatch(setUserTheme(theme))
     setFormData({
       ...formData,
       preferredTheme: theme

@@ -8,20 +8,39 @@
   border-radius: 100%;
 }
 
+@mixin themeColor($accentColor: null, $primaryColor) {
+  @if $accentColor {
+    color: $accentColor;
+  } @else {
+    color: $primaryColor;
+  }
+}
+
+.hero__text {
+  font-family: 'Bad Script', cursive;
+  font-size: 2.3rem;
+  max-width: 18rem;
+  text-align: center;
+  transform: rotate(-10deg);
+  color: var(--accent-color);
+  font-weight: 400;
+}
+
 .established {
   height: 20%;
   display: flex;
   align-items: center;
-  color: var(--primary-color);
+  color: var(--accent-color);
   font-size: 1.5rem;
-  opacity: 0.5;
+  opacity: 1;
 }
+
 
 .greeting {
   color: var(--white);
   text-align: center;
   font-weight: 400;
-  opacity: 0.7;
+  opacity: 1;
   font-size: 1.5rem;
   padding: 0 1rem;
   height: 20%;
@@ -31,7 +50,7 @@
   gap: 0.5rem;
   flex-wrap: wrap;
   .name {
-    color: var(--primary-color);
+    color: var(--accent-color);
   }
   @media screen and (max-width: 400px) {
     font-size: 1rem;
@@ -71,7 +90,7 @@
 }
 
 .established-large {
-  color: var(--primary-color)
+  @include themeColor(--accent-color, --primary-color);
 }
 
 .fixed-items {
@@ -117,7 +136,7 @@
 }
 
 .icon {
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--accent-color);
   border-radius: 100%;
   position: relative;
   background-color: var(--primary-color-darker);
@@ -143,7 +162,7 @@
     text-align: center;
     border-radius: 3px;
     font-weight: bold;
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--accent-color);
   }
 }
 
@@ -154,16 +173,6 @@
 // .title-text-wrapper {
 //   position: absolute;
 // }
-
-.hero__text {
-  // font-family: 'Shadows Into Light', cursive;
-  font-size: 2.3rem;
-  max-width: 18rem;
-  text-align: center;
-  transform: rotate(-10deg);
-  color: var(--primary-color);
-  font-weight: 400;
-}
 
 .auth-buttons {
   height: 20%;
@@ -184,7 +193,7 @@
     border-radius: 3px;
     color: var(--white);
     cursor: pointer;
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--accent-color);
     padding: 0.3rem 1rem;
     font-size: 1.1rem;
     &:hover {
@@ -199,7 +208,7 @@
 }
 
 .ex {
-  color: var(--primary-color);
+  color: var(--accent-color);
 }
 
 .icon__wrapper {
@@ -483,7 +492,7 @@
   }
 
   .icon {
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--accent-color);
     border-radius: 100%;
   }
 
@@ -517,7 +526,7 @@
   }
 
   .icon {
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--accent-color);
     border-radius: 100%;
   }
 
@@ -546,7 +555,7 @@
   }
 
   .icon {
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--accent-color);
     border-radius: 100%;
   }
 
@@ -571,7 +580,7 @@
 //   }
 
 //   .icon {
-//     border: 2px solid var(--primary-color);
+//     border: 2px solid var(--accent-color);
 //     border-radius: 100%;
 //   }
 
@@ -596,7 +605,7 @@
   }
 
   .icon {
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--accent-color);
     border-radius: 100%;
   }
 

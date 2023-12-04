@@ -7,9 +7,9 @@ import { useEffect } from "react"
 
 export default function HomePage() {
   const { user } = useSelector((state: RootState) => state.user)
-  const { refetch, data, isError, isLoading } = useFetchUserImagesQuery()
+  const { refetch, data } = useFetchUserImagesQuery()
 
-  console.log(isError, isLoading)
+  // console.log(isError, isLoading)
 
   // console.log(data)
 
@@ -43,69 +43,69 @@ export default function HomePage() {
                 <div className="icon__pole"></div>
               </div>
             ))}
-          {/* <div className="icon__wrapper icon__wrapper-two">
-            <div className="relative icon__two icon">
-              <img src={logo} alt="profile"></img>
+          {/* <div className="icon__wrapper icon__wrapper-1">
+            <div className="relative icon__1 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div>
-          <div className="icon__wrapper icon__wrapper-three">
-            <div className="relative icon__three icon">
-              <img src={logo} alt="profile"></img>
+          <div className="icon__wrapper icon__wrapper-2">
+            <div className="relative icon__2 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div>
-          <div className="icon__wrapper icon__wrapper-four">
-            <div className="relative icon__four icon">
-              <img src={logo} alt="profile"></img>
+          <div className="icon__wrapper icon__wrapper-3">
+            <div className="relative icon__3 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div>
-          <div className="icon__wrapper icon__wrapper-five">
-            <div className="relative icon__five icon">
-              <img src={logo} alt="profile"></img>
+          <div className="icon__wrapper icon__wrapper-4">
+            <div className="relative icon__4 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div>
-          <div className="icon__wrapper icon__wrapper-six">
-            <div className="relative icon__six icon">
-              <img src={logo} alt="profile"></img>
+          <div className="icon__wrapper icon__wrapper-5">
+            <div className="relative icon__5 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div>
-          <div className="icon__wrapper icon__wrapper-seven">
-            <div className="relative icon__seven icon">
-              <img src={logo} alt="profile"></img>
+          <div className="icon__wrapper icon__wrapper-6">
+            <div className="relative icon__6 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div>
-          <div className="icon__wrapper icon__wrapper-eight">
-            <div className="relative icon__eight icon">
-              <img src={logo} alt="profile"></img>
+          <div className="icon__wrapper icon__wrapper-7">
+            <div className="relative icon__7 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div>
-          <div className="icon__wrapper icon__wrapper-nine">
-            <div className="relative icon__nine icon">
-              <img src={logo} alt="profile"></img>
+          <div className="icon__wrapper icon__wrapper-8">
+            <div className="relative icon__8 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div>
-          <div className="icon__wrapper icon__wrapper-ten">
-            <div className="relative icon__ten icon">
-              <img src={logo} alt="profile"></img>
+          <div className="icon__wrapper icon__wrapper-9">
+            <div className="relative icon__9 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div>
-          <div className="icon__wrapper icon__wrapper-eleven">
-            <div className="relative icon__eleven icon">
-              <img src={logo} alt="profile"></img>
+          <div className="icon__wrapper icon__wrapper-10">
+            <div className="relative icon__10 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div>
-          <div className="icon__wrapper icon__wrapper-twelve">
-            <div className="relative icon__twelve icon">
-              <img src={logo} alt="profile"></img>
+          <div className="icon__wrapper icon__wrapper-11">
+            <div className="relative icon__11 icon">
+              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
             </div>
             <div className="icon__pole"></div>
           </div> */}

@@ -73,7 +73,14 @@ export default function Header() {
             <Link to="/records">Records</Link> */}
           </div>
           <div className="mobile-nav-spacer">
-            <img src={"/eaglesLogo.png"} alt="" />
+            <img
+              src={
+                user?.preferredTheme === "eagles-kelly"
+                  ? `${user?.preferredTheme}Logo.png`
+                  : `/${user?.preferredTheme}Logo.svg`
+              }
+              alt=""
+            />
           </div>
           <div onClick={() => setNavIsShown(false)} className="nav-bottom">
             {/* <Link to="/picks">

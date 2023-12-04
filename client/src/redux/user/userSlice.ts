@@ -29,10 +29,15 @@ const userSlice = createSlice({
     },
     setOAuthError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload
+    },
+    setUserTheme: (state, action: PayloadAction<string>) => {
+      if (state.user) {
+        state.user.preferredTheme = action.payload
+      }
     }
   }
 })
 
-export const { setUser, setOAuthError } = userSlice.actions
+export const { setUser, setOAuthError, setUserTheme } = userSlice.actions
 
 export default userSlice.reducer

@@ -75,7 +75,7 @@
     } 
   .sign-in-button {
     background-color: var(--primary-color-darker);
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--accent-color);
     color: var(--white);
   }
   .google-button {
@@ -109,7 +109,7 @@
       transition: 300ms all;
       &:focus {
         outline: none;
-        border: 2px solid var(--primary-color);
+        border: 2px solid var(--accent-color);
         background-color: var(--primary-color-lighter);
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         transition: 300ms all;
