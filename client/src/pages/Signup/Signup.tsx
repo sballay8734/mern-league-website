@@ -60,9 +60,10 @@ export default function Signup() {
 
       if ("data" in response) {
         dispatch(setUser(response.data))
+        localStorage.setItem("initialTheme", response.data.preferredTheme)
         setTimeout(() => {
           navigate("/")
-        }, 500)
+        }, 300)
       } else if ("error" in response) {
         const errorData = response.error as { data?: unknown }
         if (errorData.data && typeof errorData.data === "object") {

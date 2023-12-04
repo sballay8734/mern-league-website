@@ -34,10 +34,14 @@ const userSlice = createSlice({
       if (state.user) {
         state.user.preferredTheme = action.payload
       }
+    },
+    signOutUser: (state) => {
+      state.user = null
     }
   }
 })
 
-export const { setUser, setOAuthError, setUserTheme } = userSlice.actions
+export const { setUser, setOAuthError, setUserTheme, signOutUser } =
+  userSlice.actions
 
 export default userSlice.reducer

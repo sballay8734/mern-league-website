@@ -14,7 +14,7 @@ import "./ProfilePage.scss"
 import { app } from "../../firebase"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
-import { setUser, setUserTheme } from "../../redux/user/userSlice"
+import { setUser, setUserTheme, signOutUser } from "../../redux/user/userSlice"
 
 interface formData {
   newPassword: string
@@ -41,6 +41,12 @@ export default function ProfilePage() {
   const [activeTheme, setActiveTheme] = useState<string>(
     user?.preferredTheme || "eagles"
   )
+  const [initialTheme] = useState(() => {
+    const storedTheme = localStorage.getItem("initialTheme")
+    return storedTheme || null
+  })
+
+  console.log(initialTheme, formData.preferredTheme, user?.preferredTheme)
 
   useEffect(() => {
     if (file) {
@@ -53,8 +59,29 @@ export default function ProfilePage() {
     }
   }, [file])
 
+  async function handleSignOut() {
+    setFileUploadError(null)
+    try {
+      const res = await fetch("api/auth/signout")
+      const data = await res.json()
+
+      if (data.success === false) {
+        setFileUploadError("Error logging out")
+        return
+      }
+      dispatch(signOutUser())
+      // navigate("/") NOT WORKING DUE TO PRIVATE ROUTE I THINK
+    } catch (error) {
+      if (error instanceof Error) {
+        setFileUploadError(error.message)
+      }
+    }
+  }
+
   function handleThemeSelect(theme: string) {
+    setFileUploadError(null)
     setActiveTheme(theme)
+
     dispatch(setUserTheme(theme))
     setFormData({
       ...formData,
@@ -124,8 +151,11 @@ export default function ProfilePage() {
     setUpdateLoading(true)
 
     // if image is unchanged
-
-    if (formData.avatar === user?.avatar && formData.newPassword.length === 0) {
+    if (
+      formData.avatar === user?.avatar &&
+      formData.newPassword.length === 0 &&
+      initialTheme === user.preferredTheme
+    ) {
       setFileUploadError("You need to make a change")
       setUpdateLoading(false)
       return
@@ -145,7 +175,10 @@ export default function ProfilePage() {
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const updateData: any = { avatar: formData.avatar }
+      const updateData: any = {
+        avatar: formData.avatar,
+        preferredTheme: formData.preferredTheme
+      }
 
       if (formData.newPassword.length > 0) {
         updateData.newPassword = formData.newPassword
@@ -154,7 +187,6 @@ export default function ProfilePage() {
 
       const response = await fetch(`/api/profile/update/${user?._id}`, {
         method: "POST",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json"
         },
@@ -167,14 +199,13 @@ export default function ProfilePage() {
         setUpdateLoading(false)
         return
       }
-
-      console.log(data)
       dispatch(setUser(data))
       setUpdateSuccess(true)
       setUpdateLoading(false)
       setFileUploadError(null)
       setFilePct(0)
       resetFormData()
+      localStorage.setItem("initialTheme", data.preferredTheme)
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message)
@@ -228,6 +259,7 @@ export default function ProfilePage() {
             name="newPassword"
             id="newPassword"
             placeholder="••••••••"
+            autoComplete="off"
           />
         </div>
         <div className="input-wrapper">
@@ -241,6 +273,7 @@ export default function ProfilePage() {
             name="confirmPassword"
             id="confirmPassword"
             placeholder="••••••••"
+            autoComplete="off"
           />
         </div>
 
@@ -319,6 +352,9 @@ export default function ProfilePage() {
         >
           Update
         </button>
+        <a onClick={handleSignOut} className="signout-button">
+          Sign out
+        </a>
       </form>
     </div>
   )

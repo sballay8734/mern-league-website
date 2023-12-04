@@ -1,6 +1,7 @@
 // TODO ************************************************************************
 
 NOW ---------------------------------------
+1. Something really weird is going on with dev server. Server changes don't take effect unless you build. VERY WEIRD.
 3. Verify forms are functioning properly 
 4. Sign out functionality
 5. Update User to also contain isCommissioner flag (default = false)

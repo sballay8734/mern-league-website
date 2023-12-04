@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.google = exports.signin = exports.signup = void 0;
+exports.signout = exports.google = exports.signin = exports.signup = void 0;
 const error_1 = require("../utils/error");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const User_1 = __importDefault(require("../models/User"));
@@ -133,3 +133,13 @@ const google = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.google = google;
+const signout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.clearCookie("access_token");
+        res.status(200).json("User has been logged out!");
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.signout = signout;

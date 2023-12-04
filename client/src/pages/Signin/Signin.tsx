@@ -45,9 +45,10 @@ export default function Signin() {
 
     if ("data" in response) {
       dispatch(setUser(response.data))
+      localStorage.setItem("initialTheme", response.data.preferredTheme)
       setTimeout(() => {
         navigate("/")
-      }, 500) // 1000 milliseconds = 1 second (adjust as needed)
+      }, 300) // 1000 milliseconds = 1 second (adjust as needed)
     } else if ("error" in response) {
       const errorData = response.error as { data?: unknown }
       if (errorData.data && typeof errorData.data === "object") {
@@ -76,6 +77,7 @@ export default function Signin() {
             id="email"
             placeholder="fleshlightlover@gmail.com"
             required
+            autoComplete="off"
           />
         </div>
         <div className="input-wrapper">
@@ -88,6 +90,7 @@ export default function Signin() {
             id="password"
             placeholder="•••••••"
             required
+            autoComplete="off"
           />
         </div>
         <button disabled={isLoading} type="submit" className="sign-in-button">

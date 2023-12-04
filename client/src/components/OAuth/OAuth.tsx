@@ -38,6 +38,7 @@ export default function OAuth() {
       }
 
       dispatch(setUser(data))
+      localStorage.setItem("initialTheme", data.preferredTheme)
       navigate("/")
     } catch (error) {
       console.log("Could not sign in with google", error)

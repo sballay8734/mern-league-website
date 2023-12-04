@@ -9,6 +9,16 @@
   min-width: 280px;
   max-width: 350px;
   border-radius: 5px;
+  .signout-button {
+    color: rgb(186, 0, 0);
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+    cursor: pointer;
+    font-weight: bold;
+    &:hover {
+      opacity: 0.6;
+    }
+  }
   .status-div {
     height: 0rem;
     opacity: 0;
@@ -198,8 +208,8 @@
     }
     } 
   .sign-in-button {
-    background-color: var(--primary-color-darker);
-    border: 1px solid var(--accent-color);
+    background-color: var(--primary-color);
+    border: 1px solid transparent;
     color: var(--white);
   }
   .input-wrapper {

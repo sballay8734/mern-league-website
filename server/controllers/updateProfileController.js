@@ -41,7 +41,8 @@ const updateProfile = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     const updatedUser = yield User_1.default.findByIdAndUpdate(req.params.id, {
         $set: {
             password: hashedPassword,
-            avatar: req.body.avatar
+            avatar: req.body.avatar,
+            preferredTheme: req.body.preferredTheme
         }
     }, { new: true });
     // send back user as response with password taken out

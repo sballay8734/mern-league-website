@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import Owner from "../models/Owner"
 import User from "../models/User"
+import { errorHandler } from "../utils/error"
 
 export const getOwners = async (
   req: Request,

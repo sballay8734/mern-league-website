@@ -27,7 +27,8 @@ export const updateProfile = async (
     {
       $set: {
         password: hashedPassword,
-        avatar: req.body.avatar
+        avatar: req.body.avatar,
+        preferredTheme: req.body.preferredTheme
       }
     },
     { new: true }
