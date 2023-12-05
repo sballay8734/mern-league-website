@@ -2,8 +2,6 @@
 
 NOW ---------------------------------------
 1. Something really weird is going on with dev server. Server changes don't take effect unless you build. VERY WEIRD.
-3. Verify forms are functioning properly 
-4. Sign out functionality
 5. Update User to also contain isCommissioner flag (default = false)
 6. Home page should render 12 icons (Currently just renders 1)
 7. For some reason, the first time you press sign in with google it doesn't work
@@ -18,6 +16,7 @@ AT END ------------------------------------
 5. prevent zoom when click on form on mobile
 6. add note to install cors and cors types to Notion
 7. Try and get deployment to work without pushing dist folder (render should auto generate a dist folder during build)
+8. Redo media queries for home screen
 
 BUGS --------------------------------------
 1. When closing side-nav, button may propagate to profile page

@@ -154,7 +154,7 @@
     position: absolute;
     color: black;
     background-color: white;
-    font-size: 0.4rem;
+    font-size: 0.3rem;
     bottom: 0%;
     left: 50%;
     transform: translate(-50%, 70%);
@@ -162,7 +162,7 @@
     text-align: center;
     border-radius: 3px;
     font-weight: bold;
-    border: 2px solid var(--accent-color);
+    border: 1px solid var(--accent-color);
   }
 }
 
@@ -551,7 +551,7 @@
   }
 
   .icon__pole {
-    height: 14rem;
+    height: 16rem;
   }
 
   .icon {
@@ -601,17 +601,19 @@
   }
 
   .icon__pole {
-    height: 10rem;
+    height: 12rem;
   }
 
   .icon {
     border: 2px solid var(--accent-color);
     border-radius: 100%;
+    height: 2rem;
+    width: 2rem;
   }
 
-  // .icon > img {
-  //   height: 1.5rem;
-  // }
+  .icon > img {
+    height: 2rem;
+  }
 
   .hero__text {
     font-size: 0.9rem;

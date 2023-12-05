@@ -30,7 +30,6 @@ export default function OAuth() {
       })
 
       const data = await res.json()
-      console.log(data)
 
       if (data.success === false) {
         dispatch(setOAuthError(data.message))

@@ -8,6 +8,7 @@ interface IUser extends Document {
   avatar: string
   preferredTheme: string
   isAdmin: boolean
+  isCommissioner: boolean
 }
 
 const userSchema = new Schema({
@@ -21,7 +22,8 @@ const userSchema = new Schema({
       "https://firebasestorage.googleapis.com/v0/b/mern-league-website.appspot.com/o/profileImg.png?alt=media&token=addf2c1d-6e3f-4ecd-bc7e-411f7c83088e"
   },
   preferredTheme: { type: String, default: "eagles" },
-  isAdmin: { type: Boolean, default: false }
+  isAdmin: { type: Boolean, default: false },
+  isCommissioner: { type: Boolean, default: false }
 })
 
 const User = mongoose.model<IUser>("User", userSchema)

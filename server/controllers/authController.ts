@@ -78,7 +78,6 @@ export const google = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.body)
   const { displayName, email } = req.body
 
   if (!whitelistedEmails.includes(email)) {

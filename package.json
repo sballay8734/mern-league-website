@@ -25,7 +25,7 @@
     "typescript": "^5.3.2"
   },
   "scripts": {
-    "dev": "nodemon ./server/index.ts",
+    "dev": "nodemon",
     "build": "npm install && npm ci --prefix client && cd server && tsc",
     "start": "node server/index.js"
   },

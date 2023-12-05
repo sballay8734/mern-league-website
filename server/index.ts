@@ -9,6 +9,7 @@ import recordsRouter from "./routes/recordsRoute"
 import ownersRouter from "./routes/ownersRoute"
 import kingsRouter from "./routes/kingsRoute"
 import updateProfileRouter from "./routes/updateProfileRoute"
+import postsRouter from "./routes/postsRoute"
 import { Err } from "./types/errorTypes"
 
 dotenv.config()
@@ -32,14 +33,13 @@ app.use("/api/records", recordsRouter)
 app.use("/api/owners", ownersRouter)
 app.use("/api/kings", kingsRouter)
 app.use("/api/profile", updateProfileRouter)
+app.use("/api/posts", postsRouter)
 
 const clientDistPath = path.join(__dirname, "../client/dist")
-console.log("Client Dist Path:", clientDistPath)
 app.use(express.static(clientDistPath))
 
 // Adjusted path for sending the index.html file
 const indexPath = path.join(__dirname, "../client/dist/index.html")
-console.log("Index HTML Path:", indexPath)
 app.get("*", (req: Request, res: Response) => {
   res.sendFile(indexPath)
 })

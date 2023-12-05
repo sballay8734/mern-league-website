@@ -46,8 +46,6 @@ export default function ProfilePage() {
     return storedTheme || null
   })
 
-  console.log(initialTheme, formData.preferredTheme, user?.preferredTheme)
-
   useEffect(() => {
     if (file) {
       if (isValidImageFile(file)) {
