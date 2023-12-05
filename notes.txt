@@ -5,6 +5,8 @@ NOW ---------------------------------------
 5. Update User to also contain isCommissioner flag (default = false)
 6. Home page should render 12 icons (Currently just renders 1)
 7. For some reason, the first time you press sign in with google it doesn't work
+8. Joey bug (KANE was set as his last initial somehow)
+9. All picks should have a voided option incase you fuck it up (these won't be counted towards pick stats)
 
 LATER -------------------------------------
 
