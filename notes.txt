@@ -1,12 +1,8 @@
 // TODO ************************************************************************
 
 NOW ---------------------------------------
-1. Something really weird is going on with dev server. Server changes don't take effect unless you build. VERY WEIRD.
-5. Update User to also contain isCommissioner flag (default = false)
-6. Home page should render 12 icons (Currently just renders 1)
-7. For some reason, the first time you press sign in with google it doesn't work
-8. Joey bug (KANE was set as his last initial somehow)
 9. All picks should have a voided option incase you fuck it up (these won't be counted towards pick stats)
+10. Create devBranch domain for beta testers aka Donnie
 
 LATER -------------------------------------
 
@@ -14,17 +10,15 @@ AT END ------------------------------------
 1. Update firebase storage rules to be MORE restrictive (see mern-estate)
 2. Password Reset Capability
 3. Form inputs should be outlined red if incorrect
-4. Remove border around side nav
-5. prevent zoom when click on form on mobile
 6. add note to install cors and cors types to Notion
 7. Try and get deployment to work without pushing dist folder (render should auto generate a dist folder during build)
 8. Redo media queries for home screen
 
 BUGS --------------------------------------
-1. When closing side-nav, button may propagate to profile page
-2. Widths on (signin, signup, and profile are not consistent)
 3. Decide if you want to accommodate surface/iPad pro (weird breakpoints)
 4. Remove "Hover here for navigation" from every page but homepage
+8. Joey bug (KANE was set as his last initial somehow)
+7. For some reason, the first time you press sign in with google (on mobile) it doesn't work
 
 ********************************************************************************
 
