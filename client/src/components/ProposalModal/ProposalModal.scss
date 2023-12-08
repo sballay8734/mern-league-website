@@ -1,0 +1,113 @@
+.proposal-modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.hide {
+    display: none;
+  }
+  .modal-background {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+  }
+  .modal-content {
+    width: 85%;
+    max-width: 400px;
+    min-height: 120px;
+    background-color: white;
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 5px;
+    padding: 1rem;
+    .modal-top {
+      display: flex;
+      width: 100%;
+      font-size: 0.6rem;
+      justify-content: space-between;
+    }
+    .modal-middle {
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .modal-vote {
+      display: flex;
+      gap: 1rem;
+      width: 100%;
+      .reject, .approve {
+        width: 100%;
+        cursor: pointer;
+        height: 3rem;
+        font-size: 0.8rem;
+        border: 1px solid transparent;
+        border-radius: 3px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        span {
+          display: flex;
+          justify-self: baseline;
+        }
+      }
+      .reject {
+        background-color: rgb(218, 68, 68);
+        transition: all 300ms;
+        &:hover {
+          background-color: rgb(148, 26, 26);
+          transition: all 300ms;
+        }
+        span {
+          font-size: 1.2rem;
+        }
+      }
+      .approve {
+        background-color: rgb(103, 255, 103);
+        &:hover {
+          background-color: rgb(52, 144, 52);
+          transition: all 300ms;
+        }
+        transition: all 300ms;
+      }
+    }
+    label {
+      font-weight: bold;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      input {
+        padding: 0.2rem 0.3rem;
+      }
+      button {
+        cursor: pointer;
+        width: 100px;
+        background-color: rgb(33, 33, 107);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 0.3rem;
+      }
+    }
+    .error-message {
+      margin: 0;
+      color: red;
+    }
+  }
+}

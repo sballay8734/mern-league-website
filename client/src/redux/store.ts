@@ -17,6 +17,7 @@ import { recordsApi } from "./records/recordsApi"
 import { ownersApi } from "./owners/ownersApi"
 import { authApi } from "./auth/authApi"
 import { kingApi } from "./king/kingApi"
+import { proposalsApi } from "./proposalsApi/proposalsApi"
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   [recordsApi.reducerPath]: recordsApi.reducer,
   [ownersApi.reducerPath]: ownersApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
-  [kingApi.reducerPath]: kingApi.reducer
+  [kingApi.reducerPath]: kingApi.reducer,
+  [proposalsApi.reducerPath]: proposalsApi.reducer
 })
 
 const persistConfig = {
@@ -46,7 +48,8 @@ export const store = configureStore({
       recordsApi.middleware,
       ownersApi.middleware,
       authApi.middleware,
-      kingApi.middleware
+      kingApi.middleware,
+      proposalsApi.middleware
     )
   }
 })

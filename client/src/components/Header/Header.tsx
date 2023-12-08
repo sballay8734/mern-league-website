@@ -21,29 +21,25 @@ export default function Header() {
         <div className="header">
           <div className="nav-left">
             <Link to="/">Home</Link>
-            {/* <Link to="/compare">Compare</Link>
+            <Link to="/compare">Compare</Link>
             <Link to="/kingofthehill">KOTH</Link>
-            <Link to="/records">Records</Link> */}
+            <Link to="/records">Records</Link>
           </div>
           <div className="nav-right">
-            {/* {user && (
+            {user && (
               <Link to="/picks">
-                <img
-                  className="picks-img"
-                  src="./src/public/picks.png"
-                  alt="Picks"
-                />
+                <img className="picks-img" src="/picks.png" alt="Picks" />
               </Link>
             )}
             {user && (
               <Link to="/suggestions">
                 <img
                   className="proposals-img"
-                  src="./src/public/proposals.png"
+                  src="/proposals.png"
                   alt="Proposals"
                 />
               </Link>
-            )} */}
+            )}
             <Link to="/profile">
               {user ? (
                 <img
@@ -68,9 +64,9 @@ export default function Header() {
         <div className={`side-nav ${navIsShown ? "show" : ""}`}>
           <div onClick={() => setNavIsShown(false)} className="nav-top">
             <Link to="/">Home</Link>
-            {/* <Link to="/compare">Compare</Link>
+            <Link to="/compare">Compare</Link>
             <Link to="/kingofthehill">KOTH</Link>
-            <Link to="/records">Records</Link> */}
+            <Link to="/records">Records</Link>
           </div>
           <div className="mobile-nav-spacer">
             {user ? (
@@ -87,22 +83,18 @@ export default function Header() {
             )}
           </div>
           <div onClick={() => setNavIsShown(false)} className="nav-bottom">
-            {/* <Link to="/picks">
+            <Link to="/picks">
               <span>Picks</span>
-              <img
-                className="picks-img"
-                src="./src/public/picks.png"
-                alt="Picks"
-              />
+              <img className="picks-img" src="/picks.png" alt="Picks" />
             </Link>
             <Link to="/suggestions">
               <span>Proposals</span>
               <img
                 className="proposals-img"
-                src="./src/public/proposals.png"
+                src="/proposals.png"
                 alt="Proposals"
               />
-            </Link> */}
+            </Link>
             <Link to="/profile">
               {user ? (
                 <>

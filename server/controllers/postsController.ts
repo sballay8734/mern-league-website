@@ -1,12 +1,15 @@
 import { Request, Response, NextFunction } from "express"
 import Proposal from "../models/Suggestion"
+import User from "../models/User"
 import { errorHandler } from "../utils/error"
 
-export const proposal = async (
+export const createProposal = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  if (!req.user) return next(errorHandler(400, "Unauthorized"))
+
   try {
     const proposal = await Proposal.create(req.body)
     if (proposal) {
@@ -41,7 +44,6 @@ export const voteOnProposal = async (
       return
     }
 
-    // need to handle if they click upvote but they've already downvoted and vice versa
     if (req.body.action === "upvote") {
       if (proposal.upVoters.includes(userId))
         return next(errorHandler(400, "You already voted to approve"))
@@ -101,7 +103,8 @@ export const commentOnProposal = async (
   next: NextFunction
 ) => {
   const proposalId = req.params.id
-  const content = req.body
+  const content = req.body.content
+  const userId = req.user.id
 
   const proposal = await Proposal.findById(proposalId)
 
@@ -116,8 +119,41 @@ export const commentOnProposal = async (
   }
 
   try {
-    // try to add comment
+    const user = await User.findById(userId)
+    if (user) {
+      const userObject = user.toObject()
+      const userName = `${userObject.firstName} ${userObject.lastInitial}`
+
+      proposal.set({
+        comments: [...proposal.comments, { user: userName, comment: content }]
+      })
+    } else {
+      next(errorHandler(400, "User not found"))
+    }
+
+    const updatedProposal = await proposal.save()
+
+    if (updatedProposal) {
+      const proposalObject = updatedProposal.toObject()
+      res.status(200).json(proposalObject)
+    } else {
+      next(errorHandler(400, "Error updating proposal comments"))
+    }
   } catch (error) {
-    // catch error
+    next(error)
+  }
+}
+
+export const getProposals = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const proposals = await Proposal.find()
+    const proposalObjects = proposals.map((item) => item.toObject())
+    res.status(200).json(proposalObjects)
+  } catch (error) {
+    next(error)
   }
 }

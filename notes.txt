@@ -3,6 +3,8 @@
 NOW ---------------------------------------
 9. All picks should have a voided option incase you fuck it up (these won't be counted towards pick stats)
 10. Create devBranch domain for beta testers aka Donnie
+11. PROPER HTML (main, header, article, etc...)
+12. Record if you had _____'s schedule
 
 LATER -------------------------------------
 

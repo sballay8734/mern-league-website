@@ -64,7 +64,8 @@ const proposalSchema = new mongoose.Schema({
   voteInfo: { type: Object, default: { upVotes: 0, downVotes: 0 } },
   comments: { type: Array, default: [] },
   upVoters: { type: Array, default: [] },
-  downVoters: { type: Array, default: [] }
+  downVoters: { type: Array, default: [] },
+  yearProposed: { type: Number, default: new Date().getFullYear() }
 })
 
 const Proposal = mongoose.model("Proposal", proposalSchema)
