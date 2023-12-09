@@ -64,9 +64,9 @@ export default function ProposalsPage() {
               <thead>
                 <tr>
                   <th className="wider">Proposal</th>
-                  <th>Status</th>
-                  <th>Proposer</th>
-                  <th>Your Vote</th>
+                  <th className="center-text">Status</th>
+                  <th className="center-text">Proposer</th>
+                  <th className="center-text">Your Vote</th>
                 </tr>
               </thead>
               <tbody>

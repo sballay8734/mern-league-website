@@ -40,6 +40,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    overflow: scroll;
     .proposals-table {
           border-collapse: collapse;
           font-size: 0.8em;
@@ -60,6 +61,12 @@
             font-size: 0.8rem;
             th:last-child {
               text-align: center;
+            }
+            .center-text {
+              text-align: center;
+            }
+            th {
+              font-size: 0.7rem;
             }
           }
           th, td {
@@ -105,6 +112,9 @@
               background-color: var(--primary-color-darker);
             }
           }
+          .pending, .approved, .rejected {
+            text-align: center;
+          }
           .pending {
             color: rgb(70, 70, 192);
             font-weight: bold;
@@ -119,11 +129,13 @@
           }
           .proposer {
             font-weight: bold;
+            text-align: center;
             &.color {
               color: rgb(80, 80, 80);
             }
           }
           .your-vote {
+            text-align: center;
             &.approved {
               color: rgb(95, 228, 95);
               font-weight: bold;

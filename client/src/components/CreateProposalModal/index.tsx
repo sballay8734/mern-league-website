@@ -48,7 +48,7 @@ export default function CreateProposalModal({
       const data = await res.json()
 
       if (data.success === false) {
-        setError("Something went wrong")
+        setError(data.message)
         return
       }
 
@@ -104,8 +104,8 @@ export default function CreateProposalModal({
             Submit Proposal
           </button>
         </form>
+        {error && <div>{error}</div>}
       </div>
-      {error && <div>{error}</div>}
       <div onClick={closeModal} className="modal-background"></div>
     </div>
   )
