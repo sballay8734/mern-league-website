@@ -29,6 +29,8 @@ img, picture, video, canvas, svg {
 
 input, button, textarea, select {
   font: inherit;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
 }
 
 html, body {
@@ -73,4 +75,10 @@ p, h1, h2, h3, h4, h5, h6 {
 
 input::placeholder {
   opacity: 0.6;
+  font-size: 0.8rem;
+}
+
+textarea::placeholder {
+  opacity: 0.6;
+  font-size: 0.8rem;
 }

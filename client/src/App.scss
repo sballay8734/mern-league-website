@@ -140,9 +140,139 @@ main.giants {
   .page {
     background-image: var(--background-img);
   }
+}
   // .page {
   //   background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), var(--background-img);
   //   background-size: 20px;
   //   // background-image: var(--background-img);
   // }
+
+
+  // MODALS ***********************************************************
+  .modal.eagles {
+  --primary-color: rgba(0,76,84,1);
+  --accent-color: var(--primary-color);
+  --primary-color-trans: rgba(0,76,84,0.15);
+  --primary-color-lighter: rgb(201, 233, 236);
+  --primary-color-darker: rgba(0, 36, 40, 1);
+  --primary-color-darker-fade: rgba(0,76,84,0);
+  --primary-color-darker-hover: rgb(0, 28, 30);
+  --primary-color-darker-active: rgb(0, 21, 23);
+  --white: rgba(255,255,255,1);
+  --white-active: rgb(189, 189, 189);
+  --white-hover: rgb(154, 154, 154);
+  --off-white:rgb(237, 237, 237);
+  --background-img: url("/simple_dashed.png");
+  .page {
+    background-image: var(--background-img);
+  }
+}
+.modal.eagles-kelly {
+  --primary-color: rgba(4, 106, 56, 1);
+  --accent-color: var(--primary-color);
+  --primary-color-trans: rgba(4, 106, 56,0.15);
+  --primary-color-lighter: rgb(172, 221, 197);
+  --primary-color-darker: rgb(2, 53, 29);
+  --primary-color-darker-fade: rgba(4, 106, 56, 0);
+  --primary-color-darker-hover: rgb(1, 42, 24);
+  --primary-color-darker-active: rgb(0, 22, 13);
+  --white: rgba(255,255,255,1);
+  --white-active: rgb(189, 189, 189);
+  --white-hover: rgb(154, 154, 154);
+  --off-white:rgb(237, 237, 237);
+  --background-img: url("/simple_dashed.png");
+  .page {
+    background-image: var(--background-img);
+  }
+}
+.modal.liverpool {
+  --primary-color: rgba(200, 16, 46, 1);
+  --accent-color: var(--primary-color);
+  --primary-color-trans: rgba(200, 16, 46, 0.15);
+  --primary-color-lighter: rgb(220, 178, 185);
+  --primary-color-darker: rgb(86, 6, 19);
+  --primary-color-darker-fade: rgba(200, 16, 46, 0);
+  --primary-color-darker-hover: rgb(42, 2, 9);
+  --primary-color-darker-active: rgb(24, 1, 5);
+  --white: rgba(255,255,255,1);
+  --white-active: rgb(189, 189, 189);
+  --white-hover: rgb(154, 154, 154);
+  --off-white:rgb(237, 237, 237);
+  --background-img: url("/simple_dashed.png");
+  .page {
+    background-image: var(--background-img);
+  }
+}
+.modal.union {
+  --primary-color: rgba(7, 27, 44,1);
+  --accent-color: rgba(177, 155, 105, 1);
+  --primary-color-trans: rgba(7, 27, 44,0.15);
+  --primary-color-lighter: rgb(130, 161, 187);
+  --primary-color-darker: rgb(1, 14, 25);
+  --primary-color-darker-fade: rgba(1, 14, 25, 0);
+  --primary-color-darker-hover: rgb(1, 14, 25, 0.9);
+  --primary-color-darker-active: rgb(1, 14, 25, 0.8);
+  --white: rgba(255,255,255,1);
+  --white-active: rgb(189, 189, 189);
+  --white-hover: rgb(154, 154, 154);
+  --off-white:rgb(237, 237, 237);
+  --background-img: url("/simple_dashed.png");
+  .page {
+    background-image: var(--background-img);
+  }
+}
+.modal.chelsea {
+  --primary-color: rgba(3, 70, 148, 1);
+  --accent-color: var(--primary-color);
+  --primary-color-trans: rgba(3, 70, 148, 0.15);
+  --primary-color-lighter: rgb(139, 173, 211);
+  --primary-color-darker: rgba(2, 31, 64, 1);
+  --primary-color-darker-fade: rgba(2, 31, 64, 0);
+  --primary-color-darker-hover: rgba(1, 18, 37, 1);
+  --primary-color-darker-active: rgba(1, 18, 37, 0.9);
+  --white: rgba(255,255,255,1);
+  --white-active: rgb(189, 189, 189);
+  --white-hover: rgb(154, 154, 154);
+  --off-white:rgb(237, 237, 237);
+  --background-img: url("/simple_dashed.png");
+  .page {
+    background-image: var(--background-img);
+  }
+}
+.modal.man-city {
+  --primary-color: rgba(108, 171, 221, 1);
+  --accent-color: var(--primary-color);
+  --primary-color-trans: rgba(108, 171, 221, 0.15);
+  --primary-color-lighter: rgba(207, 224, 243, 1);
+  --primary-color-darker: rgb(19, 59, 91);
+  --primary-color-darker-fade: rgba(45, 105, 154, 0);
+  --primary-color-darker-hover: rgb(27, 73, 111);
+  --primary-color-darker-active: rgb(10, 35, 56);
+  --white: rgba(255,255,255,1);
+  --white-active: rgb(189, 189, 189);
+  --white-hover: rgb(154, 154, 154);
+  --off-white:rgb(237, 237, 237);
+  --background-img: url("/simple_dashed.png");
+  .page {
+    background-image: var(--background-img);
+  }
+}
+.modal.giants {
+  --primary-color: rgba(1, 35, 82, 1);
+  --accent-color: rgba(163, 13, 45, 1);
+  --primary-color-trans: rgba(1, 35, 82, 0.15);
+  --primary-color-lighter: rgb(117, 148, 191);
+  --primary-color-darker: rgb(1, 24, 57);
+  --primary-color-darker-fade: rgba(1, 35, 82, 0);
+  --primary-color-darker-hover: rgba(1, 35, 82, 0.9);
+  --primary-color-darker-active: rgba(1, 35, 82, 0.8);
+  --white: rgba(255,255,255,1);
+  --white-active: rgb(189, 189, 189);
+  --white-hover: rgb(154, 154, 154);
+  --off-white:rgb(237, 237, 237);
+  // --background-img: url("/poop.png");
+  --background-img: url("/simple_dashed.png");
+  .page {
+    background-image: var(--background-img);
+  }
 }

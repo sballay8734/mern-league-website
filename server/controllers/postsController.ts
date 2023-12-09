@@ -10,16 +10,30 @@ export const createProposal = async (
 ) => {
   if (!req.user) return next(errorHandler(400, "Unauthorized"))
 
-  try {
-    const proposal = await Proposal.create(req.body)
-    if (proposal) {
-      const proposalObject = proposal.toObject()
-      res.status(200).json(proposalObject)
-    } else {
-      next(errorHandler(400, "Something went wrong"))
+  const userId = req.user.id
+  const user = await User.findById(userId)
+
+  if (user) {
+    const userName = `${user.firstName} ${user.lastInitial}`
+    const proposalData = {
+      ...req.body,
+      userId: userId,
+      userName: userName,
+      upVoters: [userId]
     }
-  } catch (error) {
-    next(error)
+    try {
+      const proposal = await Proposal.create(proposalData)
+      if (proposal) {
+        const proposalObject = proposal.toObject()
+        res.status(200).json(proposalObject)
+      } else {
+        next(errorHandler(400, "Something went wrong"))
+      }
+    } catch (error) {
+      next(error)
+    }
+  } else {
+    next(errorHandler(500, "Something went wrong"))
   }
 }
 

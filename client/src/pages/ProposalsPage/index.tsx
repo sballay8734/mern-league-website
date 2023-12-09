@@ -2,28 +2,39 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
 import { useFetchProposalsQuery } from "../../redux/proposalsApi/proposalsApi"
 // import { BiUpvote, BiDownvote } from "react-icons/bi"
-import ViewProposalModal from "../../components/ProposalModal"
+import ViewProposalModal from "../../components/ViewProposalModal"
+import CreateProposalModal from "../../components/CreateProposalModal"
 
 import { FaPlus } from "react-icons/fa6"
 import "./ProposalsPage.scss"
 import { IProposal } from "../../redux/proposalsApi/proposalsApi"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 // NEED CREATE PROPOSAL MODAL &&&&& VIEW PROPOSAL MODAL
 
 export default function ProposalsPage() {
   const { user } = useSelector((state: RootState) => state.user)
-  const { data } = useFetchProposalsQuery()
-  const [modalIsShown, setModalIsShown] = useState<boolean>(false)
+  const { refetch, data } = useFetchProposalsQuery()
+  const [viewModalIsShown, setViewModalIsShown] = useState<boolean>(false)
+  const [createModalIsShown, setCreateModalIsShown] = useState<boolean>(false)
   const [proposal, setProposal] = useState<IProposal | null>(null)
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
+
+  function handleShowCreateProposal() {
+    setCreateModalIsShown(true)
+  }
 
   function handleProposalClick(proposal: IProposal) {
     setProposal(proposal)
-    setModalIsShown(!modalIsShown)
+    setViewModalIsShown(!viewModalIsShown)
   }
 
   function closeModal() {
-    setModalIsShown(false)
+    setViewModalIsShown(false)
+    setCreateModalIsShown(false)
   }
 
   return (
@@ -33,7 +44,10 @@ export default function ProposalsPage() {
       ) : (
         <>
           <div className="proposal-page-top">
-            <button className="create-proposal-btn">
+            <button
+              onClick={handleShowCreateProposal}
+              className="create-proposal-btn"
+            >
               Create new proposal{" "}
               {
                 <span>
@@ -52,6 +66,7 @@ export default function ProposalsPage() {
                   <th className="wider">Proposal</th>
                   <th>Status</th>
                   <th>Proposer</th>
+                  <th>Your Vote</th>
                 </tr>
               </thead>
               <tbody>
@@ -63,12 +78,37 @@ export default function ProposalsPage() {
                         key={item._id}
                         className="row"
                       >
-                        <td className="wider">{item.title}</td>
+                        <td className="wider">
+                          {item.title.length < 25
+                            ? item.title
+                            : item.title.slice(0, 23) + "..."}
+                        </td>
                         <td className={item.status}>
                           {item.status.charAt(0).toLocaleUpperCase() +
                             item.status.slice(1)}
                         </td>
-                        <td className="proposer">{item.userName}</td>
+                        <td
+                          className={`proposer ${
+                            item.userId === user._id && "color"
+                          }`}
+                        >
+                          {item.userId === user._id ? "You" : item.userName}
+                        </td>
+                        <td
+                          className={`your-vote ${
+                            item.upVoters.includes(user._id)
+                              ? "approved"
+                              : item.downVoters.includes(user._id)
+                              ? "rejected"
+                              : "none"
+                          }`}
+                        >
+                          {item.upVoters.includes(user._id)
+                            ? "Approved"
+                            : item.downVoters.includes(user._id)
+                            ? "Rejected"
+                            : "None"}
+                        </td>
                         {/* <td className="vote">
                           <span>
                             <BiUpvote />
@@ -85,8 +125,15 @@ export default function ProposalsPage() {
           </div>
         </>
       )}
-      {modalIsShown && proposal !== null && (
-        <ViewProposalModal proposal={proposal} closeModal={closeModal} />
+      {viewModalIsShown && proposal !== null && (
+        <ViewProposalModal
+          proposal={proposal}
+          closeModal={closeModal}
+          refetch={refetch}
+        />
+      )}
+      {createModalIsShown && (
+        <CreateProposalModal closeModal={closeModal} refetch={refetch} />
       )}
     </div>
   )

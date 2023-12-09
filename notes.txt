@@ -1,6 +1,10 @@
 // TODO ************************************************************************
 
 NOW ---------------------------------------
+3. To prevent spamming, only allow one 2 proposal submissions per day (they can delete their old proposals)
+4. Are you sure you're ready to submit proposal?
+5. Style viewProposalModal & Propose proposal modal
+7. Modals should fade in
 9. All picks should have a voided option incase you fuck it up (these won't be counted towards pick stats)
 10. Create devBranch domain for beta testers aka Donnie
 11. PROPER HTML (main, header, article, etc...)

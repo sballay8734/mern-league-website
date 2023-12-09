@@ -17,10 +17,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.9);
   }
   .modal-content {
-    width: 85%;
+    width: 90%;
     max-width: 400px;
     min-height: 120px;
     background-color: white;
@@ -36,11 +36,29 @@
       width: 100%;
       font-size: 0.6rem;
       justify-content: space-between;
+      .top-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        button {
+          padding: 0.3rem 1rem;
+          cursor: pointer;
+          background-color: rgb(98, 0, 0);
+          border: 1px solid transparent;
+          border-radius: 3px;
+          color: white;
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
     }
     .modal-middle {
       font-size: 0.8rem;
       display: flex;
       flex-direction: column;
+      width: 100%;
       gap: 0.5rem;
     }
     .modal-vote {
@@ -51,14 +69,14 @@
         width: 100%;
         cursor: pointer;
         height: 3rem;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         border: 1px solid transparent;
         border-radius: 3px;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 1rem;
+        gap: 0.5rem;
         span {
           display: flex;
           justify-self: baseline;
@@ -72,7 +90,13 @@
           transition: all 300ms;
         }
         span {
-          font-size: 1.2rem;
+          font-size: 1rem;
+        }
+        &.disable {
+          cursor: default;
+          background-color: grey;
+          opacity: 0.8;
+          pointer-events: none;
         }
       }
       .approve {
@@ -82,9 +106,15 @@
           transition: all 300ms;
         }
         transition: all 300ms;
+        &.disable {
+          cursor: default;
+          background-color: grey;
+          opacity: 0.8;
+          pointer-events: none;
+        }
       }
     }
-    label {
+    .header {
       font-weight: bold;
     }
     form {

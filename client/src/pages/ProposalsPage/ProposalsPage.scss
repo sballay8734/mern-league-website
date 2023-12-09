@@ -37,6 +37,9 @@
   }
   .table-section-wrapper {
     height: 80%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
     .proposals-table {
           border-collapse: collapse;
           font-size: 0.8em;
@@ -47,6 +50,7 @@
           border-radius: 3px;
           overflow: hidden;
           height: fit-content;
+          max-width: 800px;
           thead tr {
             background-color: var(--accent-color);
             color: var(--primary-color-darker);
@@ -82,7 +86,7 @@
             font-size: 0.6rem;
           }
           tbody tr {
-            max-height: 50px;
+            height: 50px;
           }
           .wider {
             min-width: 100px;
@@ -115,6 +119,19 @@
           }
           .proposer {
             font-weight: bold;
+            &.color {
+              color: rgb(80, 80, 80);
+            }
+          }
+          .your-vote {
+            &.approved {
+              color: rgb(95, 228, 95);
+              font-weight: bold;
+            }
+            &.rejected {
+              color: rgb(186, 55, 55);
+              font-weight: bold;
+            }
           }
         }
   }
