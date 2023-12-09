@@ -1,7 +1,7 @@
 // TODO ************************************************************************
 
 NOW ---------------------------------------
-3. To prevent spamming, only allow one 2 proposal submissions per day (they can delete their old proposals)..
+3. To prevent spamming, only allow one 2 proposal submissions per day (they can delete their old proposals)***
 4. Are you sure you're ready to submit proposal?
 5. Style viewProposalModal & Propose proposal modal
 7. Modals should fade in
