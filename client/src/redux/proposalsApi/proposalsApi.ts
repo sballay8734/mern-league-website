@@ -25,6 +25,7 @@ export interface IProposal {
   downVoters: string[]
   yearProposed: number
   dateProposed: string
+  commishVeto: boolean
 }
 
 const proposalsApi = createApi({

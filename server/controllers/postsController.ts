@@ -171,3 +171,40 @@ export const getProposals = async (
     next(error)
   }
 }
+
+export const commishOverride = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user) return next(errorHandler(401, "Unauthorized"))
+
+  try {
+    const proposalId = req.params.id
+    const userId = req.user.id
+
+    const proposal = await Proposal.findById(proposalId)
+    const user = await User.findById(userId)
+
+    if (!proposal || !user) return next(errorHandler(401, "Not found"))
+
+    const userObject = user.toObject()
+
+    if (userObject.isCommissioner === false) {
+      return next(errorHandler(400, "Only the commissioner can do that!"))
+    }
+
+    proposal.set({ commishVeto: true, status: "rejected" })
+
+    const updatedProposal = await proposal.save()
+
+    if (updatedProposal) {
+      const updatedProposalObject = updatedProposal.toObject()
+      res.status(200).json(updatedProposalObject)
+    } else {
+      next(errorHandler(400, "Error updating proposal"))
+    }
+  } catch (error) {
+    next(error)
+  }
+}

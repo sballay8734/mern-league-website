@@ -24,6 +24,7 @@ interface IProposal extends Document {
   downVoters: string[]
   yearProposed: number
   dateProposed: Date
+  commishVeto: boolean
 }
 
 const proposalSchema = new mongoose.Schema({
@@ -48,7 +49,8 @@ const proposalSchema = new mongoose.Schema({
       month: "2-digit",
       day: "2-digit"
     })
-  }
+  },
+  commishVeto: { type: Boolean, default: false }
 })
 
 const Proposal = mongoose.model<IProposal>("Proposal", proposalSchema)

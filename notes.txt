@@ -1,6 +1,11 @@
 // TODO ************************************************************************
 
 NOW ---------------------------------------
+1. If commissioner has rejected, you shouldn't be able to vote
+1. Each proposal will have to have a "Vetoed by commissioner field
+1. Add "Rejected By KJD" Option to status
+1. Style Vote Proposal Modal
+2. Add ability for Commish to veto
 3. To prevent spamming, only allow one 2 proposal submissions per day (they can delete their old proposals)***
 4. Are you sure you're ready to submit proposal?
 5. Style viewProposalModal & Propose proposal modal
@@ -19,6 +24,7 @@ AT END ------------------------------------
 6. add note to install cors and cors types to Notion
 7. Try and get deployment to work without pushing dist folder (render should auto generate a dist folder during build)
 8. Redo media queries for home screen
+9. Need to fix most error codes (400, 401, etc)
 
 BUGS --------------------------------------
 3. Decide if you want to accommodate surface/iPad pro (weird breakpoints)

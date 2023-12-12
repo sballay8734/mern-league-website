@@ -23,14 +23,31 @@
     width: 90%;
     max-width: 400px;
     min-height: 120px;
-    background-color: white;
     z-index: 101;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 1rem;
     border-radius: 5px;
     padding: 1rem;
+    background-color: rgb(240, 240, 240);
+    .title-wrapper {
+      background-color: var(--primary-color);
+      padding: 0.4rem;
+      border-radius: 3px;
+      color: white;
+      font-weight: bold;
+      h1 span {
+        font-weight: normal;
+      }
+    }
+    .details-wrapper {
+      padding: 0 0.4rem;
+      border-radius: 3px;
+      font-style: italic;
+    }
+    .details-prefix {
+      font-weight: bold;
+    }
     .modal-top {
       display: flex;
       width: 100%;
@@ -41,13 +58,14 @@
         flex-direction: column;
         align-items: flex-end;
         justify-content: space-between;
-        button {
-          padding: 0.3rem 1rem;
+        span {
+          // padding: 0.3rem 0.3rem;
           cursor: pointer;
           background-color: rgb(98, 0, 0);
           border: 1px solid transparent;
           border-radius: 3px;
           color: white;
+          font-size: 1.3rem;
           &:hover {
             opacity: 0.8;
           }
@@ -65,6 +83,18 @@
       display: flex;
       gap: 1rem;
       width: 100%;
+      .commish-override-message {
+        display: flex;
+        font-size: 0.8rem;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        height: 3rem;
+        border: 1px solid transparent;
+        border-radius: 3px;
+        background-color: grey;
+        opacity: 0.8;
+      }
       .reject, .approve {
         width: 100%;
         cursor: pointer;
@@ -131,7 +161,7 @@
         background-color: rgb(33, 33, 107);
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 3px;
         padding: 0.3rem;
       }
     }
@@ -140,4 +170,63 @@
       color: red;
     }
   }
+  .info {
+    font-weight: bold;
+    &.pending {
+      color: rgb(70, 70, 192);
+    }
+    &.rejected {
+      color: rgb(186, 55, 55);
+    }
+    &.approved {
+      color: rgb(95, 228, 95);
+    }
+  }
+    .commish-override {
+      cursor: pointer;
+      width: 100%;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 0.8rem 0.3rem;
+      background-color: rgb(145, 0, 0);
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+    .override-verify {
+      font-size: 0.8rem;
+      transition: all 300ms;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      .confirm-veto {
+        background-color: rgb(3, 80, 0);
+      }
+      .deny-veto {
+        background-color: rgb(114, 0, 0);
+      }
+      button, span {
+        width: 100%;
+      }
+      button {
+        padding: 0.7rem 0rem;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 3px;
+        color: white;
+        font-weight: bold;
+        font-size: 0.7rem;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+      .question {
+        font-weight: bold;
+        color: red;
+        padding-left: 0.4rem;
+        font-size: 0.7rem;
+      }
+    }
 }

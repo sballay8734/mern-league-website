@@ -73,6 +73,15 @@ export default function CreateProposalModal({
       }`}
     >
       <div className="modal-content">
+        <div className="modal-header">
+          <div className="modal-icon">
+            <img src="/proposalsDark.png" alt="img" />
+          </div>
+          <div className="modal-header-text">
+            <h2>Add Proposal</h2>
+            <p>Fill out the form below and pray KJD is in a good mood.</p>
+          </div>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
             <label htmlFor="title">Topic</label>
@@ -81,7 +90,7 @@ export default function CreateProposalModal({
               type="text"
               name="title"
               id="title"
-              placeholder="Kicker points"
+              placeholder="Down with KJD"
               maxLength={30}
               value={formData.title}
               required
@@ -94,14 +103,14 @@ export default function CreateProposalModal({
               maxLength={350}
               name="content"
               id="content"
-              placeholder="Description"
+              placeholder="KJD has too much power and it is the best interest of the league to overthrow him. Yesterday, I saw him drink a bud light so I now know that he is weak and probably gay. We already have a gay guy in this league (Dan). We don't need another."
               rows={6}
               value={formData.content}
               required
             />
           </div>
           <button type="submit" className="submit-proposal">
-            Submit Proposal
+            SUBMIT PROPOSAL
           </button>
         </form>
         {error && <div>{error}</div>}

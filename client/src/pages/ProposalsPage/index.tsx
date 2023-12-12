@@ -6,9 +6,9 @@ import ViewProposalModal from "../../components/ViewProposalModal"
 import CreateProposalModal from "../../components/CreateProposalModal"
 
 import { FaPlus } from "react-icons/fa6"
-import "./ProposalsPage.scss"
 import { IProposal } from "../../redux/proposalsApi/proposalsApi"
 import { useEffect, useState } from "react"
+import "./ProposalsPage.scss"
 
 // NEED CREATE PROPOSAL MODAL &&&&& VIEW PROPOSAL MODAL
 
@@ -84,8 +84,10 @@ export default function ProposalsPage() {
                             : item.title.slice(0, 23) + "..."}
                         </td>
                         <td className={item.status}>
-                          {item.status.charAt(0).toLocaleUpperCase() +
-                            item.status.slice(1)}
+                          {item.commishVeto === true
+                            ? "KJD Reject"
+                            : item.status.charAt(0).toLocaleUpperCase() +
+                              item.status.slice(1)}
                         </td>
                         <td
                           className={`proposer ${

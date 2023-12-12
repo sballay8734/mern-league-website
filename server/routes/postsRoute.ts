@@ -3,7 +3,8 @@ import {
   createProposal,
   voteOnProposal,
   commentOnProposal,
-  getProposals
+  getProposals,
+  commishOverride
 } from "../controllers/postsController"
 import { verifyUser } from "../utils/verifyUser"
 
@@ -13,6 +14,7 @@ router.get("/proposals", getProposals)
 router.post("/proposals", verifyUser, createProposal)
 router.post("/proposals/:id", verifyUser, voteOnProposal)
 router.post("/proposals/:id/comment", verifyUser, commentOnProposal)
+router.post("/proposals/:id/reject", verifyUser, commishOverride)
 // router.post("/messageBoard", )
 
 export default router

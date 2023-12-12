@@ -6,6 +6,7 @@ import { IProposal } from "../../redux/proposalsApi/proposalsApi"
 import { RootState } from "../../redux/store"
 import { FaCheck } from "react-icons/fa"
 import { IoClose } from "react-icons/io5"
+import { AiFillCloseSquare } from "react-icons/ai"
 import "./ProposalModal.scss"
 
 interface ViewProposalModalProps {
@@ -23,6 +24,7 @@ export default function ViewProposalModal({
   const [error, setError] = useState<null | string>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [updatedProposal, setUpdatedProposal] = useState<IProposal>(proposal)
+  const [verifyVeto, setVerifyVeto] = useState<boolean>(false)
 
   useEffect(() => {}, [updatedProposal])
 
@@ -86,6 +88,47 @@ export default function ViewProposalModal({
     }
   }
 
+  function handleOverrideClick() {
+    setVerifyVeto(!verifyVeto)
+  }
+
+  async function handleCommishOverride() {
+    if (user && user.isCommissioner === false) {
+      setError("Only the commissioner can do that!")
+    }
+
+    try {
+      setLoading(true)
+      const res = await fetch(`/api/posts/proposals/${proposal._id}/reject`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+
+      const data = await res.json()
+
+      if (data.success === false) {
+        setError("Action Failed")
+        return
+      }
+      // show success
+      // close modal
+      setUpdatedProposal(data)
+      refetch()
+      setLoading(false)
+      closeModal()
+      console.log(data)
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        console.log(error)
+      }
+      setLoading(false)
+    }
+  }
+
   // onClick () => Are you sure you want to vote to approve this rule? => Then fetch the api
 
   const children = (
@@ -96,75 +139,114 @@ export default function ViewProposalModal({
         <div className="modal-top">
           <div className="top-left">
             <p className="date-submitted">
-              Date Submitted: <span>{updatedProposal.dateProposed}</span>
+              Date Submitted:{" "}
+              <span className="info">{updatedProposal.dateProposed}</span>
             </p>
             <p className="status">
               Status:{" "}
-              <span>
-                {updatedProposal.status.charAt(0).toLocaleUpperCase() +
-                  updatedProposal.status.slice(1)}
+              <span className={`info ${updatedProposal.status}`}>
+                {updatedProposal.commishVeto === true
+                  ? "Rejected by KJD"
+                  : updatedProposal.status.charAt(0).toLocaleUpperCase() +
+                    updatedProposal.status.slice(1)}
               </span>
             </p>
             <p className="votes">
               Votes:{" "}
-              <span>
+              <span className="info">
                 {updatedProposal.voteInfo.upVotes +
                   updatedProposal.voteInfo.downVotes}
                 /12
               </span>
             </p>
             <p className="proposer">
-              Proposed by: <span>{updatedProposal.userName}</span>
+              Proposed by:{" "}
+              <span className="info">{updatedProposal.userName}</span>
             </p>
           </div>
           <div className="top-right">
-            <button onClick={closeModal}>close</button>
+            <span onClick={closeModal}>
+              <AiFillCloseSquare />
+            </span>
           </div>
         </div>
         <div className="modal-middle">
-          <div>
-            <p className="header">Title</p>
-            <h1>{updatedProposal.title}</h1>
+          <div className="title-wrapper">
+            <h1>
+              <span>Re:</span> {updatedProposal.title}
+            </h1>
           </div>
-          <div>
-            <p className="header">Details</p>
-            <p>{updatedProposal.content}</p>
+          <div className="details-wrapper">
+            {/* <p className="header">Details</p> */}
+            <p>
+              <span className="details-prefix">Proposal: </span>
+              {updatedProposal.content}
+            </p>
           </div>
         </div>
         <div className="modal-vote">
-          <button
-            disabled={loading}
-            onClick={handleRejectClick}
-            className={`reject ${
-              user && updatedProposal.downVoters.includes(user._id)
-                ? "disable"
-                : ""
-            }`}
-          >
-            {user && updatedProposal.downVoters.includes(user._id)
-              ? "You Rejected This"
-              : "Vote to Reject"}
-            <span>
-              <IoClose />
-            </span>
-          </button>
-          <button
-            disabled={loading}
-            onClick={handleApproveClick}
-            className={`approve ${
-              user && updatedProposal.upVoters.includes(user._id)
-                ? "disable"
-                : ""
-            }`}
-          >
-            {user && updatedProposal.upVoters.includes(user._id)
-              ? "You Approved This"
-              : "Vote to Approve"}
-            <span>
-              <FaCheck />
-            </span>
-          </button>
+          {updatedProposal.commishVeto === true ? (
+            <div className="commish-override-message">
+              Our fearless leader has denied this proposal
+            </div>
+          ) : (
+            <>
+              <button
+                disabled={loading}
+                onClick={handleRejectClick}
+                className={`reject ${
+                  user && updatedProposal.downVoters.includes(user._id)
+                    ? "disable"
+                    : ""
+                }`}
+              >
+                {user && updatedProposal.downVoters.includes(user._id)
+                  ? "You Rejected This"
+                  : "Vote to Reject"}
+                <span>
+                  <IoClose />
+                </span>
+              </button>
+              <button
+                disabled={loading}
+                onClick={handleApproveClick}
+                className={`approve ${
+                  user && updatedProposal.upVoters.includes(user._id)
+                    ? "disable"
+                    : ""
+                }`}
+              >
+                {user && updatedProposal.upVoters.includes(user._id)
+                  ? "You Approved This"
+                  : "Vote to Approve"}
+                <span>
+                  <FaCheck />
+                </span>
+              </button>
+            </>
+          )}
         </div>
+        {verifyVeto ? (
+          <div className={`override-verify`}>
+            <span className="question">Are you sure?!</span>
+            <button onClick={handleCommishOverride} className="confirm-veto">
+              YES VETO
+            </button>
+            <button onClick={() => setVerifyVeto(false)} className="deny-veto">
+              NO
+            </button>
+          </div>
+        ) : (
+          user &&
+          user.isCommissioner && (
+            <button
+              onClick={handleOverrideClick}
+              className={`commish-override`}
+            >
+              KJD SPECIAL VETO BUTTON
+            </button>
+          )
+        )}
         {error && <div>{error}</div>}
       </div>
       <div onClick={closeModal} className="modal-background"></div>
