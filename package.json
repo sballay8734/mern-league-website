@@ -26,8 +26,14 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "build": "npm install && npm ci --prefix client && cd server && tsc",
-    "start": "node server/dist/index.js"
+    "build": "npm install && npm run build:all",
+    "build:all": "npm run build:client && npm run build:server",
+    "start:client": "cd client && npm run start",
+    "start:server": "cd server && npm run start",
+    "build:client": "cd client && npm install && npm run build:tsc",
+    "build:server": "cd server && npm install && npm run build:tsc",
+    "build:tsc": "tsc",
+    "start": "node server/index.js"
   },
   "author": "",
   "license": "ISC",
