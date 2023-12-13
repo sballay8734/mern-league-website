@@ -112,6 +112,7 @@
       display: flex;
       gap: 1rem;
       width: 100%;
+      color: black;
       .commish-override-message-reject {
         display: flex;
         font-size: 0.8rem;
@@ -123,6 +124,7 @@
         border-radius: 3px;
         background-color: rgb(184, 138, 138);
         opacity: 0.8;
+        color: black;
       }
       .commish-override-message-approve {
         display: flex;
@@ -135,6 +137,7 @@
         border-radius: 3px;
         background-color: rgb(118, 159, 114);
         opacity: 0.8;
+        color: black;
       }
       .reject, .approve {
         width: 100%;
