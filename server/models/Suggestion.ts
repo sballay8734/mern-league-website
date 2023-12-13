@@ -50,7 +50,7 @@ const proposalSchema = new mongoose.Schema({
       day: "2-digit"
     })
   },
-  commishVeto: { type: Boolean, default: false }
+  commishVeto: { type: Boolean, default: null }
 })
 
 const Proposal = mongoose.model<IProposal>("Proposal", proposalSchema)

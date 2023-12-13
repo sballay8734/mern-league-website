@@ -25,6 +25,7 @@ AT END ------------------------------------
 7. Try and get deployment to work without pushing dist folder (render should auto generate a dist folder during build)
 8. Redo media queries for home screen
 9. Need to fix most error codes (400, 401, etc)
+10. If Donnie somehow approves or vetos by accident and people can't vote, you'll just have to go into the DB and set commishVeto to null
 
 BUGS --------------------------------------
 3. Decide if you want to accommodate surface/iPad pro (weird breakpoints)

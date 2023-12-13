@@ -6,7 +6,7 @@ import { IProposal } from "../../redux/proposalsApi/proposalsApi"
 import { RootState } from "../../redux/store"
 import { FaCheck } from "react-icons/fa"
 import { IoClose } from "react-icons/io5"
-import { AiFillCloseSquare } from "react-icons/ai"
+import { AiOutlineCloseSquare } from "react-icons/ai"
 import "./ProposalModal.scss"
 
 interface ViewProposalModalProps {
@@ -25,6 +25,7 @@ export default function ViewProposalModal({
   const [loading, setLoading] = useState<boolean>(false)
   const [updatedProposal, setUpdatedProposal] = useState<IProposal>(proposal)
   const [verifyVeto, setVerifyVeto] = useState<boolean>(false)
+  const [commishStatus, setCommishStatus] = useState<null | string>(null)
 
   useEffect(() => {}, [updatedProposal])
 
@@ -88,8 +89,9 @@ export default function ViewProposalModal({
     }
   }
 
-  function handleOverrideClick() {
+  function handleCommishVeto(status: string) {
     setVerifyVeto(!verifyVeto)
+    setCommishStatus(status)
   }
 
   async function handleCommishOverride() {
@@ -103,7 +105,8 @@ export default function ViewProposalModal({
         method: "POST",
         headers: {
           "Content-Type": "application/json"
-        }
+        },
+        body: JSON.stringify({ action: commishStatus })
       })
 
       const data = await res.json()
@@ -147,6 +150,8 @@ export default function ViewProposalModal({
               <span className={`info ${updatedProposal.status}`}>
                 {updatedProposal.commishVeto === true
                   ? "Rejected by KJD"
+                  : updatedProposal.commishVeto === false
+                  ? "Approved by KJD"
                   : updatedProposal.status.charAt(0).toLocaleUpperCase() +
                     updatedProposal.status.slice(1)}
               </span>
@@ -164,9 +169,26 @@ export default function ViewProposalModal({
               <span className="info">{updatedProposal.userName}</span>
             </p>
           </div>
+          {user && user.isCommissioner && (
+            <div className="top-middle">
+              <h2>Votes</h2>
+              <p className="for-votes">
+                For:{" "}
+                <span className="for-votes-num">
+                  {updatedProposal.voteInfo.upVotes}
+                </span>
+              </p>
+              <p className="against-votes">
+                Against:{" "}
+                <span className="against-votes-num">
+                  {updatedProposal.voteInfo.downVotes}
+                </span>
+              </p>
+            </div>
+          )}
           <div className="top-right">
             <span onClick={closeModal}>
-              <AiFillCloseSquare />
+              <AiOutlineCloseSquare />
             </span>
           </div>
         </div>
@@ -186,8 +208,12 @@ export default function ViewProposalModal({
         </div>
         <div className="modal-vote">
           {updatedProposal.commishVeto === true ? (
-            <div className="commish-override-message">
-              Our fearless leader has denied this proposal
+            <div className="commish-override-message-reject">
+              Our fearless leader has rejected this proposal
+            </div>
+          ) : updatedProposal.commishVeto === false ? (
+            <div className="commish-override-message-approve">
+              Our fearless leader has approved this proposal
             </div>
           ) : (
             <>
@@ -228,23 +254,36 @@ export default function ViewProposalModal({
         </div>
         {verifyVeto ? (
           <div className={`override-verify`}>
-            <span className="question">Are you sure?!</span>
-            <button onClick={handleCommishOverride} className="confirm-veto">
-              YES VETO
-            </button>
-            <button onClick={() => setVerifyVeto(false)} className="deny-veto">
-              NO
-            </button>
+            <p className="question">Are you sure?!</p>
+            <div className="override-verify-buttons">
+              <button onClick={handleCommishOverride} className="confirm-veto">
+                YES {commishStatus && commishStatus?.toLocaleUpperCase()}
+              </button>
+              <button
+                onClick={() => setVerifyVeto(false)}
+                className="deny-veto"
+              >
+                NO
+              </button>
+            </div>
           </div>
         ) : (
           user &&
           user.isCommissioner && (
-            <button
-              onClick={handleOverrideClick}
-              className={`commish-override`}
-            >
-              KJD SPECIAL VETO BUTTON
-            </button>
+            <div className="commish-buttons">
+              <button
+                onClick={() => handleCommishVeto("reject")}
+                className={`commish-override-veto`}
+              >
+                KJD VETO
+              </button>
+              <button
+                onClick={() => handleCommishVeto("approve")}
+                className={`commish-override-approve`}
+              >
+                KJD APPROVE
+              </button>
+            </div>
           )
         )}
         {error && <div>{error}</div>}

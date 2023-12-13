@@ -178,33 +178,67 @@ export const commishOverride = async (
   next: NextFunction
 ) => {
   if (!req.user) return next(errorHandler(401, "Unauthorized"))
+  const action = req.body.action
 
-  try {
-    const proposalId = req.params.id
-    const userId = req.user.id
+  if (action === "reject") {
+    try {
+      const proposalId = req.params.id
+      const userId = req.user.id
 
-    const proposal = await Proposal.findById(proposalId)
-    const user = await User.findById(userId)
+      const proposal = await Proposal.findById(proposalId)
+      const user = await User.findById(userId)
 
-    if (!proposal || !user) return next(errorHandler(401, "Not found"))
+      if (!proposal || !user) return next(errorHandler(401, "Not found"))
 
-    const userObject = user.toObject()
+      const userObject = user.toObject()
 
-    if (userObject.isCommissioner === false) {
-      return next(errorHandler(400, "Only the commissioner can do that!"))
+      if (userObject.isCommissioner === false) {
+        return next(errorHandler(400, "Only the commissioner can do that!"))
+      }
+
+      proposal.set({ commishVeto: true, status: "rejected" })
+
+      const updatedProposal = await proposal.save()
+
+      if (updatedProposal) {
+        const updatedProposalObject = updatedProposal.toObject()
+        res.status(200).json(updatedProposalObject)
+      } else {
+        next(errorHandler(400, "Error updating proposal"))
+      }
+    } catch (error) {
+      next(error)
     }
+  } else if (action === "approve") {
+    try {
+      const proposalId = req.params.id
+      const userId = req.user.id
 
-    proposal.set({ commishVeto: true, status: "rejected" })
+      const proposal = await Proposal.findById(proposalId)
+      const user = await User.findById(userId)
 
-    const updatedProposal = await proposal.save()
+      if (!proposal || !user) return next(errorHandler(401, "Not found"))
 
-    if (updatedProposal) {
-      const updatedProposalObject = updatedProposal.toObject()
-      res.status(200).json(updatedProposalObject)
-    } else {
-      next(errorHandler(400, "Error updating proposal"))
+      const userObject = user.toObject()
+
+      if (userObject.isCommissioner === false) {
+        return next(errorHandler(400, "Only the commissioner can do that!"))
+      }
+
+      proposal.set({ commishVeto: false, status: "approved" })
+
+      const updatedProposal = await proposal.save()
+
+      if (updatedProposal) {
+        const updatedProposalObject = updatedProposal.toObject()
+        res.status(200).json(updatedProposalObject)
+      } else {
+        next(errorHandler(400, "Error updating proposal"))
+      }
+    } catch (error) {
+      next(error)
     }
-  } catch (error) {
-    next(error)
+  } else {
+    next(errorHandler(500, "Something went wrong"))
   }
 }

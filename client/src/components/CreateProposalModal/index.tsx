@@ -91,7 +91,7 @@ export default function CreateProposalModal({
               name="title"
               id="title"
               placeholder="Down with KJD"
-              maxLength={30}
+              maxLength={35}
               value={formData.title}
               required
             />

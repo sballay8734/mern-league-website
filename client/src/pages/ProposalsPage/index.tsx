@@ -64,6 +64,8 @@ export default function ProposalsPage() {
               <thead>
                 <tr>
                   <th className="wider">Proposal</th>
+                  <th className="comments">Comments</th>
+                  <th className="date header">Date Proposed</th>
                   <th className="center-text">Status</th>
                   <th className="center-text">Proposer</th>
                   <th className="center-text">Your Vote</th>
@@ -78,26 +80,32 @@ export default function ProposalsPage() {
                         key={item._id}
                         className="row"
                       >
-                        <td className="wider">
+                        <td className="wider cell">
                           {item.title.length < 25
                             ? item.title
                             : item.title.slice(0, 23) + "..."}
                         </td>
-                        <td className={item.status}>
+                        <td className="comments cell">
+                          {item.comments.length}
+                        </td>
+                        <td className="date cell">{item.dateProposed}</td>
+                        <td className={`${item.status} cell`}>
                           {item.commishVeto === true
-                            ? "KJD Reject"
+                            ? "Rejected"
+                            : item.commishVeto === false
+                            ? "Approved"
                             : item.status.charAt(0).toLocaleUpperCase() +
                               item.status.slice(1)}
                         </td>
                         <td
-                          className={`proposer ${
+                          className={`proposer cell ${
                             item.userId === user._id && "color"
                           }`}
                         >
                           {item.userId === user._id ? "You" : item.userName}
                         </td>
                         <td
-                          className={`your-vote ${
+                          className={`your-vote cell ${
                             item.upVoters.includes(user._id)
                               ? "approved"
                               : item.downVoters.includes(user._id)
@@ -106,19 +114,11 @@ export default function ProposalsPage() {
                           }`}
                         >
                           {item.upVoters.includes(user._id)
-                            ? "Approved"
+                            ? "Approve"
                             : item.downVoters.includes(user._id)
-                            ? "Rejected"
+                            ? "Reject"
                             : "None"}
                         </td>
-                        {/* <td className="vote">
-                          <span>
-                            <BiUpvote />
-                          </span>
-                          <span>
-                            <BiDownvote />
-                          </span>
-                        </td> */}
                       </tr>
                     )
                   })}
