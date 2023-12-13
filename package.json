@@ -27,7 +27,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "npm install && npm ci --prefix client && cd server && tsc",
-    "start": "node server/dist/index.js"
+    "start": "node server/index.js"
   },
   "author": "",
   "license": "ISC",
