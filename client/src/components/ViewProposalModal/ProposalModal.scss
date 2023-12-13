@@ -112,7 +112,6 @@
       display: flex;
       gap: 1rem;
       width: 100%;
-      color: black;
       .commish-override-message-reject {
         display: flex;
         font-size: 0.8rem;
@@ -124,7 +123,6 @@
         border-radius: 3px;
         background-color: rgb(184, 138, 138);
         opacity: 0.8;
-        color: black;
       }
       .commish-override-message-approve {
         display: flex;
@@ -137,7 +135,6 @@
         border-radius: 3px;
         background-color: rgb(118, 159, 114);
         opacity: 0.8;
-        color: black;
       }
       .reject, .approve {
         width: 100%;
@@ -159,6 +156,7 @@
       .reject {
         background-color: rgb(218, 68, 68);
         transition: all 300ms;
+        color: black;
         &:hover {
           background-color: rgb(148, 26, 26);
           transition: all 300ms;
@@ -175,6 +173,7 @@
       }
       .approve {
         background-color: rgb(103, 255, 103);
+        color: black;
         &:hover {
           background-color: rgb(52, 144, 52);
           transition: all 300ms;
