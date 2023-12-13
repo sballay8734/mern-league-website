@@ -8,6 +8,7 @@ interface User {
   avatar: string
   preferredTheme: string
   isAdmin: boolean
+  isCommissioner: boolean
 }
 
 interface signInData {
