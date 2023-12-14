@@ -297,7 +297,9 @@ export default function ViewProposalModal({
         </div>
         {verifyVeto ? (
           <div className={`override-verify`}>
-            <p className="question">Are you sure?!</p>
+            <p className="question">
+              Are you sure you want to {commishStatus?.toLocaleUpperCase()}?
+            </p>
             <div className="override-verify-buttons">
               <button onClick={handleCommishOverride} className="confirm-veto">
                 YES {commishStatus && commishStatus?.toLocaleUpperCase()}

@@ -64,10 +64,10 @@ export default function ProposalsPage() {
               <thead>
                 <tr>
                   <th className="wider">Proposal</th>
-                  <th className="comments">Comments</th>
                   <th className="date header">Date Proposed</th>
-                  <th className="center-text">Status</th>
+                  <th className="vote-tally"># of Votes</th>
                   <th className="center-text">Proposer</th>
+                  <th className="center-text">Status</th>
                   <th className="center-text">Your Vote</th>
                 </tr>
               </thead>
@@ -85,17 +85,9 @@ export default function ProposalsPage() {
                             ? item.title
                             : item.title.slice(0, 23) + "..."}
                         </td>
-                        <td className="comments cell">
-                          {item.comments.length}
-                        </td>
                         <td className="date cell">{item.dateProposed}</td>
-                        <td className={`${item.status} cell`}>
-                          {item.commishVeto === true
-                            ? "Rejected"
-                            : item.commishVeto === false
-                            ? "Approved"
-                            : item.status.charAt(0).toLocaleUpperCase() +
-                              item.status.slice(1)}
+                        <td className="vote-tally cell">
+                          {item.voteInfo.upVotes + item.voteInfo.downVotes} / 12
                         </td>
                         <td
                           className={`proposer cell ${
@@ -103,6 +95,14 @@ export default function ProposalsPage() {
                           }`}
                         >
                           {item.userId === user._id ? "You" : item.userName}
+                        </td>
+                        <td className={`${item.status} cell`}>
+                          {item.commishVeto === true
+                            ? "Rejected"
+                            : item.commishVeto === false
+                            ? "Approved"
+                            : item.status.charAt(0).toLocaleUpperCase() +
+                              item.status.slice(1)}
                         </td>
                         <td
                           className={`your-vote cell ${

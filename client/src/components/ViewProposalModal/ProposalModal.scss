@@ -140,6 +140,7 @@
         background-color: rgb(184, 138, 138);
         opacity: 0.8;
         font-weight: bold;
+        color: rgb(106, 0, 0);
       }
       .commish-override-message-approve {
         display: flex;
@@ -153,6 +154,7 @@
         background-color: rgb(118, 159, 114);
         opacity: 0.8;
         font-weight: bold;
+        color:rgb(0, 88, 16);
       }
       .reject, .approve {
         width: 100%;
@@ -326,10 +328,13 @@
         }
       }
       .question {
+        background-color: rgb(255, 165, 165);
+        border-radius: 3px;
+        padding: 0.1rem 0.3rem;
         font-weight: bold;
-        color: red;
         padding-left: 0.4rem;
-        font-size: 0.7rem;
+        font-size: 0.8rem;
+        color: rgb(144, 0, 0);
       }
     }
     .commish-buttons {
@@ -348,6 +353,7 @@
         font-weight: bold;
         color: rgb(144, 0, 0);
         transition: all 300ms;
+        background-color: rgb(240, 240, 240);
         &:hover {
           opacity: 0.6;
           transition: all 300ms;

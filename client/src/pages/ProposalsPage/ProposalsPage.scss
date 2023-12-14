@@ -12,7 +12,7 @@
     gap: 0.8rem;
     height: 20%;
     .create-proposal-btn {
-      padding: 0.2rem 0.5rem;
+      padding: 0.5rem 1rem;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -61,7 +61,7 @@
               font-weight: bold;
               color: gray;
             }
-            @media screen and (min-width: 500px) {
+            @media screen and (min-width: 650px) {
               display: flex;
               height: 100%;
               align-items: center;
@@ -71,9 +71,9 @@
               }
             }
           }
-          .comments {
+          .vote-tally {
             text-align: center;
-            @media screen and (max-width: 650px) {
+            @media screen and (max-width: 500px) {
               display: none;
             }
           }
