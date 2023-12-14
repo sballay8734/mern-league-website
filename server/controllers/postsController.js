@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.commishOverride = exports.getProposals = exports.commentOnProposal = exports.voteOnProposal = exports.createProposal = void 0;
+exports.adminReset = exports.commishOverride = exports.getProposals = exports.commentOnProposal = exports.voteOnProposal = exports.createProposal = void 0;
 const Suggestion_1 = __importDefault(require("../models/Suggestion"));
 const User_1 = __importDefault(require("../models/User"));
 const error_1 = require("../utils/error");
@@ -223,3 +223,28 @@ const commishOverride = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.commishOverride = commishOverride;
+const adminReset = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const proposalId = req.params.id;
+        const user = yield User_1.default.findById(req.user.id);
+        if (!user || user.isAdmin === false) {
+            return next((0, error_1.errorHandler)(400, "Unauthorized"));
+        }
+        const proposal = yield Suggestion_1.default.findById(proposalId);
+        if (!proposal)
+            return next((0, error_1.errorHandler)(400, "Proposal not found"));
+        proposal.set({
+            commishVeto: null,
+            status: "pending"
+        });
+        const updatedProposal = yield proposal.save();
+        if (!updatedProposal)
+            return next((0, error_1.errorHandler)(400, "Error updating proposal"));
+        const proposalObject = updatedProposal.toObject();
+        res.status(200).json(proposalObject);
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.adminReset = adminReset;

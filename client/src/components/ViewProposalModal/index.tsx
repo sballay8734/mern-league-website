@@ -7,6 +7,9 @@ import { RootState } from "../../redux/store"
 import { FaCheck } from "react-icons/fa"
 import { IoClose } from "react-icons/io5"
 import { AiOutlineCloseSquare } from "react-icons/ai"
+import { FaAngleDoubleDown } from "react-icons/fa"
+import { FaAngleDoubleUp } from "react-icons/fa"
+
 import "./ProposalModal.scss"
 
 interface ViewProposalModalProps {
@@ -26,6 +29,7 @@ export default function ViewProposalModal({
   const [updatedProposal, setUpdatedProposal] = useState<IProposal>(proposal)
   const [verifyVeto, setVerifyVeto] = useState<boolean>(false)
   const [commishStatus, setCommishStatus] = useState<null | string>(null)
+  const [showActions, setShowActions] = useState<boolean>(false)
 
   useEffect(() => {}, [updatedProposal])
 
@@ -97,6 +101,7 @@ export default function ViewProposalModal({
   async function handleCommishOverride() {
     if (user && user.isCommissioner === false) {
       setError("Only the commissioner can do that!")
+      return
     }
 
     try {
@@ -132,7 +137,43 @@ export default function ViewProposalModal({
     }
   }
 
-  // onClick () => Are you sure you want to vote to approve this rule? => Then fetch the api
+  function handleShowCommishActions() {
+    setShowActions(!showActions)
+  }
+
+  async function handleProposalReset() {
+    if (!user || user.isAdmin === false) {
+      setError("Only and Admin can do that!")
+      return
+    }
+
+    try {
+      const res = await fetch(`/api/posts/proposals/${proposal._id}/reset`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+
+      const data = await res.json()
+
+      if (data.success === false) {
+        setError("Error resetting proposal")
+      }
+
+      // show success
+      // close modal
+      setUpdatedProposal(data)
+      refetch()
+      setLoading(false)
+      closeModal()
+      console.log(data)
+    } catch (error) {
+      if (error instanceof Error) {
+        setError("Something went wrong")
+      }
+    }
+  }
 
   const children = (
     <div
@@ -169,25 +210,13 @@ export default function ViewProposalModal({
               <span className="info">{updatedProposal.userName}</span>
             </p>
           </div>
-          {user && user.isCommissioner && (
+          {user && user.isAdmin && updatedProposal.commishVeto !== null && (
             <div className="top-middle">
-              <h2>Votes</h2>
-              <p className="for-votes">
-                For:{" "}
-                <span className="for-votes-num">
-                  {updatedProposal.voteInfo.upVotes}
-                </span>
-              </p>
-              <p className="against-votes">
-                Against:{" "}
-                <span className="against-votes-num">
-                  {updatedProposal.voteInfo.downVotes}
-                </span>
-              </p>
+              <button onClick={handleProposalReset}>Reset</button>
             </div>
           )}
           <div className="top-right">
-            <span onClick={closeModal}>
+            <span onMouseUp={closeModal}>
               <AiOutlineCloseSquare />
             </span>
           </div>
@@ -204,6 +233,20 @@ export default function ViewProposalModal({
               <span className="details-prefix">Proposal: </span>
               {updatedProposal.content}
             </p>
+            {user && user.isCommissioner ? (
+              <span className="vote-tally">
+                For:{" "}
+                <span className="for-votes">
+                  {updatedProposal.upVoters.length}
+                </span>{" "}
+                | Against:{" "}
+                <span className="against-votes">
+                  {updatedProposal.downVoters.length}
+                </span>
+              </span>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="modal-vote">
@@ -270,19 +313,32 @@ export default function ViewProposalModal({
         ) : (
           user &&
           user.isCommissioner && (
-            <div className="commish-buttons">
+            <div className={`commish-content-wrapper`}>
               <button
-                onClick={() => handleCommishVeto("reject")}
-                className={`commish-override-veto`}
+                onClick={handleShowCommishActions}
+                className={`content-toggle`}
               >
-                KJD VETO
+                Commissioner Actions{" "}
+                <span>
+                  {showActions ? <FaAngleDoubleUp /> : <FaAngleDoubleDown />}
+                </span>
               </button>
-              <button
-                onClick={() => handleCommishVeto("approve")}
-                className={`commish-override-approve`}
-              >
-                KJD APPROVE
-              </button>
+              <div className={`commish-content ${showActions ? "show" : ""}`}>
+                <div className="commish-buttons">
+                  <button
+                    onClick={() => handleCommishVeto("reject")}
+                    className={`commish-override-veto`}
+                  >
+                    KJD VETO
+                  </button>
+                  <button
+                    onClick={() => handleCommishVeto("approve")}
+                    className={`commish-override-approve`}
+                  >
+                    KJD APPROVE
+                  </button>
+                </div>
+              </div>
             </div>
           )
         )}

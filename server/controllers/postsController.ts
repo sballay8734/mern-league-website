@@ -242,3 +242,37 @@ export const commishOverride = async (
     next(errorHandler(500, "Something went wrong"))
   }
 }
+
+export const adminReset = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const proposalId = req.params.id
+    const user = await User.findById(req.user.id)
+
+    if (!user || user.isAdmin === false) {
+      return next(errorHandler(400, "Unauthorized"))
+    }
+
+    const proposal = await Proposal.findById(proposalId)
+
+    if (!proposal) return next(errorHandler(400, "Proposal not found"))
+
+    proposal.set({
+      commishVeto: null,
+      status: "pending"
+    })
+
+    const updatedProposal = await proposal.save()
+
+    if (!updatedProposal)
+      return next(errorHandler(400, "Error updating proposal"))
+
+    const proposalObject = updatedProposal.toObject()
+    res.status(200).json(proposalObject)
+  } catch (error) {
+    next(error)
+  }
+}

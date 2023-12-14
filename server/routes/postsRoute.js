@@ -12,5 +12,5 @@ router.post("/proposals", verifyUser_1.verifyUser, postsController_1.createPropo
 router.post("/proposals/:id", verifyUser_1.verifyUser, postsController_1.voteOnProposal);
 router.post("/proposals/:id/comment", verifyUser_1.verifyUser, postsController_1.commentOnProposal);
 router.post("/proposals/:id/reject", verifyUser_1.verifyUser, postsController_1.commishOverride);
-// router.post("/messageBoard", )
+router.post("/proposals/:id/reset", verifyUser_1.verifyUser, postsController_1.adminReset);
 exports.default = router;

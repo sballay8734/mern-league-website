@@ -54,6 +54,7 @@
           overflow: hidden;
           height: fit-content;
           max-width: 800px;
+          background-color: black;
           .date {
             display: none;
             &.cell {
@@ -104,7 +105,7 @@
           }
           tbody tr {
             border-bottom: 1px solid rgba(43, 43, 43, 0.9);
-            background-color: rgba(25, 25, 25, 0.8);
+            background-color: rgba(25, 25, 25, 0.6);
             @media screen and (min-height: 700px) {
               font-size: 1rem;
             }
