@@ -285,11 +285,6 @@ export default function ViewProposalModal({
               <span className="info">{updatedProposal.userName}</span>
             </p>
           </div>
-          {/* {user && user.isAdmin && updatedProposal.commishVeto !== null && (
-            <div className="top-middle">
-              <button onClick={handleProposalReset}>Reset</button>
-            </div>
-          )} */}
           <div className="top-right">
             <div className="close-and-reset">
               {user && user.isAdmin && updatedProposal.commishVeto !== null && (

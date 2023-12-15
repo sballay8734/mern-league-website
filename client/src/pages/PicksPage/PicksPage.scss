@@ -147,6 +147,199 @@
       .picks {
         height: 80%;
         border: 1px solid green;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.5rem;
+        overflow: auto;
+        .pick-wrapper {
+          background-color: rgb(24, 24, 24);
+          border-radius: 3px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 0.5rem;
+          width: 100%;
+          .pick-header {
+            font-size: 0.4rem;
+            font-weight: bold;
+            color: gold;
+          }
+        }
+        .pick {
+          width: 100%;
+          text-align: center;
+          height: 60px;
+          &.ouPlayer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .ouCenter {
+              font-size: 0.5rem;
+              padding: 0.4rem;
+              max-width: 120px;
+              .player-name {
+                font-weight: bold;
+              }
+              .stat-and-line {
+                font-weight: bold;
+                color: rgb(77, 163, 77);
+              }
+            }
+            .ouLeft, .ouRight {
+              border: 1px solid black;
+              font-size: 0.5rem;
+              padding: 0.6rem 0.3rem;
+              height: 80%;
+              cursor: pointer;
+              width: 52px;
+              text-align: center;
+              border-radius: 3px;
+              background-color: rgb(33, 33, 33);
+              font-weight: bold;
+              color: white;
+              transition: all 300ms;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              .ou-icon {
+                font-size: .6rem;
+                &.down {
+                  color: rgb(171, 0, 0);
+                }
+                &.up {
+                  color: green;
+                }
+              }
+              &:hover {
+                background-color: rgb(26, 26, 26);
+                transition: all 300ms;
+              }
+              &.active {
+                background-color: rgb(31, 81, 31);
+              }
+            }
+          }
+          &.ouTeam {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .ouCenter {
+              font-size: 0.5rem;
+              padding: 0.4rem;
+              max-width: 120px;
+              .team-name {
+                font-weight: bold;
+                .vs {
+                  font-weight: normal;
+                }
+              }
+              .stat-and-line {
+                font-weight: bold;
+                color: rgb(77, 163, 77);
+              }
+            }
+            .ouLeft, .ouRight {
+              border: 1px solid black;
+              font-size: 0.5rem;
+              padding: 0.6rem 0.3rem;
+              height: 80%;
+              cursor: pointer;
+              width: 52px;
+              text-align: center;
+              border-radius: 3px;
+              background-color: rgb(33, 33, 33);
+              font-weight: bold;
+              color: white;
+              transition: all 300ms;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              .ou-icon {
+                font-size: .6rem;
+                &.down {
+                  color: rgb(171, 0, 0);
+                }
+                &.up {
+                  color: green;
+                }
+              }
+              &:hover {
+                background-color: rgb(26, 26, 26);
+                transition: all 300ms;
+              }
+              &.active {
+                background-color: rgb(31, 81, 31);
+              }
+            }
+          }
+          &.spread {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            .ouCenter {
+              font-size: 0.8rem;
+              padding: 0.4rem;
+              max-width: 120px;
+              .team-name {
+                font-weight: bold;
+                .vs {
+                  font-weight: normal;
+                }
+              }
+              .stat-and-line {
+                font-weight: bold;
+                color: rgb(77, 163, 77);
+              }
+            }
+            .ouLeft, .ouRight {
+              border: 1px solid black;
+              font-size: 0.5rem;
+              padding: 0.6rem 0.3rem;
+              height: 80%;
+              cursor: pointer;
+              width: 52px;
+              text-align: center;
+              border-radius: 3px;
+              background-color: rgb(33, 33, 33);
+              font-weight: bold;
+              color: white;
+              transition: all 300ms;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 0.2rem;
+              .spread-line {
+                border: 1px solid rgb(21, 21, 21);
+                padding: 0.1rem 0.2rem;
+                font-weight: normal;
+                font-size: 0.4rem;
+                font-weight: bold;
+              }
+              .ou-icon {
+                font-size: .6rem;
+                &.down {
+                  color: rgb(171, 0, 0);
+                }
+                &.up {
+                  color: green;
+                }
+              }
+              &:hover {
+                background-color: rgb(26, 26, 26);
+                transition: all 300ms;
+              }
+              &.active {
+                background-color: rgb(31, 81, 31);
+              }
+            }
+          }
+        }
       }
     }
   }

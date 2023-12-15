@@ -1,19 +1,16 @@
 /*
-// Games collection
+// Prop collection (Over/Under && Spread)
 {
-  "_id": "game12345",
-  "year": 2023,
-  "week": 5,
-  "team1": {
-    "name": "Bears",
-    "spread": "+3.5"
-  },
-  "team2": {
-    "name": "Lions",
-    "spread": "-3.5"
-  },
-  "result": null
-  "statsComputed": false
+  propId(_id): 293fFkdaf9823kjafsd9uf,
+  propType: "OU" OR "S",
+  ouType: "points", "passingTds", "rushingTds", null, etc...
+  teamOne: "eagles" OR null (if type is OU),
+  teamTwo: "cowboys" OR null (if type is OU),
+  line: 3.5,
+  getting: "eagles" (bet wins if eagles lose by 3 or less),
+  giving: "cowboys" (bet wins if cowboys win by 4),
+  dateCreated: 12/31/2023,
+  
 }
 
 

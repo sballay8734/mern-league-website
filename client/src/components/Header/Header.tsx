@@ -26,11 +26,11 @@ export default function Header() {
             <Link to="/records">Records</Link> */}
           </div>
           <div className="nav-right">
-            {/* {user && (
+            {user && (
               <Link to="/picks">
                 <img className="picks-img" src="/picks.png" alt="Picks" />
               </Link>
-            )} */}
+            )}
             {user && (
               <Link to="/suggestions">
                 <img
@@ -83,10 +83,10 @@ export default function Header() {
             )}
           </div>
           <div onClick={() => setNavIsShown(false)} className="nav-bottom">
-            {/* <Link to="/picks">
+            <Link to="/picks">
               <span>Picks</span>
               <img className="picks-img" src="/picks.png" alt="Picks" />
-            </Link> */}
+            </Link>
             <Link to="/suggestions">
               <span>Proposals</span>
               <img

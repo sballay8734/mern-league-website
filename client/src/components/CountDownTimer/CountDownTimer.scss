@@ -1,0 +1,19 @@
+.countdown-timer-wrapper {
+  display: flex;
+  width: 90px;
+  align-items: center;
+  justify-content: space-between;
+  .word {
+    font-size: 0.4rem;
+    color: rgb(255, 255, 255);
+    font-weight: 300;
+  }
+  .number {
+    color: rgb(255, 70, 70);
+    font-size: 0.5rem;
+  }
+  .colon {
+    font-size: 0.4rem;
+    color: rgb(221, 221, 221);
+  }
+}
