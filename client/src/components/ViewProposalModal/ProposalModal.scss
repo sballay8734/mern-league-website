@@ -29,15 +29,36 @@
     gap: 1rem;
     border-radius: 5px;
     padding: 1rem;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(228, 228, 228);
     .title-wrapper {
       background-color: rgb(21, 21, 21);
-      padding: 0.4rem;
+      padding: 0.4rem 0.4rem;
       border-radius: 3px;
       color: white;
       font-weight: bold;
+      h1 {
+        display: flex;
+        align-items: center;
+      }
       h1 span {
         font-weight: normal;
+      }
+      &.hide {
+        padding: 0;
+      }
+      .edit-title-input {
+        width: 100%;
+        font-weight: normal;
+        border: 2px solid transparent;
+        border-radius: 3px;
+        padding: 0.3rem 0.4rem;
+        transition: all 300ms;
+        &:focus {
+          border: 2px solid rgb(21, 21, 21);
+          outline: none;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+          transition: all 300ms;
+        }
       }
     }
     .details-wrapper {
@@ -47,6 +68,29 @@
       background-color: var(--primary-color-lighter);
       display: flex;
       flex-direction: column;
+      &.hide {
+        padding: 0;
+        margin: 0;
+      }
+      .edit-content-input {
+        width: 100%;
+        height: 115px;
+        transition: all 300ms;
+        textarea {
+          width: 100%;
+          height: 115px;
+          font-size: 0.7rem;
+          border-radius: 3px;
+          font-weight: normal;
+          border: 2px solid transparent;
+          &:focus {
+          border: 2px solid rgb(21, 21, 21);
+          outline: none;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+          transition: all 300ms;
+        }
+        }
+      }
       .vote-tally {
         align-self: flex-end;
         font-size: 0.6rem;
@@ -79,14 +123,35 @@
         flex-direction: column;
         align-items: flex-end;
         justify-content: space-between;
-        span {
+        gap: 0.5rem;
+        .close-and-reset {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          justify-content: flex-end;
+          .reset {
+            border: 1px solid transparent;
+            cursor: pointer;
+            background-color: rgb(255, 68, 68);
+            color: black;
+            font-weight: bold;
+            border-radius: 3px;
+            padding: 0.2rem 1rem;
+            margin-right: auto;
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+        }
+        .close {
           // padding: 0.3rem 0.3rem;
           cursor: pointer;
-          background-color: rgb(240, 240, 240);
+          background-color: rgb(228, 228, 228);
           border: 1px solid transparent;
           border-radius: 3px;
           color: rgb(98, 0, 0);
           font-size: 1.7rem;
+          padding: 0;
           &:hover {
             opacity: 0.8;
             background-color: rgb(228, 174, 174);
@@ -96,6 +161,45 @@
             background-color: rgb(155, 97, 97);
           }
         }
+        .edit {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          cursor: pointer;
+          padding: 0.1rem 0.4rem;
+          background-color: rgb(187, 159, 104);
+          color: black;
+          border: 2px solid rgb(187, 159, 104);
+          border-radius: 3px;
+          &:hover {
+            opacity: 0.9;
+          }
+          .edit-icon {
+            animation: shake 1.5s infinite;
+          }
+        }
+        .edit-confirm {
+          display: flex;
+          gap: 0.5rem;
+          .edit-save, .edit-cancel {
+            border: 2px solid transparent;
+            border-radius: 3px;
+            cursor: pointer;
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+          .edit-save {
+            background-color: rgb(0, 83, 0);
+            color: white;
+          }
+          .edit-cancel {
+            border: 2px solid rgb(0, 83, 0);
+            &:hover {
+              background-color: rgb(206, 206, 206);
+            }
+          }
+      }
       }
       .top-middle {
         display: flex;
@@ -353,7 +457,7 @@
         font-weight: bold;
         color: rgb(144, 0, 0);
         transition: all 300ms;
-        background-color: rgb(240, 240, 240);
+        background-color: rgb(228, 228, 228);
         &:hover {
           opacity: 0.6;
           transition: all 300ms;
@@ -380,6 +484,12 @@
           transition: height 300ms, opacity 1s, padding-top 300ms;
         }
       }
+      .error {
+        color: red;
+        font-size: 0.6rem;
+        text-align: center;
+        font-weight: bold;
+      }
 }
 
 @keyframes bounce {
@@ -387,3 +497,13 @@
    40% {transform: translateY(-5px);} 
    60% {transform: translateY(-3px);} 
 } 
+
+@keyframes shake {
+  0% { transform: translateX(0) }
+  25% { transform: translateY(0px) }
+  35% { transform: translateY(0px) rotate(17deg) }
+  55% { transform: translateY(0px) rotate(-17deg) }
+  65% { transform: translateY(0px) rotate(17deg) }
+  75% { transform: translateY(0px) rotate(-17deg) }
+  100% { transform: translateY(0) rotate(0) }
+}

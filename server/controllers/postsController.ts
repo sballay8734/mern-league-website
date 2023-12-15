@@ -276,3 +276,48 @@ export const adminReset = async (
     next(error)
   }
 }
+
+export const editProposal = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.user.id
+    const proposalId = req.params.id
+    const newTitle = req.body.title
+    const newContent = req.body.content
+
+    const proposal = await Proposal.findById(proposalId)
+
+    if (!proposal) return next(errorHandler(400, "Proposal not found"))
+    if (!req.user || userId !== proposal.userId)
+      return next(
+        errorHandler(400, "Only the creator of the proposal may update it")
+      )
+
+    proposal.set({
+      title: newTitle,
+      content: newContent,
+      status: "pending",
+      voteInfo: { upVotes: 1, downVotes: 0 },
+      upVoters: [userId],
+      downVoters: [],
+      dateProposed: new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      })
+    })
+
+    const updatedProposal = await proposal.save()
+
+    if (!updatedProposal)
+      return next(errorHandler(400, "Could not update proposal"))
+
+    const proposalObject = updatedProposal.toObject()
+    res.status(200).json(proposalObject)
+  } catch (error) {
+    next(error)
+  }
+}

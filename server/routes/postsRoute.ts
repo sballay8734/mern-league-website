@@ -5,7 +5,8 @@ import {
   commentOnProposal,
   getProposals,
   commishOverride,
-  adminReset
+  adminReset,
+  editProposal
 } from "../controllers/postsController"
 import { verifyUser } from "../utils/verifyUser"
 
@@ -17,5 +18,6 @@ router.post("/proposals/:id", verifyUser, voteOnProposal)
 router.post("/proposals/:id/comment", verifyUser, commentOnProposal)
 router.post("/proposals/:id/reject", verifyUser, commishOverride)
 router.post("/proposals/:id/reset", verifyUser, adminReset)
+router.patch("/proposals/:id", verifyUser, editProposal)
 
 export default router

@@ -52,7 +52,6 @@ export default function CreateProposalModal({
         return
       }
 
-      console.log(data)
       closeModal()
       refetch()
     } catch (error) {
@@ -62,8 +61,6 @@ export default function CreateProposalModal({
         console.log(error)
       }
     }
-
-    console.log("Submitted")
   }
 
   const children = (
@@ -92,6 +89,7 @@ export default function CreateProposalModal({
               id="title"
               placeholder="Down with KJD"
               maxLength={35}
+              minLength={5}
               value={formData.title}
               required
             />

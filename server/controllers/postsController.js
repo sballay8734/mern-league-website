@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.adminReset = exports.commishOverride = exports.getProposals = exports.commentOnProposal = exports.voteOnProposal = exports.createProposal = void 0;
+exports.editProposal = exports.adminReset = exports.commishOverride = exports.getProposals = exports.commentOnProposal = exports.voteOnProposal = exports.createProposal = void 0;
 const Suggestion_1 = __importDefault(require("../models/Suggestion"));
 const User_1 = __importDefault(require("../models/User"));
 const error_1 = require("../utils/error");
@@ -248,3 +248,38 @@ const adminReset = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.adminReset = adminReset;
+const editProposal = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.user.id;
+        const proposalId = req.params.id;
+        const newTitle = req.body.title;
+        const newContent = req.body.content;
+        const proposal = yield Suggestion_1.default.findById(proposalId);
+        if (!proposal)
+            return next((0, error_1.errorHandler)(400, "Proposal not found"));
+        if (!req.user || userId !== proposal.userId)
+            return next((0, error_1.errorHandler)(400, "Only the creator of the proposal may update it"));
+        proposal.set({
+            title: newTitle,
+            content: newContent,
+            status: "pending",
+            voteInfo: { upVotes: 1, downVotes: 0 },
+            upVoters: [userId],
+            downVoters: [],
+            dateProposed: new Date().toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            })
+        });
+        const updatedProposal = yield proposal.save();
+        if (!updatedProposal)
+            return next((0, error_1.errorHandler)(400, "Could not update proposal"));
+        const proposalObject = updatedProposal.toObject();
+        res.status(200).json(proposalObject);
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.editProposal = editProposal;
