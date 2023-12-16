@@ -1,7 +1,11 @@
+// Need locks to appear when successful database write
+// Lock pick when timer is up
+
 import { useState } from "react"
 
 import { FaCaretDown } from "react-icons/fa"
 import { FaCaretUp } from "react-icons/fa"
+import CountdownTimer from "../CountDownTimer/CountDownTimer"
 
 interface Item {
   gameID: number
@@ -112,6 +116,7 @@ export default function PickCard({
             Over
           </button>
         </div>
+        <CountdownTimer endDate={item.endDate} />
       </div>
     )
   } else if (item.type === "ouTeam") {
@@ -147,12 +152,13 @@ export default function PickCard({
             Over
           </button>
         </div>
+        <CountdownTimer endDate={item.endDate} />
       </div>
     )
   } else if (item.type === "spread") {
     return (
       <div className="pick-wrapper">
-        <div className="pick-header">
+        <div className="pick-header spread">
           <h2 className="pick-type">SPREAD</h2>
         </div>
         <div className="pick spread">
@@ -160,7 +166,8 @@ export default function PickCard({
             onClick={() => handleSpreadPick(item.favorite!, item)}
             className={`ouLeft ${spreadPick === "favorite" ? "active" : ""}`}
           >
-            {item.favorite} <span className="spread-line">-{item.line}</span>
+            {item.favorite}{" "}
+            <span className="spread-line minus">-{item.line}</span>
           </button>
           <div className="ouCenter">
             <span className="team-name">
@@ -173,9 +180,11 @@ export default function PickCard({
               spreadPick === "nonFavorite" ? "active" : ""
             }`}
           >
-            {item.nonFavorite} <span className="spread-line">+{item.line}</span>
+            {item.nonFavorite}{" "}
+            <span className="spread-line plus">+{item.line}</span>
           </button>
         </div>
+        <CountdownTimer endDate={item.endDate} />
       </div>
     )
   } else {

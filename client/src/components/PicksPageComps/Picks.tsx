@@ -30,7 +30,7 @@ const testItems: Item[] = [
     stat: "rushing yards",
     line: 38.5,
     startDate: "12/16/2023",
-    endDate: "12/17/2023",
+    endDate: "2023-12-18T20:00:00Z",
     selectedOU: null,
     result: null // this will be a number
   },
@@ -41,7 +41,7 @@ const testItems: Item[] = [
     team2: "PHI",
     line: 42.5,
     startDate: "12/16/2023",
-    endDate: "12/17/2023",
+    endDate: "2023-12-17T13:00:00Z",
     selectedOU: null,
     result: null // this will be a number
   },
@@ -54,7 +54,7 @@ const testItems: Item[] = [
     favorite: "WAS",
     nonFavorite: "DEN",
     startDate: "12/16/2023",
-    endDate: "12/17/2023",
+    endDate: "2023-12-17T13:00:00Z",
     selectedTeam: null,
     result: null // this will be a string
   },
@@ -67,7 +67,7 @@ const testItems: Item[] = [
     favorite: "SF",
     nonFavorite: "BAL",
     startDate: "12/16/2023",
-    endDate: "12/17/2023",
+    endDate: "2023-12-17T20:00:00Z",
     selectedTeam: null,
     result: null // this will be a string
   },
@@ -78,7 +78,7 @@ const testItems: Item[] = [
     stat: "receiving yards",
     line: 64.5,
     startDate: "12/16/2023",
-    endDate: "12/17/2023",
+    endDate: "2023-12-17T16:00:00Z",
     selectedOU: null,
     result: null // this will be a number
   },
@@ -91,7 +91,7 @@ const testItems: Item[] = [
     favorite: "KC",
     nonFavorite: "LA",
     startDate: "12/16/2023",
-    endDate: "12/17/2023",
+    endDate: "2023-12-17T13:00:00Z",
     selectedTeam: null,
     result: null // this will be a string
   },
@@ -102,7 +102,7 @@ const testItems: Item[] = [
     stat: "passing touchdowns",
     line: 1.5,
     startDate: "12/16/2023",
-    endDate: "12/17/2023",
+    endDate: "2023-12-17T13:00:00Z",
     selectedOU: null,
     result: null // this will be a number
   },
@@ -113,7 +113,7 @@ const testItems: Item[] = [
     stat: "receiving yards",
     line: 101.5,
     startDate: "12/16/2023",
-    endDate: "12/17/2023",
+    endDate: "2023-12-17T13:00:00Z",
     selectedOU: null,
     result: null // this will be a number
   },
@@ -126,7 +126,7 @@ const testItems: Item[] = [
     favorite: "NYG",
     nonFavorite: "NYJ",
     startDate: "12/16/2023",
-    endDate: "12/17/2023",
+    endDate: "2023-12-17T16:20:00Z",
     selectedTeam: null,
     result: null // this will be a string
   },
@@ -137,7 +137,7 @@ const testItems: Item[] = [
     team2: "PIT",
     line: 38.5,
     startDate: "12/16/2023",
-    endDate: "12/17/2023",
+    endDate: "2023-12-17T13:00:00Z",
     selectedOU: null,
     result: null // this will be a number
   }
@@ -192,16 +192,18 @@ export default function Picks() {
             </nav>
           </div>
           <div className="picks">
-            {testItems.map((item) => {
-              return (
-                <PickCard
-                  key={item.gameID}
-                  item={item}
-                  setPicksMade={setPicksMade}
-                  picksMade={picksMade}
-                />
-              )
-            })}
+            <div className="picks-wrapper disable-scrollbars">
+              {testItems.map((item) => {
+                return (
+                  <PickCard
+                    key={item.gameID}
+                    item={item}
+                    setPicksMade={setPicksMade}
+                    picksMade={picksMade}
+                  />
+                )
+              })}
+            </div>
             <div
               className={`counter ${picksMade.length === 10 ? "complete" : ""}`}
             >

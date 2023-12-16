@@ -1,85 +1,62 @@
-import React, { useState, useEffect } from "react"
-import "./CountDownTimer.scss"
-import { differenceInSeconds, intervalToDuration } from "date-fns"
+export default CountdownTimer
+import { useEffect, useState } from "react"
 
 interface CountdownTimerProps {
-  targetDate: Date
-  setLockPick: React.Dispatch<React.SetStateAction<boolean>>
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  endDate: string
 }
 
-function CountdownTimer({
-  targetDate,
-  setLockPick,
-  setLoading
-}: CountdownTimerProps): JSX.Element {
-  const [remainingTime, setRemainingTime] = useState(
-    intervalToDuration({ start: new Date(), end: targetDate })
-  )
+function CountdownTimer({ endDate }: CountdownTimerProps) {
+  const [timerDisplay, setTimerDisplay] = useState("")
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date()
-      const timeLeftInSeconds = differenceInSeconds(targetDate, now)
+  const calculateCountdownTimer = (endDate: string) => {
+    const endDateTime = new Date(endDate).getTime()
 
-      if (timeLeftInSeconds <= 0) {
-        clearInterval(interval)
-        setLockPick(true)
-        setLoading(false)
-        setRemainingTime({
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0
-        })
+    const updateTimer = () => {
+      const now = new Date().getTime()
+      const timeDifference = endDateTime - now
+
+      if (timeDifference > 0) {
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
+        const hours = Math.floor(
+          (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        )
+        const minutes = Math.floor(
+          (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+        )
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000)
+
+        const display = `${days}d ${hours}h ${minutes}m ${seconds}s`
+        setTimerDisplay(display)
       } else {
-        setLockPick(false)
-        setLoading(false)
-        const days = Math.floor(timeLeftInSeconds / 86400) // 86400 seconds in a day
-        const hours = Math.floor((timeLeftInSeconds % 86400) / 3600) // 3600 seconds in an hour
-        const minutes = Math.floor((timeLeftInSeconds % 3600) / 60) // 60 seconds in a minute
-        const seconds = timeLeftInSeconds % 60
-
-        setRemainingTime({ days, hours, minutes, seconds })
+        clearInterval(timerInterval)
+        setTimerDisplay("Countdown expired")
       }
-    }, 1000)
+    }
+
+    updateTimer() // Initial call to set up the timer
+
+    const timerInterval = setInterval(updateTimer, 1000) // Update the timer every second
 
     return () => {
-      clearInterval(interval)
+      clearInterval(timerInterval) // Cleanup the interval when no longer needed
     }
-  }, [targetDate, setLockPick, setLoading])
+  }
+
+  // Run the timer calculation on component mount
+  useEffect(() => {
+    const cleanup = calculateCountdownTimer(endDate)
+
+    // Cleanup the interval on component unmount
+    return () => cleanup()
+  }, [endDate])
 
   return (
-    <div className="countdown-timer-wrapper">
-      <div className="days">
-        <div className="number days-number">
-          {remainingTime.days}
-          <span className="word">d</span>
-        </div>
-      </div>
-      <div className="colon">:</div>
-      <div className="hours">
-        <div className="number hours-number">
-          {remainingTime.hours}
-          <span className="word">h</span>
-        </div>
-      </div>
-      <div className="colon">:</div>
-      <div className="minutes">
-        <div className="number minutes-number">
-          {remainingTime.minutes}
-          <span className="word">min</span>
-        </div>
-      </div>
-      <div className="colon">:</div>
-      <div className="seconds">
-        <div className="number seconds-number">
-          {remainingTime.seconds}
-          <span className="word">s</span>
-        </div>
-      </div>
+    <div className="countdown-timer">
+      <span>Locks in: </span>
+      {timerDisplay}
     </div>
   )
 }
 
-export default CountdownTimer
+// Example usage:
+// <CountdownTimer endDate="12/17/2023" />

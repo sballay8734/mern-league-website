@@ -481,9 +481,11 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      // padding: 1rem;
+      align-items: center;
       .picks-header {
         height: 10%;
+        width: 100%;
+        max-width: 475px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -501,6 +503,8 @@
       }
       .picks-nav {
         height: 5%;
+        width: 100%;
+        max-width: 450px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -543,13 +547,28 @@
         gap: 0.5rem;
         width: 100%;
         padding: 0.5rem;
-        overflow: auto;
+        // overflow: auto;
         background-color: rgb(48, 48, 48);
         border-radius: 3px;
-        padding-bottom: 3.5rem;
+        // padding-bottom: 3.5rem;
+        max-width: 475px;
+        .picks-wrapper {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+          width: 100%;
+          overflow: auto;
+          background-color: rgb(48, 48, 48);
+          border-radius: 3px;
+          max-width: 475px;
+          padding-bottom: 3.7rem;
+        }
         .counter {
           position: fixed;
-          bottom: 6px;
+          bottom: 12px;
           left: 50%;
           transform: translate(-50%, -50%);
           background-color: rgba(74, 50, 50, 0.9);
@@ -573,25 +592,47 @@
         }
         // padding-top: 1rem;
         .pick-wrapper {
+          position: relative;
           background-color: rgb(24, 24, 24);
           border-radius: 3px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 0.5rem;
+          padding: 0;
           width: 100%;
           max-width: 450px;
           box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+          .countdown-timer {
+            position: absolute;
+            top: 7px;
+            right: .5rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: rgb(171, 37, 37);
+            span {
+              color: rgb(52, 52, 52);
+            }
+          }
           .pick-header {
-            font-size: 0.5rem;
+            font-size: 0.6rem;
             font-weight: bold;
             color: gold;
+            padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+            width: 100%;
+            text-align: center;
+            background-color: rgb(17, 17, 17);
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            &.spread {
+              color: rgb(200, 0, 255);
+            }
           }
         }
         .pick {
           width: 100%;
           text-align: center;
-          height: 60px;
+          height: 80px;
+          padding: 0.5rem;
           &.ouPlayer {
             display: flex;
             align-items: center;
@@ -770,6 +811,14 @@
                 font-weight: normal;
                 font-size: 0.6rem;
                 font-weight: bold;
+                &.minus {
+                  color: rgb(255, 0, 0);
+                  background-color: rgb(65, 37, 37);
+                }
+                &.plus {
+                  color: rgb(0, 200, 0);
+                  background-color: rgb(30, 49, 30);
+                }
               }
               .ou-icon {
                 font-size: .6rem;
@@ -793,3 +842,13 @@
       }
     }
   }
+
+  .disable-scrollbars::-webkit-scrollbar {
+  background: transparent; /* Chrome/Safari/Webkit */
+  width: 0px;
+}
+    
+.disable-scrollbars {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
