@@ -11,7 +11,7 @@ export default function AdminPage() {
   const { user } = useSelector((state: RootState) => state.user)
   const { data } = useFetchOwnersQuery()
 
-  // console.log(data, error, isLoading)
+  console.log(data)
 
   async function handleFetchProps() {
     console.log("Starting request...")

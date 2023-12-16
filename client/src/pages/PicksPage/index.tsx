@@ -31,7 +31,9 @@ export default function PicksPage() {
           <SeasonalRate />
         </div>
       ) : (
-        <div>Too Small</div>
+        <div className="mobile">
+          <Picks />
+        </div>
       )}
     </div>
   )
