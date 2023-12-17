@@ -6,7 +6,7 @@ import { RootState } from "../../redux/store"
 import PickCard from "./PickCard"
 
 interface Item {
-  gameID: number
+  propID: number
   type: "ouPlayer" | "ouTeam" | "spread"
   team1?: string
   team2?: string
@@ -24,7 +24,7 @@ interface Item {
 
 const testItems: Item[] = [
   {
-    gameID: 54870298374,
+    propID: 54870298374,
     type: "ouPlayer",
     player: "Jalen Hurts",
     stat: "rushing yards",
@@ -35,7 +35,7 @@ const testItems: Item[] = [
     result: null // this will be a number
   },
   {
-    gameID: 1928719824,
+    propID: 1928719824,
     type: "ouTeam",
     team1: "GB",
     team2: "PHI",
@@ -46,7 +46,7 @@ const testItems: Item[] = [
     result: null // this will be a number
   },
   {
-    gameID: 8946513213,
+    propID: 8946513213,
     type: "spread",
     team1: "WAS",
     team2: "DEN",
@@ -59,7 +59,7 @@ const testItems: Item[] = [
     result: null // this will be a string
   },
   {
-    gameID: 3479182735,
+    propID: 3479182735,
     type: "spread",
     team1: "SF",
     team2: "BAL",
@@ -72,7 +72,7 @@ const testItems: Item[] = [
     result: null // this will be a string
   },
   {
-    gameID: 2649844654132,
+    propID: 2649844654132,
     type: "ouPlayer",
     player: "A.J. Brown",
     stat: "receiving yards",
@@ -83,7 +83,7 @@ const testItems: Item[] = [
     result: null // this will be a number
   },
   {
-    gameID: 5897239847906,
+    propID: 5897239847906,
     type: "spread",
     team1: "KC",
     team2: "LA",
@@ -96,7 +96,7 @@ const testItems: Item[] = [
     result: null // this will be a string
   },
   {
-    gameID: 875647385,
+    propID: 875647385,
     type: "ouPlayer",
     player: "Josh Allen",
     stat: "passing touchdowns",
@@ -107,7 +107,7 @@ const testItems: Item[] = [
     result: null // this will be a number
   },
   {
-    gameID: 4654984321,
+    propID: 4654984321,
     type: "ouPlayer",
     player: "Tyreek Hill",
     stat: "receiving yards",
@@ -118,7 +118,7 @@ const testItems: Item[] = [
     result: null // this will be a number
   },
   {
-    gameID: 23984729387,
+    propID: 23984729387,
     type: "spread",
     team1: "NYG",
     team2: "NYJ",
@@ -131,7 +131,7 @@ const testItems: Item[] = [
     result: null // this will be a string
   },
   {
-    gameID: 13415156,
+    propID: 13415156,
     type: "ouTeam",
     team1: "MIA",
     team2: "PIT",
@@ -155,48 +155,52 @@ export default function Picks() {
       {user ? (
         // Move to own component
         <div className="picks-section">
-          <div className="picks-header">
-            <h1>Picks and Dicks</h1>
-            <p>NFL Week 3</p>
-          </div>
-          <div className="picks-nav">
-            <nav className="tab">
-              <ul>
-                <li>
-                  <button
-                    className={`${activeButton === "allTime" ? "active" : ""}`}
-                    onClick={() => setActiveButton("allTime")}
-                  >
-                    All-Time
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className={`${
-                      activeButton === "makePicks" ? "active" : ""
-                    }`}
-                    onClick={() => setActiveButton("makePicks")}
-                  >
-                    Make Picks
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className={`${activeButton === "yearly" ? "active" : ""}`}
-                    onClick={() => setActiveButton("yearly")}
-                  >
-                    Yearly
-                  </button>
-                </li>
-              </ul>
-            </nav>
+          <div className="picks-header-wrapper">
+            <div className="picks-header">
+              <h1>Picks and Dicks</h1>
+              <p>NFL Week 3</p>
+            </div>
+            <div className="picks-nav">
+              <nav className="tab">
+                <ul>
+                  <li>
+                    <button
+                      className={`${
+                        activeButton === "allTime" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveButton("allTime")}
+                    >
+                      All-Time
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className={`${
+                        activeButton === "makePicks" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveButton("makePicks")}
+                    >
+                      Make Picks
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className={`${activeButton === "yearly" ? "active" : ""}`}
+                      onClick={() => setActiveButton("yearly")}
+                    >
+                      Yearly
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
           <div className="picks">
             <div className="picks-wrapper disable-scrollbars">
               {testItems.map((item) => {
                 return (
                   <PickCard
-                    key={item.gameID}
+                    key={item.propID}
                     item={item}
                     setPicksMade={setPicksMade}
                     picksMade={picksMade}

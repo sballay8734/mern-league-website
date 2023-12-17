@@ -14,6 +14,7 @@ const ownersRoute_1 = __importDefault(require("./routes/ownersRoute"));
 const kingsRoute_1 = __importDefault(require("./routes/kingsRoute"));
 const updateProfileRoute_1 = __importDefault(require("./routes/updateProfileRoute"));
 const postsRoute_1 = __importDefault(require("./routes/postsRoute"));
+const propsRoute_1 = __importDefault(require("./routes/propsRoute"));
 dotenv_1.default.config();
 mongoose_1.default
     .connect(process.env.mongoURI)
@@ -32,6 +33,7 @@ app.use("/api/owners", ownersRoute_1.default);
 app.use("/api/kings", kingsRoute_1.default);
 app.use("/api/profile", updateProfileRoute_1.default);
 app.use("/api/posts", postsRoute_1.default);
+app.use("/api/props", propsRoute_1.default);
 const clientDistPath = path_1.default.join(__dirname, "../client/dist");
 app.use(express_1.default.static(clientDistPath));
 // Adjusted path for sending the index.html file

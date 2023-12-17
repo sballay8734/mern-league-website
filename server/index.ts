@@ -10,6 +10,7 @@ import ownersRouter from "./routes/ownersRoute"
 import kingsRouter from "./routes/kingsRoute"
 import updateProfileRouter from "./routes/updateProfileRoute"
 import postsRouter from "./routes/postsRoute"
+import propsRouter from "./routes/propsRoute"
 import { Err } from "./types/errorTypes"
 
 dotenv.config()
@@ -34,6 +35,7 @@ app.use("/api/owners", ownersRouter)
 app.use("/api/kings", kingsRouter)
 app.use("/api/profile", updateProfileRouter)
 app.use("/api/posts", postsRouter)
+app.use("/api/props", propsRouter)
 
 const clientDistPath = path.join(__dirname, "../client/dist")
 app.use(express.static(clientDistPath))

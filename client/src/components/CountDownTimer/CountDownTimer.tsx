@@ -1,5 +1,5 @@
 export default CountdownTimer
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface CountdownTimerProps {
   endDate: string
@@ -7,8 +7,9 @@ interface CountdownTimerProps {
 
 function CountdownTimer({ endDate }: CountdownTimerProps) {
   const [timerDisplay, setTimerDisplay] = useState("")
+  const timerIntervalRef = useRef<NodeJS.Timeout>()
 
-  const calculateCountdownTimer = (endDate: string) => {
+  useEffect(() => {
     const endDateTime = new Date(endDate).getTime()
 
     const updateTimer = () => {
@@ -28,26 +29,17 @@ function CountdownTimer({ endDate }: CountdownTimerProps) {
         const display = `${days}d ${hours}h ${minutes}m ${seconds}s`
         setTimerDisplay(display)
       } else {
-        clearInterval(timerInterval)
+        clearInterval(timerIntervalRef.current as NodeJS.Timeout)
         setTimerDisplay("Countdown expired")
       }
     }
 
     updateTimer() // Initial call to set up the timer
 
-    const timerInterval = setInterval(updateTimer, 1000) // Update the timer every second
+    timerIntervalRef.current = setInterval(updateTimer, 1000) // Update the timer every second
 
-    return () => {
-      clearInterval(timerInterval) // Cleanup the interval when no longer needed
-    }
-  }
-
-  // Run the timer calculation on component mount
-  useEffect(() => {
-    const cleanup = calculateCountdownTimer(endDate)
-
-    // Cleanup the interval on component unmount
-    return () => cleanup()
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(timerIntervalRef.current as NodeJS.Timeout)
   }, [endDate])
 
   return (

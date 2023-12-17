@@ -8,7 +8,7 @@ import { FaCaretUp } from "react-icons/fa"
 import CountdownTimer from "../CountDownTimer/CountDownTimer"
 
 interface Item {
-  gameID: number
+  propID: number
   type: "ouPlayer" | "ouTeam" | "spread"
   team1?: string
   team2?: string
@@ -38,50 +38,112 @@ export default function PickCard({
   const [OverOrUnder, setOverOrUnder] = useState<string | null>(null)
   const [spreadPick, setSpreadPick] = useState<string | null>(null)
 
-  function handleUnderClick(item: Item) {
+  async function handleUnderClick(item: Item) {
+    const res = await fetch(`/api/props/${item.propID}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ ...item, selectedOU: "under" })
+    })
+
+    const data = await res.json()
+
+    if (data.success === false) {
+      console.log("ERROR")
+      return
+    }
+    console.log(data)
+
     setOverOrUnder("under")
     item.selectedOU = "under"
     const filteredPicks = picksMade.filter(
-      (pick) => pick.gameID !== item.gameID
+      (pick) => pick.propID !== item.propID
     )
-
     setPicksMade([...filteredPicks, item])
   }
 
-  function handleOverClick(item: Item) {
+  async function handleOverClick(item: Item) {
+    const res = await fetch(`/api/props/${item.propID}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ ...item, selectedOU: "over" })
+    })
+
+    const data = await res.json()
+
+    if (data.success === false) {
+      console.log("ERROR")
+      return
+    }
+    console.log(data)
+
     setOverOrUnder("over")
     item.selectedOU = "over"
 
     const filteredPicks = picksMade.filter(
-      (pick) => pick.gameID !== item.gameID
+      (pick) => pick.propID !== item.propID
     )
-
     setPicksMade([...filteredPicks, item])
   }
 
-  function handleSpreadPick(team: string, item: Item) {
+  async function handleSpreadPick(team: string, item: Item) {
     if (team === item.favorite) {
+      const res = await fetch(`/api/props/${item.propID}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ ...item, selectedTeam: team })
+      })
+
+      const data = await res.json()
+
+      if (data.success === false) {
+        console.log("ERROR")
+        return
+      }
+      console.log(data)
+
       setSpreadPick("favorite")
       item.selectedTeam = team
 
       const filteredPicks = picksMade.filter(
-        (pick) => pick.gameID !== item.gameID
+        (pick) => pick.propID !== item.propID
       )
-
       setPicksMade([...filteredPicks, item])
     } else if (team === item.nonFavorite) {
+      const res = await fetch(`/api/props/${item.propID}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ ...item, selectedTeam: team })
+      })
+
+      const data = await res.json()
+
+      if (data.success === false) {
+        console.log("ERROR")
+        return
+      }
+      console.log(data)
+
       setSpreadPick("nonFavorite")
       item.selectedTeam = team
 
       const filteredPicks = picksMade.filter(
-        (pick) => pick.gameID !== item.gameID
+        (pick) => pick.propID !== item.propID
       )
 
       setPicksMade([...filteredPicks, item])
     }
   }
 
-  console.log(picksMade)
+  // console.log(picksMade)
+  // WHY IS THIS LOGGING 10 TIMES?
 
   if (item.type === "ouPlayer") {
     return (
