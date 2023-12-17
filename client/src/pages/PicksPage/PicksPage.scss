@@ -4,6 +4,7 @@
   color: white;
   width: 100%;
   background-color: rgb(17, 17, 17);
+  padding: 0;
   .desktop {
     display: flex;
     justify-content: space-between;
@@ -358,7 +359,7 @@
     gap: 1rem;
     height: 100%;
     width: 100%;
-    border-radius: 3px;
+    // border-radius: 3px;
       .header {
         // margin-bottom: 1rem;
         background-color: rgba(76, 187, 23, 0.7);
@@ -481,7 +482,7 @@
     .picks-section {
       width: 100%;
       border: 1px solid var(--primary-color);
-      border-radius: 10px;
+      // border-radius: 10px;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -609,7 +610,7 @@
         align-items: center;
         gap: 0.5rem;
         width: 100%;
-        padding: 0.5rem;
+        padding: 0.5rem 0.5rem 0.8rem 0.5rem;
         background-color: rgb(48, 48, 48);
         max-width: 475px;
         transition: opacity 300ms;
@@ -629,7 +630,7 @@
         }
         .counter {
           position: fixed;
-          bottom: 12px;
+          bottom: 0px;
           left: 50%;
           transform: translate(-50%, -50%);
           background-color: rgba(74, 50, 50, 0.9);
@@ -1036,6 +1037,8 @@
 .disable-scrollbars::-webkit-scrollbar {
   background: transparent; /* Chrome/Safari/Webkit */
   width: 0px;
+  height: 0px;
+  display: none;
 }
     
 .disable-scrollbars {
