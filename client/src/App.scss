@@ -28,7 +28,7 @@ main.eagles {
   --white-hover: rgb(154, 154, 154);
   --off-white:rgb(237, 237, 237);
   --background-img: url("/simple_dashed.png");
-  .page {
+  &.page {
     background-image: var(--background-img);
   }
 }
@@ -46,7 +46,7 @@ main.eagles-kelly {
   --white-hover: rgb(154, 154, 154);
   --off-white:rgb(237, 237, 237);
   --background-img: url("/simple_dashed.png");
-  .page {
+  &.page {
     background-image: var(--background-img);
   }
 }
@@ -64,7 +64,7 @@ main.liverpool {
   --white-hover: rgb(154, 154, 154);
   --off-white:rgb(237, 237, 237);
   --background-img: url("/simple_dashed.png");
-  .page {
+  &.page {
     background-image: var(--background-img);
   }
 }
@@ -82,7 +82,7 @@ main.union {
   --white-hover: rgb(154, 154, 154);
   --off-white:rgb(237, 237, 237);
   --background-img: url("/simple_dashed.png");
-  .page {
+  &.page {
     background-image: var(--background-img);
   }
 }
@@ -100,7 +100,7 @@ main.chelsea {
   --white-hover: rgb(154, 154, 154);
   --off-white:rgb(237, 237, 237);
   --background-img: url("/simple_dashed.png");
-  .page {
+  &.page {
     background-image: var(--background-img);
   }
 }
@@ -118,7 +118,7 @@ main.man-city {
   --white-hover: rgb(154, 154, 154);
   --off-white:rgb(237, 237, 237);
   --background-img: url("/simple_dashed.png");
-  .page {
+  &.page {
     background-image: var(--background-img);
   }
 }
@@ -127,7 +127,7 @@ main.giants {
   --accent-color: rgba(163, 13, 45, 1);
   --primary-color-trans: rgba(1, 35, 82, 0.15);
   --primary-color-lighter: rgb(117, 148, 191);
-  --primary-color-darker: rgb(1, 24, 57);
+  --primary-color-darker: rgb(0, 21, 49);
   --primary-color-darker-fade: rgba(1, 35, 82, 0);
   --primary-color-darker-hover: rgba(1, 35, 82, 0.9);
   --primary-color-darker-active: rgba(1, 35, 82, 0.8);
@@ -137,7 +137,7 @@ main.giants {
   --off-white:rgb(237, 237, 237);
   // --background-img: url("/poop.png");
   --background-img: url("/simple_dashed.png");
-  .page {
+  &.page {
     background-image: var(--background-img);
   }
 }

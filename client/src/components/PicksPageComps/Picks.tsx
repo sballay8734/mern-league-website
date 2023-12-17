@@ -20,6 +20,8 @@ interface Item {
   startDate: string
   endDate: string
   result: number | string | null
+  nflYear: number
+  week: number
 }
 
 const testItems: Item[] = [
@@ -30,9 +32,11 @@ const testItems: Item[] = [
     stat: "rushing yards",
     line: 38.5,
     startDate: "12/16/2023",
-    endDate: "2023-12-18T20:00:00Z",
+    endDate: "2023-12-19T17:00:00Z",
     selectedOU: null,
-    result: null // this will be a number
+    result: null, // this will be a number
+    nflYear: 2023,
+    week: 1
   },
   {
     propID: 1928719824,
@@ -41,9 +45,11 @@ const testItems: Item[] = [
     team2: "PHI",
     line: 42.5,
     startDate: "12/16/2023",
-    endDate: "2023-12-17T13:00:00Z",
+    endDate: "2023-12-19T18:00:00Z",
     selectedOU: null,
-    result: null // this will be a number
+    result: null,
+    nflYear: 2023,
+    week: 1
   },
   {
     propID: 8946513213,
@@ -54,9 +60,11 @@ const testItems: Item[] = [
     favorite: "WAS",
     nonFavorite: "DEN",
     startDate: "12/16/2023",
-    endDate: "2023-12-17T13:00:00Z",
+    endDate: "2023-12-19T18:00:00Z",
     selectedTeam: null,
-    result: null // this will be a string
+    result: null,
+    nflYear: 2023,
+    week: 1
   },
   {
     propID: 3479182735,
@@ -67,9 +75,11 @@ const testItems: Item[] = [
     favorite: "SF",
     nonFavorite: "BAL",
     startDate: "12/16/2023",
-    endDate: "2023-12-17T20:00:00Z",
+    endDate: "2023-12-19T21:00:00Z",
     selectedTeam: null,
-    result: null // this will be a string
+    result: null,
+    nflYear: 2023,
+    week: 1
   },
   {
     propID: 2649844654132,
@@ -78,9 +88,11 @@ const testItems: Item[] = [
     stat: "receiving yards",
     line: 64.5,
     startDate: "12/16/2023",
-    endDate: "2023-12-17T16:00:00Z",
+    endDate: "2023-12-19T16:00:00Z",
     selectedOU: null,
-    result: null // this will be a number
+    result: null,
+    nflYear: 2023,
+    week: 1
   },
   {
     propID: 5897239847906,
@@ -91,9 +103,11 @@ const testItems: Item[] = [
     favorite: "KC",
     nonFavorite: "LA",
     startDate: "12/16/2023",
-    endDate: "2023-12-17T13:00:00Z",
+    endDate: "2023-12-19T13:00:00Z",
     selectedTeam: null,
-    result: null // this will be a string
+    result: null,
+    nflYear: 2023,
+    week: 1
   },
   {
     propID: 875647385,
@@ -102,9 +116,11 @@ const testItems: Item[] = [
     stat: "passing touchdowns",
     line: 1.5,
     startDate: "12/16/2023",
-    endDate: "2023-12-17T13:00:00Z",
+    endDate: "2023-12-19T13:00:00Z",
     selectedOU: null,
-    result: null // this will be a number
+    result: null,
+    nflYear: 2023,
+    week: 1
   },
   {
     propID: 4654984321,
@@ -113,9 +129,11 @@ const testItems: Item[] = [
     stat: "receiving yards",
     line: 101.5,
     startDate: "12/16/2023",
-    endDate: "2023-12-17T13:00:00Z",
+    endDate: "2023-12-19T13:00:00Z",
     selectedOU: null,
-    result: null // this will be a number
+    result: null,
+    nflYear: 2023,
+    week: 1
   },
   {
     propID: 23984729387,
@@ -126,9 +144,11 @@ const testItems: Item[] = [
     favorite: "NYG",
     nonFavorite: "NYJ",
     startDate: "12/16/2023",
-    endDate: "2023-12-17T16:20:00Z",
+    endDate: "2023-12-19T16:20:00Z",
     selectedTeam: null,
-    result: null // this will be a string
+    result: null,
+    nflYear: 2023,
+    week: 1
   },
   {
     propID: 13415156,
@@ -137,9 +157,11 @@ const testItems: Item[] = [
     team2: "PIT",
     line: 38.5,
     startDate: "12/16/2023",
-    endDate: "2023-12-17T13:00:00Z",
+    endDate: "2023-12-19T13:00:00Z",
     selectedOU: null,
-    result: null // this will be a number
+    result: null,
+    nflYear: 2023,
+    week: 1
   }
 ]
 
@@ -148,7 +170,8 @@ export default function Picks() {
   const [activeButton, setActiveButton] = useState<string>("makePicks")
   const [picksMade, setPicksMade] = useState<Item[]>([])
 
-  // WILL NEED TO MOVE LOGIC TO IT'S OWN COMPONENT TO HANDLE MORE THAN ONE SELECTION
+  // NEED TO USE EFFECT TO GRAB CURRENT NFL WEEK AND YEAR FROM 3rd PARTY API
+  // THEN USE THAT INFO TO GRAB THE PICKS FROM YOUR DB TO MATCH
 
   return (
     <>
@@ -158,12 +181,14 @@ export default function Picks() {
           <div className="picks-header-wrapper">
             <div className="picks-header">
               <h1>Picks and Dicks</h1>
-              <p>NFL Week 3</p>
+              <p>Week 3</p>
             </div>
             <div className="picks-nav">
               <nav className="tab">
                 <ul>
-                  <li>
+                  <li
+                    className={`${activeButton === "allTime" ? "active" : ""}`}
+                  >
                     <button
                       className={`${
                         activeButton === "allTime" ? "active" : ""
@@ -173,17 +198,25 @@ export default function Picks() {
                       All-Time
                     </button>
                   </li>
-                  <li>
+                  <li className="spacer"></li>
+                  <li
+                    className={`${
+                      activeButton === "makePicks" ? "active" : ""
+                    }`}
+                  >
                     <button
-                      className={`${
+                      className={`picks-button ${
                         activeButton === "makePicks" ? "active" : ""
                       }`}
                       onClick={() => setActiveButton("makePicks")}
                     >
-                      Make Picks
+                      Make Picks <img src="/picks.png" alt="picks" />
                     </button>
                   </li>
-                  <li>
+                  <li className="spacer"></li>
+                  <li
+                    className={`${activeButton === "yearly" ? "active" : ""}`}
+                  >
                     <button
                       className={`${activeButton === "yearly" ? "active" : ""}`}
                       onClick={() => setActiveButton("yearly")}
@@ -195,25 +228,36 @@ export default function Picks() {
               </nav>
             </div>
           </div>
-          <div className="picks">
-            <div className="picks-wrapper disable-scrollbars">
-              {testItems.map((item) => {
-                return (
-                  <PickCard
-                    key={item.propID}
-                    item={item}
-                    setPicksMade={setPicksMade}
-                    picksMade={picksMade}
-                  />
-                )
-              })}
-            </div>
-            <div
-              className={`counter ${picksMade.length === 10 ? "complete" : ""}`}
-            >
-              Picks Made:{" "}
-              <span className="pick-split">{picksMade.length}/10</span>
-            </div>
+
+          <div className={`picks ${activeButton}`}>
+            {activeButton === "makePicks" ? (
+              <>
+                <div className="picks-wrapper disable-scrollbars">
+                  {testItems.map((item) => {
+                    return (
+                      <PickCard
+                        key={item.propID}
+                        item={item}
+                        setPicksMade={setPicksMade}
+                        picksMade={picksMade}
+                      />
+                    )
+                  })}
+                </div>
+                <div
+                  className={`counter ${
+                    picksMade.length === 10 ? "complete" : ""
+                  }`}
+                >
+                  Picks Made:{" "}
+                  <span className="pick-split">{picksMade.length}/10</span>
+                </div>
+              </>
+            ) : activeButton === "allTime" ? (
+              <div className="allTime">All-Time</div>
+            ) : (
+              <div className="yearly">Yearly</div>
+            )}
           </div>
         </div>
       ) : (

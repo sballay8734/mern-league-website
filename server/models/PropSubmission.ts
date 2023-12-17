@@ -16,6 +16,8 @@ interface IPropSubmission extends Document {
   startDate: string
   endDate: string
   result: number | string | null
+  nflYear: number
+  week: number
 }
 
 const propSubmissionSchema = new Schema({
@@ -37,7 +39,9 @@ const propSubmissionSchema = new Schema({
   selectedTeam: { type: String, default: null },
   startDate: { type: String, required: true },
   endDate: { type: String, required: true },
-  result: { type: Schema.Types.Mixed, default: null }
+  result: { type: Schema.Types.Mixed, default: null },
+  nflYear: { type: Number, required: true },
+  week: { type: Number, required: true }
 })
 
 const PropSubmission = mongoose.model<IPropSubmission>(

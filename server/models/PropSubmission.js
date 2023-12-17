@@ -43,7 +43,9 @@ const propSubmissionSchema = new mongoose_1.Schema({
     selectedTeam: { type: String, default: null },
     startDate: { type: String, required: true },
     endDate: { type: String, required: true },
-    result: { type: mongoose_1.Schema.Types.Mixed, default: null }
+    result: { type: mongoose_1.Schema.Types.Mixed, default: null },
+    nflYear: { type: Number, required: true },
+    week: { type: Number, required: true }
 });
 const PropSubmission = mongoose_1.default.model("PropSubmission", propSubmissionSchema);
 exports.default = PropSubmission;

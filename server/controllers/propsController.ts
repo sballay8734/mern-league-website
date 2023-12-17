@@ -14,6 +14,16 @@ export const submitProp = async (
   const userID = req.user.id
   const incomingProp = req.body
 
+  if (incomingProp.endDate) {
+    const propEndDate = new Date(incomingProp.endDate)
+    const currentDate = new Date()
+
+    // Check if the prop's endDate is before the current date
+    if (propEndDate < currentDate) {
+      return next(errorHandler(400, "Game has already started"))
+    }
+  }
+
   try {
     const propExists = await PropSubmission.findOne({ propID, userID })
 
@@ -22,7 +32,7 @@ export const submitProp = async (
         { propID, userID },
         // might need to spread the current existing prop to avoid having to write the userID also
         { $set: { ...incomingProp, userID } },
-        { new: true }
+        { new: true, runValidators: true }
       )
 
       res.status(200).json(updatedProp)

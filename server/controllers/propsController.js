@@ -21,12 +21,20 @@ const submitProp = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     const propID = req.params.id;
     const userID = req.user.id;
     const incomingProp = req.body;
+    if (incomingProp.endDate) {
+        const propEndDate = new Date(incomingProp.endDate);
+        const currentDate = new Date();
+        // Check if the prop's endDate is before the current date
+        if (propEndDate < currentDate) {
+            return next((0, error_1.errorHandler)(400, "Game has already started"));
+        }
+    }
     try {
         const propExists = yield PropSubmission_1.default.findOne({ propID, userID });
         if (propExists) {
             const updatedProp = yield PropSubmission_1.default.findOneAndUpdate({ propID, userID }, 
             // might need to spread the current existing prop to avoid having to write the userID also
-            { $set: Object.assign(Object.assign({}, incomingProp), { userID }) }, { new: true });
+            { $set: Object.assign(Object.assign({}, incomingProp), { userID }) }, { new: true, runValidators: true });
             res.status(200).json(updatedProp);
         }
         else {

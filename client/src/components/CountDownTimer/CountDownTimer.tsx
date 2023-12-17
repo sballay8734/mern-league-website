@@ -1,11 +1,12 @@
 export default CountdownTimer
-import { useEffect, useRef, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 
 interface CountdownTimerProps {
   endDate: string
+  setLockPick: Dispatch<SetStateAction<boolean>>
 }
 
-function CountdownTimer({ endDate }: CountdownTimerProps) {
+function CountdownTimer({ endDate, setLockPick }: CountdownTimerProps) {
   const [timerDisplay, setTimerDisplay] = useState("")
   const timerIntervalRef = useRef<NodeJS.Timeout>()
 
@@ -28,9 +29,11 @@ function CountdownTimer({ endDate }: CountdownTimerProps) {
 
         const display = `${days}d ${hours}h ${minutes}m ${seconds}s`
         setTimerDisplay(display)
+        setLockPick(false)
       } else {
         clearInterval(timerIntervalRef.current as NodeJS.Timeout)
-        setTimerDisplay("Countdown expired")
+        setTimerDisplay("LOCKED")
+        setLockPick(true)
       }
     }
 

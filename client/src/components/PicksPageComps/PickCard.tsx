@@ -5,6 +5,7 @@ import { useState } from "react"
 
 import { FaCaretDown } from "react-icons/fa"
 import { FaCaretUp } from "react-icons/fa"
+import { FaLock } from "react-icons/fa"
 import CountdownTimer from "../CountDownTimer/CountDownTimer"
 
 interface Item {
@@ -22,6 +23,8 @@ interface Item {
   startDate: string
   endDate: string
   result: number | string | null
+  nflYear: number
+  week: number
 }
 
 interface PickCardProps {
@@ -37,8 +40,15 @@ export default function PickCard({
 }: PickCardProps) {
   const [OverOrUnder, setOverOrUnder] = useState<string | null>(null)
   const [spreadPick, setSpreadPick] = useState<string | null>(null)
+  const [lockIcon, setLockIcon] = useState<boolean>(false)
+  const [lockPick, setLockPick] = useState<boolean>(false)
 
   async function handleUnderClick(item: Item) {
+    if (item.selectedOU === "under") return
+    if (lockPick) return
+
+    setLockIcon(false)
+
     const res = await fetch(`/api/props/${item.propID}`, {
       method: "POST",
       headers: {
@@ -51,12 +61,14 @@ export default function PickCard({
 
     if (data.success === false) {
       console.log("ERROR")
+      setLockIcon(false)
       return
     }
     console.log(data)
 
     setOverOrUnder("under")
     item.selectedOU = "under"
+    setLockIcon(true)
     const filteredPicks = picksMade.filter(
       (pick) => pick.propID !== item.propID
     )
@@ -64,6 +76,11 @@ export default function PickCard({
   }
 
   async function handleOverClick(item: Item) {
+    if (item.selectedOU === "over") return
+    if (lockPick) return
+
+    setLockIcon(false)
+
     const res = await fetch(`/api/props/${item.propID}`, {
       method: "POST",
       headers: {
@@ -76,11 +93,13 @@ export default function PickCard({
 
     if (data.success === false) {
       console.log("ERROR")
+      setLockIcon(false)
       return
     }
     console.log(data)
 
     setOverOrUnder("over")
+    setLockIcon(true)
     item.selectedOU = "over"
 
     const filteredPicks = picksMade.filter(
@@ -90,6 +109,11 @@ export default function PickCard({
   }
 
   async function handleSpreadPick(team: string, item: Item) {
+    if (lockPick) return
+    if (item.selectedTeam === team) return
+
+    setLockIcon(false)
+
     if (team === item.favorite) {
       const res = await fetch(`/api/props/${item.propID}`, {
         method: "POST",
@@ -103,11 +127,13 @@ export default function PickCard({
 
       if (data.success === false) {
         console.log("ERROR")
+        setLockIcon(false)
         return
       }
       console.log(data)
 
       setSpreadPick("favorite")
+      setLockIcon(true)
       item.selectedTeam = team
 
       const filteredPicks = picksMade.filter(
@@ -127,11 +153,13 @@ export default function PickCard({
 
       if (data.success === false) {
         console.log("ERROR")
+        setLockIcon(false)
         return
       }
       console.log(data)
 
       setSpreadPick("nonFavorite")
+      setLockIcon(true)
       item.selectedTeam = team
 
       const filteredPicks = picksMade.filter(
@@ -157,6 +185,13 @@ export default function PickCard({
             className={`ouLeft ${OverOrUnder === "under" ? "active" : ""}`}
           >
             Under{" "}
+            <span
+              className={`lock-icon ${
+                lockIcon && item.selectedOU === "under" ? "show" : ""
+              }`}
+            >
+              <FaLock />
+            </span>
             <span className="ou-icon down">
               <FaCaretDown />
             </span>
@@ -175,10 +210,18 @@ export default function PickCard({
             <span className="ou-icon up">
               <FaCaretUp />
             </span>
-            Over
+            Over{" "}
+            <span
+              className={`lock-icon ${
+                lockIcon && item.selectedOU === "over" ? "show" : ""
+              }`}
+            >
+              <FaLock />
+            </span>
           </button>
+          {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
         </div>
-        <CountdownTimer endDate={item.endDate} />
+        <CountdownTimer endDate={item.endDate} setLockPick={setLockPick} />
       </div>
     )
   } else if (item.type === "ouTeam") {
@@ -193,6 +236,13 @@ export default function PickCard({
             className={`ouLeft ${OverOrUnder === "under" ? "active" : ""}`}
           >
             Under{" "}
+            <span
+              className={`lock-icon ${
+                lockIcon && item.selectedOU === "under" ? "show" : ""
+              }`}
+            >
+              <FaLock />
+            </span>
             <span className="ou-icon down">
               <FaCaretDown />
             </span>
@@ -211,10 +261,18 @@ export default function PickCard({
             <span className="ou-icon up">
               <FaCaretUp />
             </span>
-            Over
+            Over{" "}
+            <span
+              className={`lock-icon ${
+                lockIcon && item.selectedOU === "over" ? "show" : ""
+              }`}
+            >
+              <FaLock />
+            </span>
           </button>
+          {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
         </div>
-        <CountdownTimer endDate={item.endDate} />
+        <CountdownTimer endDate={item.endDate} setLockPick={setLockPick} />
       </div>
     )
   } else if (item.type === "spread") {
@@ -229,6 +287,13 @@ export default function PickCard({
             className={`ouLeft ${spreadPick === "favorite" ? "active" : ""}`}
           >
             {item.favorite}{" "}
+            <span
+              className={`lock-icon ${
+                lockIcon && item.selectedTeam === item.favorite ? "show" : ""
+              }`}
+            >
+              <FaLock />
+            </span>
             <span className="spread-line minus">-{item.line}</span>
           </button>
           <div className="ouCenter">
@@ -243,10 +308,18 @@ export default function PickCard({
             }`}
           >
             {item.nonFavorite}{" "}
+            <span
+              className={`lock-icon ${
+                lockIcon && item.selectedTeam === item.nonFavorite ? "show" : ""
+              }`}
+            >
+              <FaLock />
+            </span>
             <span className="spread-line plus">+{item.line}</span>
           </button>
+          {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
         </div>
-        <CountdownTimer endDate={item.endDate} />
+        <CountdownTimer endDate={item.endDate} setLockPick={setLockPick} />
       </div>
     )
   } else {
