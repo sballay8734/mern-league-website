@@ -194,3 +194,7 @@ export default function ProposalsPage() {
     </div>
   )
 }
+
+// BUGS ********************
+// 1. Row spacer screws up layout when there are more than 5 columns
+// 2.

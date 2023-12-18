@@ -5,6 +5,11 @@ import { useState } from "react"
 import { RootState } from "../../redux/store"
 import { CgMenuLeft } from "react-icons/cg"
 import { IoCloseOutline } from "react-icons/io5"
+import { LuCrown } from "react-icons/lu"
+import { MdCompareArrows } from "react-icons/md"
+import { FaAward } from "react-icons/fa"
+import { FaHome } from "react-icons/fa"
+
 import "./Header.scss"
 
 export default function Header() {
@@ -21,9 +26,9 @@ export default function Header() {
         <div className="header">
           <div className="nav-left">
             <Link to="/">Home</Link>
-            {/* <Link to="/compare">Compare</Link>
+            <Link to="/compare">Compare</Link>
             <Link to="/kingofthehill">KOTH</Link>
-            <Link to="/records">Records</Link> */}
+            <Link to="/records">Records</Link>
           </div>
           <div className="nav-right">
             {user && (
@@ -63,10 +68,18 @@ export default function Header() {
         </div>
         <div className={`side-nav ${navIsShown ? "show" : ""}`}>
           <div onClick={() => setNavIsShown(false)} className="nav-top">
-            <Link to="/">Home</Link>
-            {/* <Link to="/compare">Compare</Link>
-            <Link to="/kingofthehill">KOTH</Link>
-            <Link to="/records">Records</Link> */}
+            <Link to="/">
+              <span>Home</span>
+              <FaHome />
+            </Link>
+            <Link to="/compare">
+              <span>Compare</span>
+              <MdCompareArrows />
+            </Link>
+            <Link to="/records">
+              <span>Records</span>
+              <FaAward />
+            </Link>
           </div>
           <div className="mobile-nav-spacer">
             {user ? (
@@ -83,6 +96,10 @@ export default function Header() {
             )}
           </div>
           <div onClick={() => setNavIsShown(false)} className="nav-bottom">
+            <Link to="/kingofthehill">
+              <span>KOTH</span>
+              <LuCrown />
+            </Link>
             <Link to="/picks">
               <span>Picks</span>
               <img className="picks-img" src="/picks.png" alt="Picks" />

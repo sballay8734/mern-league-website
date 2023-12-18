@@ -21,6 +21,7 @@
         list-style-type: none;
         width: 100%;
         justify-content: space-between;
+        height: 100%;
         li {
           width: 100%;
           button {
@@ -146,7 +147,7 @@
     align-items: flex-start;
     overflow: auto;
     padding: 0.5rem;
-    background-color: rgb(48, 48, 48);
+    background-color: rgb(15, 15, 15);
     // padding-bottom: 4.7rem;
     .table-wrapper {
       width: 100%;

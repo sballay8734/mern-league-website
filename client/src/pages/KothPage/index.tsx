@@ -1,8 +1,10 @@
+import { LuCrown } from "react-icons/lu"
 import {
   useFetchKingStandingsQuery,
   useFetchWeeklyResultsQuery
 } from "../../redux/king/kingApi"
 import "./KothPage.scss"
+import { useState } from "react"
 
 export default function KothPage() {
   const {
@@ -17,6 +19,8 @@ export default function KothPage() {
     isLoading: resultsLoading
   } = useFetchWeeklyResultsQuery()
 
+  const [activeButton, setActiveButton] = useState<string>("standings")
+
   // LOG IS WORKING
   console.log(standingsData, resultsData)
 
@@ -25,9 +29,41 @@ export default function KothPage() {
 
   return (
     <div className="page koth-page">
-      {standingsData?.map((item) => {
+      <div className="king-page-top">
+        <div className="king-page-header">
+          <h1>King of the Hill</h1>
+          <div className="crown">
+            <LuCrown />
+          </div>
+        </div>
+        <nav className="king-nav">
+          <ul>
+            <li>
+              <button
+                className={`${activeButton === "standings" ? "active" : ""}`}
+                onClick={() => setActiveButton("standings")}
+              >
+                Standings
+              </button>
+            </li>
+            <li className="spacer"></li>
+            <li>
+              <button
+                className={`${activeButton === "history" ? "active" : ""}`}
+                onClick={() => setActiveButton("history")}
+              >
+                History
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div className="king-page-bottom">
+        <div className="placeholder">Coming Soon</div>
+      </div>
+      {/* {standingsData?.map((item) => {
         return <div key={item.year}>{item.year}</div>
-      })}
+      })} */}
     </div>
   )
 }

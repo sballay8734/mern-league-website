@@ -1,30 +1,45 @@
-// import { useState } from "react"
+import { useState } from "react"
 
-// import {
-//   useFetchRecordsQuery
-//   // useUpdateRecordQuery
-// } from "../../redux/records/recordsApi"
-import { CiSearch } from "react-icons/ci"
+import { FaAward } from "react-icons/fa"
 import "./RecordsPage.scss"
 
 export default function RecordsPage() {
-  // const { data, error, isLoading } = useFetchRecordsQuery()
-  // const [filterString, setFilterString] = useState("")
-
-  // Just to remove errors (actually do something with this once it's setup)
-  // console.log(error, isLoading)
-
-  // function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-  //   setFilterString(e.target.value)
-  // }
-
-  // const filteredRecords = data?.filter((item) =>
-  //   item.name.toLowerCase().includes(filterString.toLowerCase())
-  // )
-
+  const [activeButton, setActiveButton] = useState<string>("allTime")
   return (
     <div className="page records-page">
-      <h1>Hall of Records</h1>
+      <div className="records-page-top">
+        <div className="records-page-header">
+          <h1>Hall of Records</h1>
+          <div className="award">
+            <FaAward />
+          </div>
+        </div>
+        <nav className="records-nav">
+          <ul>
+            <li>
+              <button
+                className={`${activeButton === "allTime" ? "active" : ""}`}
+                onClick={() => setActiveButton("allTime")}
+              >
+                All-Time
+              </button>
+            </li>
+            <li className="spacer"></li>
+            <li>
+              <button
+                className={`${activeButton === "yearly" ? "active" : ""}`}
+                onClick={() => setActiveButton("yearly")}
+              >
+                Yearly
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div className="records-page-bottom">
+        <div className="placeholder">Coming Soon</div>
+      </div>
+      {/* <h1>Hall of Records</h1>
       <div className="records-header">
         <div className="searchWrapper">
           <input
@@ -303,27 +318,6 @@ export default function RecordsPage() {
             </h3>
           </div>
         </div>
-      </div>
-      {/* BELOW IS WORKING */}
-      {/* <input
-        onChange={handleChange}
-        type="text"
-        placeholder="Search records..."
-        value={filterString}
-      />
-      <div className="records-wrapper">
-        {filteredRecords?.map((record) => {
-          return (
-            <div key={record.name} className="record">
-              <h1>{record.displayName}</h1>
-              <h3>{record.description}</h3>
-              <h1>{record.value}</h1>
-              <h1>{record.holder}</h1>
-              <h5>{record.year}</h5>
-              <p>ID: {record._id}</p>
-            </div>
-          )
-        })}
       </div> */}
     </div>
   )

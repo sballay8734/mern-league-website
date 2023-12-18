@@ -1,177 +1,104 @@
 .records-page {
+  color: white;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  .records-header {
-    // border: 1px solid red;
-    width: 100%;
-    height: 20%;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  gap: 0;
+  border: 1px solid var(--primary-color);
+  .records-page-top {
     display: flex;
-    gap: 1rem;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    .searchWrapper {
-    display: flex;
-    min-width: 200px;
-    background-color: white;
-    color: black;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.3rem 0.5rem;
-    border-radius: 3px;
-    font-size: 0.8rem;
-    border: 3px solid transparent;
-    transition: all 300ms;
-    &:focus-within {
-      border: 3px solid green;
-      transition: all 300ms;
-    }
-    input {
-      border: none;
-      width: 90%;
-      &:focus {
-        border: none;
-        outline: none;
-      }
-      font-size: 0.8rem;
-    }
-    .searchIcon {
-      cursor: pointer;
-      border-radius: 100%;
-      background-color: rgb(212, 212, 212);
-      color: white;
-      padding: 0.2rem;
-      transition: all 300ms;
-      &:hover {
-        background-color: rgb(184, 184, 184);
-        transition: all 300ms;
-      }
-      &:active {
-        background-color: rgb(139, 139, 139)
-      }
-    }
-  }
-    .filterButtons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      align-items: center;
-      justify-content: center;
-      max-width: 95%;
-      button {
-        width: 75px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--primary-color-darker);
-        border-radius: 3px;
-        color: var(--white);
-        cursor: pointer;
-        border: 1px solid var(--accent-color);
-        padding: 0.3rem 1rem;
-        font-size: 0.7rem;
-        &:hover {
-          opacity: .90;
-          color: white;
-        }
-        &:active {
-          opacity: .80;
-          color: var(--white-active)
-        }
-      }
-    }
-  }
-  .records {
-    // border: 1px solid red;
     width: 100%;
-    height: 80%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    height: 25%;
+    .records-nav {
+      width: 100%;
+      ul {
+        display: flex;
+        list-style-type: none;
+        width: 100%;
+        justify-content: space-between;
+        height: 100%;
+        li {
+          width: 100%;
+          button {
+            background-color: var(--primary-color-darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+            outline: none;
+            color: rgb(170, 170, 170);
+            font-size: 0.8rem;
+            transition: all 300ms;
+            width: 100%;
+            padding: 1rem 0;
+            &.active {
+              color: white;
+              background-color: var(--primary-color);
+              transition: all 300ms;
+            }
+          }
+        }
+        .spacer {
+          height: 100%;
+          width: 2px;
+          background-color: var(--primary-color);
+        }
+      }
+    }
+    .records-page-header {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        max-width: 475px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(11, 11, 11);
+        // border-radius: 3px;
+        flex-direction: column;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        background-image: url("/library.jpg");
+        background-size: cover;
+        @media screen and (max-width: 400px) {
+          gap: 0.5rem;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.9);
+          z-index: 1;
+          // border-radius: 3px;
+        }
+        h1 {
+          font-size: 1.7rem;
+          font-weight: bold;
+          font-family: 'Grandiflora One', cursive;
+          z-index: 2;
+          @media screen and (max-width: 400px) {
+            font-size: 1.5rem;
+          }
+        }
+        .award {
+          z-index: 2;
+        }
+      }
+  }
+  .records-page-bottom {
+    height: 75%;
+    width: 100%;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    overflow: auto;
-    .record {
-      height: 200px;
-      padding: 0.5rem;
-      width: 350px;
-      background-color: white;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      border-radius: 3px;
-      justify-self: center;
-      p {
-        font-size: 0.7rem;
-      }
-    }
-    .ownerList {
-      h3 {
-        font-size: 0.5rem;
-      }
-    }
-    @media screen and (max-width: 1145px) {
-      .record {
-        height: 200px;
-        width: 300px;
-      }
-    }
-    @media screen and (max-width: 995px) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      .record {
-        height: 200px;
-        width: 400px;
-      }
-    }
-    @media screen and (max-width: 860px) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      .record {
-        height: 200px;
-        width: 350px;
-      }
-    }
-    @media screen and (max-width: 760px) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      .record {
-        height: 200px;
-        width: 300px;
-      }
-    }
-    @media screen and (max-width: 645px) {
-      grid-template-columns: repeat(1, 1fr);
-      gap: 1rem;
-      .record {
-        height: 200px;
-        width: 400px;
-      }
-    }
-    @media screen and (max-width: 450px) {
-      grid-template-columns: repeat(1, 1fr);
-      gap: 1rem;
-      .record {
-        height: 200px;
-        width: 350px;
-      }
-    }
-    @media screen and (max-width: 390px) {
-      grid-template-columns: repeat(1, 1fr);
-      gap: 1rem;
-      .record {
-        height: 200px;
-        width: 300px;
-      }
-    }
-    @media screen and (max-width: 350px) {
-      grid-template-columns: repeat(1, 1fr);
-      gap: 1rem;
-      .record {
-        height: 150px;
-        width: 250px;
-      }
-    }
   }
 }
