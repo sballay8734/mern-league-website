@@ -3,6 +3,7 @@
 NOW ---------------------------------------
 1. MAKE ALL PAGES SIMILAR IN FORMAT TO PICKS PAGE ON MOBILE!!!
 
+2. Need to load in current picks if user has already made a selection
 1. Style Vote Proposal Modal
 3. To prevent spamming, only allow one 2 proposal submissions per day (they can delete their old proposals)***
 4. Are you sure you're ready to submit proposal?
