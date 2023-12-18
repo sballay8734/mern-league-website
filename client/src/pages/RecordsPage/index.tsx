@@ -24,6 +24,7 @@ export default function RecordsPage() {
 
   return (
     <div className="page records-page">
+      <h1>Hall of Records</h1>
       <div className="records-header">
         <div className="searchWrapper">
           <input
