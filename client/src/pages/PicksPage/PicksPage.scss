@@ -489,7 +489,7 @@
       align-items: center;
       overflow: hidden;
       .picks-header-wrapper {
-        height: 20%;
+        height: 25%;
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -506,7 +506,7 @@
         align-items: center;
         justify-content: center;
         background-color: rgb(11, 11, 11);
-        border-radius: 3px;
+        // border-radius: 3px;
         flex-direction: column;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         background-image: url("/bettingroom.jpg");
@@ -522,7 +522,7 @@
           height: 100%;
           background: rgba(0, 0, 0, 0.9);
           z-index: 1;
-          border-radius: 3px;
+          // border-radius: 3px;
         }
 
         h1,
@@ -532,13 +532,13 @@
         }
 
         h1 {
-          font-size: 1.5rem;
+          font-size: 1.7rem;
           font-weight: bold;
           font-family: 'Grandiflora One', cursive;
         }
 
         p {
-          font-size: 0.8rem;
+          font-size: 1rem;
           color: rgb(146, 146, 146);
         }
         // border: 1px solid blue;
@@ -604,7 +604,7 @@
       }
       .picks {
         position: relative;
-        height: 80%;
+        height: 75%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -754,12 +754,12 @@
               padding: 0.4rem;
               max-width: 200px;
               @media screen and (max-width: 420px) {
-                max-width: 150px;
-                font-size: 0.7rem;
+                max-width: 175px;
+                font-size: 0.8rem;
               }
               @media screen and (max-width: 375px) {
-                max-width: 130px;
-                font-size: 0.6rem;
+                max-width: 150px;
+                font-size: 0.7rem;
               }
               .player-name {
                 font-weight: bold;
@@ -843,12 +843,12 @@
               padding: 0.4rem;
               max-width: 200px;
               @media screen and (max-width: 420px) {
-                max-width: 150px;
-                font-size: 0.7rem;
+                max-width: 175px;
+                font-size: 0.8rem;
               }
               @media screen and (max-width: 375px) {
-                max-width: 130px;
-                font-size: 0.6rem;
+                max-width: 150px;
+                font-size: 0.7rem;
               }
               .team-name {
                 font-weight: bold;
@@ -937,12 +937,12 @@
               padding: 0.4rem;
               max-width: 220px;
               @media screen and (max-width: 420px) {
-                max-width: 200px;
-                font-size: 1rem;
+                max-width: 210px;
+                font-size: 1.1rem;
               }
               @media screen and (max-width: 375px) {
-                max-width: 180px;
-                font-size: 0.9rem;
+                max-width: 190px;
+                font-size: 1rem;
               }
               .team-name {
                 font-weight: normal;
