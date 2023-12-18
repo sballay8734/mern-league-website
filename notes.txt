@@ -1,11 +1,9 @@
 // TODO ************************************************************************
 
 NOW ---------------------------------------
-1. If commissioner has rejected, you shouldn't be able to vote
-1. Each proposal will have to have a "Vetoed by commissioner field
-1. Add "Rejected By KJD" Option to status
+1. MAKE ALL PAGES SIMILAR IN FORMAT TO PICKS PAGE ON MOBILE!!!
+
 1. Style Vote Proposal Modal
-2. Add ability for Commish to veto
 3. To prevent spamming, only allow one 2 proposal submissions per day (they can delete their old proposals)***
 4. Are you sure you're ready to submit proposal?
 5. Style viewProposalModal & Propose proposal modal
