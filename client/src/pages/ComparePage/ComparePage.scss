@@ -99,6 +99,173 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .selector-wrapper {
+      border: 1px solid var(--primary-color);
+      width: 100%;
+      height: 105px;
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      // overflow: hidden;
+      .selector-header {
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: gold;
+        width: 100%;
+        text-align: center;
+        background-color: rgb(17, 17, 17);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        h2 {
+          display: block;
+          text-wrap: nowrap;
+          padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+          border-radius: 3px;
+          background-color: var(--primary-color-darker);
+          color: white;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+          min-width: 100px;
+          max-width: 200px;
+        }
+        button {
+          width: 100%;
+          height: 100%;
+          background-color: rgb(17, 17, 17);
+          border: none;
+          padding: 0.7rem 0.5rem 0.7rem 0.5rem;
+          display: flex;
+          color: rgb(218, 218, 218);
+          align-items: center;
+          gap: 0.3rem;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 300ms;
+          &:hover {
+            background-color: var(--primary-color);
+            transition: all 300ms;
+          }
+          &:active {
+            background-color: var(--primary-color-darker);
+            transition: all 300ms;
+          }
+        }
+        .arrow-left {
+          span {
+            animation: slideLeft 1s ease infinite;
+          }
+        }
+        .arrow-right {
+          span {
+            animation: slideRight 1s ease infinite;
+          }
+        }
+        .spacer {
+          height: 10px;
+          background-color: rgb(48, 48, 48);
+          width: 1px;
+        }
+      }
+      .selector-body {
+        width: 100%;
+        text-align: center;
+        height: 80px;
+        padding: 0.5rem 0.5rem 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: rgb(33, 33, 33);
+        gap: 2rem;
+        img {
+          height: 45px;
+          border: 2px solid var(--primary-color);
+          border-radius: 100%;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+        .main-stats-wrapper {
+          display: flex;
+          justify-content: flex-start;
+          gap: 3rem;
+          width: 100%;
+          .main-stats {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.7rem;
+            align-items: flex-start;
+            gap: 0.4rem;
+            .stat {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 0.4rem;
+              .icons {
+                display: flex;
+                gap: 0.2rem;
+                font-weight: bold;
+              }
+            }
+            .stat1 {
+              color: rgb(255, 232, 103);
+            }
+            .stat2 {
+              color: rgb(255, 232, 103);
+            }
+            .stat3 {
+              color: rgb(225, 118, 255);
+            }
+            .stat4 {
+              color: rgb(225, 118, 255);
+            }
+          }
+        }
+      }
+    }
+    .main-content-wrapper {
+      height: 100%;
+      border: 1px solid red;
+      width: 100%;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+// @keyframes slideLeft {
+//    0%, 20%, 50%, 80%, 100% {margin-right: 0;} 
+//    40% {margin-right: 2px;} 
+//    60% {margin-right: 4px;} 
+// } 
+
+// @keyframes slideRight {
+//    0%, 20%, 50%, 80%, 100% {margin-right: 0;} 
+//    40% {margin-right: 2px;} 
+//    60% {margin-right: 4px;} 
+// } 
+
+@keyframes slideLeft {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-2px);
+  }
+}
+
+@keyframes slideRight {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px);
   }
 }
