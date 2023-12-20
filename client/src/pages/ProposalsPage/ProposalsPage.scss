@@ -318,6 +318,164 @@
           }
         }
   }
+  .proposals-page-bottom {
+    height: 75%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgb(13, 13, 13) 30%, var(--primary-color-darker-for-gradient) 100%);
+    overflow: auto;
+    // justify-content: space-between;
+    .proposal-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      border-radius: 3px;
+      border: 1px solid var(--primary-color);
+      box-shadow: var(--primary-color-trans) 0px 3px 8px;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
+      &:active {
+        opacity: 0.6;
+      }
+      .proposal-content-wrapper {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+    }
+    .proposal-header {
+      background-color: rgb(11, 11, 11);
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0.5rem;
+      font-size: 0.6rem;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      @media screen and (min-width: 400px) {
+        font-size: 0.7rem;
+      }
+      @media screen and (min-width: 410px) {
+        font-size: 0.8rem;
+      }
+      @media screen and (min-width: 420px) {
+        font-size: 0.9rem;
+      }
+      h2 {
+        color: rgb(181, 181, 181);
+      }
+      .proposal-title {
+        color: gold;
+        font-weight: bold;
+      }
+      .proposer-name {
+        color: white;
+        font-weight: bold;
+      }
+    }
+    .proposal-body {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      background-color: rgb(33, 33, 33);
+      gap: 0.5rem;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      .proposal-body-main {
+        text-align: left;
+        padding: 0.5rem 0.5rem 0rem 0.5rem;
+        p {
+          font-size: 0.8rem;
+          color: rgb(166, 166, 166);
+          font-weight: bold;
+          @media screen and (min-width: 400px) {
+            font-size: 0.9rem;
+          }
+          @media screen and (min-width: 410px) {
+            font-size: 1rem;
+          }
+          @media screen and (min-width: 420px) {
+            font-size: 1.1rem;
+          }
+          
+          .proposal-content {
+            font-style: italic;
+            font-weight: normal;
+          }
+        }
+      }
+    }
+    .proposal-body-footer {
+      background-color: rgb(11, 11, 11);
+      padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      .you-voted {
+        font-size: 0.6rem;
+        .reject {
+          color: rgb(255, 78, 78);
+          opacity: 0.7
+        }
+        .approve {
+          color: rgb(130, 255, 130);
+          opacity: 0.7
+        }
+        .no-vote {
+          color: rgb(181, 181, 181);
+        }
+      }
+      .status {
+        font-size: 0.6rem;
+        background-color: rgb(33, 33, 33);
+        padding: 0.2rem 0.5rem;
+        border-radius: 3px;
+        &.pending {
+          color: black;
+          background-color: rgb(70, 70, 192);
+          font-weight: bold;
+        }
+        &.approved {
+          color: black;
+          background-color: rgb(47, 255, 0);
+          font-weight: bold;
+        }
+        &.rejected {
+          color: black;
+          background-color: rgb(255, 0, 0);
+          font-weight: bold;
+        }
+      }
+      .total-voted {
+        font-size: 0.6rem;
+        color: rgb(181, 181, 181);
+        span {
+          font-weight: bold;
+          color: white;
+        }
+      }
+      .you-voted, .status, .total-voted {
+        @media screen and (min-width: 400px) {
+        font-size: 0.7rem;
+        }
+        @media screen and (min-width: 410px) {
+          font-size: 0.8rem;
+        }
+        @media screen and (min-width: 420px) {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
 }
 
 .no-content {

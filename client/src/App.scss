@@ -19,9 +19,10 @@
 main.eagles {
   --primary-color: rgba(0,76,84,1);
   --accent-color: var(--primary-color);
-  --primary-color-trans: rgba(0,76,84,0.15);
+  --primary-color-trans: rgba(0,76,84,0.30);
   --primary-color-lighter: rgb(118, 188, 195);
   --primary-color-darker: rgba(0, 36, 40, 1);
+  --primary-color-darker-for-gradient: rgba(0, 36, 40, 1);
   --primary-color-darker-fade: rgba(0,76,84,0);
   --primary-color-darker-hover: rgb(0, 28, 30);
   --primary-color-darker-active: rgb(0, 21, 23);
@@ -37,9 +38,10 @@ main.eagles {
 main.eagles-kelly {
   --primary-color: rgba(4, 106, 56, 1);
   --accent-color: var(--primary-color);
-  --primary-color-trans: rgba(4, 106, 56,0.15);
+  --primary-color-trans: rgba(4, 106, 56,0.30);
   --primary-color-lighter: rgb(172, 221, 197);
   --primary-color-darker: rgb(2, 53, 29);
+  --primary-color-darker-for-gradient: rgb(1, 29, 16);
   --primary-color-darker-fade: rgba(4, 106, 56, 0);
   --primary-color-darker-hover: rgb(1, 42, 24);
   --primary-color-darker-active: rgb(0, 22, 13);
@@ -55,9 +57,10 @@ main.eagles-kelly {
 main.liverpool {
   --primary-color: rgba(200, 16, 46, 1);
   --accent-color: var(--primary-color);
-  --primary-color-trans: rgba(200, 16, 46, 0.15);
+  --primary-color-trans: rgba(200, 16, 46, 0.30);
   --primary-color-lighter: rgb(220, 178, 185);
   --primary-color-darker: rgb(86, 6, 19);
+  --primary-color-darker-for-gradient: rgb(30, 2, 7);
   --primary-color-darker-fade: rgba(200, 16, 46, 0);
   --primary-color-darker-hover: rgb(42, 2, 9);
   --primary-color-darker-active: rgb(24, 1, 5);
@@ -73,9 +76,10 @@ main.liverpool {
 main.union {
   --primary-color: rgba(7, 27, 44,1);
   --accent-color: rgba(177, 155, 105, 1);
-  --primary-color-trans: rgba(7, 27, 44,0.15);
+  --primary-color-trans: rgba(7, 27, 44,0.30);
   --primary-color-lighter: rgb(130, 161, 187);
   --primary-color-darker: rgb(1, 14, 25);
+  --primary-color-darker-for-gradient: rgb(1, 14, 25);
   --primary-color-darker-fade: rgba(1, 14, 25, 0);
   --primary-color-darker-hover: rgb(1, 14, 25, 0.9);
   --primary-color-darker-active: rgb(1, 14, 25, 0.8);
@@ -91,9 +95,10 @@ main.union {
 main.chelsea {
   --primary-color: rgba(3, 70, 148, 1);
   --accent-color: var(--primary-color);
-  --primary-color-trans: rgba(3, 70, 148, 0.15);
+  --primary-color-trans: rgba(3, 70, 148, 0.30);
   --primary-color-lighter: rgb(139, 173, 211);
   --primary-color-darker: rgba(2, 31, 64, 1);
+  --primary-color-darker-for-gradient: rgb(1, 18, 37);
   --primary-color-darker-fade: rgba(2, 31, 64, 0);
   --primary-color-darker-hover: rgba(1, 18, 37, 1);
   --primary-color-darker-active: rgba(1, 18, 37, 0.9);
@@ -109,9 +114,10 @@ main.chelsea {
 main.man-city {
   --primary-color: rgba(108, 171, 221, 1);
   --accent-color: var(--primary-color);
-  --primary-color-trans: rgba(108, 171, 221, 0.15);
+  --primary-color-trans: rgba(108, 171, 221, 0.30);
   --primary-color-lighter: rgba(207, 224, 243, 1);
   --primary-color-darker: rgb(19, 59, 91);
+  --primary-color-darker-for-gradient: rgb(11, 35, 54);
   --primary-color-darker-fade: rgba(45, 105, 154, 0);
   --primary-color-darker-hover: rgb(27, 73, 111);
   --primary-color-darker-active: rgb(10, 35, 56);
@@ -127,9 +133,10 @@ main.man-city {
 main.giants {
   --primary-color: rgba(1, 35, 82, 1);
   --accent-color: rgba(163, 13, 45, 1);
-  --primary-color-trans: rgba(1, 35, 82, 0.15);
+  --primary-color-trans: rgba(1, 35, 82, 0.30);
   --primary-color-lighter: rgb(117, 148, 191);
   --primary-color-darker: rgb(0, 21, 49);
+  --primary-color-darker-for-gradient: rgb(0, 21, 49);
   --primary-color-darker-fade: rgba(1, 35, 82, 0);
   --primary-color-darker-hover: rgba(1, 35, 82, 0.9);
   --primary-color-darker-active: rgba(1, 35, 82, 0.8);
