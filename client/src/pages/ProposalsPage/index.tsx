@@ -45,6 +45,8 @@ export default function ProposalsPage() {
     filteredProposals = data.filter((item) => item.status === activeButton)
   }
 
+  console.log(data)
+
   return (
     <div className="page proposals-page">
       {user === null ? (
