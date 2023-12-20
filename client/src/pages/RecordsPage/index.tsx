@@ -37,7 +37,11 @@ export default function RecordsPage() {
         </nav>
       </div>
       <div className="records-page-bottom">
-        <div className="placeholder">Coming Soon</div>
+        {activeButton === "allTime" ? (
+          <div className="placeholder">All-Time</div>
+        ) : (
+          <div className="placeholder">Yearly</div>
+        )}
       </div>
       {/* <h1>Hall of Records</h1>
       <div className="records-header">

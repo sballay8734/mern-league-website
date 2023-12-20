@@ -6,7 +6,7 @@
   justify-content: center;
   padding: 0;
   gap: 0;
-  border: 1px solid var(--primary-color);
+  // border: 1px solid var(--primary-color);
   .proposal-page-top {
     display: flex;
     flex-direction: column;
@@ -354,6 +354,7 @@
       display: flex;
       justify-content: space-between;
       font-size: 0.6rem;
+      height: 45px;
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
       @media screen and (min-width: 400px) {
@@ -367,6 +368,9 @@
       }
       h2 {
         color: rgb(181, 181, 181);
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
       }
       .proposal-title {
         color: gold;
@@ -416,9 +420,9 @@
       gap: 0.5rem;
       border-bottom-left-radius: 3px;
       border-bottom-right-radius: 3px;
-      height: 0px;
+      max-height: 0px;
       opacity: 0;
-      transition: opacity 300ms;
+      transition: opacity 300ms, max-height 100ms;
       pointer-events: none;
       .proposal-body-main {
         text-align: left;
@@ -428,13 +432,13 @@
           color: rgb(166, 166, 166);
           font-weight: bold;
           @media screen and (min-width: 400px) {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
           }
           @media screen and (min-width: 410px) {
-            font-size: 1rem;
+            font-size: 0.9rem;
           }
           @media screen and (min-width: 420px) {
-            font-size: 1.1rem;
+            font-size: 1rem;
           }
           
           .proposal-content {
@@ -445,8 +449,8 @@
       }
       &.expanded {
         opacity: 1;
-        height: fit-content;
-        transition: opacity 300ms;
+        max-height: 400px;
+        transition: opacity 300ms, max-height 500ms;
         pointer-events: auto;
       }
     }

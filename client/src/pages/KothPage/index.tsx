@@ -59,7 +59,11 @@ export default function KothPage() {
         </nav>
       </div>
       <div className="king-page-bottom">
-        <div className="placeholder">Coming Soon</div>
+        {activeButton === "standings" ? (
+          <div className="placeholder">Standings</div>
+        ) : (
+          <div className="placeholder">History</div>
+        )}
       </div>
       {/* {standingsData?.map((item) => {
         return <div key={item.year}>{item.year}</div>

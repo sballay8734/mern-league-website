@@ -12,14 +12,14 @@
   padding: 1rem;
   background-size: 20px;
   overflow: hidden;
-  border-radius: 3px;
+  // border-radius: 3px;
   overflow: hidden;
 }
 
 main.eagles {
   --primary-color: rgba(0,76,84,1);
   --accent-color: var(--primary-color);
-  --primary-color-trans: rgba(0,76,84,0.30);
+  --primary-color-trans: rgba(0,76,84,0.25);
   --primary-color-lighter: rgb(118, 188, 195);
   --primary-color-darker: rgba(0, 36, 40, 1);
   --primary-color-darker-for-gradient: rgba(0, 36, 40, 1);
@@ -38,7 +38,7 @@ main.eagles {
 main.eagles-kelly {
   --primary-color: rgba(4, 106, 56, 1);
   --accent-color: var(--primary-color);
-  --primary-color-trans: rgba(4, 106, 56,0.30);
+  --primary-color-trans: rgba(4, 106, 56,0.2);
   --primary-color-lighter: rgb(172, 221, 197);
   --primary-color-darker: rgb(2, 53, 29);
   --primary-color-darker-for-gradient: rgb(1, 29, 16);
@@ -57,7 +57,7 @@ main.eagles-kelly {
 main.liverpool {
   --primary-color: rgba(200, 16, 46, 1);
   --accent-color: var(--primary-color);
-  --primary-color-trans: rgba(200, 16, 46, 0.30);
+  --primary-color-trans: rgba(200, 16, 46, 0.2);
   --primary-color-lighter: rgb(220, 178, 185);
   --primary-color-darker: rgb(86, 6, 19);
   --primary-color-darker-for-gradient: rgb(30, 2, 7);
@@ -76,7 +76,7 @@ main.liverpool {
 main.union {
   --primary-color: rgba(7, 27, 44,1);
   --accent-color: rgba(177, 155, 105, 1);
-  --primary-color-trans: rgba(7, 27, 44,0.30);
+  --primary-color-trans: rgba(7, 27, 44,0.25);
   --primary-color-lighter: rgb(130, 161, 187);
   --primary-color-darker: rgb(1, 14, 25);
   --primary-color-darker-for-gradient: rgb(1, 14, 25);
@@ -95,7 +95,7 @@ main.union {
 main.chelsea {
   --primary-color: rgba(3, 70, 148, 1);
   --accent-color: var(--primary-color);
-  --primary-color-trans: rgba(3, 70, 148, 0.30);
+  --primary-color-trans: rgba(3, 70, 148, 0.2);
   --primary-color-lighter: rgb(139, 173, 211);
   --primary-color-darker: rgba(2, 31, 64, 1);
   --primary-color-darker-for-gradient: rgb(1, 18, 37);
@@ -114,7 +114,7 @@ main.chelsea {
 main.man-city {
   --primary-color: rgba(108, 171, 221, 1);
   --accent-color: var(--primary-color);
-  --primary-color-trans: rgba(108, 171, 221, 0.30);
+  --primary-color-trans: rgba(108, 171, 221, 0.2);
   --primary-color-lighter: rgba(207, 224, 243, 1);
   --primary-color-darker: rgb(19, 59, 91);
   --primary-color-darker-for-gradient: rgb(11, 35, 54);
@@ -133,7 +133,7 @@ main.man-city {
 main.giants {
   --primary-color: rgba(1, 35, 82, 1);
   --accent-color: rgba(163, 13, 45, 1);
-  --primary-color-trans: rgba(1, 35, 82, 0.30);
+  --primary-color-trans: rgba(1, 35, 82, 0.25);
   --primary-color-lighter: rgb(117, 148, 191);
   --primary-color-darker: rgb(0, 21, 49);
   --primary-color-darker-for-gradient: rgb(0, 21, 49);
