@@ -353,18 +353,17 @@
       background-color: rgb(11, 11, 11);
       display: flex;
       justify-content: space-between;
-      padding: 0.5rem 0.5rem;
       font-size: 0.6rem;
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
       @media screen and (min-width: 400px) {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
       }
       @media screen and (min-width: 410px) {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
       }
       @media screen and (min-width: 420px) {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
       }
       h2 {
         color: rgb(181, 181, 181);
@@ -373,9 +372,39 @@
         color: gold;
         font-weight: bold;
       }
-      .proposer-name {
-        color: white;
-        font-weight: bold;
+      .proposal-header-left-wrapper {
+        display: flex;
+        gap: 0.3rem;
+        overflow: hidden;
+        border-top-left-radius: 2px;
+        overflow: hidden;
+        button {
+          padding: 0.5rem 0.5rem;
+          border: 1px solid transparent;
+          border-top-left-radius: 2px;
+          background-color: var(--primary-color);
+          color: white;
+        }
+        h2 {
+          padding: 0.5rem 0rem;
+        }
+      }
+      .you-voted {
+        font-size: 0.6rem;
+        padding: 0.5rem 0.5rem;
+        display: flex;
+        align-items: center;
+        .reject {
+          color: rgb(255, 78, 78);
+          opacity: 0.7
+        }
+        .approve {
+          color: rgb(130, 255, 130);
+          opacity: 0.7
+        }
+        .no-vote {
+          color: rgb(181, 181, 181);
+        }
       }
     }
     .proposal-body {
@@ -387,6 +416,10 @@
       gap: 0.5rem;
       border-bottom-left-radius: 3px;
       border-bottom-right-radius: 3px;
+      height: 0px;
+      opacity: 0;
+      transition: opacity 300ms;
+      pointer-events: none;
       .proposal-body-main {
         text-align: left;
         padding: 0.5rem 0.5rem 0rem 0.5rem;
@@ -410,6 +443,12 @@
           }
         }
       }
+      &.expanded {
+        opacity: 1;
+        height: fit-content;
+        transition: opacity 300ms;
+        pointer-events: auto;
+      }
     }
     .proposal-body-footer {
       background-color: rgb(11, 11, 11);
@@ -420,19 +459,12 @@
       align-items: center;
       border-bottom-left-radius: 3px;
       border-bottom-right-radius: 3px;
-      .you-voted {
+      .proposed-by {
         font-size: 0.6rem;
-        .reject {
-          color: rgb(255, 78, 78);
-          opacity: 0.7
-        }
-        .approve {
-          color: rgb(130, 255, 130);
-          opacity: 0.7
-        }
-        .no-vote {
-          color: rgb(181, 181, 181);
-        }
+        .proposer-name {
+          color: white;
+          font-weight: bold;
+      }
       }
       .status {
         font-size: 0.6rem;
@@ -463,15 +495,15 @@
           color: white;
         }
       }
-      .you-voted, .status, .total-voted {
+      .proposed-by, .status, .total-voted {
         @media screen and (min-width: 400px) {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
         }
         @media screen and (min-width: 410px) {
-          font-size: 0.8rem;
+          font-size: 0.7rem;
         }
         @media screen and (min-width: 420px) {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
         }
       }
     }
