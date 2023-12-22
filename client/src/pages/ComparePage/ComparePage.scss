@@ -235,7 +235,7 @@
     }
     .main-content-wrapper {
       flex: 1 1 auto;
-      border: 1px solid grey;
+      border: 1px solid rgb(79, 79, 79);
       width: 100%;
       border-radius: 3px;
       display: flex;
@@ -252,6 +252,19 @@
         justify-content: space-between;
         flex: 1;
         // overflow: auto;
+        .main-cell {
+          padding: 0.5rem 0;
+          border-bottom: 1px solid var(--primary-color-darker);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: var(--primary-color-darker-for-gradient) 0px 3px 8px;
+          font-weight: bold;
+          &.stat-title {
+            background-color: var(--primary-color);
+            font-weight: bold;
+          }
+        }
         .h2h-nav {
           ul {
             width: 100%;
@@ -287,6 +300,9 @@
           height: fit-content;
           width: 100%;
           background-color: rgb(22, 22, 22);
+          .stat-names {
+            font-weight: bold;
+          }
           .owner-stats, .stat-names {
             display: flex;
             flex-direction: column;
@@ -302,9 +318,9 @@
               top: 0;
               z-index: 2;
             }
-            .stat-title {
-              background-color: var(--primary-color-darker);
-            }
+            // .stat-title {
+            //   background-color: var(--primary-color-darker);
+            // }
             .owner-name {
               background-color: rgb(22, 22, 22);
             }
@@ -320,6 +336,78 @@
           .cell {
             padding: 0.5rem 0;
             border-bottom: 1px solid var(--primary-color-darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+          }
+          .owner-one-stats {
+            .cell {
+              padding: 0.5rem 0;
+              border-bottom: 1px solid var(--primary-color-darker);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              .plus-minus-and-icon {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                right: 3px;
+                font-size: 0.6rem;
+                font-weight: bold;
+                .arrow-icon.green {
+                  color: rgb(110, 255, 110);
+                }
+                .arrow-icon.red {
+                  color: red;
+                }
+              }
+              .plus-minus {
+                font-size: 0.6rem;
+                &.green {
+                  color: rgb(110, 255, 110);
+                }
+                &.red {
+                  color: red;
+                }
+              }
+            }
+          }
+          .owner-two-stats {
+            .cell {
+              padding: 0.5rem 0;
+              border-bottom: 1px solid var(--primary-color-darker);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              .plus-minus-and-icon {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                left: 3px;
+                font-size: 0.6rem;
+                font-weight: bold;
+                .arrow-icon.green {
+                  color: rgb(110, 255, 110);
+                }
+                .arrow-icon.red {
+                  color: red;
+                }
+              }
+              .plus-minus {
+                font-size: 0.6rem;
+                &.green {
+                  color: rgb(110, 255, 110);
+                }
+                &.red {
+                  color: red;
+                }
+              }
+            }
           }
           .stat-title {
             border-bottom: 1px solid var(--primary-color-darker);
