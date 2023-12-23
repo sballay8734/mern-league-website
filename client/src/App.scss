@@ -27,6 +27,7 @@ main.eagles {
   --primary-color-darker-fade: rgba(0,76,84,0);
   --primary-color-darker-hover: rgb(0, 28, 30);
   --primary-color-darker-active: rgb(0, 21, 23);
+  --name-cell-color: rgb(99, 0, 0);
   --white: rgba(255,255,255,1);
   --white-active: rgb(189, 189, 189);
   --white-hover: rgb(154, 154, 154);
@@ -42,11 +43,12 @@ main.eagles-kelly {
   --primary-color-trans: rgba(4, 106, 56,0.2);
   --primary-color-lighter: rgb(172, 221, 197);
   --primary-color-darker: rgb(2, 53, 29);
-  --primary-color-darker-darker: rgb(0, 38, 20);
+  --primary-color-darker-darker: rgb(2, 40, 22);
   --primary-color-darker-for-gradient: rgb(1, 29, 16);
   --primary-color-darker-fade: rgba(4, 106, 56, 0);
   --primary-color-darker-hover: rgb(1, 42, 24);
   --primary-color-darker-active: rgb(0, 22, 13);
+  --name-cell-color: rgb(99, 0, 0);
   --white: rgba(255,255,255,1);
   --white-active: rgb(189, 189, 189);
   --white-hover: rgb(154, 154, 154);
@@ -62,11 +64,12 @@ main.liverpool {
   --primary-color-trans: rgba(200, 16, 46, 0.2);
   --primary-color-lighter: rgb(220, 178, 185);
   --primary-color-darker: rgb(86, 6, 19);
-  --primary-color-darker-darker: rgb(60, 4, 13);
+  --primary-color-darker-darker: rgb(62, 4, 14);
   --primary-color-darker-for-gradient: rgb(30, 2, 7);
   --primary-color-darker-fade: rgba(200, 16, 46, 0);
   --primary-color-darker-hover: rgb(42, 2, 9);
   --primary-color-darker-active: rgb(24, 1, 5);
+  --name-cell-color: rgb(0, 77, 1);
   --white: rgba(255,255,255,1);
   --white-active: rgb(189, 189, 189);
   --white-hover: rgb(154, 154, 154);
@@ -77,16 +80,17 @@ main.liverpool {
   }
 }
 main.union {
-  --primary-color: rgba(7, 27, 44,1);
+  --primary-color: rgb(10, 40, 65);
   --accent-color: rgba(177, 155, 105, 1);
   --primary-color-trans: rgba(7, 27, 44,0.25);
   --primary-color-lighter: rgb(130, 161, 187);
-  --primary-color-darker: rgb(1, 14, 25);
-  --primary-color-darker-darker: rgb(0, 2, 4);
+  --primary-color-darker: rgb(2, 23, 41);
+  --primary-color-darker-darker: rgb(1, 8, 15);
   --primary-color-darker-for-gradient: rgb(1, 14, 25);
   --primary-color-darker-fade: rgba(1, 14, 25, 0);
   --primary-color-darker-hover: rgb(1, 14, 25, 0.9);
   --primary-color-darker-active: rgb(1, 14, 25, 0.8);
+  --name-cell-color: rgb(99, 0, 0);
   --white: rgba(255,255,255,1);
   --white-active: rgb(189, 189, 189);
   --white-hover: rgb(154, 154, 154);
@@ -101,12 +105,13 @@ main.chelsea {
   --accent-color: var(--primary-color);
   --primary-color-trans: rgba(3, 70, 148, 0.2);
   --primary-color-lighter: rgb(139, 173, 211);
-  --primary-color-darker: rgba(2, 31, 64, 1);
-  --primary-color-darker-darker: rgb(1, 21, 43);
+  --primary-color-darker: rgb(2, 29, 61);
+  --primary-color-darker-darker: rgb(2, 23, 48);
   --primary-color-darker-for-gradient: rgb(1, 18, 37);
   --primary-color-darker-fade: rgba(2, 31, 64, 0);
   --primary-color-darker-hover: rgba(1, 18, 37, 1);
   --primary-color-darker-active: rgba(1, 18, 37, 0.9);
+  --name-cell-color: rgb(99, 0, 0);
   --white: rgba(255,255,255,1);
   --white-active: rgb(189, 189, 189);
   --white-hover: rgb(154, 154, 154);
@@ -122,11 +127,12 @@ main.man-city {
   --primary-color-trans: rgba(108, 171, 221, 0.2);
   --primary-color-lighter: rgba(207, 224, 243, 1);
   --primary-color-darker: rgb(19, 59, 91);
-  --primary-color-darker-darker: rgb(14, 43, 68);
+  --primary-color-darker-darker: rgb(13, 42, 66);
   --primary-color-darker-for-gradient: rgb(11, 35, 54);
   --primary-color-darker-fade: rgba(45, 105, 154, 0);
   --primary-color-darker-hover: rgb(27, 73, 111);
   --primary-color-darker-active: rgb(10, 35, 56);
+  --name-cell-color: rgb(99, 0, 0);
   --white: rgba(255,255,255,1);
   --white-active: rgb(189, 189, 189);
   --white-hover: rgb(154, 154, 154);
@@ -137,16 +143,19 @@ main.man-city {
   }
 }
 main.giants {
-  --primary-color: rgba(1, 35, 82, 1);
+  --primary-color: rgb(0, 44, 105);
+  // --primary-color: rgba(1, 35, 82, 1); // ORIGINAL
   --accent-color: rgba(163, 13, 45, 1);
   --primary-color-trans: rgba(1, 35, 82, 0.25);
   --primary-color-lighter: rgb(117, 148, 191);
-  --primary-color-darker: rgb(0, 21, 49);
-  --primary-color-darker-darker: rgb(0, 15, 34);
+  --primary-color-darker: rgb(0, 30, 69);
+  --primary-color-darker-darker: rgb(0, 17, 40);
+  // --primary-color-darker: rgb(0, 21, 49); // ORIGINAL
   --primary-color-darker-for-gradient: rgb(0, 21, 49);
   --primary-color-darker-fade: rgba(1, 35, 82, 0);
   --primary-color-darker-hover: rgba(1, 35, 82, 0.9);
   --primary-color-darker-active: rgba(1, 35, 82, 0.8);
+  --name-cell-color: rgb(99, 0, 0);
   --white: rgba(255,255,255,1);
   --white-active: rgb(189, 189, 189);
   --white-hover: rgb(154, 154, 154);
