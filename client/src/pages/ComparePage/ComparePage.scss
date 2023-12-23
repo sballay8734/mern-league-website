@@ -106,7 +106,7 @@
     justify-content: space-between;
     background: linear-gradient(180deg, rgb(13, 13, 13) 30%, var(--primary-color-darker-for-gradient) 100%);
     .selector-wrapper {
-      border: 1px solid var(--primary-color);
+      border: 1px solid rgb(35, 35, 35);
       width: 100%;
       height: 105px;
       // flex: 0 0 20%;
@@ -235,7 +235,7 @@
     }
     .main-content-wrapper {
       flex: 1 1 auto;
-      border: 1px solid rgb(79, 79, 79);
+      border: 1px solid var(--primary-color);
       width: 100%;
       border-radius: 3px;
       display: flex;
@@ -415,11 +415,131 @@
         }
       }
       .compare-yearly {
-
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        .compare-nav {
+          width: 100%;
+          position: relative;
+          .year-dropdown {
+            // border: 1px solid red;
+            height: 0px;
+            opacity: 0;
+            transition: all 300ms;
+            position: absolute;
+            width: 100%;
+            overflow: auto;
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
+            z-index: 1;
+            border: 1px solid var(--primary-color);
+            border-left: none;
+            border-right: none;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+            &.show {
+              height: 300px;
+              opacity: 1;
+              transition: all 300ms;
+            }
+            .dropdown-list {
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+              box-shadow: var(--primary-color-darker-for-gradient) 0px 3px 8px;
+              li {
+                width: 100%;
+                border-bottom: 1px solid var(--primary-color-darker-darker);
+                .dropdown-button {
+                  width: 100%;
+                  width: 100%;
+                  border: none;
+                  padding: 1rem 0.2rem;
+                  cursor: pointer;
+                  color: white;
+                  font-size: 1rem;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  background-color: var(--primary-color-darker);
+                  transition: all 300ms;
+                  &.selected {
+                    background-color: var(--primary-color-darker-darker);
+                    font-weight: bold;
+                    transition: all 300ms;
+                  }
+                  &:hover {
+                    background-color: var(--primary-color);
+                    transition: all 300ms;
+                  }
+                  &:active {
+                    background-color: rgb(29, 29, 29);
+                    transition: all 300ms;
+                  }
+                }
+              }
+            }
+          }
+          .year-selector {
+            width: 100%;
+            border: none;
+            padding: 1rem 0.2rem;
+            cursor: pointer;
+            color: white;
+            transition: all 300ms;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: rgb(11, 11, 11);
+            border: 1px solid var(--primary-color);
+            font-weight: bold;
+            color: rgb(255, 236, 128);
+            box-shadow: var(--primary-color-darker-for-gradient) 0px 3px 8px;
+            z-index: 3;
+            border-radius: 3px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            &.active {
+              background-color: rgb(95, 95, 95);
+              transition: all 300ms;
+            }
+            &:hover {
+              opacity: 0.85;
+            }
+            .year-selector-arrow {
+              position: absolute;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              right: 0px;
+              height: 100%;
+              font-size: 1rem;
+              background-color: var(--primary-color);
+              width: 50px;
+              color: white;
+            }
+          }
+        }
+        .yearly-content {
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
       }
       .compare-all-time {
 
       }
+    }
+    .h2h-content-wrapper-temp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
     }
   }
 }

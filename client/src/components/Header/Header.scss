@@ -100,7 +100,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 3;
+  z-index: 99;
   @media screen and (min-width: 821px) {
     display: none;
   }
