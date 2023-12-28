@@ -576,7 +576,7 @@
           box-shadow: var(--primary-color-darker-for-gradient) 0px 3px 8px;
           font-family: 'Caveat', cursive;
           font-size: 1.4rem;
-          background: linear-gradient(90deg, var(--primary-color-darker-darker) 0%, var(--primary-color-darker) 50%, var(--primary-color-darker-darker) 100%);
+          background: linear-gradient(90deg, var(--primary-color-darker) 0%, var(--primary-color) 50%, var(--primary-color-darker) 100%);
           position: relative;
           z-index: 3;
         }

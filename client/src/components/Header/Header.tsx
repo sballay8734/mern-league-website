@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useState } from "react"
 
@@ -15,9 +15,18 @@ import "./Header.scss"
 export default function Header() {
   const { user } = useSelector((state: RootState) => state.user)
   const [navIsShown, setNavIsShown] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   function handleNavToggle() {
     setNavIsShown(!navIsShown)
+  }
+
+  function handleAdminNav() {
+    if (!user) return
+    if (user.isAdmin === false) return
+
+    handleNavToggle()
+    navigate("/admin")
   }
 
   return (
@@ -81,7 +90,7 @@ export default function Header() {
               <FaAward />
             </Link>
           </div>
-          <div className="mobile-nav-spacer">
+          <div className="mobile-nav-spacer" onClick={handleAdminNav}>
             {user ? (
               <img
                 src={
