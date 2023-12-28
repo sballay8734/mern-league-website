@@ -29,12 +29,7 @@ interface RegSznWeekObject {
   opponent: string
 }
 
-interface PlayoffWeekObject {
-  roundOne: RoundOneObject
-  [round: string]: RoundObject
-}
-
-interface RoundOneObject extends RoundObject {
+interface PlayoffWeekObject extends RoundObject {
   bye?: boolean
 }
 

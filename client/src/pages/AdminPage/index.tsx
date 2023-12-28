@@ -4,6 +4,10 @@ import { useState } from "react"
 import { MdAdminPanelSettings } from "react-icons/md"
 import { RootState } from "../../redux/store"
 import { useFetchOwnersQuery } from "../../redux/owners/ownersApi"
+import {
+  allTimeStaticDataInit
+  // yearlyStaticDataInit
+} from "./utils/staticDataFunction"
 import "./AdminPage.scss"
 
 // const baseUrl = "https://api.prop-odds.com"
@@ -14,7 +18,7 @@ export default function AdminPage() {
   const [activeButton, setActiveButton] = useState<string>("tempAdmins")
   const [updateInProgress, setUpdateInProgress] = useState<boolean>(false)
 
-  console.log(data)
+  // console.log(data)
 
   // async function handleFetchProps() {
   //   console.log("Starting request...")
@@ -37,13 +41,20 @@ export default function AdminPage() {
   //   console.log(data)
   // }
 
-  function runStaticDataUpdate() {
+  async function runStaticDataUpdate() {
     setUpdateInProgress(true)
 
-    setTimeout(() => {
-      console.log("Bang")
-      setUpdateInProgress(false)
-    }, 2000)
+    if (!data) return
+
+    try {
+      // run all update functions
+      console.log(allTimeStaticDataInit(data))
+      // yearlyStaticDataInit(data)
+    } catch (error) {
+      console.log(error)
+    }
+
+    setUpdateInProgress(false)
   }
 
   function testButton() {
