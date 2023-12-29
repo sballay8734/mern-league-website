@@ -5,8 +5,8 @@ import { MdAdminPanelSettings } from "react-icons/md"
 import { RootState } from "../../redux/store"
 import { useFetchOwnersQuery } from "../../redux/owners/ownersApi"
 import {
-  allTimeStaticDataInit
-  // yearlyStaticDataInit
+  // allTimeStaticDataInit,
+  staticDataInit
 } from "./utils/staticDataFunction"
 import "./AdminPage.scss"
 
@@ -41,15 +41,15 @@ export default function AdminPage() {
   //   console.log(data)
   // }
 
-  async function runStaticDataUpdate() {
+  function runStaticDataUpdate() {
     setUpdateInProgress(true)
 
     if (!data) return
 
     try {
       // run all update functions
-      console.log(allTimeStaticDataInit(data))
-      // yearlyStaticDataInit(data)
+      console.log(staticDataInit(data))
+      // console.log(yearlyStaticDataInit(data[0], 2014))
     } catch (error) {
       console.log(error)
     }

@@ -39,3 +39,43 @@ interface RoundObject {
   pointsAgainst: number | null
   opponent: string | null
 }
+
+// TO DB
+export interface OwnerData {
+  ownerName: string
+  id: number
+  [year: number]: YearDataObject
+}
+
+interface YearDataObject {
+  participated: boolean
+  // combined: any,
+  playoffStats: PlayoffData
+  regSznStats: RegSznData
+}
+
+interface PlayoffData {
+  POByes?: number
+  POGamesPlayed: number
+  avgPA: number
+  avgPF: number
+  losses: number
+  participated: boolean
+  pointsAgainst: number
+  pointsFor: number
+  ties: number
+  winningPct: number
+  wins: number
+}
+
+interface RegSznData {
+  RSGamesPlayed: number
+  avgPA: number
+  avgPF: number
+  losses: number
+  pointsAgainst: number
+  pointsFor: number
+  ties: number
+  winningPct: number
+  wins: number
+}
