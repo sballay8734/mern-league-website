@@ -185,3 +185,25 @@ function getYearsParticipated(owner: Owner) {
 // function yearlyCombinedStats(owner: Owner, year: string) {
 //   return
 // }
+
+// might have to change to
+/*
+  owner: {
+    yearly: {
+      2014: {data},
+      2015: {data},
+      2016: {data},
+    },
+    allTime: {
+      regSzn: {data},
+      playoffs: {data},
+      combined: {data}
+    },
+    h2h: {
+      regSzn: {data},
+      playoffs: {data},
+      combined: {data}
+    }
+
+  }
+*/
