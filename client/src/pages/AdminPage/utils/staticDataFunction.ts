@@ -1,198 +1,54 @@
-import { Owner } from "../../../redux/owners/interfaces"
-import { OwnerData } from "../../../redux/owners/interfaces"
+import {
+  Owner,
+  PlayoffData,
+  RegSznData,
+  YearDataObject,
+  YearlyOwnerData
+} from "../../../redux/owners/interfaces"
 
-// MAIN INITIALIZERS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// loop through owners, loop through years for each owner, calculate
 export function staticDataInit(owners: Owner[]) {
+  const ownerObjectsList = []
+  // loop through owners HERE
   for (let i = 0; i < owners.length; i++) {
-    const ownerObject: OwnerData = {
+    const ownerObject = {
       ownerName: owners[i].ownerName,
       id: owners[i].id
     }
+    const yearObjects: YearlyOwnerData = {}
+
     const currentOwner = owners[i]
-    const years = getYearsParticipated(currentOwner)
+    const yearsPresent = getYearsParticipated(currentOwner).yearsParticipated
+    const yearsAbsent = getYearsParticipated(currentOwner).yearsNotParticipated
+    const allYears = [...yearsPresent, ...yearsAbsent]
 
-    // calculate yearly stats *************************************************
-    for (let i = 0; i < years.length; i++) {
-      // TS ERROR (Working but need to fix)
-      // SHOULD RETURN 2017: {participated: false}
-      ownerObject[Number(years[i])] = calcAndUpdateStats(currentOwner, years[i])
+    // loop through years for each owner HERE
+    for (let i = 0; i < allYears.length; i++) {
+      const year = allYears[i]
+      if (yearsPresent.includes(year)) {
+        const yearObject = calcAndUpdateStats(currentOwner, year)
+        Object.assign(yearObjects, yearObject)
+      } else {
+        const tempObject = {
+          [year]: {
+            participated: false,
+            regSznStats: null,
+            playoffStats: null,
+            combined: null
+          } as YearDataObject
+        }
+        Object.assign(yearObjects, tempObject)
+      }
     }
-
-    return ownerObject
+    ownerObjectsList.push({ ...ownerObject, ...yearObjects })
   }
+  return ownerObjectsList
 }
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-export function yearlyStaticDataInit(owner: Owner, year: number) {
-  if (owner[year].participated === false) {
-    console.log(`${owner.ownerName} did not participate in ${year}`)
-    return
-  }
-
-  // otherwise, RUN ALL UPDATE FUNCTIONS
-  console.log(`${owner.ownerName} ${year}`)
-}
-
-// MAIN INITIALIZERS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-// Helpers ********************************************************************
-// function allTimeStats(owner: Owner) {
-//   let totalYears = 0
-//   let totalByeWeeks = 0
-
-//   let regSznPoints = 0
-//   let regSznGames = 0
-
-//   let playoffPoints = 0
-//   let playoffGames = 0
-
-//   let totalTies = 0
-
-//   let regSznWins = 0
-//   let regSznLosses = 0
-//   let playoffWins = 0
-//   let playoffLosses = 0
-
-//   const years = Object.keys(owner)
-//   // Loop through YEARS
-//   for (let i = 0; i < years.length; i++) {
-//     if (years[i].slice(0, 2) !== "20") continue
-//     const currentYear = Number(years[i])
-
-//     if (owner[currentYear].participated === false) continue
-//     totalYears++
-
-//     const regularSeasonValues = Object.values(owner[currentYear].regularSeason)
-//     const playoffValues = Object.values(owner[currentYear].playoffs)
-
-//     // loop through REGSZN games
-//     for (const weekObject of regularSeasonValues) {
-//       if (!weekObject) continue
-
-//       // wins/losses logic
-//       if (Number(weekObject.pointsFor) > Number(weekObject.pointsAgainst)) {
-//         regSznWins++
-//       } else if (
-//         Number(weekObject.pointsFor) < Number(weekObject.pointsAgainst)
-//       ) {
-//         regSznLosses++
-//       } else if (
-//         Number(weekObject.pointsFor) === Number(weekObject.pointsAgainst)
-//       ) {
-//         totalTies++
-//       }
-
-//       regSznPoints += Number(weekObject.pointsFor)
-//       regSznGames++
-//     }
-//     // loop through PLAYOFF games
-//     for (const roundObject of playoffValues) {
-//       if (!roundObject) continue
-//       if (roundObject.participated === false) continue
-//       if (roundObject.bye && roundObject.bye === true) {
-//         totalByeWeeks++
-//         continue
-//       }
-
-//       // wins/losses logic
-//       if (Number(roundObject.pointsFor) > Number(roundObject.pointsAgainst)) {
-//         playoffWins++
-//       } else if (
-//         Number(roundObject.pointsFor) < Number(roundObject.pointsAgainst)
-//       ) {
-//         playoffLosses++
-//       } else if (
-//         Number(roundObject.pointsFor) === Number(roundObject.pointsAgainst)
-//       ) {
-//         totalTies++
-//       }
-
-//       playoffPoints += Number(roundObject.pointsFor)
-//       playoffGames++
-//     }
-//   }
-
-//   // Return items
-//   const averageTotalPointsPerYear = Number(
-//     ((regSznPoints + playoffPoints) / totalYears).toFixed(2)
-//   )
-//   const averagePlayoffPointsPerMatch = Number(
-//     (playoffPoints / playoffGames).toFixed(2)
-//   )
-//   const averageRegSznPointsPerMatch = Number(
-//     (regSznPoints / regSznGames).toFixed(2)
-//   )
-//   const allTimeAvgRegSznPointsPerYear = Number(
-//     (regSznPoints / totalYears).toFixed(2)
-//   )
-//   const allTimeWinningPct = Number(
-//     (((regSznWins + playoffWins) / (regSznGames + playoffGames)) * 100).toFixed(
-//       2
-//     )
-//   )
-//   const allTimeRegSznWinningPct = Number(
-//     ((regSznWins / regSznGames) * 100).toFixed(2)
-//   )
-//   const allTimePlayoffWinningPct = Number(
-//     ((playoffWins / playoffGames) * 100).toFixed(2)
-//   )
-
-//   return {
-//     ownerName: owner.ownerName,
-//     //
-//     allTimeTotalPointsFor: Number((regSznPoints + playoffPoints).toFixed(2)),
-//     allTimePlayoffPointsFor: Number(playoffPoints.toFixed(2)),
-//     allTimeRegSznPointsFor: Number(regSznPoints.toFixed(2)),
-//     allTimeAvgTotalPointsForPerYear: averageTotalPointsPerYear,
-//     allTimeAvgRegSznPointsForPerYear: allTimeAvgRegSznPointsPerYear,
-//     allTimeAvgPlayoffPointsForPerGame: averagePlayoffPointsPerMatch,
-//     allTimeAvgRegSznPointsForPerGame: averageRegSznPointsPerMatch,
-//     //
-//     yearsInLeague: totalYears,
-//     allTimeTotalByeWeeks: totalByeWeeks,
-//     allTimeTotalPlayoffGames: playoffGames,
-//     allTimeTotalRegSznGames: regSznGames,
-//     //
-//     allTimeWins: regSznWins + playoffWins,
-//     allTimeLosses: regSznLosses + playoffLosses,
-//     allTimeTies: totalTies,
-//     allTimeRegSznWins: regSznWins,
-//     allTimeRegSznLosses: regSznLosses,
-//     allTimePlayoffWins: playoffWins,
-//     allTimePlayoffLosses: playoffLosses,
-//     allTimeWinningPct: allTimeWinningPct,
-//     allTimeRegSznWinningPct: allTimeRegSznWinningPct,
-//     allTimePlayoffWinningPct: allTimePlayoffWinningPct
-//     // allTimePlayoffAppearances
-//     // allTimePlayoffParticipationRate
-//     // allTimeAvgWinsPerSeason
-//     // allTimeAvgLosesPerSeason
-//     //
-//     // allTimeTotalPointsAgainst
-//     // allTimePlayoffPointsAgainst
-//     // allTimeRegSznPointsAgainst
-//     // allTimeAvgTotalPointsAgainstPerYear
-//     // allTimeAvgRegSznPointsAgainstPerYear
-//     // allTimeAvgPlayoffPointsAgainstPerGame
-//     // allTimeAvgRegSznPointsAgainstPerGame
-//     // allTimePointDifferential
-//   }
-// }
-
-function getYearsParticipated(owner: Owner) {
-  const yearsParticipated = []
-
-  const yearKeys = Object.keys(owner)
-  for (const year of yearKeys) {
-    if (year.slice(0, 2) !== "20") continue
-    if (owner[Number(year)].participated === false) continue
-
-    yearsParticipated.push(year)
-  }
-
-  return yearsParticipated
-}
-
-function calcAndUpdateStats(owner: Owner, year: string) {
+// Calculate all stats for each owner passed to it
+function calcAndUpdateStats(owner: Owner, year: string): YearlyOwnerData {
   // // yearly regSzn stats **********************************
   const regSznStats = yearlyRegSznStats(owner, year)
   // // yearly playoff stats **********************************
@@ -200,24 +56,18 @@ function calcAndUpdateStats(owner: Owner, year: string) {
   // // yearly combined **********************************
   // COMBINED GOES HERE
 
-  // console.log(owner.ownerName, {
-  //   [year]: {
-  //     regSznStats,
-  //     playoffStats,
-  //     combined: "Combined"
-  //   }
-  // })
-
   return {
-    [year]: {
+    [year as string]: {
+      participated: true,
       regSznStats,
-      playoffStats,
-      combined: "Combined"
-    }
+      playoffStats
+      // combined: "Combined"
+    } as YearDataObject
   }
 }
 
-function yearlyRegSznStats(owner: Owner, year: string) {
+// Called from calcAndUpdateStats
+function yearlyRegSznStats(owner: Owner, year: string): RegSznData {
   const regSznKeys = Object.values(owner[Number(year)].regularSeason)
   // already got valid season, no need to check here
 
@@ -245,26 +95,24 @@ function yearlyRegSznStats(owner: Owner, year: string) {
   }
 
   return {
-    pointsFor: RSPointsFor,
-    pointsAgainst: RSPointsAgainst,
     RSGamesPlayed: RSGames,
-    wins: RSWins,
-    losses: RSLosses,
-    ties: RSTies,
-    avgPF: Number((RSPointsFor / RSGames).toFixed(2)),
     avgPA: Number((RSPointsAgainst / RSGames).toFixed(2)),
+    avgPF: Number((RSPointsFor / RSGames).toFixed(2)),
+    losses: RSLosses,
+    pointsAgainst: RSPointsAgainst,
+    pointsFor: RSPointsFor,
+    ties: RSTies,
+    wins: RSWins,
     winningPct: Number(((RSWins / RSGames) * 100).toFixed(2))
   }
 }
-
-function yearlyPlayoffStats(owner: Owner, year: string) {
+// Called from calcAndUpdateStats
+function yearlyPlayoffStats(owner: Owner, year: string): PlayoffData {
   const playoffKeys = Object.values(owner[Number(year)].playoffs)
   // already got valid season, no need to check here
   if (owner[Number(year)].playoffs["roundOne"].participated === false) {
     return {
-      playoffs: {
-        participated: false
-      }
+      participated: false
     }
   }
 
@@ -314,6 +162,24 @@ function yearlyPlayoffStats(owner: Owner, year: string) {
     winningPct: Number(((POWins / POGames) * 100).toFixed(2)),
     POByes: POByes
   }
+}
+// Helper
+function getYearsParticipated(owner: Owner) {
+  const yearsParticipated = []
+  const yearsNotParticipated = []
+
+  const yearKeys = Object.keys(owner)
+  for (const year of yearKeys) {
+    if (year.slice(0, 2) !== "20") continue
+    if (owner[Number(year)].participated === false) {
+      yearsNotParticipated.push(year)
+      continue
+    }
+
+    yearsParticipated.push(year)
+  }
+
+  return { yearsParticipated, yearsNotParticipated }
 }
 
 // function yearlyCombinedStats(owner: Owner, year: string) {
