@@ -186,7 +186,7 @@ function getYearsParticipated(owner: Owner) {
 //   return
 // }
 
-// might have to change to
+// might have to change to this for staticData
 /*
   owner: {
     yearly: {
