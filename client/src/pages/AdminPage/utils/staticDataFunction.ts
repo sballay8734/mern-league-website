@@ -19,8 +19,8 @@ export function staticDataInit(owners: Owner[]) {
       ownerName: owners[i].ownerName,
       id: owners[i].id,
       yearly: {},
-      allTime: {}
-      // h2h: {}
+      allTime: {},
+      h2h: {}
     }
 
     const currentOwner = owners[i]
@@ -52,7 +52,11 @@ export function staticDataInit(owners: Owner[]) {
     // then do allTime Here
     const allTimeStats = calcAllTimeStats(currentOwner)
     Object.assign(ownerObject.allTime, allTimeStats)
-    // ownersObject
+
+    // then do head to head here
+    const h2hStats = calcH2HStats(currentOwner)
+    Object.assign(ownerObject.h2h, h2hStats)
+
     ownerObjectsList.push({ ...ownerObject })
   }
   return ownerObjectsList
@@ -100,9 +104,40 @@ function calcAllTimeStats(owner: Owner) {
   }
 }
 // MAIN FUNCTION H2H (ADD RETURN TYPE)
-// function calcH2HStats(owner: Owner) {
-//   console.log("H2H")
-// }
+function calcH2HStats(owner: Owner) {
+  const ownerNames: string[] = [
+    "Shawn Ballay",
+    "Steve Smith",
+    "Don Irons",
+    "Steve Lloyd",
+    "Dante Nocito",
+    "Cody Zwier",
+    "Jimmy Wagner",
+    "Dan George",
+    "Dom Nocito",
+    "Dom Flipp",
+    "Aaron Mackenzie",
+    "Joe Kane"
+  ]
+
+  for (let i = 0; i < ownerNames.length; i++) {
+    const currentCheck = ownerNames[i]
+
+    // if owner === current check, skip
+    if (currentCheck === owner.ownerName) continue
+
+    // otherwise, find all regSznMatchups, playoffmatchups, and combine
+    const regSznH2HStats = h2hRegSzn(owner, currentCheck) // call function
+    const playoffH2HStats = owner.ownerName // call function
+    const combinedH2HStats = owner.ownerName // call function
+
+    return {
+      regSznH2HStats,
+      playoffH2HStats,
+      combinedH2HStats
+    }
+  }
+}
 
 // YEARLY **********************************************************************
 // Called from calcYearlyStats
@@ -414,7 +449,54 @@ function allTimeCombinedStats(
   }
 }
 
-// Helper
+// H2H *************************************************************************
+// Called from calcH2HStats
+function h2hRegSzn(owner: Owner, owner2: string) {
+  const opponent = owner2
+  let wins = 0
+  let losses = 0
+  let ties = 0
+  let totalPointsFor = 0
+  let totalPointsAgainst = 0
+
+  const yearKeys = Object.keys(owner)
+
+  for (let i = 0; i < yearKeys.length; i++) {
+    const year = Number(yearKeys[i])
+    if (year.toString().slice(0, 2) !== "20") continue
+    if (owner[year].participated === false) continue
+
+    // loop through matchups to find owner2
+    const regSznKeys = Object.keys(owner[year].regularSeason)
+
+    for (let i = 0; i < regSznKeys.length; i++) {
+      const week = regSznKeys[i]
+      const matchupOpponent = owner[year].regularSeason[week].opponent
+      const pointsFor = owner[year].regularSeason[week].pointsFor
+      const pointsAgainst = owner[year].regularSeason[week].pointsAgainst
+
+      if (matchupOpponent !== opponent) continue
+
+      if (pointsFor > pointsAgainst) wins++
+      if (pointsFor < pointsAgainst) losses++
+      if (pointsFor === pointsAgainst) ties++
+
+      totalPointsFor += pointsFor
+      totalPointsAgainst += pointsAgainst
+    }
+  }
+  return {
+    [opponent]: {
+      wins,
+      losses,
+      ties,
+      totalPointsFor,
+      totalPointsAgainst
+    }
+  }
+}
+
+// Helpers ---------------------------------------------------------------------
 function getYearsParticipated(owner: Owner) {
   const yearsParticipated = []
   const yearsNotParticipated = []
@@ -432,25 +514,3 @@ function getYearsParticipated(owner: Owner) {
 
   return { yearsParticipated, yearsNotParticipated }
 }
-
-// might have to change to this for staticData
-/*
-  owner: {
-    yearly: {
-      2014: {data},
-      2015: {data},
-      2016: {data},
-    },
-    allTime: {
-      regSzn: {data},
-      playoffs: {data},
-      combined: {data}
-    },
-    h2h: {
-      regSzn: {data},
-      playoffs: {data},
-      combined: {data}
-    }
-
-  }
-*/
