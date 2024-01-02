@@ -83,15 +83,14 @@ export interface RegSznData {
   wins: number
 }
 
-// interface CombinedData {
-//   GamesPlayed: number
-//   RSGamesPlayed: number
-//   avgPA: number
-//   avgPF: number
-//   wins: number
-//   losses: number
-//   pointsAgainst: number
-//   pointsFor: number
-//   ties: number
-//   winningPct: number
-// }
+export interface CombinedData {
+  GamesPlayed: number
+  avgPA: number
+  avgPF: number
+  wins: number
+  losses: number
+  pointsAgainst: number
+  pointsFor: number
+  ties: number
+  winningPct: number
+}
