@@ -4,7 +4,9 @@ import {
   RegSznData,
   YearDataObject,
   YearlyOwnerData,
-  CombinedData
+  CombinedData,
+  allTimeRegSznData,
+  allTimePlayoffData
 } from "../../../redux/owners/interfaces"
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -86,7 +88,10 @@ function calcAllTimeStats(owner: Owner) {
   const allTimeRSData = allTimeRegSznStats(owner) // call function
 
   // Combined Data ***********************************
-  const allTimeCombinedData = allTimeRegSznStats(owner) // call function
+  const allTimeCombinedData = allTimeCombinedStats(
+    allTimePlayoffData,
+    allTimeRSData
+  ) // call function
 
   return {
     regSzn: allTimeRSData,
@@ -95,9 +100,9 @@ function calcAllTimeStats(owner: Owner) {
   }
 }
 // MAIN FUNCTION H2H (ADD RETURN TYPE)
-function calcH2HStats(owner: Owner) {
-  console.log("H2H")
-}
+// function calcH2HStats(owner: Owner) {
+//   console.log("H2H")
+// }
 
 // YEARLY **********************************************************************
 // Called from calcYearlyStats
@@ -210,7 +215,7 @@ function yearlyCombinedStats(
     const combinedData = {
       pointsFor: regSznData.pointsFor + playoffData.pointsFor!,
       pointsAgainst: regSznData.pointsAgainst + playoffData.pointsAgainst!,
-      GamesPlayed: regSznData.RSGamesPlayed + playoffData.POGamesPlayed,
+      gamesPlayed: regSznData.RSGamesPlayed + playoffData.POGamesPlayed,
       wins: regSznData.wins + playoffData.wins!,
       losses: regSznData.losses + playoffData.losses!,
       ties: regSznData.ties,
@@ -239,7 +244,7 @@ function yearlyCombinedStats(
     const combinedData = {
       pointsFor: regSznData.pointsFor,
       pointsAgainst: regSznData.pointsAgainst,
-      GamesPlayed: regSznData.RSGamesPlayed,
+      gamesPlayed: regSznData.RSGamesPlayed,
       wins: regSznData.wins,
       losses: regSznData.losses,
       ties: regSznData.ties,
@@ -343,19 +348,70 @@ function allTimePlayoffStats(owner: Owner) {
   }
 
   return {
-    POGamesPlayed,
-    RSavgPA: Number((POpointsAgainst / POGamesPlayed).toFixed(2)),
-    RSavgPF: Number((POpointsFor / POGamesPlayed).toFixed(2)),
-    POlosses,
-    POpointsAgainst: Number(POpointsAgainst.toFixed(2)),
-    POpointsFor: Number(POpointsFor.toFixed(2)),
-    RSwinningPct: Number(((POwins / POGamesPlayed) * 100).toFixed(2)),
-    POwins
+    POGamesPlayed: POGamesPlayed || 0,
+    POavgPA: Number((POpointsAgainst / POGamesPlayed).toFixed(2)) || 0,
+    POavgPF: Number((POpointsFor / POGamesPlayed).toFixed(2)) || 0,
+    POlosses: POlosses || 0,
+    POpointsAgainst: Number(POpointsAgainst.toFixed(2)) || 0,
+    POpointsFor: Number(POpointsFor.toFixed(2)) || 0,
+    POwinningPct: Number(((POwins / POGamesPlayed) * 100).toFixed(2)) || 0,
+    POwins: POwins || 0
   }
 }
 // Called from calcAllTimeStats
-function allTimeCombinedStats(owner: Owner) {
-  console.log("COMBINED ALL-TIME")
+function allTimeCombinedStats(
+  playoffData: allTimePlayoffData,
+  regSznData: allTimeRegSznData
+) {
+  // if owner never made playoffs (DANTE)
+  if (playoffData.POGamesPlayed === 0) {
+    return {
+      gamesPlayed: regSznData.RSGamesPlayed,
+      avgPA: regSznData.RSavgPA,
+      avgPF: regSznData.RSavgPF,
+      losses: regSznData.RSlosses,
+      pointsAgainst: regSznData.RSpointsAgainst,
+      pointsFor: regSznData.RSpointsFor,
+      ties: regSznData.RSties,
+      winningPct: regSznData.RSwinningPct,
+      wins: regSznData.RSwins
+    }
+    // if they have (EVERYONE ELSE)
+  } else {
+    return {
+      gamesPlayed: regSznData.RSGamesPlayed + playoffData.POGamesPlayed,
+      avgPA: Number(
+        (
+          ((regSznData.RSpointsAgainst + playoffData.POpointsAgainst) /
+            (regSznData.RSGamesPlayed + playoffData.POGamesPlayed)) *
+          100
+        ).toFixed(2)
+      ),
+      avgPF: Number(
+        (
+          ((regSznData.RSpointsFor + playoffData.POpointsFor) /
+            (regSznData.RSGamesPlayed + playoffData.POGamesPlayed)) *
+          100
+        ).toFixed(2)
+      ),
+      losses: regSznData.RSlosses + playoffData.POlosses,
+      pointsAgainst: Number(
+        (regSznData.RSpointsAgainst + playoffData.POpointsAgainst).toFixed(2)
+      ),
+      pointsFor: Number(
+        (regSznData.RSpointsFor + playoffData.POpointsFor).toFixed(2)
+      ),
+      ties: regSznData.RSties,
+      winningPct: Number(
+        (
+          ((regSznData.RSwins + playoffData.POwins) /
+            (regSznData.RSGamesPlayed + playoffData.POGamesPlayed)) *
+          100
+        ).toFixed(2)
+      ),
+      wins: regSznData.RSwins + playoffData.POwins
+    }
+  }
 }
 
 // Helper

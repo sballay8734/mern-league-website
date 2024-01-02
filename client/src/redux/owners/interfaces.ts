@@ -84,7 +84,7 @@ export interface RegSznData {
 }
 
 export interface CombinedData {
-  GamesPlayed: number
+  gamesPlayed: number
   avgPA: number
   avgPF: number
   wins: number
@@ -93,4 +93,27 @@ export interface CombinedData {
   pointsFor: number
   ties: number
   winningPct: number
+}
+
+export interface allTimePlayoffData {
+  POGamesPlayed: number
+  POlosses: number
+  POpointsAgainst: number
+  POpointsFor: number
+  POwins: number
+  POavgPA: number
+  POavgPF: number
+  POwinningPct: number
+}
+
+export interface allTimeRegSznData {
+  RSGamesPlayed: number
+  RSlosses: number
+  RSpointsAgainst: number
+  RSpointsFor: number
+  RSwins: number
+  RSavgPA: number
+  RSavgPF: number
+  RSwinningPct: number
+  RSties: number
 }
