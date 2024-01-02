@@ -117,3 +117,29 @@ export interface allTimeRegSznData {
   RSwinningPct: number
   RSties: number
 }
+
+export interface H2HType {
+  [ownerName: string]: H2HStats
+}
+
+export interface H2HStats {
+  wins: number
+  losses: number
+  ties: number
+  totalPointsFor: number
+  totalPointsAgainst: number
+  winningPct: number
+}
+
+export interface PlayoffType {
+  [ownerName: string]: PlayoffStats
+}
+
+export interface PlayoffStats {
+  wins: number
+  losses: number
+  ties: number
+  totalPointsFor: number
+  totalPointsAgainst: number
+  winningPct: number
+}

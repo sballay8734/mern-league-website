@@ -6,7 +6,9 @@ import {
   YearlyOwnerData,
   CombinedData,
   allTimeRegSznData,
-  allTimePlayoffData
+  allTimePlayoffData,
+  H2HType,
+  PlayoffType
 } from "../../../redux/owners/interfaces"
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -105,6 +107,10 @@ function calcAllTimeStats(owner: Owner) {
 }
 // MAIN FUNCTION H2H (ADD RETURN TYPE)
 function calcH2HStats(owner: Owner) {
+  const regSzn: H2HType = {}
+  const playoffs: PlayoffType = {}
+  // const combined = []
+
   const ownerNames: string[] = [
     "Shawn Ballay",
     "Steve Smith",
@@ -126,16 +132,19 @@ function calcH2HStats(owner: Owner) {
     // if owner === current check, skip
     if (currentCheck === owner.ownerName) continue
 
-    // otherwise, find all regSznMatchups, playoffmatchups, and combine
+    // otherwise calculate all
     const regSznH2HStats = h2hRegSzn(owner, currentCheck) // call function
-    const playoffH2HStats = owner.ownerName // call function
-    const combinedH2HStats = owner.ownerName // call function
+    regSzn[currentCheck] = regSznH2HStats
 
-    return {
-      regSznH2HStats,
-      playoffH2HStats,
-      combinedH2HStats
-    }
+    const playoffH2HStats = h2hPlayoffs(owner, currentCheck) // call function
+    playoffs[currentCheck] = playoffH2HStats
+    // const playoffH2HStats = owner.ownerName // call function
+    // const combinedH2HStats = owner.ownerName // call function
+  }
+  return {
+    regSzn,
+    playoffs
+    // combined
   }
 }
 
@@ -486,13 +495,61 @@ function h2hRegSzn(owner: Owner, owner2: string) {
     }
   }
   return {
-    [opponent]: {
-      wins,
-      losses,
-      ties,
-      totalPointsFor,
-      totalPointsAgainst
+    wins,
+    losses,
+    ties,
+    totalPointsFor: Number(totalPointsFor.toFixed(2)),
+    totalPointsAgainst: Number(totalPointsAgainst.toFixed(2)),
+    winningPct: Number(((wins / (wins + losses + ties)) * 100).toFixed(2))
+  }
+}
+// Called from calcH2HStats
+function h2hPlayoffs(owner: Owner, owner2: string) {
+  const opponent = owner2
+  let wins = 0
+  let losses = 0
+  let ties = 0
+  let totalPointsFor = 0
+  let totalPointsAgainst = 0
+
+  const yearKeys = Object.keys(owner)
+
+  for (let i = 0; i < yearKeys.length; i++) {
+    const year = Number(yearKeys[i])
+    if (year.toString().slice(0, 2) !== "20") continue
+    if (owner[year].participated === false) continue
+
+    // loop through matchups to find owner2
+    const playoffKeys = Object.keys(owner[year].playoffs)
+
+    for (let i = 0; i < playoffKeys.length; i++) {
+      const week = playoffKeys[i]
+      const participated = owner[year].playoffs[week].participated
+      const bye = owner[year].playoffs[week].bye
+      const matchupOpponent = owner[year].playoffs[week].opponent
+      const pointsFor = owner[year].playoffs[week].pointsFor
+      const pointsAgainst = owner[year].playoffs[week].pointsAgainst
+
+      if (matchupOpponent !== opponent) continue
+      if (bye === true || participated === false) continue
+
+      if (pointsFor && pointsAgainst) {
+        if (pointsFor > pointsAgainst) wins++
+        if (pointsFor < pointsAgainst) losses++
+        if (pointsFor === pointsAgainst) ties++
+
+        totalPointsFor += pointsFor
+        totalPointsAgainst += pointsAgainst
+      }
     }
+  }
+  return {
+    wins,
+    losses,
+    ties,
+    totalPointsFor: Number(totalPointsFor.toFixed(2)),
+    totalPointsAgainst: Number(totalPointsAgainst.toFixed(2)),
+    winningPct: Number(((wins / (wins + losses + ties)) * 100).toFixed(2))
   }
 }
 
