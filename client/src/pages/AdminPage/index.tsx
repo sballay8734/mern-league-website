@@ -9,6 +9,7 @@ import {
   staticDataInit
 } from "./utils/staticDataFunction"
 import "./AdminPage.scss"
+import { recordsDataInit } from "./utils/recordFunctions"
 
 // const baseUrl = "https://api.prop-odds.com"
 
@@ -57,8 +58,20 @@ export default function AdminPage() {
     setUpdateInProgress(false)
   }
 
-  function testButton() {
-    console.log("TEST")
+  function runRecordsDataUpdate() {
+    setUpdateInProgress(true)
+
+    if (!data) return
+
+    try {
+      // run all update functions
+      console.log(recordsDataInit(data))
+      // console.log(yearlyStaticDataInit(data[0], 2014))
+    } catch (error) {
+      console.log(error)
+    }
+
+    setUpdateInProgress(false)
   }
 
   return (
@@ -110,22 +123,20 @@ export default function AdminPage() {
                       </button>
                     </li>
                     <li>
-                      <button onClick={testButton} disabled={updateInProgress}>
-                        Update H2H Data
-                      </button>
-                    </li>
-                    <li>
-                      <button onClick={testButton} disabled={updateInProgress}>
+                      <button
+                        onClick={runRecordsDataUpdate}
+                        disabled={updateInProgress}
+                      >
                         Update Records
                       </button>
                     </li>
                     <li>
-                      <button onClick={testButton} disabled={updateInProgress}>
+                      <button disabled={updateInProgress}>
                         Update KOTH For This Year
                       </button>
                     </li>
                     <li>
-                      <button onClick={testButton} disabled={updateInProgress}>
+                      <button disabled={updateInProgress}>
                         Calculate KOTH For All Years
                       </button>
                     </li>
