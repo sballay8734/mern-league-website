@@ -123,6 +123,7 @@ export interface H2HType {
 }
 
 export interface H2HStats {
+  RSgamesPlayed: number
   wins: number
   losses: number
   ties: number
@@ -136,6 +137,21 @@ export interface PlayoffType {
 }
 
 export interface PlayoffStats {
+  POgamesPlayed: number
+  wins: number
+  losses: number
+  ties: number
+  totalPointsFor: number
+  totalPointsAgainst: number
+  winningPct: number
+}
+
+export interface CombinedType {
+  [ownerName: string]: CombinedStats
+}
+
+export interface CombinedStats {
+  gamesPlayed: number
   wins: number
   losses: number
   ties: number

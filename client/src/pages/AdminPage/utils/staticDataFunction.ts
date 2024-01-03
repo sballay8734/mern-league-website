@@ -8,7 +8,11 @@ import {
   allTimeRegSznData,
   allTimePlayoffData,
   H2HType,
-  PlayoffType
+  PlayoffType,
+  CombinedType,
+  PlayoffStats,
+  H2HStats,
+  CombinedStats
 } from "../../../redux/owners/interfaces"
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -109,7 +113,7 @@ function calcAllTimeStats(owner: Owner) {
 function calcH2HStats(owner: Owner) {
   const regSzn: H2HType = {}
   const playoffs: PlayoffType = {}
-  // const combined = []
+  const combined: CombinedType = {}
 
   const ownerNames: string[] = [
     "Shawn Ballay",
@@ -133,18 +137,22 @@ function calcH2HStats(owner: Owner) {
     if (currentCheck === owner.ownerName) continue
 
     // otherwise calculate all
-    const regSznH2HStats = h2hRegSzn(owner, currentCheck) // call function
+    const regSznH2HStats = h2hRegSzn(owner, currentCheck)
     regSzn[currentCheck] = regSznH2HStats
 
-    const playoffH2HStats = h2hPlayoffs(owner, currentCheck) // call function
+    const playoffH2HStats = h2hPlayoffs(owner, currentCheck)
     playoffs[currentCheck] = playoffH2HStats
-    // const playoffH2HStats = owner.ownerName // call function
-    // const combinedH2HStats = owner.ownerName // call function
+
+    const combinedH2HStats = h2hCombined(
+      regSzn[currentCheck],
+      playoffs[currentCheck]
+    )
+    combined[currentCheck] = combinedH2HStats
   }
   return {
     regSzn,
-    playoffs
-    // combined
+    playoffs,
+    combined
   }
 }
 
@@ -462,6 +470,7 @@ function allTimeCombinedStats(
 // Called from calcH2HStats
 function h2hRegSzn(owner: Owner, owner2: string) {
   const opponent = owner2
+  let RSgamesPlayed = 0
   let wins = 0
   let losses = 0
   let ties = 0
@@ -492,9 +501,11 @@ function h2hRegSzn(owner: Owner, owner2: string) {
 
       totalPointsFor += pointsFor
       totalPointsAgainst += pointsAgainst
+      RSgamesPlayed++
     }
   }
   return {
+    RSgamesPlayed,
     wins,
     losses,
     ties,
@@ -506,6 +517,7 @@ function h2hRegSzn(owner: Owner, owner2: string) {
 // Called from calcH2HStats
 function h2hPlayoffs(owner: Owner, owner2: string) {
   const opponent = owner2
+  let POgamesPlayed = 0
   let wins = 0
   let losses = 0
   let ties = 0
@@ -540,16 +552,57 @@ function h2hPlayoffs(owner: Owner, owner2: string) {
 
         totalPointsFor += pointsFor
         totalPointsAgainst += pointsAgainst
+        POgamesPlayed++
       }
     }
   }
   return {
+    POgamesPlayed,
     wins,
     losses,
     ties,
     totalPointsFor: Number(totalPointsFor.toFixed(2)),
     totalPointsAgainst: Number(totalPointsAgainst.toFixed(2)),
     winningPct: Number(((wins / (wins + losses + ties)) * 100).toFixed(2))
+  }
+}
+// Called from calcH2HStats
+function h2hCombined(
+  regSznData: H2HStats,
+  playoffData: PlayoffStats
+): CombinedStats {
+  if (playoffData.POgamesPlayed === 0) {
+    return {
+      gamesPlayed: regSznData.RSgamesPlayed,
+      wins: regSznData.wins,
+      losses: regSznData.losses,
+      ties: regSznData.ties,
+      totalPointsFor: Number(regSznData.totalPointsFor.toFixed(2)),
+      totalPointsAgainst: Number(regSznData.totalPointsAgainst.toFixed(2)),
+      winningPct: Number(regSznData.winningPct.toFixed(2))
+    }
+  } else {
+    return {
+      gamesPlayed: regSznData.RSgamesPlayed + playoffData.POgamesPlayed,
+      wins: regSznData.wins + playoffData.wins,
+      losses: regSznData.losses + playoffData.losses,
+      ties: regSznData.ties + playoffData.ties,
+      totalPointsFor: Number(
+        (regSznData.totalPointsFor + playoffData.totalPointsFor).toFixed(2)
+      ),
+      totalPointsAgainst: Number(
+        (
+          regSznData.totalPointsAgainst + playoffData.totalPointsAgainst
+        ).toFixed(2)
+      ),
+      winningPct: Number(
+        (
+          ((regSznData.wins + playoffData.wins) /
+            (regSznData.RSgamesPlayed + playoffData.POgamesPlayed)) *
+          100
+        ).toFixed(2)
+      )
+    }
   }
 }
 
