@@ -16,7 +16,6 @@ import {
 } from "../../../redux/owners/interfaces"
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-// loop through owners, loop through years for each owner, calculate
 export function staticDataInit(owners: Owner[]) {
   const ownerObjectsList = []
   // loop through owners HERE
