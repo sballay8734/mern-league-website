@@ -1,5 +1,5 @@
 import { Owner } from "../../../redux/owners/interfaces"
-import { bestWorstWeek, streaks } from "../interfaces"
+import { Matchups, bestWorstWeek, streaks } from "../interfaces"
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 export function recordsDataInit(owners: Owner[]) {
@@ -33,14 +33,20 @@ function calcAllTimeRecords(owners: Owner[]) {
   // const bestPlayoffRecord = 0 // (top 3) - all-time obviously FETCH
   // const worstPlayoffRecord = 0 // (bottom 3) all-time obviously FETCH
 
-  const longestWinningStreaks = calcLongestWinStreak(owners) // (top 3)
-  // const longestLosingStreak = 0 // (top 3)
-  // const biggestBlowout = 0 // Don't separate playoffs and regSzn for this (top 3)
+  const longestWinningStreaks = calcLongestWinStreaks(owners) // (top 3)
+  const longestLosingStreaks = calcLongestLossStreaks(owners) // (top 3)
+  const biggestBlowouts = calcBiggestBlowouts(owners) // Don't separate playoffs and regSzn for this (top 3)
   // const closestGame = 0 // (top 3)
   // const highestCombinedScore = 0 // (top 3)
   // const lowestCombinedScore = 0 // (bottom 3)
 
-  return { bestWeeks, worstWeeks, longestWinningStreaks }
+  return {
+    bestWeeks,
+    worstWeeks,
+    longestWinningStreaks,
+    longestLosingStreaks,
+    biggestBlowouts
+  }
 }
 
 function calcBestWeeks(owners: Owner[]) {
@@ -203,7 +209,7 @@ function calcWorstWeeks(owners: Owner[]) {
 
   return worstWeekObjects
 }
-function calcLongestWinStreak(owners: Owner[]) {
+function calcLongestWinStreaks(owners: Owner[]) {
   const winStreaks: streaks[] = []
 
   for (let i = 0; i < owners.length; i++) {
@@ -281,7 +287,217 @@ function calcLongestWinStreak(owners: Owner[]) {
     }
   }
   const topStreaks = winStreaks.filter((streak) => streak.streak > 7)
+  topStreaks.sort((a, b) => b.streak - a.streak)
   return topStreaks
+}
+function calcLongestLossStreaks(owners: Owner[]) {
+  const lossStreaks: streaks[] = []
+
+  for (let i = 0; i < owners.length; i++) {
+    const currentOwner = owners[i]
+    const yearKeys = Object.keys(currentOwner)
+    let worstStreak = 0
+    let testString = ""
+
+    for (let j = 0; j < yearKeys.length; j++) {
+      const year = Number(yearKeys[j])
+
+      if (year.toString().slice(0, 2) !== "20") continue
+      if (currentOwner[year].participated === false) continue
+
+      const regSznKeys = Object.keys(currentOwner[year].regularSeason)
+      const playoffKeys = Object.keys(currentOwner[year].playoffs)
+
+      // REGSZN
+      for (let k = 0; k < regSznKeys.length; k++) {
+        const week = regSznKeys[k]
+        const matchUp = currentOwner[year].regularSeason[week]
+        // const win = matchUp.pointsFor > matchUp.pointsAgainst
+        const loss = matchUp.pointsFor < matchUp.pointsAgainst
+
+        if (loss) {
+          worstStreak++
+          testString += `RS-${year}-`
+        } else {
+          if (week === "weekOne") {
+            lossStreaks.push({
+              ownerName: currentOwner.ownerName,
+              streak: worstStreak,
+              year: year - 1,
+              testString
+            })
+          } else {
+            lossStreaks.push({
+              ownerName: currentOwner.ownerName,
+              streak: worstStreak,
+              year: year,
+              testString
+            })
+          }
+          worstStreak = 0
+          testString = ""
+        }
+      }
+      // PLAYOFFS
+      for (let l = 0; l < playoffKeys.length; l++) {
+        const week = playoffKeys[l]
+        const participated = currentOwner[year].playoffs[week].participated
+        const bye = currentOwner[year].playoffs[week].bye
+        const matchUp = currentOwner[year].playoffs[week]
+
+        if (!participated || bye) continue
+        if (matchUp.pointsFor === null || matchUp.pointsAgainst === null)
+          continue
+
+        const win = matchUp.pointsFor > matchUp.pointsAgainst
+        const loss = matchUp.pointsFor < matchUp.pointsAgainst
+
+        if (loss) {
+          worstStreak++
+          testString += `P-${year}-`
+        } else if (win) {
+          lossStreaks.push({
+            ownerName: currentOwner.ownerName,
+            streak: worstStreak,
+            year: year,
+            testString
+          })
+          testString = ""
+          worstStreak = 0
+        }
+      }
+    }
+  }
+  const topStreaks = lossStreaks.filter((streak) => streak.streak > 7)
+  topStreaks.sort((a, b) => b.streak - a.streak)
+  return topStreaks
+}
+function calcBiggestBlowouts(owners: Owner[]) {
+  const matchups: Matchups[] = [
+    {
+      winner: "",
+      opponent: "",
+      differential: 0,
+      year: 0,
+      matchUp: { pointsFor: 0, pointsAgainst: 0, opponent: "", during: "" }
+    }
+  ]
+
+  for (let i = 0; i < owners.length; i++) {
+    const currentOwner = owners[i]
+    const yearKeys = Object.keys(currentOwner)
+
+    for (let j = 0; j < yearKeys.length; j++) {
+      const year = Number(yearKeys[j])
+
+      if (year.toString().slice(0, 2) !== "20") continue
+      if (currentOwner[year].participated === false) continue
+
+      const regSznKeys = Object.keys(currentOwner[year].regularSeason)
+      const playoffKeys = Object.keys(currentOwner[year].playoffs)
+
+      // REGSZN
+      for (let k = 0; k < regSznKeys.length; k++) {
+        const week = regSznKeys[k]
+        const matchUp = currentOwner[year].regularSeason[week]
+        const win = matchUp.pointsFor > matchUp.pointsAgainst
+        const difference = matchUp.pointsFor - matchUp.pointsAgainst
+
+        if (matchups.length < 5 && win) {
+          matchups.push({
+            winner: currentOwner.ownerName,
+            opponent: matchUp.opponent!,
+            differential: Number(difference.toFixed(2)),
+            year: year,
+            matchUp: {
+              pointsFor: matchUp.pointsFor,
+              pointsAgainst: matchUp.pointsAgainst,
+              opponent: matchUp.opponent,
+              during: "RegSzn"
+            }
+          })
+        } else {
+          const minDifferential = Math.min(
+            ...matchups.map((matchup) => matchup.differential)
+          )
+          if (difference > minDifferential && win) {
+            const indexToRemove = matchups.findIndex(
+              (matchup) => matchup.differential === minDifferential
+            )
+            matchups.splice(indexToRemove, 1)
+
+            matchups.push({
+              winner: currentOwner.ownerName,
+              opponent: matchUp.opponent!,
+              differential: Number(difference.toFixed(2)),
+              year: year,
+              matchUp: {
+                pointsFor: matchUp.pointsFor,
+                pointsAgainst: matchUp.pointsAgainst,
+                opponent: matchUp.opponent,
+                during: "RegSzn"
+              }
+            })
+          }
+        }
+      }
+      // PLAYOFFS
+      for (let l = 0; l < playoffKeys.length; l++) {
+        const week = playoffKeys[l]
+        const participated = currentOwner[year].playoffs[week].participated
+        const bye = currentOwner[year].playoffs[week].bye
+        const matchUp = currentOwner[year].playoffs[week]
+
+        if (!participated || bye) continue
+        if (matchUp.pointsFor === null || matchUp.pointsAgainst === null)
+          continue
+
+        const win = matchUp.pointsFor > matchUp.pointsAgainst
+        const difference = matchUp.pointsFor - matchUp.pointsAgainst
+
+        if (matchups.length < 5 && win) {
+          matchups.push({
+            winner: currentOwner.ownerName,
+            opponent: matchUp.opponent!,
+            differential: Number(difference.toFixed(2)),
+            year: year,
+            matchUp: {
+              pointsFor: matchUp.pointsFor,
+              pointsAgainst: matchUp.pointsAgainst,
+              opponent: matchUp.opponent,
+              during: "Playoffs"
+            }
+          })
+        } else {
+          const minDifferential = Math.min(
+            ...matchups.map((matchup) => matchup.differential)
+          )
+          if (difference > minDifferential && win) {
+            const indexToRemove = matchups.findIndex(
+              (matchup) => matchup.differential === minDifferential
+            )
+            matchups.splice(indexToRemove, 1)
+
+            matchups.push({
+              winner: currentOwner.ownerName,
+              opponent: matchUp.opponent!,
+              differential: Number(difference.toFixed(2)),
+              year: year,
+              matchUp: {
+                pointsFor: matchUp.pointsFor,
+                pointsAgainst: matchUp.pointsAgainst,
+                opponent: matchUp.opponent,
+                during: "Playoffs"
+              }
+            })
+          }
+        }
+      }
+    }
+  }
+
+  matchups.sort((a, b) => b.differential - a.differential)
+  return matchups
 }
 
 // FETCH THESE (ONLY FETCH THE OWNERS ONCE!) ***********************************
@@ -294,4 +510,6 @@ function calcLongestWinStreak(owners: Owner[]) {
 //   return null
 // }
 
-// probably need about 10-15 functions for all those records
+// TODO LIST *******************************************************************
+// 1. Also calc best current win/loss streak
+// 2. win/loss streak should show two years if it carried over
