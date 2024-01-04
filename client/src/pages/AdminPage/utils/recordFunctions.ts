@@ -43,7 +43,7 @@ function calcAllTimeRecords(owners: Owner[]) {
   const biggestBlowouts = calcBiggestBlowouts(owners)
   const closestGames = calcClosestGames(owners)
   const highestCombinedScores = calcHighestCombinedScores(owners)
-  // const lowestCombinedScores = calcLowestCombinedScores(owners)
+  const lowestCombinedScores = calcLowestCombinedScores(owners)
 
   return {
     bestWeeks,
@@ -52,7 +52,8 @@ function calcAllTimeRecords(owners: Owner[]) {
     longestLosingStreaks,
     biggestBlowouts,
     closestGames,
-    highestCombinedScores
+    highestCombinedScores,
+    lowestCombinedScores
   }
 }
 
@@ -754,6 +755,129 @@ function calcHighestCombinedScores(owners: Owner[]) {
   }
 
   matchups.sort((a, b) => b.sum - a.sum)
+  return matchups
+}
+function calcLowestCombinedScores(owners: Owner[]) {
+  const matchups: HighestCombinedScore[] = [
+    {
+      winner: "",
+      opponent: "",
+      sum: 200,
+      year: 0,
+      matchUp: { pointsFor: 0, pointsAgainst: 0, opponent: "", during: "" }
+    }
+  ]
+
+  for (let i = 0; i < owners.length; i++) {
+    const currentOwner = owners[i]
+    const yearKeys = Object.keys(currentOwner)
+
+    for (let j = 0; j < yearKeys.length; j++) {
+      const year = Number(yearKeys[j])
+
+      if (year.toString().slice(0, 2) !== "20") continue
+      if (currentOwner[year].participated === false) continue
+
+      const regSznKeys = Object.keys(currentOwner[year].regularSeason)
+      const playoffKeys = Object.keys(currentOwner[year].playoffs)
+
+      // REGSZN
+      for (let k = 0; k < regSznKeys.length; k++) {
+        const week = regSznKeys[k]
+        const matchUp = currentOwner[year].regularSeason[week]
+        const win = matchUp.pointsFor > matchUp.pointsAgainst
+        const sum = matchUp.pointsFor + matchUp.pointsAgainst
+
+        if (matchups.length < 5 && win) {
+          matchups.push({
+            winner: currentOwner.ownerName,
+            opponent: matchUp.opponent!,
+            sum: Number(sum.toFixed(2)),
+            year: year,
+            matchUp: {
+              pointsFor: matchUp.pointsFor,
+              pointsAgainst: matchUp.pointsAgainst,
+              opponent: matchUp.opponent,
+              during: "Season"
+            }
+          })
+        } else {
+          const maxSum = Math.max(...matchups.map((matchup) => matchup.sum))
+          if (sum < maxSum && win) {
+            const indexToRemove = matchups.findIndex(
+              (matchup) => matchup.sum === maxSum
+            )
+            matchups.splice(indexToRemove, 1)
+
+            matchups.push({
+              winner: currentOwner.ownerName,
+              opponent: matchUp.opponent!,
+              sum: Number(sum.toFixed(2)),
+              year: year,
+              matchUp: {
+                pointsFor: matchUp.pointsFor,
+                pointsAgainst: matchUp.pointsAgainst,
+                opponent: matchUp.opponent,
+                during: "Season"
+              }
+            })
+          }
+        }
+      }
+      // PLAYOFFS
+      for (let l = 0; l < playoffKeys.length; l++) {
+        const week = playoffKeys[l]
+        const participated = currentOwner[year].playoffs[week].participated
+        const bye = currentOwner[year].playoffs[week].bye
+        const matchUp = currentOwner[year].playoffs[week]
+
+        if (!participated || bye) continue
+        if (matchUp.pointsFor === null || matchUp.pointsAgainst === null)
+          continue
+
+        const win = matchUp.pointsFor > matchUp.pointsAgainst
+        const sum = matchUp.pointsFor + matchUp.pointsAgainst
+
+        if (matchups.length < 5 && win) {
+          matchups.push({
+            winner: currentOwner.ownerName,
+            opponent: matchUp.opponent!,
+            sum: Number(sum.toFixed(2)),
+            year: year,
+            matchUp: {
+              pointsFor: matchUp.pointsFor,
+              pointsAgainst: matchUp.pointsAgainst,
+              opponent: matchUp.opponent,
+              during: "Playoffs"
+            }
+          })
+        } else {
+          const maxSum = Math.max(...matchups.map((matchup) => matchup.sum))
+          if (sum < maxSum && win) {
+            const indexToRemove = matchups.findIndex(
+              (matchup) => matchup.sum === maxSum
+            )
+            matchups.splice(indexToRemove, 1)
+
+            matchups.push({
+              winner: currentOwner.ownerName,
+              opponent: matchUp.opponent!,
+              sum: Number(sum.toFixed(2)),
+              year: year,
+              matchUp: {
+                pointsFor: matchUp.pointsFor,
+                pointsAgainst: matchUp.pointsAgainst,
+                opponent: matchUp.opponent,
+                during: "Playoffs"
+              }
+            })
+          }
+        }
+      }
+    }
+  }
+
+  matchups.sort((a, b) => a.sum - b.sum)
   return matchups
 }
 
