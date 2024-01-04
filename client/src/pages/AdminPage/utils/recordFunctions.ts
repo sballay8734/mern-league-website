@@ -29,7 +29,7 @@ function calcAllTimeRecords(owners: Owner[]) {
   const highestCombinedScores = calcHighestCombinedScores(owners)
   const lowestCombinedScores = calcLowestCombinedScores(owners)
 
-  // const highestWinPct = calcHighestWinPct(owners) // top 3
+  const highestWinPct = calcHighestWinPct(owners) // top 3
   // const lowestWinPct = calcLowestWinPct(owners) // bottom 3 FETCH
   // const highestAvgPF = 0 // top 3 FETCH
   // const lowestAvgPF = 0 // bottom 3 FETCH
@@ -55,8 +55,8 @@ function calcAllTimeRecords(owners: Owner[]) {
     biggestBlowouts,
     closestGames,
     highestCombinedScores,
-    lowestCombinedScores
-    // highestWinPct
+    lowestCombinedScores,
+    highestWinPct
   }
 }
 
@@ -883,38 +883,49 @@ function calcLowestCombinedScores(owners: Owner[]) {
   matchups.sort((a, b) => a.sum - b.sum)
   return matchups
 }
-// function calcHighestWinPct(owners: Owner[]) {
-//   const winPcts: BaseRecord[] = []
 
-//   for (let i = 0; i < owners.length; i++) {
-//     const currentOwner = owners[i]
+// error happens on dante! BIG BUG
+function calcHighestWinPct(owners: Owner[]) {
+  const winPcts: BaseRecord[] = []
 
-//     const allTimeStats = calcAllTimeStats(currentOwner)
-//     const allTimeCombined = allTimeStats.combined
+  for (let i = 0; i < owners.length; i++) {
+    const currentOwner = owners[i]
+    const yearKeys = Object.keys(currentOwner)
 
-//     if (winPcts.length < 3) {
-//       winPcts.push({
-//         ownerName: currentOwner.ownerName,
-//         statName: "Winning Percentage",
-//         statValue: allTimeCombined.winningPct
-//       })
-//     } else {
-//       const minWinPct = Math.min(...winPcts.map((value) => value.statValue))
-//       const currentWinPct = allTimeCombined.winningPct
-//       if (currentWinPct > minWinPct) {
-//         const indexToRemove = winPcts.findIndex(
-//           (value) => value.statValue === minWinPct
-//         )
-//         winPcts.splice(indexToRemove, 1)
-//         winPcts.push({
-//           ownerName: currentOwner.ownerName,
-//           statName: "Winning Percentage",
-//           statValue: allTimeCombined.winningPct
-//         })
-//       }
-//     }
-//   }
-// }
+    // NEED TO LOOP THROUGH YEARS AND SKIP YEARS THEY DID NOT PARTICIPATE
+    for (let i = 0; i < yearKeys.length; i++) {
+      const year = yearKeys[i]
+
+      if (year.toString().slice(0, 2) !== "20") continue
+      if (currentOwner[Number(year)].participated === false) continue
+
+      const allTimeStats = calcAllTimeStats(currentOwner)
+      const allTimeCombined = allTimeStats.combined
+
+      if (winPcts.length < 3) {
+        winPcts.push({
+          ownerName: currentOwner.ownerName,
+          statName: "Winning Percentage",
+          statValue: allTimeCombined.winningPct
+        })
+      } else {
+        const minWinPct = Math.min(...winPcts.map((value) => value.statValue))
+        const currentWinPct = allTimeCombined.winningPct
+        if (currentWinPct > minWinPct) {
+          const indexToRemove = winPcts.findIndex(
+            (value) => value.statValue === minWinPct
+          )
+          winPcts.splice(indexToRemove, 1)
+          winPcts.push({
+            ownerName: currentOwner.ownerName,
+            statName: "Winning Percentage",
+            statValue: allTimeCombined.winningPct
+          })
+        }
+      }
+    }
+  }
+}
 
 // FETCH THESE (ONLY FETCH THE OWNERS ONCE!) ***********************************
 // function calcHighestWinPct(owners: Owner[]) {
