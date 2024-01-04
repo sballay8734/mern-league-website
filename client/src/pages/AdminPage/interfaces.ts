@@ -26,3 +26,11 @@ interface MatchUpObject {
   opponent: string | null
   during: string
 }
+
+export interface HighestCombinedScore {
+  winner: string
+  opponent: string
+  sum: number
+  year: number
+  matchUp: MatchUpObject
+}
