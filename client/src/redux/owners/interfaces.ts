@@ -109,8 +109,8 @@ export interface allTimePlayoffData {
 export interface allTimeRegSznData {
   RSGamesPlayed: number
   RSlosses: number
-  RSpointsAgainst: number
-  RSpointsFor: number
+  RSPA: number
+  RSPF: number
   RSwins: number
   RSavgPA: number
   RSavgPF: number

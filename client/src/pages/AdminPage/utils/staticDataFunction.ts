@@ -89,7 +89,7 @@ function calcYearlyStats(owner: Owner, year: string): YearlyOwnerData {
   }
 }
 // MAIN FUNCTION ALL-TIME (ADD RETURN TYPE)
-function calcAllTimeStats(owner: Owner) {
+export function calcAllTimeStats(owner: Owner) {
   // PO Data ****************************************
   const allTimePlayoffData = allTimePlayoffStats(owner) // call function
 
@@ -352,8 +352,8 @@ function allTimeRegSznStats(owner: Owner) {
     RSavgPA: Number((RSpointsAgainst / RSGamesPlayed).toFixed(2)),
     RSavgPF: Number((RSpointsFor / RSGamesPlayed).toFixed(2)),
     RSlosses,
-    RSpointsAgainst: Number(RSpointsAgainst.toFixed(2)),
-    RSpointsFor: Number(RSpointsFor.toFixed(2)),
+    RSPA: Number(RSpointsAgainst.toFixed(2)),
+    RSPF: Number(RSpointsFor.toFixed(2)),
     RSties,
     RSwinningPct: Number(((RSwins / RSGamesPlayed) * 100).toFixed(2)),
     RSwins
@@ -421,8 +421,8 @@ function allTimeCombinedStats(
       avgPA: regSznData.RSavgPA,
       avgPF: regSznData.RSavgPF,
       losses: regSznData.RSlosses,
-      pointsAgainst: regSznData.RSpointsAgainst,
-      pointsFor: regSznData.RSpointsFor,
+      pointsAgainst: regSznData.RSPA,
+      pointsFor: regSznData.RSPF,
       ties: regSznData.RSties,
       winningPct: regSznData.RSwinningPct,
       wins: regSznData.RSwins
@@ -433,25 +433,23 @@ function allTimeCombinedStats(
       gamesPlayed: regSznData.RSGamesPlayed + playoffData.POGamesPlayed,
       avgPA: Number(
         (
-          ((regSznData.RSpointsAgainst + playoffData.POpointsAgainst) /
+          ((regSznData.RSPA + playoffData.POpointsAgainst) /
             (regSznData.RSGamesPlayed + playoffData.POGamesPlayed)) *
           100
         ).toFixed(2)
       ),
       avgPF: Number(
         (
-          ((regSznData.RSpointsFor + playoffData.POpointsFor) /
+          ((regSznData.RSPF + playoffData.POpointsFor) /
             (regSznData.RSGamesPlayed + playoffData.POGamesPlayed)) *
           100
         ).toFixed(2)
       ),
       losses: regSznData.RSlosses + playoffData.POlosses,
       pointsAgainst: Number(
-        (regSznData.RSpointsAgainst + playoffData.POpointsAgainst).toFixed(2)
+        (regSznData.RSPA + playoffData.POpointsAgainst).toFixed(2)
       ),
-      pointsFor: Number(
-        (regSznData.RSpointsFor + playoffData.POpointsFor).toFixed(2)
-      ),
+      pointsFor: Number((regSznData.RSPF + playoffData.POpointsFor).toFixed(2)),
       ties: regSznData.RSties,
       winningPct: Number(
         (

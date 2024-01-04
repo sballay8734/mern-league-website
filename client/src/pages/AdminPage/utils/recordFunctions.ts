@@ -1,5 +1,7 @@
 import { Owner } from "../../../redux/owners/interfaces"
+import { calcAllTimeStats } from "./staticDataFunction"
 import {
+  BaseRecord,
   HighestCombinedScore,
   Matchups,
   bestWorstWeek,
@@ -18,9 +20,16 @@ export function recordsDataInit(owners: Owner[]) {
 // YEARLY **********************************************************************
 // Called from recordsDataInit
 function calcAllTimeRecords(owners: Owner[]) {
-  const bestWeeks = calcBestWeeks(owners) // top 3
-  const worstWeeks = calcWorstWeeks(owners) // bottom 3
-  // const highestWinPct = calcHighestWinPct(owners) // top 3 FETCH
+  const bestWeeks = calcBestWeeks(owners)
+  const worstWeeks = calcWorstWeeks(owners)
+  const longestWinningStreaks = calcLongestWinStreaks(owners)
+  const longestLosingStreaks = calcLongestLossStreaks(owners)
+  const biggestBlowouts = calcBiggestBlowouts(owners)
+  const closestGames = calcClosestGames(owners)
+  const highestCombinedScores = calcHighestCombinedScores(owners)
+  const lowestCombinedScores = calcLowestCombinedScores(owners)
+
+  // const highestWinPct = calcHighestWinPct(owners) // top 3
   // const lowestWinPct = calcLowestWinPct(owners) // bottom 3 FETCH
   // const highestAvgPF = 0 // top 3 FETCH
   // const lowestAvgPF = 0 // bottom 3 FETCH
@@ -38,13 +47,6 @@ function calcAllTimeRecords(owners: Owner[]) {
   // const bestPlayoffRecord = 0 // (top 3) - all-time obviously FETCH
   // const worstPlayoffRecord = 0 // (bottom 3) all-time obviously FETCH
 
-  const longestWinningStreaks = calcLongestWinStreaks(owners)
-  const longestLosingStreaks = calcLongestLossStreaks(owners)
-  const biggestBlowouts = calcBiggestBlowouts(owners)
-  const closestGames = calcClosestGames(owners)
-  const highestCombinedScores = calcHighestCombinedScores(owners)
-  const lowestCombinedScores = calcLowestCombinedScores(owners)
-
   return {
     bestWeeks,
     worstWeeks,
@@ -54,6 +56,7 @@ function calcAllTimeRecords(owners: Owner[]) {
     closestGames,
     highestCombinedScores,
     lowestCombinedScores
+    // highestWinPct
   }
 }
 
@@ -880,6 +883,38 @@ function calcLowestCombinedScores(owners: Owner[]) {
   matchups.sort((a, b) => a.sum - b.sum)
   return matchups
 }
+// function calcHighestWinPct(owners: Owner[]) {
+//   const winPcts: BaseRecord[] = []
+
+//   for (let i = 0; i < owners.length; i++) {
+//     const currentOwner = owners[i]
+
+//     const allTimeStats = calcAllTimeStats(currentOwner)
+//     const allTimeCombined = allTimeStats.combined
+
+//     if (winPcts.length < 3) {
+//       winPcts.push({
+//         ownerName: currentOwner.ownerName,
+//         statName: "Winning Percentage",
+//         statValue: allTimeCombined.winningPct
+//       })
+//     } else {
+//       const minWinPct = Math.min(...winPcts.map((value) => value.statValue))
+//       const currentWinPct = allTimeCombined.winningPct
+//       if (currentWinPct > minWinPct) {
+//         const indexToRemove = winPcts.findIndex(
+//           (value) => value.statValue === minWinPct
+//         )
+//         winPcts.splice(indexToRemove, 1)
+//         winPcts.push({
+//           ownerName: currentOwner.ownerName,
+//           statName: "Winning Percentage",
+//           statValue: allTimeCombined.winningPct
+//         })
+//       }
+//     }
+//   }
+// }
 
 // FETCH THESE (ONLY FETCH THE OWNERS ONCE!) ***********************************
 // function calcHighestWinPct(owners: Owner[]) {

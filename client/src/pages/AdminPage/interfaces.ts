@@ -34,3 +34,9 @@ export interface HighestCombinedScore {
   year: number
   matchUp: MatchUpObject
 }
+
+export interface BaseRecord {
+  ownerName: string
+  statName: string
+  statValue: number
+}
