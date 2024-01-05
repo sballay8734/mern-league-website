@@ -38,7 +38,7 @@ export function staticDataInit(owners: Owner[]) {
     for (let i = 0; i < allYears.length; i++) {
       const year = allYears[i]
       if (yearsPresent.includes(year)) {
-        const yearObject = calcYearlyStats(currentOwner, year)
+        const yearObject = calcYearlyStats(currentOwner, year, owners)
         // const allTimeObject = calcAllTimeStats(currentOwner)
         // const h2hObject = calcH2HStats(currentOwner)
         Object.assign(ownerObject.yearly, yearObject)
@@ -74,7 +74,11 @@ export function staticDataInit(owners: Owner[]) {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // MAIN FUNCTION YEARLY
-function calcYearlyStats(owner: Owner, year: string): YearlyOwnerData {
+function calcYearlyStats(
+  owner: Owner,
+  year: string,
+  owners: Owner[]
+): YearlyOwnerData {
   // // yearly regSzn stats **********************************
   const regSznStats = yearlyRegSznStats(owner, year)
   // // yearly playoff stats **********************************
@@ -82,14 +86,15 @@ function calcYearlyStats(owner: Owner, year: string): YearlyOwnerData {
   // // yearly combined **********************************
   const combinedStats = yearlyCombinedStats(regSznStats, playoffStats)
   // COMBINED GOES HERE
+  const everyTeamEveryWeekStats = calcETEWYearly(owner, year, owners)
 
   return {
     [year as string]: {
       participated: true,
       regSznStats,
       playoffStats,
-      combinedStats
-      // combined: "Combined"
+      combinedStats,
+      everyTeamEveryWeekStats
     } as YearDataObject
   }
 }
@@ -158,8 +163,12 @@ function calcH2HStats(owner: Owner) {
   }
 }
 // MAIN FUNCTION BONUS STATS
-function calcBonusStats(owner: Owner, owners: Owner[]) {
+export function calcBonusStats(owner: Owner, owners: Owner[]) {
   const finishes: number[] = []
+
+  let totalETEWWins = 0
+  let totalETEWLosses = 0
+  let totalETEWTies = 0
 
   let luckyWs = 0
   let unluckyLs = 0
@@ -167,14 +176,16 @@ function calcBonusStats(owner: Owner, owners: Owner[]) {
   let mostWinsSingleYear = 0
   let mostLossesSingleYear = 0
 
-  let playoffWins = 0
-  let playoffLosses = 0
-
   const yearKeys = Object.keys(owner)
 
   for (let i = 0; i < yearKeys.length; i++) {
     let RSwins = 0
     let RSLosses = 0
+
+    let yearlyETEWWins = 0
+    let yearlyETEWLosses = 0
+    let yearlyETEWTies = 0
+
     const year = Number(yearKeys[i])
 
     if (year.toString().slice(0, 2) !== "20") continue
@@ -183,7 +194,6 @@ function calcBonusStats(owner: Owner, owners: Owner[]) {
     finishes.push(owner[year].finished)
 
     const regSznKeys = Object.keys(owner[year].regularSeason)
-    const playoffKeys = Object.keys(owner[year].playoffs)
 
     // loop through Season Games
     for (let i = 0; i < regSznKeys.length; i++) {
@@ -192,12 +202,12 @@ function calcBonusStats(owner: Owner, owners: Owner[]) {
       const win = matchup.pointsFor > matchup.pointsAgainst
       const loss = matchup.pointsFor < matchup.pointsAgainst
       const pointsFor = matchup.pointsFor
-      // NEED EACH OWNERS PF FOR THIS WEEK
+
       // helper *********************************************
       const pointsArray = getAllPointsForThisWeekRS(year, week, owners)
 
-      const top4 = pointsArray.slice(0, 4)
-      const bottom4 = pointsArray.slice(-4)
+      const top4 = pointsArray.slice(0, 4).map((item) => item.points)
+      const bottom4 = pointsArray.slice(-4).map((item) => item.points)
 
       if (win && bottom4.includes(pointsFor)) {
         luckyWs++
@@ -210,6 +220,17 @@ function calcBonusStats(owner: Owner, owners: Owner[]) {
       } else if (loss) {
         RSLosses++
       }
+
+      // cumulative record logic ********************************************
+      for (let i = 0; i < pointsArray.length; i++) {
+        const current = pointsArray[i]
+
+        if (current.ownerName === owner.ownerName) continue
+
+        if (pointsFor > current.points) yearlyETEWWins++
+        if (pointsFor < current.points) yearlyETEWLosses++
+        if (pointsFor === current.points) yearlyETEWTies++
+      }
     }
     if (RSwins > mostWinsSingleYear) {
       mostWinsSingleYear = RSwins
@@ -218,36 +239,32 @@ function calcBonusStats(owner: Owner, owners: Owner[]) {
     if (RSLosses > mostLossesSingleYear) {
       mostLossesSingleYear = RSLosses
     }
+
+    totalETEWLosses += yearlyETEWLosses
+    totalETEWWins += yearlyETEWWins
+    totalETEWTies += yearlyETEWTies
   }
-
-  // ************************ STOP !! *************************
-
-  // NEED TO LOOP THROUGH PLAYOFF GAMES NOW
-  // loop through Playoff Games
-  // for (let i = 0; i < playoffKeys.length; i++) {
-  //   const matchup = playoffKeys[i]
-  //   let playoffWins = 0
-  //   let playoffLosses = 0
-  // }
 
   const avgFinish =
     finishes.reduce((acc, num) => acc + num, 0) / finishes.length
-
-  console.log({
-    ownerName: owner.ownerName,
-    luckyWins: luckyWs,
-    unluckyLosses: unluckyLs,
-    mostWinsOneSeason: mostWinsSingleYear,
-    mostLossesOneSeason: mostLossesSingleYear,
-    avgFinishPlace: Number(avgFinish.toFixed(2))
-  })
 
   return {
     luckyWins: luckyWs,
     unluckyLosses: unluckyLs,
     mostWinsOneSeason: mostWinsSingleYear,
     mostLossesOneSeason: mostLossesSingleYear,
-    avgFinishPlace: Number(avgFinish.toFixed(2))
+    avgFinishPlace: Number(avgFinish.toFixed(2)),
+    everyTeamEveryWeek: {
+      wins: totalETEWWins,
+      ties: totalETEWTies,
+      losses: totalETEWLosses,
+      winPct: Number(
+        (
+          (totalETEWWins / (totalETEWWins + totalETEWTies + totalETEWLosses)) *
+          100
+        ).toFixed(2)
+      )
+    }
   }
 }
 
@@ -722,6 +739,11 @@ type UnaccountedScores = {
   }
 }
 
+type WeeklyScore = {
+  ownerName: string
+  points: number
+}
+
 function getAllPointsForThisWeekRS(
   year: number,
   week: string,
@@ -760,7 +782,7 @@ function getAllPointsForThisWeekRS(
     "Joe Kane"
   ]
 
-  const weeklyScores: number[] = []
+  const weeklyScores: WeeklyScore[] = []
 
   for (let i = 0; i < owners.length; i++) {
     const currentOwner = owners[i]
@@ -769,10 +791,19 @@ function getAllPointsForThisWeekRS(
     const matchup = currentOwner[year].regularSeason[week]
 
     if (ownerNames.includes(matchup.opponent)) {
-      weeklyScores.push(matchup.pointsFor)
+      weeklyScores.push({
+        ownerName: currentOwner.ownerName,
+        points: matchup.pointsFor
+      })
     } else {
-      weeklyScores.push(matchup.pointsFor)
-      weeklyScores.push(matchup.pointsAgainst)
+      weeklyScores.push({
+        ownerName: currentOwner.ownerName,
+        points: matchup.pointsFor
+      })
+      weeklyScores.push({
+        ownerName: currentOwner.ownerName,
+        points: matchup.pointsAgainst
+      })
     }
   }
 
@@ -780,11 +811,53 @@ function getAllPointsForThisWeekRS(
 
   if (needToAddScores !== undefined) {
     for (const score of needToAddScores) {
-      weeklyScores.push(score)
+      weeklyScores.push({ ownerName: "NIL", points: score })
     }
   }
 
-  weeklyScores.sort((a, b) => b - a)
+  weeklyScores.sort((a, b) => b.points - a.points)
 
   return weeklyScores
+}
+
+function calcETEWYearly(owner: Owner, year: string, owners: Owner[]) {
+  let yearlyETEWWins = 0
+  let yearlyETEWLosses = 0
+  let yearlyETEWTies = 0
+
+  const regSznKeys = Object.keys(owner[year].regularSeason)
+
+  // loop through Season Games
+  for (let i = 0; i < regSznKeys.length; i++) {
+    const week = regSznKeys[i]
+    const matchup = owner[year].regularSeason[week]
+    const pointsFor = matchup.pointsFor
+
+    // helper *********************************************
+    const pointsArray = getAllPointsForThisWeekRS(year, week, owners)
+
+    // cumulative record logic ********************************************
+    for (let i = 0; i < pointsArray.length; i++) {
+      const current = pointsArray[i]
+
+      if (current.ownerName === owner.ownerName) continue
+
+      if (pointsFor > current.points) yearlyETEWWins++
+      if (pointsFor < current.points) yearlyETEWLosses++
+      if (pointsFor === current.points) yearlyETEWTies++
+    }
+  }
+
+  return {
+    ETEWWins: yearlyETEWWins,
+    ETEWLosses: yearlyETEWLosses,
+    ETEWTies: yearlyETEWTies,
+    ETEWWinPct: Number(
+      (
+        (yearlyETEWWins /
+          (yearlyETEWWins + yearlyETEWLosses + yearlyETEWTies)) *
+        100
+      ).toFixed(2)
+    )
+  }
 }

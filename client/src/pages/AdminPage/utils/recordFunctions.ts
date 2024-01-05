@@ -1,5 +1,5 @@
 import { Owner } from "../../../redux/owners/interfaces"
-import { calcAllTimeStats } from "./staticDataFunction"
+import { calcAllTimeStats, calcBonusStats } from "./staticDataFunction"
 import {
   BaseRecord,
   HighestCombinedScore,
@@ -34,8 +34,8 @@ function calcAllTimeRecords(owners: Owner[]) {
   const highLowAvgPF = calcHighLowPF(owners)
   const playoffRateAndApps = calcPlayoffRate(owners)
 
-  // const highestAvgFinishingPlace = 0 // top 3 FETCH
-  // const lowestAvgFinishingPlace = 0 // bottom 3 FETCH
+  const highestAvgFinishingPlace = finishingPlaceHelper(owners).top3
+  const lowestAvgFinishingPlace = finishingPlaceHelper(owners).bottom3
 
   // const mostLuckyWins = 0 // wins when scoring in bottom 3rd (top 3) FETCH
   // const mostUnluckyLosses = 0 // losses when scoring in top 3rd (top 3) FETCH
@@ -57,7 +57,9 @@ function calcAllTimeRecords(owners: Owner[]) {
     lowestCombinedScores,
     highLowWinPct,
     highLowAvgPF,
-    playoffRateAndApps
+    playoffRateAndApps,
+    highestAvgFinishingPlace,
+    lowestAvgFinishingPlace
   }
 }
 
@@ -996,6 +998,32 @@ function calcPlayoffRate(owners: Owner[]) {
     .sort((a, b) => a.statValue - b.statValue)
 
   return { top6, bottom6 }
+}
+function finishingPlaceHelper(owners: Owner[]) {
+  const finishingPlaces = []
+  for (let i = 0; i < owners.length; i++) {
+    const currentOwner = owners[i]
+
+    const tempVar = calcBonusStats(currentOwner, owners).avgFinishPlace
+
+    finishingPlaces.push({
+      ownerName: currentOwner.ownerName,
+      statName: "Average Finishing Place",
+      statValue: tempVar
+    })
+  }
+
+  finishingPlaces.sort((a, b) => a.statValue - b.statValue)
+
+  const top3 = finishingPlaces.slice(0, 3)
+  const bottom3 = finishingPlaces
+    .slice(-3)
+    .sort((a, b) => b.statValue - a.statValue)
+
+  return {
+    top3,
+    bottom3
+  }
 }
 
 // TODO LIST *******************************************************************
