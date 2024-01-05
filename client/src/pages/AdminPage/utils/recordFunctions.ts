@@ -29,8 +29,7 @@ function calcAllTimeRecords(owners: Owner[]) {
   const highestCombinedScores = calcHighestCombinedScores(owners)
   const lowestCombinedScores = calcLowestCombinedScores(owners)
 
-  const highestWinPct = calcHighestATWinPct(owners) // top 3
-  // const lowestWinPct = calcLowestWinPct(owners) // bottom 3 FETCH
+  const highLowWinPct = calcHighLowWinPcts(owners)
   // const highestAvgPF = 0 // top 3 FETCH
   // const lowestAvgPF = 0 // bottom 3 FETCH
   // const mostPlayoffApps = 0 // top 3 FETCH
@@ -56,7 +55,7 @@ function calcAllTimeRecords(owners: Owner[]) {
     closestGames,
     highestCombinedScores,
     lowestCombinedScores,
-    highestWinPct
+    highLowWinPct
   }
 }
 
@@ -883,7 +882,7 @@ function calcLowestCombinedScores(owners: Owner[]) {
   matchups.sort((a, b) => a.sum - b.sum)
   return matchups
 }
-function calcHighestATWinPct(owners: Owner[]) {
+function calcHighLowWinPcts(owners: Owner[]) {
   const winPcts: BaseRecord[] = []
 
   for (let i = 0; i < owners.length; i++) {
@@ -892,7 +891,7 @@ function calcHighestATWinPct(owners: Owner[]) {
     const allTimeStats = calcAllTimeStats(currentOwner)
     const allTimeCombined = allTimeStats.combined
 
-    if (winPcts.length < 3) {
+    if (winPcts.length < 12) {
       winPcts.push({
         ownerName: currentOwner.ownerName,
         statName: "Winning Percentage",
@@ -914,10 +913,12 @@ function calcHighestATWinPct(owners: Owner[]) {
       }
     }
   }
+  winPcts.sort((a, b) => b.statValue - a.statValue)
+  const top6 = winPcts.slice(0, 6)
+  const bottom6 = winPcts.slice(-6).sort((a, b) => a.statValue - b.statValue)
 
-  return winPcts
+  return { top6, bottom6 }
 }
-
 // FETCH THESE (ONLY FETCH THE OWNERS ONCE!) ***********************************
 // function calcHighestWinPct(owners: Owner[]) {
 //   // fetch staticData, sort by all time winPct, grab the top 3
