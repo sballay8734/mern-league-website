@@ -90,17 +90,15 @@ function calcYearlyStats(owner: Owner, year: string): YearlyOwnerData {
 }
 // MAIN FUNCTION ALL-TIME (ADD RETURN TYPE)
 export function calcAllTimeStats(owner: Owner) {
-  // PO Data ****************************************
-  const allTimePlayoffData = allTimePlayoffStats(owner) // call function
+  const allTimeRSData = allTimeRegSznStats(owner)
 
-  // RS DATA *****************************************
-  const allTimeRSData = allTimeRegSznStats(owner) // call function
+  const allTimePlayoffData = allTimePlayoffStats(owner)
 
   // Combined Data ***********************************
   const allTimeCombinedData = allTimeCombinedStats(
     allTimePlayoffData,
     allTimeRSData
-  ) // call function
+  )
 
   return {
     regSzn: allTimeRSData,

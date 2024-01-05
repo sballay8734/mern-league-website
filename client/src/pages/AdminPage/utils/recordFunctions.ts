@@ -29,7 +29,7 @@ function calcAllTimeRecords(owners: Owner[]) {
   const highestCombinedScores = calcHighestCombinedScores(owners)
   const lowestCombinedScores = calcLowestCombinedScores(owners)
 
-  const highestWinPct = calcHighestWinPct(owners) // top 3
+  const highestWinPct = calcHighestATWinPct(owners) // top 3
   // const lowestWinPct = calcLowestWinPct(owners) // bottom 3 FETCH
   // const highestAvgPF = 0 // top 3 FETCH
   // const lowestAvgPF = 0 // bottom 3 FETCH
@@ -883,48 +883,39 @@ function calcLowestCombinedScores(owners: Owner[]) {
   matchups.sort((a, b) => a.sum - b.sum)
   return matchups
 }
-
-// error happens on dante! BIG BUG
-function calcHighestWinPct(owners: Owner[]) {
+function calcHighestATWinPct(owners: Owner[]) {
   const winPcts: BaseRecord[] = []
 
   for (let i = 0; i < owners.length; i++) {
     const currentOwner = owners[i]
-    const yearKeys = Object.keys(currentOwner)
 
-    // NEED TO LOOP THROUGH YEARS AND SKIP YEARS THEY DID NOT PARTICIPATE
-    for (let i = 0; i < yearKeys.length; i++) {
-      const year = yearKeys[i]
+    const allTimeStats = calcAllTimeStats(currentOwner)
+    const allTimeCombined = allTimeStats.combined
 
-      if (year.toString().slice(0, 2) !== "20") continue
-      if (currentOwner[Number(year)].participated === false) continue
-
-      const allTimeStats = calcAllTimeStats(currentOwner)
-      const allTimeCombined = allTimeStats.combined
-
-      if (winPcts.length < 3) {
+    if (winPcts.length < 3) {
+      winPcts.push({
+        ownerName: currentOwner.ownerName,
+        statName: "Winning Percentage",
+        statValue: allTimeCombined.winningPct
+      })
+    } else {
+      const minWinPct = Math.min(...winPcts.map((value) => value.statValue))
+      const currentWinPct = allTimeCombined.winningPct
+      if (currentWinPct > minWinPct) {
+        const indexToRemove = winPcts.findIndex(
+          (value) => value.statValue === minWinPct
+        )
+        winPcts.splice(indexToRemove, 1)
         winPcts.push({
           ownerName: currentOwner.ownerName,
           statName: "Winning Percentage",
           statValue: allTimeCombined.winningPct
         })
-      } else {
-        const minWinPct = Math.min(...winPcts.map((value) => value.statValue))
-        const currentWinPct = allTimeCombined.winningPct
-        if (currentWinPct > minWinPct) {
-          const indexToRemove = winPcts.findIndex(
-            (value) => value.statValue === minWinPct
-          )
-          winPcts.splice(indexToRemove, 1)
-          winPcts.push({
-            ownerName: currentOwner.ownerName,
-            statName: "Winning Percentage",
-            statValue: allTimeCombined.winningPct
-          })
-        }
       }
     }
   }
+
+  return winPcts
 }
 
 // FETCH THESE (ONLY FETCH THE OWNERS ONCE!) ***********************************
