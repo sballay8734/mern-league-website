@@ -40,3 +40,10 @@ export interface BaseRecord {
   statName: string
   statValue: number
 }
+
+export interface BaseRecordMod {
+  ownerName: string
+  statName: string
+  statValue: number
+  playoffApps: number
+}

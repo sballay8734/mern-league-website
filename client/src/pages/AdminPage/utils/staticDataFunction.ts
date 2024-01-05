@@ -25,7 +25,8 @@ export function staticDataInit(owners: Owner[]) {
       id: owners[i].id,
       yearly: {},
       allTime: {},
-      h2h: {}
+      h2h: {},
+      bonusStats: {}
     }
 
     const currentOwner = owners[i]
@@ -61,6 +62,10 @@ export function staticDataInit(owners: Owner[]) {
     // then do head to head here
     const h2hStats = calcH2HStats(currentOwner)
     Object.assign(ownerObject.h2h, h2hStats)
+
+    // do bonus stats here
+    const bonusStats = calcBonusStats(currentOwner, owners)
+    Object.assign(ownerObject.bonusStats, bonusStats)
 
     ownerObjectsList.push({ ...ownerObject })
   }
@@ -150,6 +155,99 @@ function calcH2HStats(owner: Owner) {
     regSzn,
     playoffs,
     combined
+  }
+}
+// MAIN FUNCTION BONUS STATS
+function calcBonusStats(owner: Owner, owners: Owner[]) {
+  const finishes: number[] = []
+
+  let luckyWs = 0
+  let unluckyLs = 0
+
+  let mostWinsSingleYear = 0
+  let mostLossesSingleYear = 0
+
+  let playoffWins = 0
+  let playoffLosses = 0
+
+  const yearKeys = Object.keys(owner)
+
+  for (let i = 0; i < yearKeys.length; i++) {
+    let RSwins = 0
+    let RSLosses = 0
+    const year = Number(yearKeys[i])
+
+    if (year.toString().slice(0, 2) !== "20") continue
+    if (owner[year].participated === false) continue
+
+    finishes.push(owner[year].finished)
+
+    const regSznKeys = Object.keys(owner[year].regularSeason)
+    const playoffKeys = Object.keys(owner[year].playoffs)
+
+    // loop through Season Games
+    for (let i = 0; i < regSznKeys.length; i++) {
+      const week = regSznKeys[i]
+      const matchup = owner[year].regularSeason[week]
+      const win = matchup.pointsFor > matchup.pointsAgainst
+      const loss = matchup.pointsFor < matchup.pointsAgainst
+      const pointsFor = matchup.pointsFor
+      // NEED EACH OWNERS PF FOR THIS WEEK
+      // helper *********************************************
+      const pointsArray = getAllPointsForThisWeekRS(year, week, owners)
+
+      const top4 = pointsArray.slice(0, 4)
+      const bottom4 = pointsArray.slice(-4)
+
+      if (win && bottom4.includes(pointsFor)) {
+        luckyWs++
+        RSwins++
+      } else if (loss && top4.includes(pointsFor)) {
+        unluckyLs++
+        RSLosses++
+      } else if (win) {
+        RSwins++
+      } else if (loss) {
+        RSLosses++
+      }
+    }
+    if (RSwins > mostWinsSingleYear) {
+      mostWinsSingleYear = RSwins
+    }
+
+    if (RSLosses > mostLossesSingleYear) {
+      mostLossesSingleYear = RSLosses
+    }
+  }
+
+  // ************************ STOP !! *************************
+
+  // NEED TO LOOP THROUGH PLAYOFF GAMES NOW
+  // loop through Playoff Games
+  // for (let i = 0; i < playoffKeys.length; i++) {
+  //   const matchup = playoffKeys[i]
+  //   let playoffWins = 0
+  //   let playoffLosses = 0
+  // }
+
+  const avgFinish =
+    finishes.reduce((acc, num) => acc + num, 0) / finishes.length
+
+  console.log({
+    ownerName: owner.ownerName,
+    luckyWins: luckyWs,
+    unluckyLosses: unluckyLs,
+    mostWinsOneSeason: mostWinsSingleYear,
+    mostLossesOneSeason: mostLossesSingleYear,
+    avgFinishPlace: Number(avgFinish.toFixed(2))
+  })
+
+  return {
+    luckyWins: luckyWs,
+    unluckyLosses: unluckyLs,
+    mostWinsOneSeason: mostWinsSingleYear,
+    mostLossesOneSeason: mostLossesSingleYear,
+    avgFinishPlace: Number(avgFinish.toFixed(2))
   }
 }
 
@@ -431,16 +529,14 @@ function allTimeCombinedStats(
       gamesPlayed: regSznData.RSGamesPlayed + playoffData.POGamesPlayed,
       avgPA: Number(
         (
-          ((regSznData.RSPA + playoffData.POpointsAgainst) /
-            (regSznData.RSGamesPlayed + playoffData.POGamesPlayed)) *
-          100
+          (regSznData.RSPA + playoffData.POpointsAgainst) /
+          (regSznData.RSGamesPlayed + playoffData.POGamesPlayed)
         ).toFixed(2)
       ),
       avgPF: Number(
         (
-          ((regSznData.RSPF + playoffData.POpointsFor) /
-            (regSznData.RSGamesPlayed + playoffData.POGamesPlayed)) *
-          100
+          (regSznData.RSPF + playoffData.POpointsFor) /
+          (regSznData.RSGamesPlayed + playoffData.POGamesPlayed)
         ).toFixed(2)
       ),
       losses: regSznData.RSlosses + playoffData.POlosses,
@@ -618,4 +714,77 @@ function getYearsParticipated(owner: Owner) {
   }
 
   return { yearsParticipated, yearsNotParticipated }
+}
+
+type UnaccountedScores = {
+  [year: number]: {
+    [week: string]: number[]
+  }
+}
+
+function getAllPointsForThisWeekRS(
+  year: number,
+  week: string,
+  owners: Owner[]
+) {
+  // YEARS WITH 10 (2014, 2015, 2017)
+  // When non-league member played non-league member
+  const UNACCOUNTED_RS_SCORES: UnaccountedScores = {
+    2014: {
+      weekOne: [110, 97],
+      weekSeven: [146, 83],
+      weekNine: [121, 99],
+      weekThirteen: [137, 122]
+    },
+    2015: {
+      weekThree: [170, 84],
+      weekTwelve: [141, 122]
+    },
+    2016: {
+      weekTen: [105, 93]
+    }
+  }
+
+  const ownerNames: string[] = [
+    "Shawn Ballay",
+    "Steve Smith",
+    "Don Irons",
+    "Steve Lloyd",
+    "Dante Nocito",
+    "Cody Zwier",
+    "Jimmy Wagner",
+    "Dan George",
+    "Dom Nocito",
+    "Dom Flipp",
+    "Aaron Mackenzie",
+    "Joe Kane"
+  ]
+
+  const weeklyScores: number[] = []
+
+  for (let i = 0; i < owners.length; i++) {
+    const currentOwner = owners[i]
+
+    if (currentOwner[year].participated === false) continue
+    const matchup = currentOwner[year].regularSeason[week]
+
+    if (ownerNames.includes(matchup.opponent)) {
+      weeklyScores.push(matchup.pointsFor)
+    } else {
+      weeklyScores.push(matchup.pointsFor)
+      weeklyScores.push(matchup.pointsAgainst)
+    }
+  }
+
+  const needToAddScores = UNACCOUNTED_RS_SCORES[Number(year)]?.[week]
+
+  if (needToAddScores !== undefined) {
+    for (const score of needToAddScores) {
+      weeklyScores.push(score)
+    }
+  }
+
+  weeklyScores.sort((a, b) => b - a)
+
+  return weeklyScores
 }

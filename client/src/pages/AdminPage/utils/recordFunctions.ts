@@ -5,7 +5,8 @@ import {
   HighestCombinedScore,
   Matchups,
   bestWorstWeek,
-  streaks
+  streaks,
+  BaseRecordMod
 } from "../interfaces"
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -30,21 +31,20 @@ function calcAllTimeRecords(owners: Owner[]) {
   const lowestCombinedScores = calcLowestCombinedScores(owners)
 
   const highLowWinPct = calcHighLowWinPcts(owners)
-  // const highestAvgPF = 0 // top 3 FETCH
-  // const lowestAvgPF = 0 // bottom 3 FETCH
-  // const mostPlayoffApps = 0 // top 3 FETCH
-  // const leastPlayoffApps = 0 // bottom 3 FETCH
-  // const mostFinalsApps = 0 // top 3 FETCH
+  const highLowAvgPF = calcHighLowPF(owners)
+  const playoffRateAndApps = calcPlayoffRate(owners)
+
   // const highestAvgFinishingPlace = 0 // top 3 FETCH
   // const lowestAvgFinishingPlace = 0 // bottom 3 FETCH
-  // const highestPlayoffRate = 0 // top 3 FETCH
-  // const lowestPlayoffRate = 0 // bottom 3 FETCH
+
   // const mostLuckyWins = 0 // wins when scoring in bottom 3rd (top 3) FETCH
   // const mostUnluckyLosses = 0 // losses when scoring in top 3rd (top 3) FETCH
-  // const bestRSRecordSingleYear = 0 // (top 3) FETCH
-  // const worstRSRecordSingleYear = 0 // (bottom 3) FETCH
-  // const bestPlayoffRecord = 0 // (top 3) - all-time obviously FETCH
-  // const worstPlayoffRecord = 0 // (bottom 3) all-time obviously FETCH
+
+  // const mostRSWinsSingleYear = 0 // (top 3) FETCH
+  // const leastRSWinsSingleYear = 0 // (bottom 3) FETCH
+
+  // const bestPlayoffWinPct = 0 // (top 3) - all-time obviously FETCH
+  // const worstPlayoffWinPct = 0 // (bottom 3) all-time obviously FETCH
 
   return {
     bestWeeks,
@@ -55,7 +55,9 @@ function calcAllTimeRecords(owners: Owner[]) {
     closestGames,
     highestCombinedScores,
     lowestCombinedScores,
-    highLowWinPct
+    highLowWinPct,
+    highLowAvgPF,
+    playoffRateAndApps
   }
 }
 
@@ -540,6 +542,8 @@ function calcClosestGames(owners: Owner[]) {
         const win = matchUp.pointsFor > matchUp.pointsAgainst
         const difference = matchUp.pointsFor - matchUp.pointsAgainst
 
+        if (difference < 0.002) continue
+
         if (matchups.length < 5 && win) {
           matchups.push({
             winner: currentOwner.ownerName,
@@ -919,15 +923,80 @@ function calcHighLowWinPcts(owners: Owner[]) {
 
   return { top6, bottom6 }
 }
-// FETCH THESE (ONLY FETCH THE OWNERS ONCE!) ***********************************
-// function calcHighestWinPct(owners: Owner[]) {
-//   // fetch staticData, sort by all time winPct, grab the top 3
-//   return null
-// }
-// function calcLowestWinPct(owners: Owner[]) {
-//   // fetch staticData, sort by all time winPct, grab the bottom 3
-//   return null
-// }
+function calcHighLowPF(owners: Owner[]) {
+  const avgPF: BaseRecord[] = []
+
+  for (let i = 0; i < owners.length; i++) {
+    const currentOwner = owners[i]
+
+    const allTimeStats = calcAllTimeStats(currentOwner)
+    const allTimeCombined = allTimeStats.combined
+
+    if (avgPF.length < 12) {
+      avgPF.push({
+        ownerName: currentOwner.ownerName,
+        statName: "Average Points For",
+        statValue: allTimeCombined.avgPF
+      })
+    } else {
+      const minWinPct = Math.min(...avgPF.map((value) => value.statValue))
+      const currentWinPct = allTimeCombined.avgPF
+      if (currentWinPct > minWinPct) {
+        const indexToRemove = avgPF.findIndex(
+          (value) => value.statValue === minWinPct
+        )
+        avgPF.splice(indexToRemove, 1)
+        avgPF.push({
+          ownerName: currentOwner.ownerName,
+          statName: "Average Points For",
+          statValue: allTimeCombined.avgPF
+        })
+      }
+    }
+  }
+  avgPF.sort((a, b) => b.statValue - a.statValue)
+  const top6 = avgPF.slice(0, 6)
+  const bottom6 = avgPF.slice(-6).sort((a, b) => a.statValue - b.statValue)
+
+  return { top6, bottom6 }
+}
+function calcPlayoffRate(owners: Owner[]) {
+  const playoffRates: BaseRecordMod[] = []
+
+  for (let i = 0; i < owners.length; i++) {
+    const currentOwner = owners[i]
+    const yearKeys = Object.keys(currentOwner)
+    let yearsInLeague = 0
+    let playoffApps = 0
+
+    for (let i = 0; i < yearKeys.length; i++) {
+      const year = Number(yearKeys[i])
+
+      if (year.toString().slice(0, 2) !== "20") continue
+      if (currentOwner[year].participated === false) continue
+
+      if (currentOwner[year].playoffs["roundOne"].participated === true) {
+        playoffApps++
+      }
+      yearsInLeague++
+    }
+    const playoffRate = Number(((playoffApps / yearsInLeague) * 100).toFixed(2))
+
+    playoffRates.push({
+      ownerName: currentOwner.ownerName,
+      statName: "Playoff Rate",
+      statValue: playoffRate,
+      playoffApps
+    })
+  }
+  playoffRates.sort((a, b) => b.statValue - a.statValue)
+  const top6 = playoffRates.slice(0, 6)
+  const bottom6 = playoffRates
+    .slice(-6)
+    .sort((a, b) => a.statValue - b.statValue)
+
+  return { top6, bottom6 }
+}
 
 // TODO LIST *******************************************************************
 // 1. Also calc best current win/loss streak

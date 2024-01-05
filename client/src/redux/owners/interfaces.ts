@@ -159,3 +159,7 @@ export interface CombinedStats {
   totalPointsAgainst: number
   winningPct: number
 }
+
+// export interface UnaccountedScores {
+
+// }
