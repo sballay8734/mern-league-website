@@ -825,16 +825,18 @@ function calcETEWYearly(owner: Owner, year: string, owners: Owner[]) {
   let yearlyETEWLosses = 0
   let yearlyETEWTies = 0
 
-  const regSznKeys = Object.keys(owner[year].regularSeason)
+  const currentYear = Number(year)
+
+  const regSznKeys = Object.keys(owner[currentYear].regularSeason)
 
   // loop through Season Games
   for (let i = 0; i < regSznKeys.length; i++) {
     const week = regSznKeys[i]
-    const matchup = owner[year].regularSeason[week]
+    const matchup = owner[currentYear].regularSeason[week]
     const pointsFor = matchup.pointsFor
 
     // helper *********************************************
-    const pointsArray = getAllPointsForThisWeekRS(year, week, owners)
+    const pointsArray = getAllPointsForThisWeekRS(currentYear, week, owners)
 
     // cumulative record logic ********************************************
     for (let i = 0; i < pointsArray.length; i++) {
