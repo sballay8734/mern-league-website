@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose"
+import mongoose, { Schema, Types } from "mongoose"
 
 // Bonus Stats
 const bonusStatsSchema = new Schema(
@@ -154,7 +154,7 @@ const h2hStatsSchema = new Schema({
 
 export const staticOwnerSchema = new Schema({
   ownerName: { type: String, required: true },
-  id: { type: Number, required: true, unique: true },
+  _id: { type: String, required: true, unique: true },
   yearly: { type: Map, of: yearlyStatsSchema },
   allTime: allTimeStatsSchema,
   h2h: h2hStatsSchema,

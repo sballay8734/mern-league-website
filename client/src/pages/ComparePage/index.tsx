@@ -11,8 +11,11 @@ import { FaAngleDoubleRight } from "react-icons/fa"
 import { FaAngleDoubleLeft } from "react-icons/fa"
 import { FaAngleDoubleDown } from "react-icons/fa"
 import { FaCaretUp } from "react-icons/fa"
+import { staticOwnerSchema } from "../../../../server/models/staticOwnerData"
 
 import "./ComparePage.scss"
+
+const StaticOwner = staticOwnerSchema
 
 export default function ComparePage() {
   const { user } = useSelector((state: RootState) => state.user)
@@ -22,8 +25,8 @@ export default function ComparePage() {
     useState<string>("combined")
   const [showYearDropdown, setShowYearDropdown] = useState<boolean>(false)
   const [selectedYear, setSelectedYear] = useState<string>("2023")
-  const [ownerOne, setOwnerOne] = useState(null)
-  const [ownerTwo, setOwnerTwo] = useState(null)
+  const [ownerOne, setOwnerOne] = useState<typeof StaticOwner | null>(null)
+  const [ownerTwo, setOwnerTwo] = useState<typeof StaticOwner | null>(null)
   // below is just to remove error
   console.log(data)
 
@@ -32,11 +35,18 @@ export default function ComparePage() {
     setSelectedYear(year)
   }
 
-  // useEffect(() => {
-  //   if (data && user) {
-  //     const user = data.filter((owner) => user.id === owner.id)
-  //   }
-  // })
+  useEffect(() => {
+    if (data && user) {
+      const userOwner = data.find(
+        (owner: typeof StaticOwner) => user._id.toString() === owner._id!
+      )
+      console.log(userOwner)
+
+      setOwnerOne(userOwner || null)
+    }
+  })
+
+  console.log(ownerOne)
 
   return (
     <div className="page compare-page">

@@ -43,7 +43,8 @@ const ownersApi = createApi({
         headers: {
           "Content-Type": "application/json"
         }
-      })
+      }),
+      transformResponse: (rawData: (typeof StaticOwner)[]) => rawData
     })
   })
 })
