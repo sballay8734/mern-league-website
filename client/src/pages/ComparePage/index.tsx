@@ -1,6 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { RootState } from "../../redux/store"
 
-import { useFetchOwnersQuery } from "../../redux/owners/ownersApi"
+import { useFetchStaticDataQuery } from "../../redux/owners/ownersApi"
 import { MdCompareArrows } from "react-icons/md"
 import { FaTrophy } from "react-icons/fa6"
 import { GiLargeDress } from "react-icons/gi"
@@ -13,19 +15,28 @@ import { FaCaretUp } from "react-icons/fa"
 import "./ComparePage.scss"
 
 export default function ComparePage() {
-  const { data, error, isLoading } = useFetchOwnersQuery()
+  const { user } = useSelector((state: RootState) => state.user)
+  const { data } = useFetchStaticDataQuery()
   const [activeButton, setActiveButton] = useState<string>("h2h")
   const [activeFilterButton, setActiveFilterButton] =
     useState<string>("combined")
   const [showYearDropdown, setShowYearDropdown] = useState<boolean>(false)
   const [selectedYear, setSelectedYear] = useState<string>("2023")
+  const [ownerOne, setOwnerOne] = useState(null)
+  const [ownerTwo, setOwnerTwo] = useState(null)
   // below is just to remove error
-  console.log(error, isLoading, data)
+  console.log(data)
 
   function handleYearSelect(year: string) {
     setShowYearDropdown(false)
     setSelectedYear(year)
   }
+
+  // useEffect(() => {
+  //   if (data && user) {
+  //     const user = data.filter((owner) => user.id === owner.id)
+  //   }
+  // })
 
   return (
     <div className="page compare-page">

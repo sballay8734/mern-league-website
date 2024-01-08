@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import Owner from "../models/Owner"
 import User from "../models/User"
 import { errorHandler } from "../utils/error"
+import ComputedOwners from "../models/staticOwnerData"
 
 export const getOwners = async (
   req: Request,
@@ -31,6 +32,19 @@ export const getUsers = async (
     })
 
     res.status(200).json(usersWithoutPasswords)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getStaticData = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const staticData = await ComputedOwners.find()
+    res.status(200).json(staticData)
   } catch (error) {
     next(error)
   }

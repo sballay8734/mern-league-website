@@ -1,3 +1,4 @@
+import { staticOwnerSchema } from "./../../../../server/models/staticOwnerData"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { Owner } from "./interfaces"
 
@@ -8,6 +9,8 @@ interface User {
   preferredTheme: string
   avatar: string
 }
+
+const StaticOwner = staticOwnerSchema
 
 const ownersApi = createApi({
   reducerPath: "owners",
@@ -32,9 +35,22 @@ const ownersApi = createApi({
           "Content-Type": "application/json"
         }
       })
+    }),
+    fetchStaticData: builder.query<(typeof StaticOwner)[], void>({
+      query: () => ({
+        url: "/owners/static",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
     })
   })
 })
 
-export const { useFetchOwnersQuery, useFetchUserImagesQuery } = ownersApi
+export const {
+  useFetchOwnersQuery,
+  useFetchUserImagesQuery,
+  useFetchStaticDataQuery
+} = ownersApi
 export { ownersApi }
