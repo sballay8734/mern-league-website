@@ -182,6 +182,11 @@ export function calcBonusStats(owner: Owner, owners: Owner[]) {
   let totalETEWWins = 0
   let totalETEWLosses = 0
   let totalETEWTies = 0
+  let championships = 0
+  let skirts = 0
+
+  // GOING TO HAVE TO CALCULATE THIS SOMEWHERE ELSE
+  let KOTHWins = 0 
 
   let luckyWs = 0
   let unluckyLs = 0
@@ -205,6 +210,8 @@ export function calcBonusStats(owner: Owner, owners: Owner[]) {
     if (owner[year].participated === false) continue
 
     finishes.push(owner[year].finished)
+
+    if (owner[year].last === true) skirts++
 
     const regSznKeys = Object.keys(owner[year].regularSeason)
 
@@ -256,6 +263,13 @@ export function calcBonusStats(owner: Owner, owners: Owner[]) {
     totalETEWLosses += yearlyETEWLosses
     totalETEWWins += yearlyETEWWins
     totalETEWTies += yearlyETEWTies
+
+    // check if owner won finals
+    const finals = owner[year].playoffs["finalRound"]
+    if (finals.participated === true && finals.pointsFor! > finals.pointsAgainst!) {
+      championships++
+    }
+    
   }
 
   const avgFinish =
@@ -267,6 +281,8 @@ export function calcBonusStats(owner: Owner, owners: Owner[]) {
     mostWinsOneSeason: mostWinsSingleYear,
     mostLossesOneSeason: mostLossesSingleYear,
     avgFinishPlace: Number(avgFinish.toFixed(2)),
+    championships: championships,
+    skirts: skirts,
     everyTeamEveryWeek: {
       wins: totalETEWWins,
       ties: totalETEWTies,

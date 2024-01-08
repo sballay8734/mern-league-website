@@ -11,11 +11,9 @@ import { FaAngleDoubleRight } from "react-icons/fa"
 import { FaAngleDoubleLeft } from "react-icons/fa"
 import { FaAngleDoubleDown } from "react-icons/fa"
 import { FaCaretUp } from "react-icons/fa"
-import { staticOwnerSchema } from "../../../../server/models/staticOwnerData"
+import { StaticOwner } from "../../types/StaticOwner"
 
 import "./ComparePage.scss"
-
-const StaticOwner = staticOwnerSchema
 
 export default function ComparePage() {
   const { user } = useSelector((state: RootState) => state.user)
@@ -25,26 +23,28 @@ export default function ComparePage() {
     useState<string>("combined")
   const [showYearDropdown, setShowYearDropdown] = useState<boolean>(false)
   const [selectedYear, setSelectedYear] = useState<string>("2023")
-  const [ownerOne, setOwnerOne] = useState<typeof StaticOwner | null>(null)
-  const [ownerTwo, setOwnerTwo] = useState<typeof StaticOwner | null>(null)
+  const [ownerOne, setOwnerOne] = useState<StaticOwner | null>(null)
+  const [ownerTwo, setOwnerTwo] = useState<StaticOwner | null>(null)
   // below is just to remove error
-  console.log(data)
+  // console.log(data)
 
   function handleYearSelect(year: string) {
     setShowYearDropdown(false)
     setSelectedYear(year)
   }
 
+  // need to set ownerTwo to someone who is not ownerOne
   useEffect(() => {
     if (data && user) {
-      const userOwner = data.find(
-        (owner: typeof StaticOwner) => user._id === 
-      )
-      console.log(userOwner)
+      const tempOwner = data.find((owner: StaticOwner) => user.firstName === owner.ownerName.split(" ")[0])
 
-      setOwnerOne(userOwner || null)
+      if (tempOwner) {
+        setOwnerOne(tempOwner)
+      } else {
+        setOwnerOne(data[0])
+      }
     }
-  })
+  }, [data, user])
 
   console.log(ownerOne)
 
@@ -99,7 +99,7 @@ export default function ComparePage() {
               Prev{" "}
             </button>
             <div className="spacer"></div>
-            <h2 className="owner-one-name owner-name">Shawn B.</h2>
+            <h2 className="owner-one-name owner-name">{ownerOne?.ownerName}</h2>
             <div className="spacer"></div>
             <button className="arrow arrow-right">
               Next{" "}
@@ -115,7 +115,7 @@ export default function ComparePage() {
                 <h2 className="stat stat1">
                   Championships:{" "}
                   <span className="icons">
-                    <FaTrophy /> <FaTrophy /> <FaTrophy />
+                    {ownerOne && ownerOne?.bonusStats.championships! > 0 ? new Array(ownerOne?.bonusStats.championships).fill(null).map((_, index) => <FaTrophy key={index}/>) : 0}
                   </span>
                 </h2>
                 <h2 className="stat stat2">
@@ -129,11 +129,13 @@ export default function ComparePage() {
                 <h2 className="stat stat3">
                   Skirts:{" "}
                   <span className="icons">
-                    <GiLargeDress />
+                    {ownerOne && ownerOne?.bonusStats.skirts! > 0 ? new Array(ownerOne?.bonusStats.skirts).fill(null).map((_, index) => <GiLargeDress key={index}/>) : 0}
                   </span>
                 </h2>
                 <h2 className="stat stat4">
-                  Avg. Finish: <span className="icons">3.2</span>
+                  Avg. Finish: <span className="icons">
+                    {ownerOne && ownerOne.bonusStats.avgFinishPlace}
+                  </span>
                 </h2>
               </div>
             </div>

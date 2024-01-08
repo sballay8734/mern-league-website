@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
 // Bonus Stats
 const bonusStatsSchema = new Schema(
@@ -8,6 +8,8 @@ const bonusStatsSchema = new Schema(
     mostWinsOneSeason: Number,
     mostLossesOneSeason: Number,
     avgFinishPlace: Number,
+    championships: Number,
+    skirts: Number,
     everyTeamEveryWeek: {
       wins: { type: Number },
       losses: { type: Number },

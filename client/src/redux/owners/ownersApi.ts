@@ -10,7 +10,7 @@ interface User {
   avatar: string
 }
 
-const StaticOwner = staticOwnerSchema
+import { StaticOwner } from "../../types/StaticOwner"
 
 const ownersApi = createApi({
   reducerPath: "owners",
@@ -36,15 +36,14 @@ const ownersApi = createApi({
         }
       })
     }),
-    fetchStaticData: builder.query<(typeof StaticOwner)[], void>({
+    fetchStaticData: builder.query<(StaticOwner)[], void>({
       query: () => ({
         url: "/owners/static",
         method: "GET",
         headers: {
           "Content-Type": "application/json"
         }
-      }),
-      transformResponse: (rawData: (typeof StaticOwner)[]) => rawData
+      })
     })
   })
 })
