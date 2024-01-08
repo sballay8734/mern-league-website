@@ -11,6 +11,7 @@ import kingsRouter from "./routes/kingsRoute"
 import updateProfileRouter from "./routes/updateProfileRoute"
 import postsRouter from "./routes/postsRoute"
 import propsRouter from "./routes/propsRoute"
+import updateDataRouter from "./routes/updateData"
 import { Err } from "./types/errorTypes"
 
 dotenv.config()
@@ -23,7 +24,7 @@ mongoose
   .catch((err) => console.log(err))
 
 const app = express()
-app.use(express.json())
+app.use(express.json({ limit: "10mb" }))
 app.use(cookieParser())
 
 const port = process.env.PORT || 3000
@@ -36,6 +37,7 @@ app.use("/api/kings", kingsRouter)
 app.use("/api/profile", updateProfileRouter)
 app.use("/api/posts", postsRouter)
 app.use("/api/props", propsRouter)
+app.use("/api/update", updateDataRouter)
 
 const clientDistPath = path.join(__dirname, "../client/dist")
 app.use(express.static(clientDistPath))

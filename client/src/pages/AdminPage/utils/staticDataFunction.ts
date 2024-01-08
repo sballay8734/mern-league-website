@@ -16,7 +16,7 @@ import {
 } from "../../../redux/owners/interfaces"
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-export function staticDataInit(owners: Owner[]) {
+export async function staticDataInit(owners: Owner[]) {
   const ownerObjectsList = []
   // loop through owners HERE
   for (let i = 0; i < owners.length; i++) {
@@ -69,7 +69,20 @@ export function staticDataInit(owners: Owner[]) {
 
     ownerObjectsList.push({ ...ownerObject })
   }
-  return ownerObjectsList
+
+  console.log(ownerObjectsList)
+
+  const res = await fetch("/api/update/static", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(ownerObjectsList)
+  })
+
+  const data = await res.json()
+
+  return data
 }
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

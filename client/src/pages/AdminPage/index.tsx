@@ -42,14 +42,15 @@ export default function AdminPage() {
   //   console.log(data)
   // }
 
-  function runStaticDataUpdate() {
+  async function runStaticDataUpdate() {
     setUpdateInProgress(true)
 
     if (!data) return
 
     try {
       // run all update functions
-      console.log(staticDataInit(data))
+      const successData = await staticDataInit(data)
+      console.log(successData)
       // console.log(yearlyStaticDataInit(data[0], 2014))
     } catch (error) {
       console.log(error)
