@@ -38,7 +38,7 @@ export default function ComparePage() {
   useEffect(() => {
     if (data && user) {
       const userOwner = data.find(
-        (owner: typeof StaticOwner) => user._id.toString() === owner._id!
+        (owner: typeof StaticOwner) => user._id === 
       )
       console.log(userOwner)
 

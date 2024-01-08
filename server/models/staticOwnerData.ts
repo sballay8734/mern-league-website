@@ -154,7 +154,7 @@ const h2hStatsSchema = new Schema({
 
 export const staticOwnerSchema = new Schema({
   ownerName: { type: String, required: true },
-  _id: { type: String, required: true, unique: true },
+  id: { type: String, required: true, unique: true },
   yearly: { type: Map, of: yearlyStatsSchema },
   allTime: allTimeStatsSchema,
   h2h: h2hStatsSchema,
