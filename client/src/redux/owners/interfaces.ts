@@ -127,9 +127,12 @@ export interface H2HStats {
   wins: number
   losses: number
   ties: number
+  avgPF: number
   totalPointsFor: number
   totalPointsAgainst: number
   winningPct: number
+  bestWeek: number
+  worstWeek: number
 }
 
 export interface PlayoffType {
@@ -141,9 +144,12 @@ export interface PlayoffStats {
   wins: number
   losses: number
   ties: number
+  avgPF: number
   totalPointsFor: number
   totalPointsAgainst: number
   winningPct: number
+  bestWeek: number
+  worstWeek: number
 }
 
 export interface CombinedType {

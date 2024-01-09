@@ -9,11 +9,9 @@ import {
   allTimePlayoffData,
   H2HType,
   PlayoffType,
-  CombinedType,
-  PlayoffStats,
-  H2HStats,
-  CombinedStats
+  CombinedType
 } from "../../../redux/owners/interfaces"
+import { H2hCombined, H2hPlayoffs, H2hRegSzn } from "../../../types/StaticOwner"
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 export async function staticDataInit(owners: Owner[]) {
@@ -605,7 +603,7 @@ function allTimeCombinedStats(
 
 // H2H *************************************************************************
 // Called from calcH2HStats
-function h2hRegSzn(owner: Owner, owner2: string) {
+function h2hRegSzn(owner: Owner, owner2: string): H2hRegSzn {
   const opponent = owner2
   let RSgamesPlayed = 0
   let wins = 0
@@ -613,6 +611,8 @@ function h2hRegSzn(owner: Owner, owner2: string) {
   let ties = 0
   let totalPointsFor = 0
   let totalPointsAgainst = 0
+  let bestWeek = 0
+  let worstWeek = 1000
 
   const yearKeys = Object.keys(owner)
 
@@ -635,6 +635,8 @@ function h2hRegSzn(owner: Owner, owner2: string) {
       if (pointsFor > pointsAgainst) wins++
       if (pointsFor < pointsAgainst) losses++
       if (pointsFor === pointsAgainst) ties++
+      if (pointsFor > bestWeek) bestWeek = pointsFor
+      if (pointsFor < worstWeek) worstWeek = pointsFor
 
       totalPointsFor += pointsFor
       totalPointsAgainst += pointsAgainst
@@ -648,11 +650,14 @@ function h2hRegSzn(owner: Owner, owner2: string) {
     ties,
     totalPointsFor: Number(totalPointsFor.toFixed(2)),
     totalPointsAgainst: Number(totalPointsAgainst.toFixed(2)),
-    winningPct: Number(((wins / (wins + losses + ties)) * 100).toFixed(2))
+    avgPF: Number((totalPointsFor / RSgamesPlayed).toFixed(2)),
+    winningPct: Number(((wins / (wins + losses + ties)) * 100).toFixed(2)),
+    bestWeek: Number(bestWeek.toFixed(2)),
+    worstWeek: Number(worstWeek.toFixed(2)),
   }
 }
 // Called from calcH2HStats
-function h2hPlayoffs(owner: Owner, owner2: string) {
+function h2hPlayoffs(owner: Owner, owner2: string): H2hPlayoffs {
   const opponent = owner2
   let POgamesPlayed = 0
   let wins = 0
@@ -660,6 +665,8 @@ function h2hPlayoffs(owner: Owner, owner2: string) {
   let ties = 0
   let totalPointsFor = 0
   let totalPointsAgainst = 0
+  let bestWeek = 0
+  let worstWeek = 1000
 
   const yearKeys = Object.keys(owner)
 
@@ -686,6 +693,8 @@ function h2hPlayoffs(owner: Owner, owner2: string) {
         if (pointsFor > pointsAgainst) wins++
         if (pointsFor < pointsAgainst) losses++
         if (pointsFor === pointsAgainst) ties++
+        if (pointsFor > bestWeek) bestWeek = pointsFor
+        if (pointsFor < worstWeek) worstWeek = pointsFor
 
         totalPointsFor += pointsFor
         totalPointsAgainst += pointsAgainst
@@ -699,24 +708,30 @@ function h2hPlayoffs(owner: Owner, owner2: string) {
     losses,
     ties,
     totalPointsFor: Number(totalPointsFor.toFixed(2)),
+    avgPF: Number((totalPointsFor / POgamesPlayed).toFixed(2)),
     totalPointsAgainst: Number(totalPointsAgainst.toFixed(2)),
-    winningPct: Number(((wins / (wins + losses + ties)) * 100).toFixed(2))
+    winningPct: Number(((wins / (wins + losses + ties)) * 100).toFixed(2)),
+    bestWeek: Number(bestWeek.toFixed(2)),
+    worstWeek: Number(worstWeek.toFixed(2))
   }
 }
 // Called from calcH2HStats
 function h2hCombined(
-  regSznData: H2HStats,
-  playoffData: PlayoffStats
-): CombinedStats {
+  regSznData: H2hRegSzn,
+  playoffData: H2hPlayoffs
+): H2hCombined {
   if (playoffData.POgamesPlayed === 0) {
     return {
       gamesPlayed: regSznData.RSgamesPlayed,
       wins: regSznData.wins,
       losses: regSznData.losses,
       ties: regSznData.ties,
+      avgPF: Number((regSznData.totalPointsFor / regSznData.RSgamesPlayed).toFixed(2)),
       totalPointsFor: Number(regSznData.totalPointsFor.toFixed(2)),
       totalPointsAgainst: Number(regSznData.totalPointsAgainst.toFixed(2)),
-      winningPct: Number(regSznData.winningPct.toFixed(2))
+      winningPct: Number(regSznData.winningPct.toFixed(2)),
+      bestWeek: regSznData.bestWeek,
+      worstWeek: regSznData.worstWeek
     }
   } else {
     return {
@@ -724,6 +739,7 @@ function h2hCombined(
       wins: regSznData.wins + playoffData.wins,
       losses: regSznData.losses + playoffData.losses,
       ties: regSznData.ties + playoffData.ties,
+      avgPF: Number(((regSznData.totalPointsFor + playoffData.totalPointsFor) / (regSznData.RSgamesPlayed + playoffData.POgamesPlayed)).toFixed(2)),
       totalPointsFor: Number(
         (regSznData.totalPointsFor + playoffData.totalPointsFor).toFixed(2)
       ),
@@ -738,7 +754,10 @@ function h2hCombined(
             (regSznData.RSgamesPlayed + playoffData.POgamesPlayed)) *
           100
         ).toFixed(2)
-      )
+      ),
+      bestWeek: (regSznData.bestWeek > playoffData.bestWeek ? regSznData.bestWeek : playoffData.bestWeek),
+      worstWeek: (regSznData.worstWeek < playoffData.worstWeek ? regSznData.worstWeek : playoffData.worstWeek),
+
     }
   }
 }

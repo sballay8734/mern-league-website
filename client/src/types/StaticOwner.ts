@@ -94,40 +94,43 @@ interface RegSznAtStats {
   RSwins: number
 }
 
-interface H2hCombined {
-  opponentName: {
-    gamesPlayed: number
-    losses: number
-    ties: number
-    totalPointsAgainst: number
-    totalPointsFor: number
-    winningPct: number
-    wins: number
-  }
+export interface H2hCombined {
+  gamesPlayed: number
+  losses: number
+  ties: number
+  avgPF: number
+  totalPointsAgainst: number
+  totalPointsFor: number
+  winningPct: number
+  wins: number
+  bestWeek: number
+  worstWeek: number
 }
 
-interface H2hPlayoffs {
-  opponentName: {
-    POgamesPlayed: number
-    losses: number
-    ties: number
-    totalPointsAgainst: number
-    totalPointsFor: number
-    winningPct: number
-    wins: number
-  }
+export interface H2hPlayoffs {
+  POgamesPlayed: number
+  losses: number
+  ties: number
+  avgPF: number
+  totalPointsAgainst: number
+  totalPointsFor: number
+  winningPct: number
+  wins: number
+  bestWeek: number
+  worstWeek: number
 }
 
-interface H2hRegSzn {
-  opponentName: {
-    RSgamesPlayed: number
-    losses: number
-    ties: number
-    totalPointsAgainst: number
-    totalPointsFor: number
-    winningPct: number
-    wins: number  
-  }
+export interface H2hRegSzn {
+  RSgamesPlayed: number
+  losses: number
+  ties: number
+  avgPF: number
+  totalPointsAgainst: number
+  totalPointsFor: number
+  winningPct: number
+  wins: number
+  bestWeek: number
+  worstWeek: number  
 }
 
 interface YearlyStats {

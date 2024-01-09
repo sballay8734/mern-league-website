@@ -97,33 +97,42 @@ const regSznATStatsSchema = new Schema({
   RSwins: Number
 })
 
-// h2h Helpers H2H IS MESSED UP
+// h2h Helpers
 const h2hCombinedObjectSchema = new Schema({
   gamesPlayed: Number,
   losses: Number,
   ties: Number,
+  avgPF: Number,
   totalPointsAgainst: Number,
   totalPointsFor: Number,
   winningPct: Number,
-  wins: Number
+  wins: Number,
+  bestWeek: Number,
+  worstWeek: Number
 })
 const h2hPlayoffObjectSchema = new Schema({
   POgamesPlayed: Number,
   losses: Number,
   ties: Number,
+  avgPF: Number,
   totalPointsAgainst: Number,
   totalPointsFor: Number,
   winningPct: Number,
-  wins: Number
+  wins: Number,
+  bestWeek: Number,
+  worstWeek: Number
 })
 const h2hRegSznObjectSchema = new Schema({
   RSgamesPlayed: Number,
   losses: Number,
   ties: Number,
+  avgPF: Number,
   totalPointsAgainst: Number,
   totalPointsFor: Number,
   winningPct: Number,
-  wins: Number
+  wins: Number,
+  bestWeek: Number,
+  worstWeek: Number
 })
 
 // MAIN SCHEMAS **********************************************************
