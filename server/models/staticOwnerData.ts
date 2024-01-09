@@ -97,39 +97,50 @@ const regSznATStatsSchema = new Schema({
   RSwins: Number
 })
 
-// h2h Helpers
-const h2hCombinedObjectSchema = new Schema({
-  opponentName: {
-    gamesPlayed: Number,
-    losses: Number,
-    ties: Number,
-    totalPointsAgainst: Number,
-    totalPointsFor: Number,
-    winningPct: Number,
-    wins: Number
-  }
+// h2h Helpers H2H IS MESSED UP
+
+const h2hCombinedData = new Schema({
+  gamesPlayed: Number,
+  losses: Number,
+  ties: Number,
+  totalPointsAgainst: Number,
+  totalPointsFor: Number,
+  winningPct: Number,
+  wins: Number
 })
+
+const h2hCombinedObjectSchema = new Schema({
+  opponentName: {type: String},
+  data: h2hCombinedData
+})
+
+const h2hPlayoffData = new Schema({
+  POgamesPlayed: Number,
+  losses: Number,
+  ties: Number,
+  totalPointsAgainst: Number,
+  totalPointsFor: Number,
+  winningPct: Number,
+  wins: Number
+})
+
 const h2hPlayoffObjectSchema = new Schema({
-  opponentName: {
-    POgamesPlayed: Number,
-    losses: Number,
-    ties: Number,
-    totalPointsAgainst: Number,
-    totalPointsFor: Number,
-    winningPct: Number,
-    wins: Number
-  }
+  opponentName: {type: String},
+  data: h2hPlayoffData
+})
+
+const h2hRegSznData = new Schema({
+  RSgamesPlayed: Number,
+  losses: Number,
+  ties: Number,
+  totalPointsAgainst: Number,
+  totalPointsFor: Number,
+  winningPct: Number,
+  wins: Number
 })
 const h2hRegSznObjectSchema = new Schema({
-  opponentName: {
-    RSgamesPlayed: Number,
-    losses: Number,
-    ties: Number,
-    totalPointsAgainst: Number,
-    totalPointsFor: Number,
-    winningPct: Number,
-    wins: Number
-  }
+  opponentName: {type: String},
+  data: h2hRegSznData
 })
 
 // MAIN SCHEMAS **********************************************************

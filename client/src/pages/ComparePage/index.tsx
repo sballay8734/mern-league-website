@@ -40,6 +40,7 @@ export default function ComparePage() {
 
       if (tempOwner) {
         setOwnerOne(tempOwner)
+        setOwnerTwo(data[11])
       } else {
         setOwnerOne(data[0])
       }
@@ -183,17 +184,13 @@ export default function ComparePage() {
                   <div className="h2h-content h2h-content-wrapper">
                     <div className="owner-stats owner-one-stats">
                       <div className="main-cell owner-name owner-one-name">
-                        Shawn B.
+                       {ownerOne?.ownerName.split(" ")[0]}
                       </div>
-                      <div className="cell record owner-one-record">2-10</div>
+                      <div className="cell record owner-one-record">
+                        {/* ERROR HERE, DATA ISN'T RETURNING CORRECTLY */}
+                      </div>
                       <div className="cell avgPts">
                         <span className="stat-value">118.2</span>
-                        {/* <div className="plus-minus-and-icon">
-                        <span className="plus-minus red">-9.2</span>
-                        <span className="arrow-icon red">
-                          <FaCaretDown />
-                        </span>
-                      </div> */}
                       </div>
                       <div className="cell avtPtsVField">
                         <span className="stat-value">125.2 </span>
@@ -688,7 +685,7 @@ export default function ComparePage() {
               Prev{" "}
             </button>
             <div className="spacer"></div>
-            <h2 className="owner-one-name owner-name">Don I.</h2>
+            <h2 className="owner-one-name owner-name">{ownerTwo?.ownerName}</h2>
             <div className="spacer"></div>
             <button className="arrow arrow-right">
               Next{" "}
@@ -704,7 +701,7 @@ export default function ComparePage() {
                 <h2 className="stat stat1">
                   Championships:{" "}
                   <span className="icons">
-                    <FaTrophy />
+                    {ownerTwo && ownerTwo?.bonusStats.championships! > 0 ? new Array(ownerTwo?.bonusStats.championships).fill(null).map((_, index) => <FaTrophy key={index}/>) : 0}
                   </span>
                 </h2>
                 <h2 className="stat stat2">
@@ -718,11 +715,11 @@ export default function ComparePage() {
                 <h2 className="stat stat3">
                   Skirts:{" "}
                   <span className="icons">
-                    <GiLargeDress />
+                    {ownerTwo && ownerTwo?.bonusStats.skirts! > 0 ? new Array(ownerTwo?.bonusStats.skirts).fill(null).map((_, index) => <GiLargeDress key={index}/>) : 0}
                   </span>
                 </h2>
                 <h2 className="stat stat4">
-                  Avg. Finish: <span className="icons">5.1</span>
+                  Avg. Finish: <span className="icons">{ownerTwo && ownerTwo.bonusStats.avgFinishPlace}</span>
                 </h2>
               </div>
             </div>
