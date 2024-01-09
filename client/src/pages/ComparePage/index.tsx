@@ -48,6 +48,7 @@ export default function ComparePage() {
   }, [data, user])
 
   console.log(ownerOne)
+  console.log(ownerTwo)
 
   return (
     <div className="page compare-page">
@@ -187,7 +188,14 @@ export default function ComparePage() {
                        {ownerOne?.ownerName.split(" ")[0]}
                       </div>
                       <div className="cell record owner-one-record">
-                        {/* ERROR HERE, DATA ISN'T RETURNING CORRECTLY */}
+                        {ownerOne &&
+                          ownerTwo &&
+                          ownerOne.h2h.combined[ownerTwo.ownerName] && (
+                            <>
+                              {ownerOne.h2h.combined[ownerTwo.ownerName].wins} -{' '}
+                              {ownerOne.h2h.combined[ownerTwo.ownerName].losses}
+                            </>
+                          )}
                       </div>
                       <div className="cell avgPts">
                         <span className="stat-value">118.2</span>
