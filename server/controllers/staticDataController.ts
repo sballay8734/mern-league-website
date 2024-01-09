@@ -28,7 +28,9 @@ export const updateStatic = async (
     const savedDataArray = await Promise.all(
       staticOwnerDataArray.map(
         async (staticOwnerData: typeof staticOwnerSchema) => {
+          // just set the object here...
           const newData = new ComputedOwners(staticOwnerData)
+          console.log(newData)
           return newData.save()
         }
       )
