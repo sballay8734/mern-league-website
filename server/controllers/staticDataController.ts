@@ -30,7 +30,6 @@ export const updateStatic = async (
         async (staticOwnerData: typeof staticOwnerSchema) => {
           // just set the object here...
           const newData = new ComputedOwners(staticOwnerData)
-          console.log(newData)
           return newData.save()
         }
       )

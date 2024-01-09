@@ -653,7 +653,7 @@ function h2hRegSzn(owner: Owner, owner2: string): H2hRegSzn {
     avgPF: Number((totalPointsFor / RSgamesPlayed).toFixed(2)),
     winningPct: Number(((wins / (wins + losses + ties)) * 100).toFixed(2)),
     bestWeek: Number(bestWeek.toFixed(2)),
-    worstWeek: Number(worstWeek.toFixed(2)),
+    worstWeek: (worstWeek === 1000 ? 0 : Number(worstWeek.toFixed(2)) ),
   }
 }
 // Called from calcH2HStats
@@ -708,11 +708,11 @@ function h2hPlayoffs(owner: Owner, owner2: string): H2hPlayoffs {
     losses,
     ties,
     totalPointsFor: Number(totalPointsFor.toFixed(2)),
-    avgPF: Number((totalPointsFor / POgamesPlayed).toFixed(2)),
+    avgPF: isNaN(Number((totalPointsFor / POgamesPlayed).toFixed(2))) ? 0 : Number((totalPointsFor / POgamesPlayed).toFixed(2)),
     totalPointsAgainst: Number(totalPointsAgainst.toFixed(2)),
-    winningPct: Number(((wins / (wins + losses + ties)) * 100).toFixed(2)),
+    winningPct: isNaN(Number(((wins / (wins + losses + ties)) * 100).toFixed(2))) ? 0 : Number(((wins / (wins + losses + ties)) * 100).toFixed(2)),
     bestWeek: Number(bestWeek.toFixed(2)),
-    worstWeek: Number(worstWeek.toFixed(2))
+    worstWeek: (worstWeek === 1000 ? 0 : Number(worstWeek.toFixed(2)))
   }
 }
 // Called from calcH2HStats
