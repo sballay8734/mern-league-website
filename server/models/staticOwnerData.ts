@@ -15,7 +15,8 @@ const bonusStatsSchema = new Schema(
       losses: { type: Number },
       ties: { type: Number },
       winPct: { type: Number }
-    }
+    },
+    playoffRate: Number
   },
   { _id: false }
 )
@@ -73,7 +74,9 @@ const combinedATStatsSchema = new Schema({
   pointsFor: Number,
   ties: Number,
   winningPct: Number,
-  wins: Number
+  wins: Number,
+  bestWeek: Number,
+  worstWeek: Number
 })
 const playoffATStatsSchema = new Schema({
   POavgPA: Number,
@@ -83,18 +86,22 @@ const playoffATStatsSchema = new Schema({
   POpointsAgainst: Number,
   POpointsFor: Number,
   POwinningPct: Number,
-  POwins: Number
+  POwins: Number,
+  bestWeek: Number,
+  worstWeek: Number
 })
 const regSznATStatsSchema = new Schema({
   RSavgPA: Number,
   RSavgPF: Number,
   RSgamesPlayed: Number,
   RSlosses: Number,
-  RSpointsAgainst: Number,
-  RSpointsFor: Number,
+  RSPA: Number,
+  RSPF: Number,
   RSwinningPct: Number,
   RSties: Number,
-  RSwins: Number
+  RSwins: Number,
+  bestWeek: Number,
+  worstWeek: Number
 })
 
 // h2h Helpers

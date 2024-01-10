@@ -93,6 +93,8 @@ export interface CombinedData {
   pointsFor: number
   ties: number
   winningPct: number
+  // bestWeek: number
+  // worstWeek: number
 }
 
 export interface allTimePlayoffData {
@@ -104,6 +106,8 @@ export interface allTimePlayoffData {
   POavgPA: number
   POavgPF: number
   POwinningPct: number
+  bestWeek: number
+  worstWeek: number
 }
 
 export interface allTimeRegSznData {
@@ -116,6 +120,8 @@ export interface allTimeRegSznData {
   RSavgPF: number
   RSwinningPct: number
   RSties: number
+  bestWeek: number
+  worstWeek: number
 }
 
 export interface H2HType {

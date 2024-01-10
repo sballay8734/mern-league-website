@@ -182,6 +182,8 @@ export function calcBonusStats(owner: Owner, owners: Owner[]) {
   let totalETEWTies = 0
   let championships = 0
   let skirts = 0
+  let madePlayoffs = 0
+  let totalPlayoffs = 0
 
   // GOING TO HAVE TO CALCULATE THIS SOMEWHERE ELSE
   let KOTHWins = 0 
@@ -267,6 +269,13 @@ export function calcBonusStats(owner: Owner, owners: Owner[]) {
     if (finals.participated === true && finals.pointsFor! > finals.pointsAgainst!) {
       championships++
     }
+
+    // check if owner made playoffs
+    const playoffPart = owner[year].playoffs["roundOne"]
+    if (playoffPart.participated === true) {
+      madePlayoffs++
+    }
+    totalPlayoffs++
     
   }
 
@@ -291,7 +300,8 @@ export function calcBonusStats(owner: Owner, owners: Owner[]) {
           100
         ).toFixed(2)
       )
-    }
+    },
+    playoffRate: Number(((madePlayoffs / totalPlayoffs) * 100).toFixed(2))
   }
 }
 
@@ -462,6 +472,8 @@ function allTimeRegSznStats(owner: Owner) {
   let RSpointsFor = 0
   let RSties = 0
   let RSwins = 0
+  let bestWeek = 0
+  let worstWeek = 1000
 
   const yearKeys = Object.keys(owner)
 
@@ -480,6 +492,9 @@ function allTimeRegSznStats(owner: Owner) {
       if (pointsFor > pointsAgainst) RSwins++
       if (pointsFor < pointsAgainst) RSlosses++
       if (pointsFor === pointsAgainst) RSties++
+      if (pointsFor > bestWeek) bestWeek = pointsFor
+      if (pointsFor < worstWeek) worstWeek = pointsFor
+
 
       RSGamesPlayed++
       RSpointsFor += pointsFor
@@ -496,7 +511,9 @@ function allTimeRegSznStats(owner: Owner) {
     RSPF: Number(RSpointsFor.toFixed(2)),
     RSties,
     RSwinningPct: Number(((RSwins / RSGamesPlayed) * 100).toFixed(2)),
-    RSwins
+    RSwins,
+    bestWeek,
+    worstWeek
   }
 }
 // Called from calcAllTimeStats
@@ -506,6 +523,8 @@ function allTimePlayoffStats(owner: Owner) {
   let POpointsAgainst = 0
   let POpointsFor = 0
   let POwins = 0
+  let bestWeek = 0
+  let worstWeek = 1000
 
   const yearKeys = Object.keys(owner)
 
@@ -530,6 +549,8 @@ function allTimePlayoffStats(owner: Owner) {
       if (pointsFor && pointsAgainst) {
         if (pointsFor > pointsAgainst) POwins++
         if (pointsFor < pointsAgainst) POlosses++
+        if (pointsFor > bestWeek) bestWeek = pointsFor
+        if (pointsFor < worstWeek) worstWeek = pointsFor
 
         POGamesPlayed++
         POpointsAgainst += pointsAgainst
@@ -546,7 +567,9 @@ function allTimePlayoffStats(owner: Owner) {
     POpointsAgainst: Number(POpointsAgainst.toFixed(2)) || 0,
     POpointsFor: Number(POpointsFor.toFixed(2)) || 0,
     POwinningPct: Number(((POwins / POGamesPlayed) * 100).toFixed(2)) || 0,
-    POwins: POwins || 0
+    POwins: POwins || 0,
+    bestWeek,
+    worstWeek: (worstWeek === 1000 ? 0 : worstWeek)
   }
 }
 // Called from calcAllTimeStats
@@ -565,7 +588,9 @@ function allTimeCombinedStats(
       pointsFor: regSznData.RSPF,
       ties: regSznData.RSties,
       winningPct: regSznData.RSwinningPct,
-      wins: regSznData.RSwins
+      wins: regSznData.RSwins,
+      bestWeek: regSznData.bestWeek,
+      worstWeek: regSznData.worstWeek
     }
     // if they have (EVERYONE ELSE)
   } else {
@@ -596,7 +621,9 @@ function allTimeCombinedStats(
           100
         ).toFixed(2)
       ),
-      wins: regSznData.RSwins + playoffData.POwins
+      wins: regSznData.RSwins + playoffData.POwins,
+      bestWeek: (regSznData.bestWeek > playoffData.bestWeek) ? regSznData.bestWeek : playoffData.bestWeek,
+      worstWeek: (regSznData.worstWeek < playoffData.worstWeek) ? regSznData.worstWeek : playoffData.worstWeek
     }
   }
 }

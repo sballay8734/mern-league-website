@@ -12,6 +12,7 @@ interface BonusStats {
     ties: number
     winPct: number
   }
+  playoffRate: number
 }
 
 interface CombinedStats {
@@ -69,6 +70,8 @@ interface CombinedATStats {
   ties: number
   winningPct: number
   wins: number
+  bestWeek: number
+  worstWeek: number
 }
 
 interface PlayoffAtStats {
@@ -80,6 +83,8 @@ interface PlayoffAtStats {
   POpointsFor: number
   POwinningPct: number
   POwins: number
+  bestWeek: number
+  worstWeek: number
 }
 
 interface RegSznAtStats {
@@ -87,11 +92,13 @@ interface RegSznAtStats {
   RSavgPF: number
   RSgamesPlayed: number
   RSlosses: number
-  RSpointsAgainst: number
-  RSpointsFor: number
+  RSPA: number
+  RSPF: number
   RSwinningPct: number
   RSties: number
   RSwins: number
+  bestWeek: number
+  worstWeek: number
 }
 
 export interface H2hCombined {
