@@ -80,7 +80,7 @@ export default function ComparePage() {
   }
 
   // *********
-  // MOVE ON TO All-Time and YEARLY!!! (DO ALL-TIME FIRST)
+  // TOTAL PF is to.fixed(1) for some reason. AND green arrow is too cramped
   // *********
   useEffect(() => {
     if (data && user) {
@@ -1471,43 +1471,109 @@ export default function ComparePage() {
             </div>
           ) : activeButton === "allTime" ? (
             <div className="compare-all-time">
-              <h2 className="all-time-header">All-Time Performance</h2>
+              <nav className="h2h-nav">
+                <ul>
+                  <li>
+                    <button
+                      onClick={() => setActiveFilterButton("combined")}
+                      className={`${
+                        activeFilterButton === "combined" ? "active" : ""
+                      }`}
+                    >
+                      Combined
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setActiveFilterButton("regszn")}
+                      className={`${
+                        activeFilterButton === "regszn" ? "active" : ""
+                      }`}
+                    >
+                      RegSzn
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setActiveFilterButton("playoffs")}
+                      className={`${
+                        activeFilterButton === "playoffs" ? "active" : ""
+                      }`}
+                    >
+                      Playoffs
+                    </button>
+                  </li>
+                </ul>
+              </nav>
               <div className="h2h-content-wrapper disable-scrollbars">
                 <div className="h2h-content h2h-content-wrapper">
                   <div className="owner-stats owner-one-stats">
                     <div className="main-cell owner-name owner-one-name">
-                      Shawn B.
+                      {ownerOne && ownerOne.ownerName.split(" ")[0]}
                     </div>
-                    <div className="cell record owner-one-record">2-10</div>
-                    <div className="cell avgPts">
-                      <span className="stat-value">118.2</span>
-                      {/* <div className="plus-minus-and-icon">
-                        <span className="plus-minus red">-9.2</span>
-                        <span className="arrow-icon red">
-                          <FaCaretDown />
-                        </span>
-                      </div> */}
+                    <div className="cell record owner-one-record">
+                      {ownerOne?.allTime.combined.wins} - {ownerOne?.allTime.combined.losses} - {ownerOne?.allTime.combined.ties}
                     </div>
-                    <div className="cell avtPtsVField">
-                      <span className="stat-value">125.2 </span>
+                    <div className="cell win-pct">
+                      <span className="stat-value">{ownerOne?.allTime.combined.winningPct}%</span>
+                      {ownerOne && ownerTwo && (ownerOne?.allTime.combined.winningPct > ownerTwo?.allTime.combined.winningPct) && 
                       <div className="plus-minus-and-icon">
-                        <span className="plus-minus green">+5.1</span>
+                        <span className="plus-minus green">
+                          {(ownerOne?.allTime.combined.winningPct - ownerTwo?.allTime.combined.winningPct).toFixed(2)}%
+                        </span>
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                      </div>
+                      </div>}
+                    </div>
+                    <div className="cell etewRecord">
+                      <span className="stat-value">{ownerOne?.bonusStats.     everyTeamEveryWeek.wins} - {ownerOne?.bonusStats.everyTeamEveryWeek.losses} - {ownerOne?.bonusStats.everyTeamEveryWeek.ties}
+                      </span>
+                    </div>
+                    <div className="cell etewWinPct">
+                      <span className="stat-value">{ownerOne && ownerOne?.bonusStats.everyTeamEveryWeek.winPct.toFixed(1)}%</span>
+
+                      {ownerOne && ownerTwo && ownerOne?.bonusStats.everyTeamEveryWeek.winPct > ownerTwo?.bonusStats.everyTeamEveryWeek.winPct && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.bonusStats.everyTeamEveryWeek.winPct - ownerTwo?.bonusStats.everyTeamEveryWeek.winPct).toFixed(2)}%
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPf">
+                      <span className="stat-value">{ownerOne?.allTime.combined.avgPF}</span>
+                      {ownerOne && ownerTwo && ownerOne.allTime.combined.avgPF > ownerTwo?.allTime.combined.avgPF && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerOne.allTime.combined.avgPF - ownerTwo?.allTime.combined.avgPF).toFixed(2)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPa">
+                      <span className="stat-value">{ownerOne?.allTime.combined.avgPA}</span>
+                      {ownerOne && ownerTwo && ownerOne.allTime.combined.avgPA > ownerTwo?.allTime.combined.avgPA && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerOne.allTime.combined.avgPA - ownerTwo?.allTime.combined.avgPA).toFixed(2)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
                     </div>
                     <div className="cell playoff-rate">
-                      <span className="stat-value">72.3%</span>
-                      <div className="plus-minus-and-icon">
+                      <span className="stat-value">CALC</span>
+                      {/* <div className="plus-minus-and-icon">
                         <span className="plus-minus green">+20.3</span>
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="cell best-week">
-                      <span className="stat-value">163.2</span>
+                      <span className="stat-value">CALC</span>
                       {/* <div className="plus-minus-and-icon">
                         <span className="plus-minus red">-24.1</span>
                         <span className="arrow-icon red">
@@ -1516,7 +1582,7 @@ export default function ComparePage() {
                       </div> */}
                     </div>
                     <div className="cell worst-week red">
-                      <span className="stat-value">74.7</span>
+                      <span className="stat-value">CALC</span>
                       {/* <div className="plus-minus-and-icon">
                         <span className="plus-minus red">-8.5</span>
                         <span className="arrow-icon red">
@@ -1524,97 +1590,228 @@ export default function ComparePage() {
                         </span>
                       </div> */}
                     </div>
-                    <div className="cell total-points">
-                      <span className="stat-value">1272.3</span>
-                      {/* <div className="plus-minus-and-icon">
-                        <span className="plus-minus red">-157.2</span>
-                        <span className="arrow-icon red">
-                          <FaCaretDown />
+                    <div className="cell lucky-wins">
+                      <span className="stat-value">{ownerOne?.bonusStats.luckyWins}</span>
+                      {ownerOne && ownerTwo && ownerOne.bonusStats.luckyWins > ownerTwo?.bonusStats.luckyWins && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerOne.bonusStats.luckyWins - ownerTwo?.bonusStats.luckyWins)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
                         </span>
-                      </div> */}
+                      </div>}
                     </div>
-                    <div className="cell another">145-123</div>
-                    <div className="cell one-more">1272.3</div>
-                    <div className="cell not-copied">145-123</div>
+                    <div className="cell unlucky-losses">
+                      <span className="stat-value">{ownerOne?.bonusStats.unluckyLosses}</span>
+                      {ownerOne && ownerTwo && ownerOne.bonusStats.unluckyLosses > ownerTwo?.bonusStats.unluckyLosses && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerOne.bonusStats.unluckyLosses - ownerTwo?.bonusStats.unluckyLosses)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell highWSeason">
+                      <span className="stat-value">{ownerOne?.bonusStats.mostWinsOneSeason}</span>
+                      {ownerOne && ownerTwo && ownerOne.bonusStats.mostWinsOneSeason > ownerTwo?.bonusStats.mostWinsOneSeason && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerOne.bonusStats.mostWinsOneSeason - ownerTwo?.bonusStats.mostWinsOneSeason)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell highLSeason">
+                      <span className="stat-value">{ownerOne?.bonusStats.mostLossesOneSeason}</span>
+                      {ownerOne && ownerTwo && ownerOne.bonusStats.mostLossesOneSeason > ownerTwo?.bonusStats.mostLossesOneSeason && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerOne.bonusStats.mostLossesOneSeason - ownerTwo?.bonusStats.mostLossesOneSeason)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-for">
+                      <span className="stat-value">{ownerOne?.allTime.combined.pointsFor}</span>
+                      {ownerOne && ownerTwo && ownerOne.allTime.combined.pointsFor > ownerTwo?.allTime.combined.pointsFor && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerOne.allTime.combined.pointsFor - ownerTwo?.allTime.combined.pointsFor)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-against">
+                      <span className="stat-value">{ownerOne?.allTime.combined.pointsAgainst}</span>
+                      {ownerOne && ownerTwo && ownerOne.allTime.combined.pointsAgainst > ownerTwo?.allTime.combined.pointsAgainst && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerOne.allTime.combined.pointsAgainst - ownerTwo?.allTime.combined.pointsAgainst)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
                   </div>
                   <div className="stat-names">
                     <div className="main-cell cell stat stat-title">Stat</div>
                     <div className="cell stat stat-one">Record</div>
-                    <div className="cell stat stat-one">Avg. Pts</div>
-                    <div className="cell stat stat-one">Avg. Pts v Field</div>
+                    <div className="cell stat stat-one">Win %</div>
+                    <div className="cell stat stat-one">ETEW Record</div>
+                    <div className="cell stat stat-one">ETEW Win %</div>
+                    <div className="cell stat stat-one">Avg. PF</div>
+                    <div className="cell stat stat-one">Avg. PA</div>
                     <div className="cell stat stat-one">Playoff Rate</div>
                     <div className="cell stat stat-one">Best Week</div>
                     <div className="cell stat stat-one">Worst Week</div>
-                    <div className="cell stat stat-one">Total Points</div>
-                    <div className="cell stat stat-one">Stat</div>
-                    <div className="cell stat stat-one">Another</div>
-                    <div className="cell stat stat-one">One More</div>
-                    <div className="cell stat stat-one">Not Copied</div>
-                    <div className="cell stat stat-one">Brand New</div>
-                    <div className="cell stat stat-one">Worst Week</div>
+                    <div className="cell stat stat-one">Lucky Ws</div>
+                    <div className="cell stat stat-one">Unlucky Ls</div>
+                    <div className="cell stat stat-one">High W Szn</div>
+                    <div className="cell stat stat-one">High L Szn</div>
+                    <div className="cell stat stat-one">Total PF</div>
+                    <div className="cell stat stat-one">Total PA</div>
                   </div>
                   <div className="owner-stats owner-two-stats">
-                    <div className="main-cell owner-name owner-two-name">
-                      Don I.
+                    <div className="main-cell owner-name owner-one-name">
+                      {ownerTwo && ownerTwo.ownerName.split(" ")[0]}
                     </div>
-                    <div className="cell record owner-two-record">10-2</div>
-                    <div className="cell avgPts">
+                    <div className="cell record owner-one-record">
+                      {ownerTwo?.allTime.combined.wins} - {ownerTwo?.allTime.combined.losses} - {ownerTwo?.allTime.combined.ties}
+                    </div>
+                    <div className="cell win-pct">
+                      <span className="stat-value">{ownerTwo?.allTime.combined.winningPct}%</span>
+                      {ownerTwo && ownerOne && (ownerTwo?.allTime.combined.winningPct > ownerOne?.allTime.combined.winningPct) && 
                       <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerTwo?.allTime.combined.winningPct - ownerOne?.allTime.combined.winningPct).toFixed(2)}%
+                        </span>
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                        <span className="plus-minus green">+9.2</span>
-                      </div>
-                      <div className="stat-value">127.8</div>
+                      </div>}
                     </div>
-                    <div className="cell avtPtsVField">
-                      {/* <div className="plus-minus-and-icon">
-                        <span className="arrow-icon red">
-                          <FaCaretDown />
+                    <div className="cell etewRecord">
+                      <span className="stat-value">{ownerTwo?.bonusStats.     everyTeamEveryWeek.wins} - {ownerTwo?.bonusStats.everyTeamEveryWeek.losses} - {ownerTwo?.bonusStats.everyTeamEveryWeek.ties}
+                      </span>
+                    </div>
+                    <div className="cell etewWinPct">
+                      <span className="stat-value">{ownerTwo && ownerTwo?.bonusStats.everyTeamEveryWeek.winPct.toFixed(1)}%</span>
+
+                      {ownerTwo && ownerOne && ownerTwo?.bonusStats.everyTeamEveryWeek.winPct > ownerOne?.bonusStats.everyTeamEveryWeek.winPct && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerTwo?.bonusStats.everyTeamEveryWeek.winPct - ownerOne?.bonusStats.everyTeamEveryWeek.winPct).toFixed(2)}%
                         </span>
-                        <span className="plus-minus red">-5.1</span>
-                      </div> */}
-                      <span className="stat-value">120.3</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPf">
+                      <span className="stat-value">{ownerTwo?.allTime.combined.avgPF}</span>
+                      {ownerTwo && ownerOne && ownerTwo.allTime.combined.avgPF > ownerOne?.allTime.combined.avgPF && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerTwo.allTime.combined.avgPF - ownerOne?.allTime.combined.avgPF).toFixed(2)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPa">
+                      <span className="stat-value">{ownerTwo?.allTime.combined.avgPA}</span>
+                      {ownerTwo && ownerOne && ownerTwo.allTime.combined.avgPA > ownerOne?.allTime.combined.avgPA && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerTwo.allTime.combined.avgPA - ownerOne?.allTime.combined.avgPA).toFixed(2)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
                     </div>
                     <div className="cell playoff-rate">
+                      <span className="stat-value">CALC</span>
                       {/* <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">+20.3</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div> */}
+                    </div>
+                    <div className="cell best-week">
+                      <span className="stat-value">CALC</span>
+                      {/* <div className="plus-minus-and-icon">
+                        <span className="plus-minus red">-24.1</span>
                         <span className="arrow-icon red">
                           <FaCaretDown />
                         </span>
-                        <span className="plus-minus red">-20.3</span>
                       </div> */}
-                      <span className="stat-value">52.1%</span>
                     </div>
-                    <div className="cell best-week">
+                    <div className="cell worst-week red">
+                      <span className="stat-value">CALC</span>
+                      {/* <div className="plus-minus-and-icon">
+                        <span className="plus-minus red">-8.5</span>
+                        <span className="arrow-icon red">
+                          <FaCaretDown />
+                        </span>
+                      </div> */}
+                    </div>
+                    <div className="cell lucky-wins">
+                      <span className="stat-value">{ownerTwo?.bonusStats.luckyWins}</span>
+                      {ownerTwo && ownerOne && ownerTwo.bonusStats.luckyWins > ownerOne?.bonusStats.luckyWins && 
                       <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerTwo.bonusStats.luckyWins - ownerOne?.bonusStats.luckyWins)}</span>
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                        <span className="plus-minus green">+24.1</span>
-                      </div>
-                      <span className="stat-value">187.9</span>
+                      </div>}
                     </div>
-                    <div className="cell worst-week green">
+                    <div className="cell unlucky-losses">
+                      <span className="stat-value">{ownerTwo?.bonusStats.unluckyLosses}</span>
+                      {ownerTwo && ownerOne && ownerTwo.bonusStats.unluckyLosses > ownerOne?.bonusStats.unluckyLosses && 
                       <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerTwo.bonusStats.unluckyLosses - ownerOne?.bonusStats.unluckyLosses)}</span>
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                        <span className="plus-minus green">+8.5</span>
-                      </div>
-                      <span className="stat-value">82.7</span>
+                      </div>}
                     </div>
-                    <div className="cell total-points">
+                    <div className="cell highWSeason">
+                      <span className="stat-value">{ownerTwo?.bonusStats.mostWinsOneSeason}</span>
+                      {ownerTwo && ownerOne && ownerTwo.bonusStats.mostWinsOneSeason > ownerOne?.bonusStats.mostWinsOneSeason && 
                       <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerTwo.bonusStats.mostWinsOneSeason - ownerOne?.bonusStats.mostWinsOneSeason)}</span>
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                        <span className="plus-minus green">+157.2</span>
-                      </div>
-                      <span className="stat-value">1432.8</span>
+                      </div>}
                     </div>
-                    <div className="cell another">123-153</div>
-                    <div className="cell one-more">1272.3</div>
-                    <div className="cell not-copied">123-152</div>
+                    <div className="cell highLSeason">
+                      <span className="stat-value">{ownerTwo?.bonusStats.mostLossesOneSeason}</span>
+                      {ownerTwo && ownerOne && ownerTwo.bonusStats.mostLossesOneSeason > ownerOne?.bonusStats.mostLossesOneSeason && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerTwo.bonusStats.mostLossesOneSeason - ownerOne?.bonusStats.mostLossesOneSeason)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-for">
+                      <span className="stat-value">{ownerTwo?.allTime.combined.pointsFor}</span>
+                      {ownerTwo && ownerOne && ownerTwo.allTime.combined.pointsFor > ownerOne?.allTime.combined.pointsFor && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerTwo.allTime.combined.pointsFor - ownerOne?.allTime.combined.pointsFor).toFixed(2)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-against">
+                      <span className="stat-value">{ownerTwo?.allTime.combined.pointsAgainst}</span>
+                      {ownerTwo && ownerOne && ownerTwo.allTime.combined.pointsAgainst > ownerOne?.allTime.combined.pointsAgainst && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">{(ownerTwo.allTime.combined.pointsAgainst - ownerOne?.allTime.combined.pointsAgainst).toFixed(2)}</span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1625,7 +1822,7 @@ export default function ComparePage() {
         </div>
         <div className="owner-two-selector-wrapper selector-wrapper">
           <div className="selector-header">
-            {ownerTwo &&
+            {ownerOne &&
             <button onClick={() => handleOwnerSwitch(ownerTwo, "back")} className="arrow arrow-left">
               <span>
                 <FaAngleDoubleLeft />
