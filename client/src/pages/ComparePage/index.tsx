@@ -80,7 +80,8 @@ export default function ComparePage() {
     return 0
   }
 
-  console.log(ownerOne)
+  const owner1Participated = ownerOne?.yearly[selectedYear].participated
+  const owner2Participated = ownerTwo?.yearly[selectedYear].participated
 
   useEffect(() => {
     if (data && user) {
@@ -1354,9 +1355,9 @@ export default function ComparePage() {
               </nav>
               <div className="h2h-content-wrapper disable-scrollbars">
                 <div className="h2h-content h2h-content-wrapper">
-                  {/* YEARLY COMBINED OWNER ONE */}
                   {/* IF EITHER OWNER DNP WE HAVE AN ISSUE */}
-                  {/* NEED TO SET VARIABLES HERE TO CHECK */}
+                  {/* YOU SET VARIABLE AT THE TOP TO TRACK */}
+                  {/* MAJOR BUGGGG */}
                   <div className="owner-stats owner-one-stats">
                     <div className="main-cell owner-name owner-one-name">
                       {ownerOne?.ownerName &&
@@ -1500,7 +1501,6 @@ export default function ComparePage() {
                     <div className="cell stat stat-one">Total PF</div>
                     <div className="cell stat stat-one">Total PA</div>
                   </div>
-                   {/* YEARLY COMBINED OWNER TWO */}
                   <div className="owner-stats owner-two-stats">
                     <div className="main-cell owner-name owner-two-name">
                       {ownerTwo?.ownerName &&
