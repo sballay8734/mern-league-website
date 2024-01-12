@@ -25,6 +25,9 @@ interface CombinedStats {
   ties: number
   winningPct: number
   wins: number
+  bestWeek: number
+  worstWeek: number
+  finishPlace: number
 }
 
 interface ETEW {
@@ -46,6 +49,8 @@ interface PlayoffStats {
   ties: number
   winningPct: number
   wins: number
+  bestWeek: number
+  worstWeek: number
 }
 
 interface RegSznStats {
@@ -58,6 +63,9 @@ interface RegSznStats {
   ties: number
   winningPct: number
   wins: number
+  bestWeek: number
+  worstWeek: number
+  finishPlace: number
 }
 
 interface CombinedATStats {
@@ -141,12 +149,11 @@ export interface H2hRegSzn {
 }
 
 interface YearlyStats {
-  year: number
   combinedStats: CombinedStats,
   everyTeamEveryWeekStats: ETEW,
   playoffStats: PlayoffStats,
   regSznStats: RegSznStats,
-  participated: Boolean
+  participated: boolean
 }
 
 interface AllTimeStats {

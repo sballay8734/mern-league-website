@@ -318,6 +318,11 @@ function yearlyRegSznStats(owner: Owner, year: string): RegSznData {
   let RSWins = 0
   let RSLosses = 0
   let RSTies = 0
+  let bestWeek = 0
+  let worstWeek = 1000
+  let finishPlace = owner[Number(year)].finished
+
+
 
   for (const game of regSznKeys) {
     RSPointsFor += game.pointsFor
@@ -331,6 +336,9 @@ function yearlyRegSznStats(owner: Owner, year: string): RegSznData {
       RSTies++
     }
 
+    if (game.pointsFor > bestWeek) bestWeek = game.pointsFor
+    if (game.pointsFor < worstWeek) worstWeek = game.pointsFor
+
     RSGames++
   }
 
@@ -343,7 +351,10 @@ function yearlyRegSznStats(owner: Owner, year: string): RegSznData {
     pointsFor: RSPointsFor,
     ties: RSTies,
     wins: RSWins,
-    winningPct: Number(((RSWins / RSGames) * 100).toFixed(2))
+    winningPct: Number(((RSWins / RSGames) * 100).toFixed(2)),
+    bestWeek,
+    worstWeek,
+    finishPlace
   }
 }
 // Called from calcYearlyStats
@@ -364,6 +375,9 @@ function yearlyPlayoffStats(owner: Owner, year: string): PlayoffData {
   let POLosses = 0
   let RSTies = 0
   let POByes = 0
+  let bestWeek = 0
+  let worstWeek = 1000
+  // let finishPlace = 0 FINISH PLACE JUST = REGSZN FINISH PLACE
 
   for (const game of playoffKeys) {
     if (!game) continue
@@ -385,6 +399,9 @@ function yearlyPlayoffStats(owner: Owner, year: string): PlayoffData {
         RSTies++
       }
 
+      if (game.pointsFor > bestWeek) bestWeek = game.pointsFor
+      if (game.pointsFor < worstWeek) worstWeek = game.pointsFor
+
       POGames++
     }
   }
@@ -400,7 +417,9 @@ function yearlyPlayoffStats(owner: Owner, year: string): PlayoffData {
     avgPF: Number((POPointsFor / POGames).toFixed(2)),
     avgPA: Number((POPointsAgainst / POGames).toFixed(2)),
     winningPct: Number(((POWins / POGames) * 100).toFixed(2)),
-    POByes: POByes
+    POByes: POByes,
+    worstWeek: (worstWeek === 1000) ? 0 : worstWeek,
+    bestWeek
   }
 }
 // Called from calcYearlyStats
@@ -438,8 +457,12 @@ function yearlyCombinedStats(
             (regSznData.RSGamesPlayed + playoffData.POGamesPlayed!)) *
           100
         ).toFixed(2)
-      )
+      ),
+      bestWeek: Number(((regSznData.bestWeek > playoffData.bestWeek!) ? regSznData.bestWeek : playoffData.bestWeek!)),
+      worstWeek: Number(((regSznData.worstWeek < playoffData.bestWeek!) ? regSznData.worstWeek : playoffData.worstWeek!)),
+      finishPlace: regSznData.finishPlace
     }
+
     return combinedData
   } else {
     const combinedData = {
@@ -457,7 +480,10 @@ function yearlyCombinedStats(
       ),
       winningPct: Number(
         ((regSznData.wins / regSznData.RSGamesPlayed) * 100).toFixed(2)
-      )
+      ),
+      bestWeek: Number(regSznData.bestWeek.toFixed(2)),
+      worstWeek: Number(regSznData.worstWeek.toFixed(2)),
+      finishPlace: regSznData.finishPlace
     }
     return combinedData
   }

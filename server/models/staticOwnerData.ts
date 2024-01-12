@@ -31,7 +31,10 @@ const combinedStatsSchema = new Schema({
   pointsFor: Number,
   ties: Number,
   winningPct: Number,
-  wins: Number
+  wins: Number,
+  bestWeek: Number,
+  worstWeek: Number,
+  finishPlace: Number
 })
 const everyTeamEveryWeekSchema = new Schema({
   ETEWLosses: Number,
@@ -50,7 +53,9 @@ const playoffStatsSchema = new Schema({
   pointsFor: Number,
   ties: Number,
   winningPct: Number,
-  wins: Number
+  wins: Number,
+  bestWeek: Number,
+  worstWeek: Number
 })
 const regSznStatsSchema = new Schema({
   RSGamesPlayed: Number,
@@ -61,7 +66,10 @@ const regSznStatsSchema = new Schema({
   pointsFor: Number,
   ties: Number,
   winningPct: Number,
-  wins: Number
+  wins: Number,
+  bestWeek: Number,
+  worstWeek: Number,
+  finishPlace: Number
 })
 
 // allTime Helpers

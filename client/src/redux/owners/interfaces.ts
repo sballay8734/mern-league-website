@@ -69,6 +69,8 @@ export interface PlayoffData {
   ties?: number
   winningPct?: number
   wins?: number
+  bestWeek?: number
+  worstWeek?: number
 }
 
 export interface RegSznData {
@@ -81,6 +83,9 @@ export interface RegSznData {
   ties: number
   winningPct: number
   wins: number
+  bestWeek: number
+  worstWeek: number
+  finishPlace: number
 }
 
 export interface CombinedData {
@@ -93,8 +98,9 @@ export interface CombinedData {
   pointsFor: number
   ties: number
   winningPct: number
-  // bestWeek: number
-  // worstWeek: number
+  bestWeek: number
+  worstWeek: number
+  finishPlace: number
 }
 
 export interface allTimePlayoffData {

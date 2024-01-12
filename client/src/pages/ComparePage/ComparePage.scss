@@ -547,6 +547,7 @@
             width: 100%;
             overflow: auto;
             z-index: 1;
+            // background-color: black;
             border: 1px solid var(--primary-color);
             border-left: none;
             border-right: none;
@@ -754,6 +755,11 @@
   50% {
     transform: translateX(2px);
   }
+}
+
+.finished {
+  font-weight: bold;
+  color: gold;
 }
 
 .disable-scrollbars::-webkit-scrollbar {
