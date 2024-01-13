@@ -168,6 +168,24 @@ interface H2hStats {
   regSzn: Record<string, H2hRegSzn>
 }
 
+interface MatchupStats {
+  scheduleSwapWins: number
+  scheduleSwapLosses: number
+  scheduleSwapTies: number
+  scheduleSwapWinPct: number
+}
+
+interface Yearly {
+  [year: string]: MatchupStats
+}
+
+interface ScheduleSwap {
+  [ownerName: string]: {
+    yearly: Yearly;
+    allTime: MatchupStats;
+  }
+}
+
 export interface StaticOwner {
   ownerName: string
   id: string
@@ -176,4 +194,5 @@ export interface StaticOwner {
   allTime: AllTimeStats
   h2h: H2hStats
   bonusStats: BonusStats
+  scheduleSwap: ScheduleSwap
 }

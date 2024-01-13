@@ -260,6 +260,11 @@
                 gap: 0.2rem;
                 font-weight: bold;
               }
+
+              &.special {
+                display: flex;
+                gap: 1rem;
+              }
             }
 
             .stat1 {
@@ -772,6 +777,15 @@
       height: 100%;
     }
   }
+}
+
+.cell.special {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background-color: var(--primary-color-lighter);
+  color: black;
 }
 
 @keyframes slideLeft {

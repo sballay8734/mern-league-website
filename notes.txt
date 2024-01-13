@@ -13,7 +13,7 @@ NOW ---------------------------------------
 9. All picks should have a voided option incase you fuck it up (these won't be counted towards pick stats)
 10. Create devBranch domain for beta testers aka Donnie
 11. PROPER HTML (main, header, article, etc...)
-12. Record if you had _____'s schedule
+12. Schedule swap arrow should compare to your own win% to see if you wouldn't done better or worse
 
 LATER -------------------------------------
 
@@ -28,6 +28,7 @@ AT END ------------------------------------
 10. If Donnie somehow approves or vetos by accident and people can't vote, you'll just have to go into the DB and set commishVeto to null
 
 BUGS --------------------------------------
+1. Add ETEW To yearly tab?
 3. Decide if you want to accommodate surface/iPad pro (weird breakpoints)
 4. Remove "Hover here for navigation" from every page but homepage
 8. Joey bug (KANE was set as his last initial somehow)

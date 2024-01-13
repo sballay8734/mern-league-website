@@ -21,6 +21,28 @@ const bonusStatsSchema = new Schema(
   { _id: false }
 )
 
+// SCHEDULE SWAP (NOT WORKING)
+const YearlySwap = new Schema({
+  scheduleSwapWins: {type: Number},
+  scheduleSwapLosses: {type: Number},
+  scheduleSwapTies: {type: Number},
+  scheduleSwapWinPct: {type: Number}
+})
+
+const AllTimeSwap = new Schema({
+  scheduleSwapWins: {type: Number},
+  scheduleSwapLosses: {type: Number},
+  scheduleSwapTies: {type: Number},
+  scheduleSwapWinPct: {type: Number}
+})
+
+const finalSchema = new Schema({
+  ownerName: {
+    yearly: {type: Map, of: YearlySwap},
+    allTime: AllTimeSwap
+  }
+})
+
 // Yearly Helpers
 const combinedStatsSchema = new Schema({
   avgPA: Number,
@@ -178,7 +200,9 @@ export const staticOwnerSchema = new Schema({
   yearly: { type: Map, of: yearlyStatsSchema },
   allTime: allTimeStatsSchema,
   h2h: h2hStatsSchema,
-  bonusStats: bonusStatsSchema
+  bonusStats: bonusStatsSchema,
+  scheduleSwap: { type: Map, of: { yearly: {type: Map, of: YearlySwap}, allTime: AllTimeSwap } }
+  // scheduleSwap: { type: Schema.Types.Mixed }
 })
 
 const ComputedOwners = mongoose.model("computedOwners", staticOwnerSchema)

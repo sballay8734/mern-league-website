@@ -4,6 +4,7 @@ import { RootState } from "../../redux/store"
 
 import { useFetchStaticDataQuery } from "../../redux/owners/ownersApi"
 import { MdCompareArrows } from "react-icons/md"
+import { IoMdSwap } from "react-icons/io";
 import { FaTrophy } from "react-icons/fa6"
 import { GiLargeDress } from "react-icons/gi"
 import { FaCrown } from "react-icons/fa6"
@@ -1534,7 +1535,7 @@ export default function ComparePage() {
                     <div className="main-cell cell stat stat-title">Stat</div>
                     <div className="cell stat stat-one">Record</div>
                     <div className="cell stat stat-one">Win %</div>
-                    <div className="cell stat stat-one">Finished</div>
+                    <div className="cell stat stat-one">Finished</div>              
                     <div className="cell stat stat-one">Avg. PF</div>
                     <div className="cell stat stat-one">Avg. PA</div>
                     <div className="cell stat stat-one">Best Week</div>
@@ -1708,6 +1709,47 @@ export default function ComparePage() {
                         </span>
                       </div>}
                     </div>
+                    {/* NEED TO COMPARE WINPCT TO YOURSELF */}
+                    <div className="cell ss-record">
+                        <span className="stat-value">
+                          {ownerOne &&
+                            ownerTwo &&
+                            (ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear] && ownerTwo.yearly[selectedYear].participated === true) ? (
+                              <>
+                                {ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWins}{" - "}{ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapLosses}{" - "}{ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapTies}
+                              </>
+                            ) : "-"}
+                        </span>
+                    </div>
+                    <div className="cell ss-winPct">
+                        <span className="stat-value">
+                          {ownerOne &&
+                            ownerTwo &&
+                            (ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear] && ownerTwo.yearly[selectedYear].participated === true) ? (
+                              <>
+                                {ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct.toFixed(1)}%
+                              </>
+                            ) : "-"}
+                        </span>
+                        <div className="plus-minus-and-icon">
+                          {ownerOne &&
+                            ownerTwo &&
+                            ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear] && (
+                              <>
+                                {ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct > ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct && (
+                                  <>
+                                    {/* <span className="plus-minus green">
+                                      {(ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct - ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct).toFixed(1)}%
+                                    </span> */}
+                                    <span className="arrow-icon green">
+                                      change{/* <FaCaretUp /> */}
+                                    </span>
+                                  </>
+                                )}
+                              </>
+                            )}
+                        </div>
+                    </div>
                     <div className="cell finished">
                       <span className="stat-value">
                         {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
@@ -1811,6 +1853,12 @@ export default function ComparePage() {
                     <div className="main-cell cell stat stat-title">Stat</div>
                     <div className="cell stat stat-one">Record</div>
                     <div className="cell stat stat-one">Win %</div>
+                    <div className="cell stat stat-one special">
+                      <IoMdSwap /><span>Schedule</span>
+                    </div>
+                    <div className="cell stat stat-one special">
+                      <IoMdSwap /><span>Win %</span>
+                    </div>    
                     <div className="cell stat stat-one">Finished</div>
                     <div className="cell stat stat-one">Avg. PF</div>
                     <div className="cell stat stat-one">Avg. PA</div>
@@ -1850,6 +1898,46 @@ export default function ComparePage() {
                           {(ownerTwo?.yearly[selectedYear].regSznStats.winningPct - ownerOne?.yearly[selectedYear].regSznStats.winningPct).toFixed(1)}%
                         </span>
                       </div>}
+                    </div>
+                    <div className="cell ss-record">
+                        <span className="stat-value">
+                          {ownerOne &&
+                            ownerTwo &&
+                            (ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear] && ownerOne.yearly[selectedYear].participated === true) ? (
+                              <>
+                                {ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWins}{" - "}{ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapLosses}{" - "}{ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapTies}
+                              </>
+                            ) : "-"}
+                        </span>
+                    </div>
+                    <div className="cell ss-winPct">
+                        <span className="stat-value">
+                          {ownerTwo &&
+                            ownerOne &&
+                            (ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear] && ownerOne.yearly[selectedYear].participated === true) ? (
+                              <>
+                                {ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct.toFixed(1)}%
+                              </>
+                            ) : "-"}
+                        </span>
+                        <div className="plus-minus-and-icon">
+                          {ownerTwo &&
+                            ownerOne &&
+                            ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear] && (
+                              <>
+                                {ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct > ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct && (
+                                  <>
+                                    {/* <span className="plus-minus green">
+                                      {(ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct - ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct).toFixed(1)}%
+                                    </span> */}
+                                    <span className="arrow-icon green">
+                                      change{/* <FaCaretUp /> */}
+                                    </span>
+                                  </>
+                                )}
+                              </>
+                            )}
+                        </div>
                     </div>
                     <div className="cell finished">
                       <span className="stat-value">
