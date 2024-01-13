@@ -2,7 +2,7 @@
 
 NOW ---------------------------------------
 1. MAKE ALL PAGES SIMILAR IN FORMAT TO PICKS PAGE ON MOBILE!!!
-
+2. Add avg pt differential to H2H (how close are the matchups on average?)
 2. "Locks In" Countdown time should not fluctuate width.
 2. Need to load in current picks if user has already made a selection
 1. Style Vote Proposal Modal
@@ -14,6 +14,7 @@ NOW ---------------------------------------
 10. Create devBranch domain for beta testers aka Donnie
 11. PROPER HTML (main, header, article, etc...)
 12. Schedule swap arrow should compare to your own win% to see if you wouldn't done better or worse
+13. NEED to decide how to track finish place (Right now it's regular season)
 
 LATER -------------------------------------
 

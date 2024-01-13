@@ -1,0 +1,1258 @@
+// Shawn Ballay DONE
+{
+  "2023": {
+    "participated": true,
+    "wins": 6,
+    "losses": 8,
+    "ties": 0,
+    "last": false,
+    "finished": 7,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": 75.44,
+        "pointsAgainst": 110.46,
+        "opponent": "Steve Smith"
+      },
+      "weekTwo": {
+        "pointsFor": 125.74,
+        "pointsAgainst": 142.86,
+        "opponent": "Dom Flipp"
+      },
+      "weekThree": {
+        "pointsFor": 121.66,
+        "pointsAgainst": 158.76,
+        "opponent": "Dom Nocito"
+      },
+      "weekFour": {
+        "pointsFor": 183.46,
+        "pointsAgainst": 112.72,
+        "opponent": "Cody Zwier"
+      },
+      "weekFive": {
+        "pointsFor": 134.62,
+        "pointsAgainst": 161.22,
+        "opponent": "Dante Nocito"
+      },
+      "weekSix": {
+        "pointsFor": 138.70,
+        "pointsAgainst": 123.54,
+        "opponent": "Joe Kane"
+      },
+      "weekSeven": {
+        "pointsFor": 125.46,
+        "pointsAgainst": 99.64,
+        "opponent": "Steve Lloyd"
+      },
+      "weekEight": {
+        "pointsFor": 117.36,
+        "pointsAgainst": 171.78,
+        "opponent": "Don Irons"
+      },
+      "weekNine": {
+        "pointsFor": 122.08,
+        "pointsAgainst": 114.32,
+        "opponent": "Dan George"
+      },
+      "weekTen": {
+        "pointsFor": 78.10,
+        "pointsAgainst": 96.32,
+        "opponent": "Aaron Mackenzie"
+      },
+      "weekEleven": {
+        "pointsFor": 81.60,
+        "pointsAgainst": 101.22,
+        "opponent": "Jimmy Wagner"
+      },
+      "weekTwelve": {
+        "pointsFor": 149.80,
+        "pointsAgainst": 121.88,
+        "opponent": "Steve Smith"
+      },
+      "weekThirteen": {
+        "pointsFor": 167.82,
+        "pointsAgainst": 141.46,
+        "opponent": "Dom Flipp"
+      },
+      "weekFourteen": {
+        "pointsFor": 76.38,
+        "pointsAgainst": 152.12,
+        "opponent": "Dom Nocito"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Steve Smith DONE
+{
+  "2023": {
+    "participated": true,
+    "wins": 9,
+    "losses": 6,
+    "ties": 0,
+    "last": false,
+    "finished": 2,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": 110.46,
+        "pointsAgainst": 75.44,
+        "opponent": "Shawn Ballay"
+      },
+      "weekTwo": {
+        "pointsFor": 143.70,
+        "pointsAgainst": 71.72,
+        "opponent": "Don Irons"
+      },
+      "weekThree": {
+        "pointsFor": 180.06,
+        "pointsAgainst": 120.62,
+        "opponent": "Dan George"
+      },
+      "weekFour": {
+        "pointsFor": 84.78,
+        "pointsAgainst": 121.52,
+        "opponent": "Aaron Mackenzie"
+      },
+      "weekFive": {
+        "pointsFor": 110.02,
+        "pointsAgainst": 163.38,
+        "opponent": "Jimmy Wagner"
+      },
+      "weekSix": {
+        "pointsFor": 149.28,
+        "pointsAgainst": 130.26,
+        "opponent": "Steve Lloyd"
+      },
+      "weekSeven": {
+        "pointsFor": 117.66,
+        "pointsAgainst": 95.12,
+        "opponent": "Dom Flipp"
+      },
+      "weekEight": {
+        "pointsFor": 93.92,
+        "pointsAgainst": 123.06,
+        "opponent": "Dom Nocito"
+      },
+      "weekNine": {
+        "pointsFor": 116.54,
+        "pointsAgainst": 86.72,
+        "opponent": "Cody Zwier"
+      },
+      "weekTen": {
+        "pointsFor": 154.02,
+        "pointsAgainst": 138.66,
+        "opponent": "Dante Nocito"
+      },
+      "weekEleven": {
+        "pointsFor": 141.30,
+        "pointsAgainst": 125.78,
+        "opponent": "Joe Kane"
+      },
+      "weekTwelve": {
+        "pointsFor": 121.88,
+        "pointsAgainst": 149.80,
+        "opponent": "Shawn Ballay"
+      },
+      "weekThirteen": {
+        "pointsFor": 100.28,
+        "pointsAgainst": 94.44,
+        "opponent": "Don Irons"
+      },
+      "weekFourteen": {
+        "pointsFor": 105.34,
+        "pointsAgainst": 138.52,
+        "opponent": "Dan George"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": true,
+        "bye": true,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": true,
+        "pointsFor": 91.92,
+        "pointsAgainst": 130.58,
+        "opponent": "Steve Lloyd"
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Steve Lloyd
+{
+  "2023": {
+    "participated": true,
+    "wins": 0,
+    "losses": 0,
+    "ties": 0,
+    "last": false,
+    "finished": 0,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        ,
+        "opponent": "XXXX",
+      },
+      "weekTwo": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX",
+      },
+      "weekThree": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFour": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFive": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSix": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSeven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEight": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekNine": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEleven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTwelve": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekThirteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFourteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Cody Zwier
+{
+  "2023": {
+    "participated": true,
+    "wins": 0,
+    "losses": 0,
+    "ties": 0,
+    "last": false,
+    "finished": 0,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        ,
+        "opponent": "XXXX",
+      },
+      "weekTwo": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX",
+      },
+      "weekThree": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFour": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFive": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSix": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSeven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEight": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekNine": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEleven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTwelve": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekThirteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFourteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Aaron Mackenzie
+{
+  "2023": {
+    "participated": true,
+    "wins": 0,
+    "losses": 0,
+    "ties": 0,
+    "last": false,
+    "finished": 0,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        ,
+        "opponent": "XXXX",
+      },
+      "weekTwo": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX",
+      },
+      "weekThree": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFour": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFive": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSix": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSeven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEight": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekNine": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEleven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTwelve": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekThirteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFourteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Dan George
+{
+  "2023": {
+    "participated": true,
+    "wins": 0,
+    "losses": 0,
+    "ties": 0,
+    "last": false,
+    "finished": 0,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        ,
+        "opponent": "XXXX",
+      },
+      "weekTwo": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX",
+      },
+      "weekThree": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFour": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFive": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSix": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSeven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEight": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekNine": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEleven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTwelve": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekThirteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFourteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Dante Nocito
+{
+  "2023": {
+    "participated": true,
+    "wins": 0,
+    "losses": 0,
+    "ties": 0,
+    "last": false,
+    "finished": 0,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        ,
+        "opponent": "XXXX",
+      },
+      "weekTwo": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX",
+      },
+      "weekThree": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFour": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFive": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSix": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSeven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEight": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekNine": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEleven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTwelve": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekThirteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFourteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Dom Nocito
+{
+  "2023": {
+    "participated": true,
+    "wins": 0,
+    "losses": 0,
+    "ties": 0,
+    "last": false,
+    "finished": 0,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        ,
+        "opponent": "XXXX",
+      },
+      "weekTwo": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX",
+      },
+      "weekThree": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFour": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFive": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSix": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSeven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEight": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekNine": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEleven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTwelve": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekThirteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFourteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Jimmy Wagner
+{
+  "2023": {
+    "participated": true,
+    "wins": 0,
+    "losses": 0,
+    "ties": 0,
+    "last": false,
+    "finished": 0,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        ,
+        "opponent": "XXXX",
+      },
+      "weekTwo": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX",
+      },
+      "weekThree": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFour": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFive": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSix": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSeven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEight": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekNine": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEleven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTwelve": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekThirteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFourteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Don Irons
+{
+  "2023": {
+    "participated": true,
+    "wins": 0,
+    "losses": 0,
+    "ties": 0,
+    "last": false,
+    "finished": 0,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        ,
+        "opponent": "XXXX",
+      },
+      "weekTwo": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX",
+      },
+      "weekThree": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFour": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFive": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSix": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSeven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEight": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekNine": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEleven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTwelve": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekThirteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFourteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Joe Kane
+{
+  "2023": {
+    "participated": true,
+    "wins": 0,
+    "losses": 0,
+    "ties": 0,
+    "last": false,
+    "finished": 0,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        ,
+        "opponent": "XXXX",
+      },
+      "weekTwo": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX",
+      },
+      "weekThree": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFour": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFive": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSix": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSeven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEight": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekNine": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEleven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTwelve": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekThirteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFourteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Dom Flipp
+{
+  "2023": {
+    "participated": true,
+    "wins": 0,
+    "losses": 0,
+    "ties": 0,
+    "last": false,
+    "finished": 0,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        ,
+        "opponent": "XXXX",
+      },
+      "weekTwo": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX",
+      },
+      "weekThree": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFour": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFive": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSix": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekSeven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEight": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekNine": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekEleven": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekTwelve": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekThirteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      },
+      "weekFourteen": {
+        "pointsFor": "XXXX",
+        "pointsAgainst": "XXXX",
+        "opponent": "XXXX"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": false,
+        "bye": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}

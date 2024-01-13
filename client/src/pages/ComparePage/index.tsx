@@ -1409,6 +1409,20 @@ export default function ComparePage() {
                           return `${firstName} ${lastInitial}.`;
                         })()}
                     </div>
+                    <div className="cell finished">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.finishPlace}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].combinedStats.finishPlace < ownerTwo?.yearly[selectedYear].combinedStats.finishPlace) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].combinedStats.finishPlace - ownerOne?.yearly[selectedYear].combinedStats.finishPlace)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
                     <div className="cell record owner-one-record">
                       {ownerOne && owner1Participated === true ? (
                         <>
@@ -1426,20 +1440,6 @@ export default function ComparePage() {
                       <div className="plus-minus-and-icon">
                         <span className="plus-minus green">
                           {(ownerOne?.yearly[selectedYear].combinedStats.winningPct - ownerTwo?.yearly[selectedYear].combinedStats.winningPct).toFixed(1)}%
-                        </span>
-                        <span className="arrow-icon green">
-                          <FaCaretUp />
-                        </span>
-                      </div>}
-                    </div>
-                    <div className="cell finished">
-                      <span className="stat-value">
-                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.finishPlace}</div> : "DNP"}
-                      </span>
-                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].combinedStats.finishPlace < ownerTwo?.yearly[selectedYear].combinedStats.finishPlace) && 
-                      <div className="plus-minus-and-icon">
-                        <span className="plus-minus green">
-                          {(ownerTwo?.yearly[selectedYear].combinedStats.finishPlace - ownerOne?.yearly[selectedYear].combinedStats.finishPlace)}
                         </span>
                         <span className="arrow-icon green">
                           <FaCaretUp />
@@ -1533,9 +1533,9 @@ export default function ComparePage() {
                   </div>
                   <div className="stat-names">
                     <div className="main-cell cell stat stat-title">Stat</div>
+                    <div className="cell stat stat-one">Finished</div>      
                     <div className="cell stat stat-one">Record</div>
                     <div className="cell stat stat-one">Win %</div>
-                    <div className="cell stat stat-one">Finished</div>              
                     <div className="cell stat stat-one">Avg. PF</div>
                     <div className="cell stat stat-one">Avg. PA</div>
                     <div className="cell stat stat-one">Best Week</div>
@@ -1551,6 +1551,20 @@ export default function ComparePage() {
                           const lastInitial = lastName ? lastName.charAt(0) : "";
                           return `${firstName} ${lastInitial}.`;
                         })()}
+                    </div>
+                    <div className="cell finished">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.finishPlace}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].combinedStats.finishPlace < ownerOne?.yearly[selectedYear].combinedStats.finishPlace) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].combinedStats.finishPlace - ownerTwo?.yearly[selectedYear].combinedStats.finishPlace)}
+                        </span>
+                      </div>}
                     </div>
                     <div className="cell record owner-one-record">
                       {ownerTwo && ownerOne && ownerTwo.yearly[selectedYear].participated === true ? (
@@ -1572,20 +1586,6 @@ export default function ComparePage() {
                         </span>
                         <span className="plus-minus green">
                           {(ownerTwo?.yearly[selectedYear].combinedStats.winningPct - ownerOne?.yearly[selectedYear].combinedStats.winningPct).toFixed(1)}%
-                        </span>
-                      </div>}
-                    </div>
-                    <div className="cell finished">
-                      <span className="stat-value">
-                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.finishPlace}</div> : "DNP"}
-                      </span>
-                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].combinedStats.finishPlace < ownerOne?.yearly[selectedYear].combinedStats.finishPlace) && 
-                      <div className="plus-minus-and-icon">
-                        <span className="arrow-icon green">
-                          <FaCaretUp />
-                        </span>
-                        <span className="plus-minus green">
-                          {(ownerOne?.yearly[selectedYear].combinedStats.finishPlace - ownerTwo?.yearly[selectedYear].combinedStats.finishPlace)}
                         </span>
                       </div>}
                     </div>
@@ -1686,6 +1686,20 @@ export default function ComparePage() {
                           return `${firstName} ${lastInitial}.`;
                         })()}
                     </div>
+                    <div className="cell finished">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.finishPlace < ownerTwo?.yearly[selectedYear].regSznStats.finishPlace) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.finishPlace - ownerOne?.yearly[selectedYear].regSznStats.finishPlace)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
                     <div className="cell record owner-one-record">
                       {ownerOne && owner1Participated === true ? (
                         <>
@@ -1758,20 +1772,6 @@ export default function ComparePage() {
                               </>
                             )}
                         </div>
-                    </div>
-                    <div className="cell finished">
-                      <span className="stat-value">
-                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
-                      </span>
-                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.finishPlace < ownerTwo?.yearly[selectedYear].regSznStats.finishPlace) && 
-                      <div className="plus-minus-and-icon">
-                        <span className="plus-minus green">
-                          {(ownerTwo?.yearly[selectedYear].regSznStats.finishPlace - ownerOne?.yearly[selectedYear].regSznStats.finishPlace)}
-                        </span>
-                        <span className="arrow-icon green">
-                          <FaCaretUp />
-                        </span>
-                      </div>}
                     </div>
                     <div className="cell avgPf">
                       <span className="stat-value">
@@ -1860,6 +1860,7 @@ export default function ComparePage() {
                   </div>
                   <div className="stat-names">
                     <div className="main-cell cell stat stat-title">Stat</div>
+                    <div className="cell stat stat-one">Finished</div>
                     <div className="cell stat stat-one">Record</div>
                     <div className="cell stat stat-one">Win %</div>
                     <div className="cell stat stat-one special">
@@ -1867,8 +1868,7 @@ export default function ComparePage() {
                     </div>
                     <div className="cell stat stat-one special">
                       <IoMdSwap /><span>Win %</span>
-                    </div>    
-                    <div className="cell stat stat-one">Finished</div>
+                    </div>
                     <div className="cell stat stat-one">Avg. PF</div>
                     <div className="cell stat stat-one">Avg. PA</div>
                     <div className="cell stat stat-one">Best Week</div>
@@ -1884,6 +1884,20 @@ export default function ComparePage() {
                           const lastInitial = lastName ? lastName.charAt(0) : "";
                           return `${firstName} ${lastInitial}.`;
                         })()}
+                    </div>
+                    <div className="cell finished">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].regSznStats.finishPlace < ownerOne?.yearly[selectedYear].regSznStats.finishPlace) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.finishPlace - ownerTwo?.yearly[selectedYear].regSznStats.finishPlace)}
+                        </span>
+                      </div>}
                     </div>
                     <div className="cell record owner-one-record">
                       {ownerTwo && ownerOne && ownerTwo.yearly[selectedYear].participated === true ? (
@@ -1956,20 +1970,6 @@ export default function ComparePage() {
                               </>
                             )}
                         </div>
-                    </div>
-                    <div className="cell finished">
-                      <span className="stat-value">
-                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
-                      </span>
-                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].regSznStats.finishPlace < ownerOne?.yearly[selectedYear].regSznStats.finishPlace) && 
-                      <div className="plus-minus-and-icon">
-                        <span className="arrow-icon green">
-                          <FaCaretUp />
-                        </span>
-                        <span className="plus-minus green">
-                          {(ownerOne?.yearly[selectedYear].regSznStats.finishPlace - ownerTwo?.yearly[selectedYear].regSznStats.finishPlace)}
-                        </span>
-                      </div>}
                     </div>
                     <div className="cell avgPf">
                       <span className="stat-value">
@@ -2068,6 +2068,20 @@ export default function ComparePage() {
                           return `${firstName} ${lastInitial}.`;
                         })()}
                     </div>
+                    <div className="cell finished">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1ParticipatedPlayoffs === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.finishPlace < ownerTwo?.yearly[selectedYear].regSznStats.finishPlace) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.finishPlace - ownerOne?.yearly[selectedYear].regSznStats.finishPlace)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
                     <div className="cell record owner-one-record">
                       {ownerOne && owner1ParticipatedPlayoffs === true ? (
                         <>
@@ -2085,20 +2099,6 @@ export default function ComparePage() {
                       <div className="plus-minus-and-icon">
                         <span className="plus-minus green">
                           {(ownerOne?.yearly[selectedYear].playoffStats.winningPct - ownerTwo?.yearly[selectedYear].playoffStats.winningPct).toFixed(1)}%
-                        </span>
-                        <span className="arrow-icon green">
-                          <FaCaretUp />
-                        </span>
-                      </div>}
-                    </div>
-                    <div className="cell finished">
-                      <span className="stat-value">
-                        {ownerOne && owner1ParticipatedPlayoffs === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
-                      </span>
-                      {ownerOne && ownerTwo && (owner1ParticipatedPlayoffs === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.finishPlace < ownerTwo?.yearly[selectedYear].regSznStats.finishPlace) && 
-                      <div className="plus-minus-and-icon">
-                        <span className="plus-minus green">
-                          {(ownerTwo?.yearly[selectedYear].regSznStats.finishPlace - ownerOne?.yearly[selectedYear].regSznStats.finishPlace)}
                         </span>
                         <span className="arrow-icon green">
                           <FaCaretUp />
@@ -2192,9 +2192,9 @@ export default function ComparePage() {
                   </div>
                   <div className="stat-names">
                     <div className="main-cell cell stat stat-title">Stat</div>
+                    <div className="cell stat stat-one">Finished</div>
                     <div className="cell stat stat-one">Record</div>
                     <div className="cell stat stat-one">Win %</div>
-                    <div className="cell stat stat-one">Finished</div>
                     <div className="cell stat stat-one">Avg. PF</div>
                     <div className="cell stat stat-one">Avg. PA</div>
                     <div className="cell stat stat-one">Best Week</div>
@@ -2210,6 +2210,20 @@ export default function ComparePage() {
                           const lastInitial = lastName ? lastName.charAt(0) : "";
                           return `${firstName} ${lastInitial}.`;
                         })()}
+                    </div>
+                    <div className="cell finished">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2ParticipatedPlayoffs === true) && (ownerTwo?.yearly[selectedYear].regSznStats.finishPlace < ownerOne?.yearly[selectedYear].regSznStats.finishPlace) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.finishPlace - ownerTwo?.yearly[selectedYear].regSznStats.finishPlace)}
+                        </span>
+                      </div>}
                     </div>
                     <div className="cell record owner-one-record">
                       {ownerTwo && ownerOne && owner2ParticipatedPlayoffs === true ? (
@@ -2231,20 +2245,6 @@ export default function ComparePage() {
                         </span>
                         <span className="plus-minus green">
                           {(ownerTwo?.yearly[selectedYear].playoffStats.winningPct - ownerOne?.yearly[selectedYear].playoffStats.winningPct).toFixed(1)}%
-                        </span>
-                      </div>}
-                    </div>
-                    <div className="cell finished">
-                      <span className="stat-value">
-                        {ownerTwo && owner2ParticipatedPlayoffs === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
-                      </span>
-                      {ownerTwo && ownerOne && (owner1Participated === true && owner2ParticipatedPlayoffs === true) && (ownerTwo?.yearly[selectedYear].regSznStats.finishPlace < ownerOne?.yearly[selectedYear].regSznStats.finishPlace) && 
-                      <div className="plus-minus-and-icon">
-                        <span className="arrow-icon green">
-                          <FaCaretUp />
-                        </span>
-                        <span className="plus-minus green">
-                          {(ownerOne?.yearly[selectedYear].regSznStats.finishPlace - ownerTwo?.yearly[selectedYear].regSznStats.finishPlace)}
                         </span>
                       </div>}
                     </div>

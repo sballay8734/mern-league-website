@@ -25,7 +25,6 @@ export const updateStatic = async (
     await ComputedOwners.deleteMany({})
 
     // write new data to ComputedOwners
-    console.log("staticDataArray", staticOwnerDataArray)
     const savedDataArray = await Promise.all(
       staticOwnerDataArray.map(
         async (staticOwnerData: typeof staticOwnerSchema) => {
@@ -38,7 +37,6 @@ export const updateStatic = async (
 
     res.status(200).json(savedDataArray)
   } catch (error) {
-    console.error("ERROR in updateStatic", error)
     next(error)
   }
 }

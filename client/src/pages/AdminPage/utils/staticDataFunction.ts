@@ -1083,22 +1083,3 @@ function getWhatIf(owner: Owner, owners: Owner[]) {
     return singleOwnerObject
   }
 }
-
-/*
-  "John Smith": {
-    yearly: {
-      "2015": { ssWins: 0, ssLosses: 0, ssTies: 0},
-      "2016": { ssWins: 0, ssLosses: 0, ssTies: 0},
-      "2017": { ssWins: 0, ssLosses: 0, ssTies: 0}
-    },
-    allTime: { ssWins: 0, ssLosses: 0, ssTies: 0}
-  },
-  "Dave Johnson": {
-    yearly: {
-      "2015": { ssWins: 0, ssLosses: 0, ssTies: 0},
-      "2016": { ssWins: 0, ssLosses: 0, ssTies: 0},
-      "2017": { ssWins: 0, ssLosses: 0, ssTies: 0}
-    },
-    allTime: { ssWins: 0, ssLosses: 0, ssTies: 0}
-  },
-*/
