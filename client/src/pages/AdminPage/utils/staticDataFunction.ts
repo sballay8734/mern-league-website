@@ -68,6 +68,10 @@ export async function staticDataInit(owners: Owner[]) {
     ownerObjectsList.push({ ...ownerObject })
   }
 
+  const scheduleSwap = getWhatIf(owners)
+  // FUCK WRONG STRUCTURE BUT IT'S ALL THERE.
+  // NEED TO CALC WIN PCT PER YEAR BEFORE DOING ANTYING ELSE
+
   console.log(ownerObjectsList)
 
   const res = await fetch("/api/update/static", {
@@ -963,4 +967,160 @@ function calcETEWYearly(owner: Owner, year: string, owners: Owner[]) {
       ).toFixed(2)
     )
   }
+}
+
+// INTERFACES FOR getWhatIf --- SCHEDULE SWAP ******************************
+interface MatchupStats {
+  scheduleSwapWins: number
+  scheduleSwapLosses: number
+  scheduleSwapTies: number
+}
+
+interface YearlyStats {
+  [opponent: string]: MatchupStats;
+}
+
+interface AllTimeStats {
+  [opponent: string]: MatchupStats;
+}
+
+interface SingleYearObject {
+  [year: string]: YearlyStats;
+  allTime: AllTimeStats;
+}
+
+interface FullOwnerObject {
+  [ownerName: string]: SingleYearObject;
+}
+
+/* 
+  {
+    "Dave Smith": {
+      "2014": {
+        "John Smith": {wins: 0, losses: 0, ties: 0},
+        "Jake Man": {wins: 0, losses: 0, ties: 0},
+        ...
+      },
+      "2015": {
+        "John Smith": {wins: 0, losses: 0, ties: 0},
+        "Jake Man": {wins: 0, losses: 0, ties: 0},
+        ...
+      },
+      MORE YEARS,
+      allTime {
+        "John Smith": {wins: 128, losses: 198, ties: 4},
+        "Jake Man": {wins: 133, losses: 289, ties: 6}
+      }
+    },
+    "John Smith": {
+      "2014": {
+        "Dave Smith": {wins: 0, losses: 0, ties: 0},
+        "Jake Man": {wins: 0, losses: 0, ties: 0},
+        ...
+      },
+      "2015": {
+        "Dave Smith": {wins: 0, losses: 0, ties: 0},
+        "Jake Man": {wins: 0, losses: 0, ties: 0},
+        ...
+      },
+      MORE YEARS,
+      allTime {
+        "Dave Smith": {wins: 128, losses: 198, ties: 4},
+        "Jake Man": {wins: 133, losses: 289, ties: 6}
+      }
+    },
+  }
+*/
+
+// REGULAR SEASON ONLY!!!!!!!!
+function getWhatIf(owners: Owner[]) {
+  let fullOwnerObject: FullOwnerObject = {}
+
+  for (let i = 0; i < owners.length; i++) {
+    let singleOwnerObject: SingleYearObject = {
+      allTime: {}
+    }
+
+    const ownerOne = owners[i]
+
+    // loop through rest of owners
+    for (let j = 0; j < owners.length; j++) {
+      const ownerTwo = owners[j]
+      if (ownerTwo.ownerName === ownerOne.ownerName) continue
+
+      let totalSSWins = 0
+      let totalSSLosses = 0
+      let totalSSTies = 0
+
+      const owner1YrsPresent = getYearsParticipated(ownerOne).yearsParticipated
+      const owner2YrsPresent = getYearsParticipated(ownerTwo).yearsParticipated
+
+      const overlap = owner1YrsPresent.filter((year) => owner2YrsPresent.includes(year))
+
+      // loop through overlap years
+      for (let k = 0; k < overlap.length; k++) {
+        let yearlySSWins = 0
+        let yearlySSLosses = 0
+        let yearlySSTies = 0
+
+        const year = Number(overlap[k])
+
+        const weekKeys = Object.keys(ownerOne[year].regularSeason)
+
+        // initialize year if not present
+        singleOwnerObject[ownerTwo.ownerName] = singleOwnerObject[ownerTwo.ownerName] || {};
+
+        // loop through the weeks
+        for (let l = 0; l < weekKeys.length; l++) {
+          const week = weekKeys[l]
+
+          const matchupOne = ownerOne[year].regularSeason[week]
+          const matchupTwo = ownerTwo[year].regularSeason[week]
+
+          if (ownerOne.ownerName === matchupTwo.opponent) {
+            if (matchupOne.pointsFor > matchupOne.pointsAgainst) {
+              yearlySSWins++
+            } else if (matchupOne.pointsFor < matchupOne.pointsAgainst) {
+              yearlySSLosses++
+            } else if (matchupOne.pointsFor === matchupOne.pointsAgainst) {
+              yearlySSTies++
+            }
+
+            continue
+          }
+
+          const ownerOnePF = ownerOne[year].regularSeason[week].pointsFor
+          const ownerTwoPA = ownerTwo[year].regularSeason[week].pointsAgainst
+
+          if (ownerOnePF > ownerTwoPA) yearlySSWins++
+          if (ownerOnePF < ownerTwoPA) yearlySSLosses++
+          if (ownerOnePF === ownerTwoPA) yearlySSTies++
+        }
+
+        totalSSWins += yearlySSWins
+        totalSSLosses += yearlySSLosses
+        totalSSTies += yearlySSTies
+
+        singleOwnerObject[ownerTwo.ownerName][year] = {
+          scheduleSwapWins: yearlySSWins,
+          scheduleSwapLosses: yearlySSLosses,
+          scheduleSwapTies: yearlySSTies
+        }
+      }
+
+      // initialize allTime if not present
+      singleOwnerObject.allTime = singleOwnerObject.allTime || {};
+
+      singleOwnerObject.allTime[ownerTwo.ownerName] = {
+        scheduleSwapWins: totalSSWins,
+        scheduleSwapLosses: totalSSLosses,
+        scheduleSwapTies: totalSSTies
+      }
+
+    }
+    // console.log(ownerOne.ownerName, singleOwnerObject)
+    fullOwnerObject[ownerOne.ownerName] = singleOwnerObject
+  }
+
+  return fullOwnerObject
 }
