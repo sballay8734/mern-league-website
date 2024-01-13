@@ -18,6 +18,8 @@ NOW ---------------------------------------
 LATER -------------------------------------
 
 AT END ------------------------------------
+1. Can you calculate the RS season finsihing place if owners swapped schedules?
+
 1. Update firebase storage rules to be MORE restrictive (see mern-estate)
 2. Password Reset Capability
 3. Form inputs should be outlined red if incorrect

@@ -8,7 +8,7 @@ import { IoMdSwap } from "react-icons/io";
 import { FaTrophy } from "react-icons/fa6"
 import { GiLargeDress } from "react-icons/gi"
 import { FaCrown } from "react-icons/fa6"
-import { FaAngleDoubleRight } from "react-icons/fa"
+import { FaAngleDoubleRight, FaCaretDown } from "react-icons/fa"
 import { FaAngleDoubleLeft } from "react-icons/fa"
 import { FaAngleDoubleDown } from "react-icons/fa"
 import { FaCaretUp } from "react-icons/fa"
@@ -1736,16 +1736,25 @@ export default function ComparePage() {
                             ownerTwo &&
                             ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear] && (
                               <>
-                                {ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct > ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct && (
+                                {(ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct > ownerOne.yearly[selectedYear].regSznStats.winningPct && ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct - ownerOne.yearly[selectedYear].regSznStats.winningPct > 0.1) ? (
                                   <>
-                                    {/* <span className="plus-minus green">
-                                      {(ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct - ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct).toFixed(1)}%
-                                    </span> */}
+                                    <span className="plus-minus green">
+                                      {(ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct - ownerOne.yearly[selectedYear].regSznStats.winningPct).toFixed(1)}%
+                                    </span>
                                     <span className="arrow-icon green">
-                                      change{/* <FaCaretUp /> */}
+                                      <FaCaretUp />
                                     </span>
                                   </>
-                                )}
+                                ) : (ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct < ownerOne.yearly[selectedYear].regSznStats.winningPct && Math.abs(ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct - ownerOne.yearly[selectedYear].regSznStats.winningPct) > 0.1 ) ? (
+                                  <>
+                                    <span className="plus-minus red">
+                                      {(ownerOne.yearly[selectedYear].regSznStats.winningPct - ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct).toFixed(1)}%
+                                    </span>
+                                    <span className="arrow-icon red">
+                                      <FaCaretDown />
+                                    </span>
+                                  </>
+                                ) : "" }
                               </>
                             )}
                         </div>
@@ -1925,16 +1934,25 @@ export default function ComparePage() {
                             ownerOne &&
                             ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear] && (
                               <>
-                                {ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct > ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct && (
+                                {(ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct > ownerTwo.yearly[selectedYear].regSznStats.winningPct && ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct - ownerTwo.yearly[selectedYear].regSznStats.winningPct > 0.1) ? (
                                   <>
-                                    {/* <span className="plus-minus green">
-                                      {(ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct - ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[selectedYear].scheduleSwapWinPct).toFixed(1)}%
-                                    </span> */}
                                     <span className="arrow-icon green">
-                                      change{/* <FaCaretUp /> */}
+                                      <FaCaretUp />
+                                    </span>
+                                    <span className="plus-minus green">
+                                      {(ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct - ownerTwo.yearly[selectedYear].regSznStats.winningPct).toFixed(1)}%
                                     </span>
                                   </>
-                                )}
+                                ) : (ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct < ownerTwo.yearly[selectedYear].regSznStats.winningPct && Math.abs(ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct - ownerTwo.yearly[selectedYear].regSznStats.winningPct) > 0.1 ) ? (
+                                  <>
+                                    <span className="arrow-icon red">
+                                      <FaCaretDown />
+                                    </span>
+                                    <span className="plus-minus red">
+                                      {(ownerTwo.yearly[selectedYear].regSznStats.winningPct - ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[selectedYear].scheduleSwapWinPct).toFixed(1)}%
+                                    </span>
+                                  </>
+                                ) : "" }
                               </>
                             )}
                         </div>
@@ -2382,6 +2400,55 @@ export default function ComparePage() {
                         </span>
                       </div>}
                     </div>
+                    <div className="cell ss-record">
+                        <span className="stat-value">
+                          {ownerOne &&
+                            ownerTwo &&
+                            (ownerOne.scheduleSwap[ownerTwo.ownerName].allTime && ownerTwo.yearly[selectedYear].participated === true) ? (
+                              <>
+                                {ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWins}{" - "}{ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapLosses}{" - "}{ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapTies}
+                              </>
+                            ) : "-"}
+                        </span>
+                    </div>
+                    <div className="cell ss-winPct">
+                        <span className="stat-value">
+                          {ownerOne &&
+                            ownerTwo &&
+                            (ownerOne.scheduleSwap[ownerTwo.ownerName].allTime && ownerTwo.yearly[selectedYear].participated === true) ? (
+                              <>
+                                {ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct.toFixed(1)}%
+                              </>
+                            ) : "-"}
+                        </span>
+                        <div className="plus-minus-and-icon">
+                          {ownerOne &&
+                            ownerTwo &&
+                            ownerOne.scheduleSwap[ownerTwo.ownerName].allTime && (
+                              <>
+                                {(ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct > ownerOne.allTime.regSzn.RSwinningPct && ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct - ownerOne.allTime.regSzn.RSwinningPct > 0.1) ? (
+                                  <>
+                                    <span className="plus-minus green">
+                                      {(ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct - ownerOne.allTime.regSzn.RSwinningPct).toFixed(1)}%
+                                    </span>
+                                    <span className="arrow-icon green">
+                                      <FaCaretUp />
+                                    </span>
+                                  </>
+                                ) : (ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct < ownerOne.allTime.regSzn.RSwinningPct && Math.abs(ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct - ownerOne.allTime.regSzn.RSwinningPct) > 0.1 ) ? (
+                                  <>
+                                    <span className="plus-minus red">
+                                      {(ownerOne.allTime.regSzn.RSwinningPct - ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct).toFixed(1)}%
+                                    </span>
+                                    <span className="arrow-icon red">
+                                      <FaCaretDown />
+                                    </span>
+                                  </>
+                                ) : "" }
+                              </>
+                            )}
+                        </div>
+                    </div>
                     <div className="cell etewRecord">
                       <span className="stat-value">{ownerOne?.bonusStats.     everyTeamEveryWeek.wins} - {ownerOne?.bonusStats.everyTeamEveryWeek.losses} - {ownerOne?.bonusStats.everyTeamEveryWeek.ties}
                       </span>
@@ -2514,8 +2581,14 @@ export default function ComparePage() {
                     <div className="main-cell cell stat stat-title">Stat</div>
                     <div className="cell stat stat-one">Record</div>
                     <div className="cell stat stat-one">Win %</div>
-                    <div className="cell stat stat-one">ETEW Record</div>
-                    <div className="cell stat stat-one">ETEW Win %</div>
+                    <div className="cell stat stat-one special">
+                      <IoMdSwap /><span>Schedule</span>
+                    </div>
+                    <div className="cell stat stat-one special">
+                      <IoMdSwap /><span>Win %</span>
+                    </div>    
+                    <div className="cell stat stat-one special">ETEW Record</div>
+                    <div className="cell stat stat-one special">ETEW Win %</div>
                     <div className="cell stat stat-one">Avg. PF</div>
                     <div className="cell stat stat-one">Avg. PA</div>
                     <div className="cell stat stat-one">Playoff Rate</div>
@@ -2552,6 +2625,55 @@ export default function ComparePage() {
                           {(ownerTwo?.allTime.regSzn.RSwinningPct - ownerOne?.allTime.regSzn.RSwinningPct).toFixed(1)}%
                         </span>
                       </div>}
+                    </div>
+                    <div className="cell ss-record">
+                        <span className="stat-value">
+                          {ownerOne &&
+                            ownerTwo &&
+                            (ownerTwo.scheduleSwap[ownerOne.ownerName].allTime && ownerOne.yearly[selectedYear].participated === true) ? (
+                              <>
+                                {ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWins}{" - "}{ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapLosses}{" - "}{ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapTies}
+                              </>
+                            ) : "-"}
+                        </span>
+                    </div>
+                    <div className="cell ss-winPct">
+                        <span className="stat-value">
+                          {ownerTwo &&
+                            ownerOne &&
+                            (ownerTwo.scheduleSwap[ownerOne.ownerName].allTime && ownerOne.yearly[selectedYear].participated === true) ? (
+                              <>
+                                {ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct.toFixed(1)}%
+                              </>
+                            ) : "-"}
+                        </span>
+                        <div className="plus-minus-and-icon">
+                          {ownerTwo &&
+                            ownerOne &&
+                            ownerTwo.scheduleSwap[ownerOne.ownerName].allTime && (
+                              <>
+                                {(ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct > ownerTwo.allTime.regSzn.RSwinningPct && ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct - ownerTwo.allTime.regSzn.RSwinningPct > 0.1) ? (
+                                  <>
+                                    <span className="arrow-icon green">
+                                      <FaCaretUp />
+                                    </span>
+                                    <span className="plus-minus green">
+                                      {(ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct - ownerTwo.allTime.regSzn.RSwinningPct).toFixed(1)}%
+                                    </span>
+                                  </>
+                                ) : (ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct < ownerTwo.allTime.regSzn.RSwinningPct && Math.abs(ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct - ownerTwo.allTime.regSzn.RSwinningPct) > 0.1 ) ? (
+                                  <>
+                                    <span className="arrow-icon red">
+                                      <FaCaretDown />
+                                    </span>
+                                    <span className="plus-minus red">
+                                      {(ownerTwo.allTime.regSzn.RSwinningPct - ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct).toFixed(1)}%
+                                    </span>
+                                  </>
+                                ) : "" }
+                              </>
+                            )}
+                        </div>
                     </div>
                     <div className="cell etewRecord">
                       <span className="stat-value">{ownerTwo?.bonusStats.     everyTeamEveryWeek.wins} - {ownerTwo?.bonusStats.everyTeamEveryWeek.losses} - {ownerTwo?.bonusStats.everyTeamEveryWeek.ties}
@@ -3030,8 +3152,8 @@ export default function ComparePage() {
                     <div className="main-cell cell stat stat-title">Stat</div>
                     <div className="cell stat stat-one">Record</div>
                     <div className="cell stat stat-one">Win %</div>
-                    <div className="cell stat stat-one">ETEW Record</div>
-                    <div className="cell stat stat-one">ETEW Win %</div>
+                    <div className="cell stat stat-one special">ETEW Record</div>
+                    <div className="cell stat stat-one special">ETEW Win %</div>
                     <div className="cell stat stat-one">Avg. PF</div>
                     <div className="cell stat stat-one">Avg. PA</div>
                     <div className="cell stat stat-one">Playoff Rate</div>
