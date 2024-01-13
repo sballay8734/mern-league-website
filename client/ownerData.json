@@ -110,7 +110,7 @@
     "losses": 6,
     "ties": 0,
     "last": false,
-    "finished": 2,
+    "finished": 3,
     "regularSeason": {
       "weekOne": {
         "pointsFor": 110.46,
@@ -206,86 +206,501 @@
     }
   }
 }
-// Steve Lloyd
+// Steve Lloyd DONE
 {
   "2023": {
     "participated": true,
-    "wins": 0,
-    "losses": 0,
+    "wins": 8,
+    "losses": 6,
     "ties": 0,
     "last": false,
-    "finished": 0,
+    "finished": 1,
     "regularSeason": {
       "weekOne": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        ,
-        "opponent": "XXXX",
+        "pointsFor": 111.04,
+        "pointsAgainst": 126.26,
+        "opponent": "Cody Zwier",
       },
       "weekTwo": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX",
+        "pointsFor": 145.06,
+        "pointsAgainst": 95.58,
+        "opponent": "Aaron Mackenzie",
       },
       "weekThree": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 130.32,
+        "pointsAgainst": 114.16,
+        "opponent": "Dante Nocito"
       },
       "weekFour": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 164.20,
+        "pointsAgainst": 99.26,
+        "opponent": "Jimmy Wagner"
       },
       "weekFive": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 114.54,
+        "pointsAgainst": 101.34,
+        "opponent": "Joe Kane"
       },
       "weekSix": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 130.26,
+        "pointsAgainst": 149.28,
+        "opponent": "Steve Smith"
       },
       "weekSeven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 99.64,
+        "pointsAgainst": 125.46,
+        "opponent": "Shawn Ballay"
       },
       "weekEight": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 132.66,
+        "pointsAgainst": 131.76,
+        "opponent": "Dom Flipp"
       },
       "weekNine": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 109.42,
+        "pointsAgainst": 125.94,
+        "opponent": "Don Irons"
       },
       "weekTen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 107.88,
+        "pointsAgainst": 92.18,
+        "opponent": "Dom Nocito"
       },
       "weekEleven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 136.20,
+        "pointsAgainst": 142.22,
+        "opponent": "Dan George"
       },
       "weekTwelve": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 170.76,
+        "pointsAgainst": 102.92,
+        "opponent": "Cody Zwier"
       },
       "weekThirteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 103.38,
+        "pointsAgainst": 177.78,
+        "opponent": "Aaron Mackenzie"
       },
       "weekFourteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 148.92,
+        "pointsAgainst": 126.54,
+        "opponent": "Dante Nocito"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": true,
+        "bye": false,
+        "pointsFor": 165.96,
+        "pointsAgainst": 98.16,
+        "opponent": "Dom Flipp"
+      },
+      "roundTwo": {
+        "participated": true,
+        "pointsFor": 130.58,
+        "pointsAgainst": 91.92,
+        "opponent": "Steve Smith"
+      },
+      "finalRound": {
+        "participated": true,
+        "pointsFor": 147.06,
+        "pointsAgainst": 77.70,
+        "opponent": "Dan George"
+      }
+    }
+  }
+}
+// Cody Zwier DONE
+{
+  "2023": {
+    "participated": true,
+    "wins": 8,
+    "losses": 6,
+    "ties": 0,
+    "last": false,
+    "finished": 4,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": 126.26,
+        "pointsAgainst": 111.04,
+        "opponent": "Steve Lloyd",
+      },
+      "weekTwo": {
+        "pointsFor": 135.14,
+        "pointsAgainst": 92.50,
+        "opponent": "Dante Nocito",
+      },
+      "weekThree": {
+        "pointsFor": 97.50,
+        "pointsAgainst": 148.98,
+        "opponent": "Joe Kane"
+      },
+      "weekFour": {
+        "pointsFor": 112.72,
+        "pointsAgainst": 183.46,
+        "opponent": "Shawn Ballay"
+      },
+      "weekFive": {
+        "pointsFor": 121.86,
+        "pointsAgainst": 104.72,
+        "opponent": "Don Irons"
+      },
+      "weekSix": {
+        "pointsFor": 86.90,
+        "pointsAgainst": 119.62,
+        "opponent": "Dan George"
+      },
+      "weekSeven": {
+        "pointsFor": 135.68,
+        "pointsAgainst": 132.68,
+        "opponent": "Aaron Mackenzie"
+      },
+      "weekEight": {
+        "pointsFor": 164.16,
+        "pointsAgainst": 102.48,
+        "opponent": "Jimmy Wagner"
+      },
+      "weekNine": {
+        "pointsFor": 86.72,
+        "pointsAgainst": 116.54,
+        "opponent": "Steve Smith"
+      },
+      "weekTen": {
+        "pointsFor": 147.06,
+        "pointsAgainst": 145.04,
+        "opponent": "Dom Flipp"
+      },
+      "weekEleven": {
+        "pointsFor": 106.50,
+        "pointsAgainst": 113.34,
+        "opponent": "Dom Nocito"
+      },
+      "weekTwelve": {
+        "pointsFor": 102.92,
+        "pointsAgainst": 170.76,
+        "opponent": "Steve Lloyd"
+      },
+      "weekThirteen": {
+        "pointsFor": 142.80,
+        "pointsAgainst": 113.06,
+        "opponent": "Dante Nocito"
+      },
+      "weekFourteen": {
+        "pointsFor": 120.00,
+        "pointsAgainst": 86.94,
+        "opponent": "Joe Kane"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": true,
+        "bye": false,
+        "pointsFor": 126.36,
+        "pointsAgainst": 125.44,
+        "opponent": "Aaron Mackenzie"
+      },
+      "roundTwo": {
+        "participated": true,
+        "pointsFor": 93.02,
+        "pointsAgainst": 136.00,
+        "opponent": "Dan George"
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Aaron Mackenzie DONE
+{
+  "2023": {
+    "participated": true,
+    "wins": 8,
+    "losses": 6,
+    "ties": 0,
+    "last": false,
+    "finished": 5,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": 72.76,
+        "pointsAgainst": 142.20,
+        "opponent": "Dan George",
+      },
+      "weekTwo": {
+        "pointsFor": 95.58,
+        "pointsAgainst": 145.06,
+        "opponent": "Steve Lloyd",
+      },
+      "weekThree": {
+        "pointsFor": 103.18,
+        "pointsAgainst": 108.36,
+        "opponent": "Jimmy Wagner"
+      },
+      "weekFour": {
+        "pointsFor": 121.52,
+        "pointsAgainst": 84.78,
+        "opponent": "Steve Smith"
+      },
+      "weekFive": {
+        "pointsFor": 136.54,
+        "pointsAgainst": 87.56,
+        "opponent": "Dom Flipp"
+      },
+      "weekSix": {
+        "pointsFor": 118.62,
+        "pointsAgainst": 82.52,
+        "opponent": "Dom Nocito"
+      },
+      "weekSeven": {
+        "pointsFor": 132.68,
+        "pointsAgainst": 135.68,
+        "opponent": "Cody Zwier"
+      },
+      "weekEight": {
+        "pointsFor": 114.58,
+        "pointsAgainst": 149.96,
+        "opponent": "Dante Nocito"
+      },
+      "weekNine": {
+        "pointsFor": 120.68,
+        "pointsAgainst": 80.30,
+        "opponent": "Joe Kane"
+      },
+      "weekTen": {
+        "pointsFor": 96.32,
+        "pointsAgainst": 78.10,
+        "opponent": "Shawn Ballay"
+      },
+      "weekEleven": {
+        "pointsFor": 106.46,
+        "pointsAgainst": 98.24,
+        "opponent": "Don Irons"
+      },
+      "weekTwelve": {
+        "pointsFor": 124.18,
+        "pointsAgainst": 134.46,
+        "opponent": "Dan George"
+      },
+      "weekThirteen": {
+        "pointsFor": 177.78,
+        "pointsAgainst": 103.38,
+        "opponent": "Steve Lloyd"
+      },
+      "weekFourteen": {
+        "pointsFor": 130.84,
+        "pointsAgainst": 105.48,
+        "opponent": "Jimmy Wagner"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": true,
+        "bye": false,
+        "pointsFor": 125.44,
+        "pointsAgainst": 126.36,
+        "opponent": "Cody Zwier"
+      },
+      "roundTwo": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "finalRound": {
+        "participated": false,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      }
+    }
+  }
+}
+// Dan George DONE
+{
+  "2023": {
+    "participated": true,
+    "wins": 11,
+    "losses": 3,
+    "ties": 0,
+    "last": false,
+    "finished": 2,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": 142.20,
+        "pointsAgainst": 72.76,
+        "opponent": "Aaron Mackenzie",
+      },
+      "weekTwo": {
+        "pointsFor": 156.32,
+        "pointsAgainst": 107.00,
+        "opponent": "Jimmy Wagner",
+      },
+      "weekThree": {
+        "pointsFor": 120.62,
+        "pointsAgainst": 180.06,
+        "opponent": "Steve Smith"
+      },
+      "weekFour": {
+        "pointsFor": 56.5,
+        "pointsAgainst": 113.16,
+        "opponent": "Dom Flipp"
+      },
+      "weekFive": {
+        "pointsFor": 122.84,
+        "pointsAgainst": 117.18,
+        "opponent": "Dom Nocito"
+      },
+      "weekSix": {
+        "pointsFor": 119.62,
+        "pointsAgainst": 86.90,
+        "opponent": "Cody Zwier"
+      },
+      "weekSeven": {
+        "pointsFor": 125.56,
+        "pointsAgainst": 96.36,
+        "opponent": "Dante Nocito"
+      },
+      "weekEight": {
+        "pointsFor": 110.08,
+        "pointsAgainst": 63.60,
+        "opponent": "Joe Kane"
+      },
+      "weekNine": {
+        "pointsFor": 114.32,
+        "pointsAgainst": 122.08,
+        "opponent": "Shawn Ballay"
+      },
+      "weekTen": {
+        "pointsFor": 136.22,
+        "pointsAgainst": 129.28,
+        "opponent": "Don Irons"
+      },
+      "weekEleven": {
+        "pointsFor": 142.22,
+        "pointsAgainst": 136.20,
+        "opponent": "Steve Lloyd"
+      },
+      "weekTwelve": {
+        "pointsFor": 134.46,
+        "pointsAgainst": 124.18,
+        "opponent": "Aaron Mackenzie"
+      },
+      "weekThirteen": {
+        "pointsFor": 139.46,
+        "pointsAgainst": 119.76,
+        "opponent": "Jimmy Wagner"
+      },
+      "weekFourteen": {
+        "pointsFor": 138.52,
+        "pointsAgainst": 105.34,
+        "opponent": "Steve Smith"
+      }
+    },
+    "playoffs": {
+      "roundOne": {
+        "participated": true,
+        "bye": true,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "opponent": null
+      },
+      "roundTwo": {
+        "participated": true,
+        "pointsFor": 136.00,
+        "pointsAgainst": 93.02,
+        "opponent": "Cody Zwier"
+      },
+      "finalRound": {
+        "participated": true,
+        "pointsFor": 77.7,
+        "pointsAgainst": 147.06,
+        "opponent": "Dan George"
+      }
+    }
+  }
+}
+// Dante Nocito DONE
+{
+  "2023": {
+    "participated": true,
+    "wins": 6,
+    "losses": 8,
+    "ties": 0,
+    "last": false,
+    "finished": 8,
+    "regularSeason": {
+      "weekOne": {
+        "pointsFor": 105.78,
+        "pointsAgainst": 95.24,
+        "opponent": "Dom Nocito",
+      },
+      "weekTwo": {
+        "pointsFor": 92.50,
+        "pointsAgainst": 135.14,
+        "opponent": "Cody Zwier",
+      },
+      "weekThree": {
+        "pointsFor": 114.16,
+        "pointsAgainst": 130.32,
+        "opponent": "Steve Lloyd"
+      },
+      "weekFour": {
+        "pointsFor": 64.50,
+        "pointsAgainst": 98.22,
+        "opponent": "Joe Kane"
+      },
+      "weekFive": {
+        "pointsFor": 161.22,
+        "pointsAgainst": 134.62,
+        "opponent": "Shawn Ballay"
+      },
+      "weekSix": {
+        "pointsFor": 116.48,
+        "pointsAgainst": 114.30,
+        "opponent": "Don Irons"
+      },
+      "weekSeven": {
+        "pointsFor": 96.36,
+        "pointsAgainst": 125.56,
+        "opponent": "Dan George"
+      },
+      "weekEight": {
+        "pointsFor": 149.96,
+        "pointsAgainst": 114.58,
+        "opponent": "Aaron Mackenzie"
+      },
+      "weekNine": {
+        "pointsFor": 135.06,
+        "pointsAgainst": 127.26,
+        "opponent": "Jimmy Wagner"
+      },
+      "weekTen": {
+        "pointsFor": 138.66,
+        "pointsAgainst": 154.02,
+        "opponent": "Steve Smith"
+      },
+      "weekEleven": {
+        "pointsFor": 113.56,
+        "pointsAgainst": 118.94,
+        "opponent": "Dom Flipp"
+      },
+      "weekTwelve": {
+        "pointsFor": 135.34,
+        "pointsAgainst": 101.98,
+        "opponent": "Dom Nocito"
+      },
+      "weekThirteen": {
+        "pointsFor": 113.06,
+        "pointsAgainst": 142.80,
+        "opponent": "Cody Zwier"
+      },
+      "weekFourteen": {
+        "pointsFor": 126.54,
+        "pointsAgainst": 148.92,
+        "opponent": "Steve Lloyd"
       }
     },
     "playoffs": {
@@ -311,86 +726,85 @@
     }
   }
 }
-// Cody Zwier
+// Dom Nocito DONE
 {
   "2023": {
     "participated": true,
-    "wins": 0,
-    "losses": 0,
+    "wins": 6,
+    "losses": 8,
     "ties": 0,
     "last": false,
-    "finished": 0,
+    "finished": 10,
     "regularSeason": {
       "weekOne": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        ,
-        "opponent": "XXXX",
+        "pointsFor": 95.24,
+        "pointsAgainst": 105.78,
+        "opponent": "Dante Nocito",
       },
       "weekTwo": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX",
+        "pointsFor": 141.84,
+        "pointsAgainst": 112.30,
+        "opponent": "Joe Kane",
       },
       "weekThree": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 158.76,
+        "pointsAgainst": 121.66,
+        "opponent": "Shawn Ballay"
       },
       "weekFour": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 96.32,
+        "pointsAgainst": 153.90,
+        "opponent": "Don Irons"
       },
       "weekFive": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 117.18,
+        "pointsAgainst": 122.84,
+        "opponent": "Dan George"
       },
       "weekSix": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 82.52,
+        "pointsAgainst": 118.62,
+        "opponent": "Aaron Mackenzie"
       },
       "weekSeven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 90.46,
+        "pointsAgainst": 119.14,
+        "opponent": "Jimmy Wagner"
       },
       "weekEight": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 123.06,
+        "pointsAgainst": 93.92,
+        "opponent": "Steve Smith"
       },
       "weekNine": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 126.24,
+        "pointsAgainst": 142.70,
+        "opponent": "Dom Flipp"
       },
       "weekTen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 92.18,
+        "pointsAgainst": 107.88,
+        "opponent": "Steve Lloyd"
       },
       "weekEleven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 113.34,
+        "pointsAgainst": 106.50,
+        "opponent": "Cody Zwier"
       },
       "weekTwelve": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 101.98,
+        "pointsAgainst": 135.34,
+        "opponent": "Dante Nocito"
       },
       "weekThirteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 130.68,
+        "pointsAgainst": 109.70,
+        "opponent": "Joe Kane"
       },
       "weekFourteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 152.12,
+        "pointsAgainst": 76.38,
+        "opponent": "Shawn Ballay"
       }
     },
     "playoffs": {
@@ -416,86 +830,85 @@
     }
   }
 }
-// Aaron Mackenzie
+// Jimmy Wagner DONE
 {
   "2023": {
     "participated": true,
-    "wins": 0,
-    "losses": 0,
+    "wins": 6,
+    "losses": 8,
     "ties": 0,
     "last": false,
-    "finished": 0,
+    "finished": 9,
     "regularSeason": {
       "weekOne": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        ,
-        "opponent": "XXXX",
+        "pointsFor": 84.96,
+        "pointsAgainst": 86.20,
+        "opponent": "Don Irons",
       },
       "weekTwo": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX",
+        "pointsFor": 107.00,
+        "pointsAgainst": 156.32,
+        "opponent": "Dan George",
       },
       "weekThree": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 108.36,
+        "pointsAgainst": 103.18,
+        "opponent": "Aaron Mackenzie"
       },
       "weekFour": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 99.26,
+        "pointsAgainst": 164.20,
+        "opponent": "Steve Lloyd"
       },
       "weekFive": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 163.38,
+        "pointsAgainst": 110.02,
+        "opponent": "Steve Smith"
       },
       "weekSix": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 114.24,
+        "pointsAgainst": 80.54,
+        "opponent": "Dom Flipp"
       },
       "weekSeven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 119.14,
+        "pointsAgainst": 90.46,
+        "opponent": "Dom Nocito"
       },
       "weekEight": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 102.48,
+        "pointsAgainst": 164.16,
+        "opponent": "Cody Zwier"
       },
       "weekNine": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 127.26,
+        "pointsAgainst": 135.06,
+        "opponent": "Dante Nocito"
       },
       "weekTen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 94.86,
+        "pointsAgainst": 127.62,
+        "opponent": "Joe Kane"
       },
       "weekEleven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 101.22,
+        "pointsAgainst": 81.60,
+        "opponent": "Shawn Ballay"
       },
       "weekTwelve": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 128.20,
+        "pointsAgainst": 95.46,
+        "opponent": "Don Irons"
       },
       "weekThirteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 119.76,
+        "pointsAgainst": 139.46,
+        "opponent": "Dan George"
       },
       "weekFourteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 105.48,
+        "pointsAgainst": 130.84,
+        "opponent": "Aaron Mackenzie"
       }
     },
     "playoffs": {
@@ -521,86 +934,85 @@
     }
   }
 }
-// Dan George
+// Don Irons DONE
 {
   "2023": {
     "participated": true,
-    "wins": 0,
-    "losses": 0,
+    "wins": 5,
+    "losses": 9,
     "ties": 0,
     "last": false,
-    "finished": 0,
+    "finished": 11,
     "regularSeason": {
       "weekOne": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        ,
-        "opponent": "XXXX",
+        "pointsFor": 86.20,
+        "pointsAgainst": 84.96,
+        "opponent": "Jimmy Wagner",
       },
       "weekTwo": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX",
+        "pointsFor": 71.72,
+        "pointsAgainst": 143.70,
+        "opponent": "Steve Smith",
       },
       "weekThree": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 93.78,
+        "pointsAgainst": 128.78,
+        "opponent": "Dom Flipp"
       },
       "weekFour": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 153.90,
+        "pointsAgainst": 96.32,
+        "opponent": "Dom Nocito"
       },
       "weekFive": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 104.72,
+        "pointsAgainst": 121.86,
+        "opponent": "Cody Zwier"
       },
       "weekSix": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 114.30,
+        "pointsAgainst": 116.48,
+        "opponent": "Dante Nocito"
       },
       "weekSeven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 155.76,
+        "pointsAgainst": 138.56,
+        "opponent": "Joe Kane"
       },
       "weekEight": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 171.78,
+        "pointsAgainst": 117.36,
+        "opponent": "Shawn Ballay"
       },
       "weekNine": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 125.94,
+        "pointsAgainst": 109.42,
+        "opponent": "Steve Lloyd"
       },
       "weekTen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 129.28,
+        "pointsAgainst": 136.22,
+        "opponent": "Dan George"
       },
       "weekEleven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 98.24,
+        "pointsAgainst": 106.46,
+        "opponent": "Aaron Mackenzie"
       },
       "weekTwelve": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 95.46,
+        "pointsAgainst": 128.20,
+        "opponent": "Jimmy Wagner"
       },
       "weekThirteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 94.44,
+        "pointsAgainst": 100.28,
+        "opponent": "Steve Smith"
       },
       "weekFourteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 92.32,
+        "pointsAgainst": 106.24,
+        "opponent": "Dom Flipp"
       }
     },
     "playoffs": {
@@ -626,506 +1038,85 @@
     }
   }
 }
-// Dante Nocito
+// Joe Kane DONE
 {
   "2023": {
     "participated": true,
-    "wins": 0,
-    "losses": 0,
+    "wins": 3,
+    "losses": 11,
     "ties": 0,
-    "last": false,
-    "finished": 0,
+    "last": true,
+    "finished": 12,
     "regularSeason": {
       "weekOne": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        ,
-        "opponent": "XXXX",
+        "pointsFor": 103.74,
+        "pointsAgainst": 119.76,
+        "opponent": "Dom Flipp",
       },
       "weekTwo": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX",
+        "pointsFor": 112.30,
+        "pointsAgainst": 141.84,
+        "opponent": "Dom Nocito",
       },
       "weekThree": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 148.98,
+        "pointsAgainst": 97.50,
+        "opponent": "Cody Zwier"
       },
       "weekFour": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 98.22,
+        "pointsAgainst": 64.50,
+        "opponent": "Dante Nocito"
       },
       "weekFive": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 101.34,
+        "pointsAgainst": 114.54,
+        "opponent": "Steve Lloyd"
       },
       "weekSix": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 123.54,
+        "pointsAgainst": 138.70,
+        "opponent": "Joe Kane"
       },
       "weekSeven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 138.56,
+        "pointsAgainst": 155.76,
+        "opponent": "Don Irons"
       },
       "weekEight": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 63.6,
+        "pointsAgainst": 110.08,
+        "opponent": "Dan George"
       },
       "weekNine": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 80.30,
+        "pointsAgainst": 120.68,
+        "opponent": "Aaron Mackenzie"
       },
       "weekTen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 127.62,
+        "pointsAgainst": 94.86,
+        "opponent": "Jimmy Wagner"
       },
       "weekEleven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 125.78,
+        "pointsAgainst": 141.30,
+        "opponent": "Steve Smith"
       },
       "weekTwelve": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 103.32,
+        "pointsAgainst": 150.86,
+        "opponent": "Dom Flipp"
       },
       "weekThirteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 109.70,
+        "pointsAgainst": 130.68,
+        "opponent": "Dom Nocito"
       },
       "weekFourteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      }
-    },
-    "playoffs": {
-      "roundOne": {
-        "participated": false,
-        "bye": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      },
-      "roundTwo": {
-        "participated": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      },
-      "finalRound": {
-        "participated": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      }
-    }
-  }
-}
-// Dom Nocito
-{
-  "2023": {
-    "participated": true,
-    "wins": 0,
-    "losses": 0,
-    "ties": 0,
-    "last": false,
-    "finished": 0,
-    "regularSeason": {
-      "weekOne": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        ,
-        "opponent": "XXXX",
-      },
-      "weekTwo": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX",
-      },
-      "weekThree": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFour": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFive": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekSix": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekSeven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekEight": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekNine": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekTen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekEleven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekTwelve": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekThirteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFourteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      }
-    },
-    "playoffs": {
-      "roundOne": {
-        "participated": false,
-        "bye": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      },
-      "roundTwo": {
-        "participated": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      },
-      "finalRound": {
-        "participated": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      }
-    }
-  }
-}
-// Jimmy Wagner
-{
-  "2023": {
-    "participated": true,
-    "wins": 0,
-    "losses": 0,
-    "ties": 0,
-    "last": false,
-    "finished": 0,
-    "regularSeason": {
-      "weekOne": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        ,
-        "opponent": "XXXX",
-      },
-      "weekTwo": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX",
-      },
-      "weekThree": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFour": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFive": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekSix": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekSeven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekEight": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekNine": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekTen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekEleven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekTwelve": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekThirteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFourteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      }
-    },
-    "playoffs": {
-      "roundOne": {
-        "participated": false,
-        "bye": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      },
-      "roundTwo": {
-        "participated": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      },
-      "finalRound": {
-        "participated": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      }
-    }
-  }
-}
-// Don Irons
-{
-  "2023": {
-    "participated": true,
-    "wins": 0,
-    "losses": 0,
-    "ties": 0,
-    "last": false,
-    "finished": 0,
-    "regularSeason": {
-      "weekOne": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        ,
-        "opponent": "XXXX",
-      },
-      "weekTwo": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX",
-      },
-      "weekThree": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFour": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFive": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekSix": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekSeven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekEight": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekNine": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekTen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekEleven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekTwelve": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekThirteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFourteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      }
-    },
-    "playoffs": {
-      "roundOne": {
-        "participated": false,
-        "bye": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      },
-      "roundTwo": {
-        "participated": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      },
-      "finalRound": {
-        "participated": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
-      }
-    }
-  }
-}
-// Joe Kane
-{
-  "2023": {
-    "participated": true,
-    "wins": 0,
-    "losses": 0,
-    "ties": 0,
-    "last": false,
-    "finished": 0,
-    "regularSeason": {
-      "weekOne": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        ,
-        "opponent": "XXXX",
-      },
-      "weekTwo": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX",
-      },
-      "weekThree": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFour": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFive": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekSix": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekSeven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekEight": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekNine": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekTen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekEleven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekTwelve": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekThirteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
-      },
-      "weekFourteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 86.94,
+        "pointsAgainst": 120.00,
+        "opponent": "Cody Zwier"
       }
     },
     "playoffs": {
@@ -1155,57 +1146,56 @@
 {
   "2023": {
     "participated": true,
-    "wins": 0,
-    "losses": 0,
+    "wins": 8,
+    "losses": 6,
     "ties": 0,
     "last": false,
-    "finished": 0,
+    "finished": 6,
     "regularSeason": {
       "weekOne": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        ,
-        "opponent": "XXXX",
+        "pointsFor": 119.76,
+        "pointsAgainst": 103.74,
+        "opponent": "Joe Kane",
       },
       "weekTwo": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX",
+        "pointsFor": 142.86,
+        "pointsAgainst": 125.74,
+        "opponent": "Shawn Ballay",
       },
       "weekThree": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 128.78,
+        "pointsAgainst": 93.78,
+        "opponent": "Don Irons"
       },
       "weekFour": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 113.16,
+        "pointsAgainst": 56.5,
+        "opponent": "Dan George"
       },
       "weekFive": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 87.56,
+        "pointsAgainst": 136.54,
+        "opponent": "Aaron Mackenzie"
       },
       "weekSix": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 80.54,
+        "pointsAgainst": 114.24,
+        "opponent": "Jimmy Wagner"
       },
       "weekSeven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 95.12,
+        "pointsAgainst": 117.66,
+        "opponent": "Steve Smith"
       },
       "weekEight": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 131.76,
+        "pointsAgainst": 132.66,
+        "opponent": "Steve Lloyd"
       },
       "weekNine": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 142.70,
+        "pointsAgainst": 126.24,
+        "opponent": "Dom Nocito"
       },
       "weekTen": {
         "pointsFor": "XXXX",

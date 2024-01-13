@@ -1,6 +1,7 @@
 // TODO ************************************************************************
 
 NOW ---------------------------------------
+1. Put lucky/unlucky in yearly stats
 1. MAKE ALL PAGES SIMILAR IN FORMAT TO PICKS PAGE ON MOBILE!!!
 2. Add avg pt differential to H2H (how close are the matchups on average?)
 2. "Locks In" Countdown time should not fluctuate width.
