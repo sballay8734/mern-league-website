@@ -32,6 +32,8 @@ export default function ComparePage() {
     setSelectedYear(year)
   }
 
+  // console.log(ownerOne, ownerTwo)
+
   function handleOwnerSwitch(ownerSwitched: StaticOwner, direction: string) {
     if (data && ownerOne && ownerTwo) {
       const ownerOneIndex = data?.indexOf(ownerOne) // 0
@@ -82,6 +84,9 @@ export default function ComparePage() {
 
   const owner1Participated = ownerOne?.yearly[selectedYear].participated
   const owner2Participated = ownerTwo?.yearly[selectedYear].participated
+  
+  const owner1ParticipatedPlayoffs = (ownerOne?.yearly[selectedYear].participated && ownerOne?.yearly[selectedYear].playoffStats.participated === true) ? true : false
+  const owner2ParticipatedPlayoffs = (ownerTwo?.yearly[selectedYear].participated && ownerTwo?.yearly[selectedYear].playoffStats.participated === true) ? true : false
 
   useEffect(() => {
     if (data && user) {
@@ -1314,21 +1319,27 @@ export default function ComparePage() {
             </div>
           ) : activeButton === "yearly" ? (
             <div className="compare-yearly">
-              <nav className="compare-nav">
-                <button
+              <nav className="compare-nav-secondary">
+                <div className="filter-buttons">
+                  <button onClick={() => setActiveFilterButton("combined")}
+                      className={`${
+                        activeFilterButton === "combined" ? "active" : ""
+                      }`}>C</button>
+                  <button onClick={() => setActiveFilterButton("regszn")}
+                      className={`${
+                        activeFilterButton === "regszn" ? "active" : ""
+                      }`}>RS</button>
+                  <button onClick={() => setActiveFilterButton("playoffs")}
+                      className={`${
+                        activeFilterButton === "playoffs" ? "active" : ""
+                      } last`}>P</button>
+                </div>
+                <div
                   onClick={() => setShowYearDropdown(!showYearDropdown)}
                   className={`year-selector`}
                 >
                   {selectedYear}{" "}
-                  <span className="year-selector-arrow">
-                    {showYearDropdown ? (
-                      <FaAngleDoubleDown />
-                    ) : (
-                      <FaAngleDoubleLeft />
-                    )}
-                  </span>
-                </button>
-                <div
+                  <span
                   className={`year-dropdown disable-scrollbars ${
                     showYearDropdown ? "show" : ""
                   }`}
@@ -1351,13 +1362,43 @@ export default function ComparePage() {
                         )
                       })}
                   </ul>
+                </span>
                 </div>
+                <div onClick={() => setShowYearDropdown(!showYearDropdown)} className="year-selector-arrow">
+                    {showYearDropdown ? (
+                      <FaAngleDoubleDown />
+                    ) : (
+                      <FaAngleDoubleLeft />
+                    )}
+                  </div>
+                {/* <span
+                  className={`year-dropdown disable-scrollbars ${
+                    showYearDropdown ? "show" : ""
+                  }`}
+                >
+                  <ul className="dropdown-list disable-scrollbars">
+                    {data &&
+                      Object.keys(data[0].yearly).map((key) => {
+                        if (isNaN(Number(key))) return null
+                        return (
+                          <li key={key}>
+                            <button
+                              className={`dropdown-button ${
+                                selectedYear === key ? "selected" : ""
+                              }`}
+                              onClick={() => handleYearSelect(key)}
+                            >
+                              {key}
+                            </button>
+                          </li>
+                        )
+                      })}
+                  </ul>
+                </span> */}
               </nav>
+              {activeFilterButton === "combined" ? 
               <div className="h2h-content-wrapper disable-scrollbars">
                 <div className="h2h-content h2h-content-wrapper">
-                  {/* IF EITHER OWNER DNP WE HAVE AN ISSUE */}
-                  {/* YOU SET VARIABLE AT THE TOP TO TRACK */}
-                  {/* MAJOR BUGGGG */}
                   <div className="owner-stats owner-one-stats">
                     <div className="main-cell owner-name owner-one-name">
                       {ownerOne?.ownerName &&
@@ -1368,7 +1409,7 @@ export default function ComparePage() {
                         })()}
                     </div>
                     <div className="cell record owner-one-record">
-                      {ownerOne && ownerTwo && ownerOne.yearly[selectedYear].participated === true ? (
+                      {ownerOne && owner1Participated === true ? (
                         <>
                           {ownerOne.yearly[selectedYear].combinedStats.wins} -{" "}
                           {ownerOne.yearly[selectedYear].combinedStats.losses} - {" "}
@@ -1378,9 +1419,9 @@ export default function ComparePage() {
                     </div>
                     <div className="cell win-pct">
                       <span className="stat-value">
-                        {ownerOne && ownerTwo && ownerOne?.yearly[selectedYear].participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.winningPct.toFixed(1)}%</div> : "DNP"}
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.winningPct.toFixed(1)}%</div> : "DNP"}
                       </span>
-                      {ownerOne && ownerTwo && (ownerOne.yearly[selectedYear].participated === true) ? (ownerOne?.yearly[selectedYear].combinedStats.winningPct > ownerTwo?.yearly[selectedYear].combinedStats.winningPct) && 
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].combinedStats.winningPct > ownerTwo?.yearly[selectedYear].combinedStats.winningPct) && 
                       <div className="plus-minus-and-icon">
                         <span className="plus-minus green">
                           {(ownerOne?.yearly[selectedYear].combinedStats.winningPct - ownerTwo?.yearly[selectedYear].combinedStats.winningPct).toFixed(1)}%
@@ -1388,13 +1429,13 @@ export default function ComparePage() {
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                      </div> : "DNP"}
+                      </div>}
                     </div>
                     <div className="cell finished">
                       <span className="stat-value">
-                        {ownerOne && ownerTwo && ownerOne?.yearly[selectedYear].participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.finishPlace}</div> : "DNP"}
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.finishPlace}</div> : "DNP"}
                       </span>
-                      {ownerOne && ownerTwo && (ownerOne.yearly[selectedYear].participated === true) ? (ownerOne?.yearly[selectedYear].combinedStats.finishPlace < ownerTwo?.yearly[selectedYear].combinedStats.finishPlace) && 
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].combinedStats.finishPlace < ownerTwo?.yearly[selectedYear].combinedStats.finishPlace) && 
                       <div className="plus-minus-and-icon">
                         <span className="plus-minus green">
                           {(ownerTwo?.yearly[selectedYear].combinedStats.finishPlace - ownerOne?.yearly[selectedYear].combinedStats.finishPlace)}
@@ -1402,13 +1443,13 @@ export default function ComparePage() {
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                      </div> : "DNP"}
+                      </div>}
                     </div>
                     <div className="cell avgPf">
                       <span className="stat-value">
-                        {ownerOne && ownerTwo && ownerOne?.yearly[selectedYear].participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.avgPF.toFixed(2)}</div> : "DNP"}                  
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.avgPF.toFixed(2)}</div> : "DNP"}
                       </span>
-                      {ownerOne && ownerTwo && (ownerOne.yearly[selectedYear].participated === true) ? (ownerOne?.yearly[selectedYear].combinedStats.avgPF > ownerTwo?.yearly[selectedYear].combinedStats.avgPF) && 
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].combinedStats.avgPF > ownerTwo?.yearly[selectedYear].combinedStats.avgPF) && 
                       <div className="plus-minus-and-icon">
                         <span className="plus-minus green">
                           {(ownerOne?.yearly[selectedYear].combinedStats.avgPF - ownerTwo?.yearly[selectedYear].combinedStats.avgPF).toFixed(2)}
@@ -1416,13 +1457,13 @@ export default function ComparePage() {
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                      </div> : "DNP"}
+                      </div>}
                     </div>
                     <div className="cell avgPa">
                       <span className="stat-value">
-                        {ownerOne?.yearly[selectedYear].participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.avgPA.toFixed(2)}</div> : "DNP"}
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.avgPA.toFixed(2)}</div> : "DNP"}
                       </span>
-                      {ownerOne && ownerTwo && (ownerOne.yearly[selectedYear].participated === true) ? (ownerOne?.yearly[selectedYear].combinedStats.avgPA > ownerTwo?.yearly[selectedYear].combinedStats.avgPA) && 
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].combinedStats.avgPA > ownerTwo?.yearly[selectedYear].combinedStats.avgPA) && 
                       <div className="plus-minus-and-icon">
                         <span className="plus-minus green">
                           {(ownerOne?.yearly[selectedYear].combinedStats.avgPA - ownerTwo?.yearly[selectedYear].combinedStats.avgPA).toFixed(2)}
@@ -1430,13 +1471,13 @@ export default function ComparePage() {
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                      </div> : "DNP"}
+                      </div>}
                     </div>
                     <div className="cell best-week">
                       <span className="stat-value">
-                        {ownerOne?.yearly[selectedYear].participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.bestWeek.toFixed(2)}</div> : "DNP"}
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.bestWeek.toFixed(2)}</div> : "DNP"}
                       </span>
-                      {ownerOne && ownerTwo && (ownerOne.yearly[selectedYear].participated === true) ? (ownerOne?.yearly[selectedYear].combinedStats.bestWeek > ownerTwo?.yearly[selectedYear].combinedStats.bestWeek) && 
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].combinedStats.bestWeek > ownerTwo?.yearly[selectedYear].combinedStats.bestWeek) && 
                       <div className="plus-minus-and-icon">
                         <span className="plus-minus green">
                           {(ownerOne?.yearly[selectedYear].combinedStats.bestWeek - ownerTwo?.yearly[selectedYear].combinedStats.bestWeek).toFixed(2)}
@@ -1444,13 +1485,13 @@ export default function ComparePage() {
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                      </div> : "DNP"}
+                      </div>}
                     </div>
                     <div className="cell worst-week">
                       <span className="stat-value">
-                        {ownerOne?.yearly[selectedYear].participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.worstWeek.toFixed(2)}</div> : "DNP"}
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.worstWeek.toFixed(2)}</div> : "DNP"}
                       </span>
-                      {ownerOne && ownerTwo && (ownerOne.yearly[selectedYear].participated === true) ? (ownerOne?.yearly[selectedYear].combinedStats.worstWeek > ownerTwo?.yearly[selectedYear].combinedStats.worstWeek) && 
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].combinedStats.worstWeek > ownerTwo?.yearly[selectedYear].combinedStats.worstWeek) && 
                       <div className="plus-minus-and-icon">
                         <span className="plus-minus green">
                           {(ownerOne?.yearly[selectedYear].combinedStats.worstWeek - ownerTwo?.yearly[selectedYear].combinedStats.worstWeek).toFixed(2)}
@@ -1458,13 +1499,13 @@ export default function ComparePage() {
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                      </div> : "DNP"}
+                      </div>}
                     </div>
                     <div className="cell total-points-for">
                       <span className="stat-value">
-                        {ownerOne?.yearly[selectedYear].participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.pointsFor.toFixed(1)}</div> : "DNP"}
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.pointsFor.toFixed(1)}</div> : "DNP"}
                       </span>
-                      {ownerOne && ownerTwo && (ownerOne.yearly[selectedYear].participated === true) ? (ownerOne?.yearly[selectedYear].combinedStats.pointsFor > ownerTwo?.yearly[selectedYear].combinedStats.pointsFor) && 
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].combinedStats.pointsFor > ownerTwo?.yearly[selectedYear].combinedStats.pointsFor) && 
                       <div className="plus-minus-and-icon">
                         <span className="plus-minus green">
                           {(ownerOne?.yearly[selectedYear].combinedStats.pointsFor - ownerTwo?.yearly[selectedYear].combinedStats.pointsFor).toFixed(1)}
@@ -1472,13 +1513,13 @@ export default function ComparePage() {
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                      </div> : "DNP"}
+                      </div>}
                     </div>
                     <div className="cell total-points-against">
                       <span className="stat-value">
-                        {ownerOne?.yearly[selectedYear].participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.pointsAgainst.toFixed(1)}</div> : "DNP"} 
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].combinedStats.pointsAgainst.toFixed(1)}</div> : "DNP"}
                       </span>
-                      {ownerOne && ownerTwo && (ownerOne.yearly[selectedYear].participated === true) ? (ownerOne?.yearly[selectedYear].combinedStats.pointsAgainst > ownerTwo?.yearly[selectedYear].combinedStats.pointsAgainst) && 
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].combinedStats.pointsAgainst > ownerTwo?.yearly[selectedYear].combinedStats.pointsAgainst) && 
                       <div className="plus-minus-and-icon">
                         <span className="plus-minus green">
                           {(ownerOne?.yearly[selectedYear].combinedStats.pointsAgainst - ownerTwo?.yearly[selectedYear].combinedStats.pointsAgainst).toFixed(1)}
@@ -1486,7 +1527,7 @@ export default function ComparePage() {
                         <span className="arrow-icon green">
                           <FaCaretUp />
                         </span>
-                      </div> : "DNP"}
+                      </div>}
                     </div>
                   </div>
                   <div className="stat-names">
@@ -1521,9 +1562,9 @@ export default function ComparePage() {
                     </div>
                     <div className="cell win-pct">
                       <span className="stat-value">
-                        {ownerTwo && ownerOne && ownerTwo?.yearly[selectedYear].participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.winningPct.toFixed(1)}%</div> : "DNP"}
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.winningPct.toFixed(1)}%</div> : "DNP"}
                       </span>
-                      {ownerTwo && ownerOne && (ownerTwo.yearly[selectedYear].participated === true) ? (ownerTwo?.yearly[selectedYear].combinedStats.winningPct > ownerOne?.yearly[selectedYear].combinedStats.winningPct) && 
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].combinedStats.winningPct > ownerOne?.yearly[selectedYear].combinedStats.winningPct) && 
                       <div className="plus-minus-and-icon">
                         <span className="arrow-icon green">
                           <FaCaretUp />
@@ -1531,13 +1572,13 @@ export default function ComparePage() {
                         <span className="plus-minus green">
                           {(ownerTwo?.yearly[selectedYear].combinedStats.winningPct - ownerOne?.yearly[selectedYear].combinedStats.winningPct).toFixed(1)}%
                         </span>
-                      </div> : "DNP"}
+                      </div>}
                     </div>
                     <div className="cell finished">
                       <span className="stat-value">
-                        {ownerTwo && ownerOne && ownerTwo?.yearly[selectedYear].participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.finishPlace}</div> : "DNP"}
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.finishPlace}</div> : "DNP"}
                       </span>
-                      {ownerTwo && ownerOne && (ownerTwo?.yearly[selectedYear].combinedStats.finishPlace < ownerOne?.yearly[selectedYear].combinedStats.finishPlace) && 
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].combinedStats.finishPlace < ownerOne?.yearly[selectedYear].combinedStats.finishPlace) && 
                       <div className="plus-minus-and-icon">
                         <span className="arrow-icon green">
                           <FaCaretUp />
@@ -1549,9 +1590,9 @@ export default function ComparePage() {
                     </div>
                     <div className="cell avgPf">
                       <span className="stat-value">
-                        {ownerTwo && ownerOne && ownerTwo?.yearly[selectedYear].participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.avgPF.toFixed(2)}</div> : "DNP"}                  
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.avgPF.toFixed(2)}</div> : "DNP"}
                       </span>
-                      {ownerTwo && ownerOne && (ownerTwo?.yearly[selectedYear].combinedStats.avgPF > ownerOne?.yearly[selectedYear].combinedStats.avgPF) && 
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].combinedStats.avgPF > ownerOne?.yearly[selectedYear].combinedStats.avgPF) && 
                       <div className="plus-minus-and-icon">
                         <span className="arrow-icon green">
                           <FaCaretUp />
@@ -1563,9 +1604,9 @@ export default function ComparePage() {
                     </div>
                     <div className="cell avgPa">
                       <span className="stat-value">
-                        {ownerTwo?.yearly[selectedYear].participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.avgPA.toFixed(2)}</div> : "DNP"}
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.avgPA.toFixed(2)}</div> : "DNP"}
                       </span>
-                      {ownerTwo && ownerOne && (ownerTwo?.yearly[selectedYear].combinedStats.avgPA > ownerOne?.yearly[selectedYear].combinedStats.avgPA) && 
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].combinedStats.avgPA > ownerOne?.yearly[selectedYear].combinedStats.avgPA) && 
                       <div className="plus-minus-and-icon">
                         <span className="arrow-icon green">
                           <FaCaretUp />
@@ -1577,9 +1618,9 @@ export default function ComparePage() {
                     </div>
                     <div className="cell best-week">
                       <span className="stat-value">
-                        {ownerTwo?.yearly[selectedYear].participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.bestWeek.toFixed(2)}</div> : "DNP"}
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.bestWeek.toFixed(2)}</div> : "DNP"}
                       </span>
-                      {ownerTwo && ownerOne && (ownerTwo?.yearly[selectedYear].combinedStats.bestWeek > ownerOne?.yearly[selectedYear].combinedStats.bestWeek) && 
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].combinedStats.bestWeek > ownerOne?.yearly[selectedYear].combinedStats.bestWeek) && 
                       <div className="plus-minus-and-icon">
                         <span className="arrow-icon green">
                           <FaCaretUp />
@@ -1591,9 +1632,9 @@ export default function ComparePage() {
                     </div>
                     <div className="cell worst-week">
                       <span className="stat-value">
-                        {ownerTwo?.yearly[selectedYear].participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.worstWeek.toFixed(2)}</div> : "DNP"}
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.worstWeek.toFixed(2)}</div> : "DNP"}
                       </span>
-                      {ownerTwo && ownerOne && (ownerTwo?.yearly[selectedYear].combinedStats.worstWeek > ownerOne?.yearly[selectedYear].combinedStats.worstWeek) && 
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].combinedStats.worstWeek > ownerOne?.yearly[selectedYear].combinedStats.worstWeek) && 
                       <div className="plus-minus-and-icon">
                         <span className="arrow-icon green">
                           <FaCaretUp />
@@ -1605,9 +1646,9 @@ export default function ComparePage() {
                     </div>
                     <div className="cell total-points-for">
                       <span className="stat-value">
-                        {ownerTwo?.yearly[selectedYear].participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.pointsFor.toFixed(1)}</div> : "DNP"}
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.pointsFor.toFixed(1)}</div> : "DNP"}
                       </span>
-                      {ownerTwo && ownerOne && (ownerTwo?.yearly[selectedYear].combinedStats.pointsFor > ownerOne?.yearly[selectedYear].combinedStats.pointsFor) && 
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].combinedStats.pointsFor > ownerOne?.yearly[selectedYear].combinedStats.pointsFor) && 
                       <div className="plus-minus-and-icon">
                         <span className="arrow-icon green">
                           <FaCaretUp />
@@ -1619,9 +1660,9 @@ export default function ComparePage() {
                     </div>
                     <div className="cell total-points-against">
                       <span className="stat-value">
-                        {ownerTwo?.yearly[selectedYear].participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.pointsAgainst.toFixed(1)}</div> : "DNP"} 
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].combinedStats.pointsAgainst.toFixed(1)}</div> : "DNP"}
                       </span>
-                      {ownerTwo && ownerOne && (ownerTwo?.yearly[selectedYear].combinedStats.pointsAgainst > ownerOne?.yearly[selectedYear].combinedStats.pointsAgainst) && 
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].combinedStats.pointsAgainst > ownerOne?.yearly[selectedYear].combinedStats.pointsAgainst) && 
                       <div className="plus-minus-and-icon">
                         <span className="arrow-icon green">
                           <FaCaretUp />
@@ -1633,7 +1674,561 @@ export default function ComparePage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> : activeFilterButton === "regszn" ? <div className="h2h-content-wrapper disable-scrollbars">
+                <div className="h2h-content h2h-content-wrapper">
+                  <div className="owner-stats owner-one-stats">
+                    <div className="main-cell owner-name owner-one-name">
+                      {ownerOne?.ownerName &&
+                        (() => {
+                          const [firstName, lastName] = ownerOne.ownerName.split(" ");
+                          const lastInitial = lastName ? lastName.charAt(0) : "";
+                          return `${firstName} ${lastInitial}.`;
+                        })()}
+                    </div>
+                    <div className="cell record owner-one-record">
+                      {ownerOne && owner1Participated === true ? (
+                        <>
+                          {ownerOne.yearly[selectedYear].regSznStats.wins} -{" "}
+                          {ownerOne.yearly[selectedYear].regSznStats.losses} - {" "}
+                          {ownerOne.yearly[selectedYear].regSznStats.ties}
+                        </>
+                      ) : "DNP"}
+                    </div>
+                    <div className="cell win-pct">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.winningPct.toFixed(1)}%</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.winningPct > ownerTwo?.yearly[selectedYear].regSznStats.winningPct) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.winningPct - ownerTwo?.yearly[selectedYear].regSznStats.winningPct).toFixed(1)}%
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell finished">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.finishPlace < ownerTwo?.yearly[selectedYear].regSznStats.finishPlace) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.finishPlace - ownerOne?.yearly[selectedYear].regSznStats.finishPlace)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPf">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.avgPF.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.avgPF > ownerTwo?.yearly[selectedYear].regSznStats.avgPF) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.avgPF - ownerTwo?.yearly[selectedYear].regSznStats.avgPF).toFixed(2)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPa">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.avgPA.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.avgPA > ownerTwo?.yearly[selectedYear].regSznStats.avgPA) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.avgPA - ownerTwo?.yearly[selectedYear].regSznStats.avgPA).toFixed(2)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell best-week">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.bestWeek.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.bestWeek > ownerTwo?.yearly[selectedYear].regSznStats.bestWeek) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.bestWeek - ownerTwo?.yearly[selectedYear].regSznStats.bestWeek).toFixed(2)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell worst-week">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.worstWeek.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.worstWeek > ownerTwo?.yearly[selectedYear].regSznStats.worstWeek) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.worstWeek - ownerTwo?.yearly[selectedYear].regSznStats.worstWeek).toFixed(2)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-for">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.pointsFor.toFixed(1)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.pointsFor > ownerTwo?.yearly[selectedYear].regSznStats.pointsFor) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.pointsFor - ownerTwo?.yearly[selectedYear].regSznStats.pointsFor).toFixed(1)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-against">
+                      <span className="stat-value">
+                        {ownerOne && owner1Participated === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.pointsAgainst.toFixed(1)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1Participated === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.pointsAgainst > ownerTwo?.yearly[selectedYear].regSznStats.pointsAgainst) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.pointsAgainst - ownerTwo?.yearly[selectedYear].regSznStats.pointsAgainst).toFixed(1)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                  </div>
+                  <div className="stat-names">
+                    <div className="main-cell cell stat stat-title">Stat</div>
+                    <div className="cell stat stat-one">Record</div>
+                    <div className="cell stat stat-one">Win %</div>
+                    <div className="cell stat stat-one">Finished</div>
+                    <div className="cell stat stat-one">Avg. PF</div>
+                    <div className="cell stat stat-one">Avg. PA</div>
+                    <div className="cell stat stat-one">Best Week</div>
+                    <div className="cell stat stat-one">Worst Week</div>
+                    <div className="cell stat stat-one">Total PF</div>
+                    <div className="cell stat stat-one">Total PA</div>
+                  </div>
+                  <div className="owner-stats owner-two-stats">
+                    <div className="main-cell owner-name owner-two-name">
+                      {ownerTwo?.ownerName &&
+                        (() => {
+                          const [firstName, lastName] = ownerTwo.ownerName.split(" ");
+                          const lastInitial = lastName ? lastName.charAt(0) : "";
+                          return `${firstName} ${lastInitial}.`;
+                        })()}
+                    </div>
+                    <div className="cell record owner-one-record">
+                      {ownerTwo && ownerOne && ownerTwo.yearly[selectedYear].participated === true ? (
+                        <>
+                          {ownerTwo.yearly[selectedYear].regSznStats.wins} -{" "}
+                          {ownerTwo.yearly[selectedYear].regSznStats.losses} - {" "}
+                          {ownerTwo.yearly[selectedYear].regSznStats.ties}
+                        </>
+                      ) : "DNP"}
+                    </div>
+                    <div className="cell win-pct">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.winningPct.toFixed(1)}%</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].regSznStats.winningPct > ownerOne?.yearly[selectedYear].regSznStats.winningPct) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.winningPct - ownerOne?.yearly[selectedYear].regSznStats.winningPct).toFixed(1)}%
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell finished">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].regSznStats.finishPlace < ownerOne?.yearly[selectedYear].regSznStats.finishPlace) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.finishPlace - ownerTwo?.yearly[selectedYear].regSznStats.finishPlace)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPf">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.avgPF.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].regSznStats.avgPF > ownerOne?.yearly[selectedYear].regSznStats.avgPF) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.avgPF - ownerOne?.yearly[selectedYear].regSznStats.avgPF).toFixed(2)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPa">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.avgPA.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].regSznStats.avgPA > ownerOne?.yearly[selectedYear].regSznStats.avgPA) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.avgPA - ownerOne?.yearly[selectedYear].regSznStats.avgPA).toFixed(2)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell best-week">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.bestWeek.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].regSznStats.bestWeek > ownerOne?.yearly[selectedYear].regSznStats.bestWeek) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.bestWeek - ownerOne?.yearly[selectedYear].regSznStats.bestWeek).toFixed(2)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell worst-week">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.worstWeek.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].regSznStats.worstWeek > ownerOne?.yearly[selectedYear].regSznStats.worstWeek) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.worstWeek - ownerOne?.yearly[selectedYear].regSznStats.worstWeek).toFixed(2)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-for">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.pointsFor.toFixed(1)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].regSznStats.pointsFor > ownerOne?.yearly[selectedYear].regSznStats.pointsFor) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.pointsFor - ownerOne?.yearly[selectedYear].regSznStats.pointsFor).toFixed(1)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-against">
+                      <span className="stat-value">
+                        {ownerTwo && owner2Participated === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.pointsAgainst.toFixed(1)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2Participated === true) && (ownerTwo?.yearly[selectedYear].regSznStats.pointsAgainst > ownerOne?.yearly[selectedYear].regSznStats.pointsAgainst) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.pointsAgainst - ownerOne?.yearly[selectedYear].regSznStats.pointsAgainst).toFixed(1)}
+                        </span>
+                      </div>}
+                    </div>
+                  </div>
+                </div>
+              </div> : activeFilterButton === "playoffs" ? <div className="h2h-content-wrapper disable-scrollbars">
+                <div className="h2h-content h2h-content-wrapper">
+                  <div className="owner-stats owner-one-stats">
+                    <div className="main-cell owner-name owner-one-name">
+                      {ownerOne?.ownerName &&
+                        (() => {
+                          const [firstName, lastName] = ownerOne.ownerName.split(" ");
+                          const lastInitial = lastName ? lastName.charAt(0) : "";
+                          return `${firstName} ${lastInitial}.`;
+                        })()}
+                    </div>
+                    <div className="cell record owner-one-record">
+                      {ownerOne && owner1ParticipatedPlayoffs === true ? (
+                        <>
+                          {ownerOne.yearly[selectedYear].playoffStats.wins} -{" "}
+                          {ownerOne.yearly[selectedYear].playoffStats.losses} - {" "}
+                          {ownerOne.yearly[selectedYear].playoffStats.ties}
+                        </>
+                      ) : "DNP"}
+                    </div>
+                    <div className="cell win-pct">
+                      <span className="stat-value">
+                        {ownerOne && owner1ParticipatedPlayoffs === true ? <div>{ownerOne?.yearly[selectedYear].playoffStats.winningPct.toFixed(1)}%</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1ParticipatedPlayoffs === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].playoffStats.winningPct > ownerTwo?.yearly[selectedYear].playoffStats.winningPct) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].playoffStats.winningPct - ownerTwo?.yearly[selectedYear].playoffStats.winningPct).toFixed(1)}%
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell finished">
+                      <span className="stat-value">
+                        {ownerOne && owner1ParticipatedPlayoffs === true ? <div>{ownerOne?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1ParticipatedPlayoffs === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].regSznStats.finishPlace < ownerTwo?.yearly[selectedYear].regSznStats.finishPlace) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].regSznStats.finishPlace - ownerOne?.yearly[selectedYear].regSznStats.finishPlace)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPf">
+                      <span className="stat-value">
+                        {ownerOne && owner1ParticipatedPlayoffs === true ? <div>{ownerOne?.yearly[selectedYear].playoffStats.avgPF.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1ParticipatedPlayoffs === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].playoffStats.avgPF > ownerTwo?.yearly[selectedYear].playoffStats.avgPF) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].playoffStats.avgPF - ownerTwo?.yearly[selectedYear].playoffStats.avgPF).toFixed(2)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPa">
+                      <span className="stat-value">
+                        {ownerOne && owner1ParticipatedPlayoffs === true ? <div>{ownerOne?.yearly[selectedYear].playoffStats.avgPA.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1ParticipatedPlayoffs === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].playoffStats.avgPA > ownerTwo?.yearly[selectedYear].playoffStats.avgPA) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].playoffStats.avgPA - ownerTwo?.yearly[selectedYear].playoffStats.avgPA).toFixed(2)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell best-week">
+                      <span className="stat-value">
+                        {ownerOne && owner1ParticipatedPlayoffs === true ? <div>{ownerOne?.yearly[selectedYear].playoffStats.bestWeek.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1ParticipatedPlayoffs === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].playoffStats.bestWeek > ownerTwo?.yearly[selectedYear].playoffStats.bestWeek) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].playoffStats.bestWeek - ownerTwo?.yearly[selectedYear].playoffStats.bestWeek).toFixed(2)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell worst-week">
+                      <span className="stat-value">
+                        {ownerOne && owner1ParticipatedPlayoffs === true ? <div>{ownerOne?.yearly[selectedYear].playoffStats.worstWeek.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1ParticipatedPlayoffs === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].playoffStats.worstWeek > ownerTwo?.yearly[selectedYear].playoffStats.worstWeek) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].playoffStats.worstWeek - ownerTwo?.yearly[selectedYear].playoffStats.worstWeek).toFixed(2)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-for">
+                      <span className="stat-value">
+                        {ownerOne && owner1ParticipatedPlayoffs === true ? <div>{ownerOne?.yearly[selectedYear].playoffStats.pointsFor.toFixed(1)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1ParticipatedPlayoffs === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].playoffStats.pointsFor > ownerTwo?.yearly[selectedYear].playoffStats.pointsFor) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].playoffStats.pointsFor - ownerTwo?.yearly[selectedYear].playoffStats.pointsFor).toFixed(1)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-against">
+                      <span className="stat-value">
+                        {ownerOne && owner1ParticipatedPlayoffs === true ? <div>{ownerOne?.yearly[selectedYear].playoffStats.pointsAgainst.toFixed(1)}</div> : "DNP"}
+                      </span>
+                      {ownerOne && ownerTwo && (owner1ParticipatedPlayoffs === true && owner2Participated === true) && (ownerOne?.yearly[selectedYear].playoffStats.pointsAgainst > ownerTwo?.yearly[selectedYear].playoffStats.pointsAgainst) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].playoffStats.pointsAgainst - ownerTwo?.yearly[selectedYear].playoffStats.pointsAgainst).toFixed(1)}
+                        </span>
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                      </div>}
+                    </div>
+                  </div>
+                  <div className="stat-names">
+                    <div className="main-cell cell stat stat-title">Stat</div>
+                    <div className="cell stat stat-one">Record</div>
+                    <div className="cell stat stat-one">Win %</div>
+                    <div className="cell stat stat-one">Finished</div>
+                    <div className="cell stat stat-one">Avg. PF</div>
+                    <div className="cell stat stat-one">Avg. PA</div>
+                    <div className="cell stat stat-one">Best Week</div>
+                    <div className="cell stat stat-one">Worst Week</div>
+                    <div className="cell stat stat-one">Total PF</div>
+                    <div className="cell stat stat-one">Total PA</div>
+                  </div>
+                  <div className="owner-stats owner-two-stats">
+                    <div className="main-cell owner-name owner-two-name">
+                      {ownerTwo?.ownerName &&
+                        (() => {
+                          const [firstName, lastName] = ownerTwo.ownerName.split(" ");
+                          const lastInitial = lastName ? lastName.charAt(0) : "";
+                          return `${firstName} ${lastInitial}.`;
+                        })()}
+                    </div>
+                    <div className="cell record owner-one-record">
+                      {ownerTwo && ownerOne && owner2ParticipatedPlayoffs === true ? (
+                        <>
+                          {ownerTwo.yearly[selectedYear].playoffStats.wins} -{" "}
+                          {ownerTwo.yearly[selectedYear].playoffStats.losses} - {" "}
+                          {ownerTwo.yearly[selectedYear].playoffStats.ties}
+                        </>
+                      ) : "DNP"}
+                    </div>
+                    <div className="cell win-pct">
+                      <span className="stat-value">
+                        {ownerTwo && owner2ParticipatedPlayoffs === true ? <div>{ownerTwo?.yearly[selectedYear].playoffStats.winningPct.toFixed(1)}%</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2ParticipatedPlayoffs === true) && (ownerTwo?.yearly[selectedYear].playoffStats.winningPct > ownerOne?.yearly[selectedYear].playoffStats.winningPct) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].playoffStats.winningPct - ownerOne?.yearly[selectedYear].playoffStats.winningPct).toFixed(1)}%
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell finished">
+                      <span className="stat-value">
+                        {ownerTwo && owner2ParticipatedPlayoffs === true ? <div>{ownerTwo?.yearly[selectedYear].regSznStats.finishPlace}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2ParticipatedPlayoffs === true) && (ownerTwo?.yearly[selectedYear].regSznStats.finishPlace < ownerOne?.yearly[selectedYear].regSznStats.finishPlace) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerOne?.yearly[selectedYear].regSznStats.finishPlace - ownerTwo?.yearly[selectedYear].regSznStats.finishPlace)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPf">
+                      <span className="stat-value">
+                        {ownerTwo && owner2ParticipatedPlayoffs === true ? <div>{ownerTwo?.yearly[selectedYear].playoffStats.avgPF.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2ParticipatedPlayoffs === true) && (ownerTwo?.yearly[selectedYear].playoffStats.avgPF > ownerOne?.yearly[selectedYear].playoffStats.avgPF) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].playoffStats.avgPF - ownerOne?.yearly[selectedYear].playoffStats.avgPF).toFixed(2)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell avgPa">
+                      <span className="stat-value">
+                        {ownerTwo && owner2ParticipatedPlayoffs === true ? <div>{ownerTwo?.yearly[selectedYear].playoffStats.avgPA.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2ParticipatedPlayoffs === true) && (ownerTwo?.yearly[selectedYear].playoffStats.avgPA > ownerOne?.yearly[selectedYear].playoffStats.avgPA) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].playoffStats.avgPA - ownerOne?.yearly[selectedYear].playoffStats.avgPA).toFixed(2)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell best-week">
+                      <span className="stat-value">
+                        {ownerTwo && owner2ParticipatedPlayoffs === true ? <div>{ownerTwo?.yearly[selectedYear].playoffStats.bestWeek.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2ParticipatedPlayoffs === true) && (ownerTwo?.yearly[selectedYear].playoffStats.bestWeek > ownerOne?.yearly[selectedYear].playoffStats.bestWeek) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].playoffStats.bestWeek - ownerOne?.yearly[selectedYear].playoffStats.bestWeek).toFixed(2)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell worst-week">
+                      <span className="stat-value">
+                        {ownerTwo && owner2ParticipatedPlayoffs === true ? <div>{ownerTwo?.yearly[selectedYear].playoffStats.worstWeek.toFixed(2)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2ParticipatedPlayoffs === true) && (ownerTwo?.yearly[selectedYear].playoffStats.worstWeek > ownerOne?.yearly[selectedYear].playoffStats.worstWeek) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].playoffStats.worstWeek - ownerOne?.yearly[selectedYear].playoffStats.worstWeek).toFixed(2)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-for">
+                      <span className="stat-value">
+                        {ownerTwo && owner2ParticipatedPlayoffs === true ? <div>{ownerTwo?.yearly[selectedYear].playoffStats.pointsFor.toFixed(1)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2ParticipatedPlayoffs === true) && (ownerTwo?.yearly[selectedYear].playoffStats.pointsFor > ownerOne?.yearly[selectedYear].playoffStats.pointsFor) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].playoffStats.pointsFor - ownerOne?.yearly[selectedYear].playoffStats.pointsFor).toFixed(1)}
+                        </span>
+                      </div>}
+                    </div>
+                    <div className="cell total-points-against">
+                      <span className="stat-value">
+                        {ownerTwo && owner2ParticipatedPlayoffs === true ? <div>{ownerTwo?.yearly[selectedYear].playoffStats.pointsAgainst.toFixed(1)}</div> : "DNP"}
+                      </span>
+                      {ownerTwo && ownerOne && (owner1Participated === true && owner2ParticipatedPlayoffs === true) && (ownerTwo?.yearly[selectedYear].playoffStats.pointsAgainst > ownerOne?.yearly[selectedYear].playoffStats.pointsAgainst) && 
+                      <div className="plus-minus-and-icon">
+                        <span className="arrow-icon green">
+                          <FaCaretUp />
+                        </span>
+                        <span className="plus-minus green">
+                          {(ownerTwo?.yearly[selectedYear].playoffStats.pointsAgainst - ownerOne?.yearly[selectedYear].playoffStats.pointsAgainst).toFixed(1)}
+                        </span>
+                      </div>}
+                    </div>
+                  </div>
+                </div>
+              </div> : "ERROR"}
             </div>
           ) : activeButton === "allTime" ? (
             <div className="compare-all-time">
