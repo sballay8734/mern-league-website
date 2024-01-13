@@ -1142,7 +1142,7 @@
     }
   }
 }
-// Dom Flipp
+// Dom Flipp DONE
 {
   "2023": {
     "participated": true,
@@ -1198,38 +1198,38 @@
         "opponent": "Dom Nocito"
       },
       "weekTen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 145.04,
+        "pointsAgainst": 147.06,
+        "opponent": "Cody Zwier"
       },
       "weekEleven": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 118.94,
+        "pointsAgainst": 113.56,
+        "opponent": "Dante Nocito"
       },
       "weekTwelve": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 150.86,
+        "pointsAgainst": 103.32,
+        "opponent": "Joe Kane"
       },
       "weekThirteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 167.82,
+        "pointsAgainst": 141.46,
+        "opponent": "Shawn Ballay"
       },
       "weekFourteen": {
-        "pointsFor": "XXXX",
-        "pointsAgainst": "XXXX",
-        "opponent": "XXXX"
+        "pointsFor": 106.24,
+        "pointsAgainst": 92.32,
+        "opponent": "Don Irons"
       }
     },
     "playoffs": {
       "roundOne": {
-        "participated": false,
+        "participated": true,
         "bye": false,
-        "pointsFor": null,
-        "pointsAgainst": null,
-        "opponent": null
+        "pointsFor": 98.16,
+        "pointsAgainst": 165.96,
+        "opponent": "Steve Lloyd"
       },
       "roundTwo": {
         "participated": false,
