@@ -1,33 +1,54 @@
 import mongoose, { Schema, Document } from "mongoose"
 
-interface StandingObject {
-  ownerName: string
+interface OwnerObject {
+  [ownerName: string]: OwnerObjectAttr
+}
+
+interface OwnerObjectAttr {
+  totalPointsFor: number
+  totalPointsAgainst: number
   strikes: number
-  totalPF: number
+  weeklyScores: WeeklyScores
 }
 
-interface IKothStanding extends Document {
-  year: number
-  standings: StandingObject[]
+interface WeeklyScores {
+  [week: string]: {
+    points: number,
+    strike: boolean
+  }
 }
 
-const standingObjectSchema = new Schema({
-  ownerName: { type: String, required: true },
-  strikes: { type: Number, required: true },
-  totalPF: { type: Number, required: true }
+interface FullObject {
+  yearCompleted: boolean
+  year: string
+  standingsData: OwnerObject
+}
+
+const WeeklyScoresSchema = new Schema({
+  points: {type: Number},
+  strike: {type: Boolean}
 })
 
-const kothStandingSchema = new Schema({
-  year: { type: Number, required: true },
-  standings: { type: [standingObjectSchema], required: true }
+
+const OwnerObjectSchema = new Schema({
+  totalPointsFor: {type: Number},
+  totalPointsAgainst: {type: Number},
+  strikes: {type: Number},
+  weeklyScores: {type: Map, of: WeeklyScoresSchema}
 })
 
-const KingStanding = mongoose.model<IKothStanding>(
-  "KingStanding",
-  kothStandingSchema
+const FullKingObject = new Schema({
+  yearCompleted: {type: Boolean, required: true},
+  year: {type: String, required: true},
+  standingsData: {type: Map, of: OwnerObjectSchema}
+})
+
+const King = mongoose.model<FullObject>(
+  "Kings",
+  FullKingObject
 )
 
-export default KingStanding
+export default King
 /*
 
 {

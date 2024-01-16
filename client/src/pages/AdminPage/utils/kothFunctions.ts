@@ -23,14 +23,6 @@ const strikeKeys: StrikeKeys = {
   weekFourteen: 1
 }
 
-interface matchup {
-  [team: string]: number
-}
-
-interface matchupKeys {
-  [week: string]: matchup[]
-}
-
 interface OwnerObject {
   [ownerName: string]: OwnerObjectAttr
 }
@@ -39,140 +31,176 @@ interface OwnerObjectAttr {
   totalPointsFor: number
   totalPointsAgainst: number
   strikes: number
+  weeklyScores: WeeklyScores
+}
+
+interface WeeklyScores {
+  [week: string]: {
+    points: number,
+    strike: boolean
+  }
+}
+
+interface FullObject {
+  yearCompleted: boolean
+  year: string
+  standingsData: OwnerObject
 }
 
 export function KOTHInit(owners: Owner[]) {
-  // loop through the years
-
-  // grab each weeks matchups
-
-  // fetch current standings (This is so you can see who is already eliminated and skip them in the calculations)
-
-  // grab lowest scorers of owners still in, and give strikes based on week
-
-  // update object in DB
+  const standingsObject: OwnerObject = {}
+  let currentGlobalYear = ""
+  let currentGlobalWeek = ""
 
   for (let i = 0; i < years.length; i++) {
-    let currentYear = Number(years[i])
-    const matchups: matchupKeys = {}
+    const currentYear = Number(years[i])
+    currentGlobalYear = currentYear.toString()
 
-    const matchupKeys = Object.keys(owners[0][currentYear].regularSeason)
+    const weekKeys = Object.keys(strikeKeys)
 
-    for (let k = 0; k < matchupKeys.length; k++) {
-      let currentWeek = matchupKeys[k]
-      let usedOwners: string[] = []
+    for (let j = 0; j < weekKeys.length; j++) {
+      const currentWeek = weekKeys[j]
+      const weeklyScores = []
+      currentGlobalWeek = currentWeek
+  
+      // loop through owners and push to weeklyScores and update stadings object
+      for (let k = 0; k < owners.length; k++) {
+        const currentOwner = owners[k]
+        const weeklyPointsFor = currentOwner[currentYear].regularSeason[currentWeek].pointsFor
+        const weeklyPointsAgainst = currentOwner[currentYear].regularSeason[currentWeek].pointsAgainst
 
-      for (let j = 0; j < owners.length; j++) {
-        let currentOwner = owners[j]
-
-        let currentMatchup = currentOwner[currentYear].regularSeason[currentWeek]
-
-        if (usedOwners.includes(currentMatchup.opponent) || usedOwners.includes(currentOwner.ownerName)) {
-          continue
+        // initialize owner
+        if (!standingsObject[currentOwner.ownerName]) {
+          standingsObject[currentOwner.ownerName] = {
+            totalPointsFor: 0,
+            totalPointsAgainst: 0,
+            strikes: 0,
+            weeklyScores: {}
+          }
+        }
+        // initialize week
+        standingsObject[currentOwner.ownerName].weeklyScores[currentWeek] = {
+          points: 0,
+          strike: false
         }
 
-        if (!matchups[currentWeek]) matchups[currentWeek] = []
+        weeklyScores.push({owner: currentOwner.ownerName, points: Number(weeklyPointsFor.toFixed(2))})
 
-        let objectToPush = {
-          [currentOwner.ownerName]: currentMatchup.pointsFor,
-          [currentMatchup.opponent]: currentMatchup.pointsAgainst
-        }
-
-        usedOwners.push(currentOwner.ownerName)
-        usedOwners.push(currentMatchup.opponent)
-
-        matchups[currentWeek].push(objectToPush)
+        // update weeklyPointsFor
+        standingsObject[currentOwner.ownerName].weeklyScores[currentWeek].points = weeklyPointsFor
+        standingsObject[currentOwner.ownerName].totalPointsFor += weeklyPointsFor
+        standingsObject[currentOwner.ownerName].totalPointsAgainst += weeklyPointsAgainst
       }
-    }
 
-    calculateStandings(matchupKeys, matchups)
+      // sort weekly scores & update standings object
+      const sortedScores = weeklyScores.sort((a, b) => a.points - b.points)
+
+      // give strikes to lowest scores - skip owners that have 3 strikes
+      let strikesGiven = 0
+      for (let m = 0; m < sortedScores.length; m++) {
+        let currentScore = sortedScores[m]
+
+        if (strikesGiven >= strikeKeys[currentWeek]) continue
+        if (standingsObject[currentScore.owner].strikes === 3) continue
+
+        standingsObject[currentScore.owner].strikes += 1
+        standingsObject[currentScore.owner].weeklyScores[currentWeek].strike = true
+
+        strikesGiven += 1
+      }
+      strikesGiven = 0
+    }
+  }
+
+  // format, sort, and send standings object
+  const finalObject = formatStandingsObject(standingsObject, currentGlobalWeek, Object.keys(strikeKeys), currentGlobalYear)
+
+  // THIS WILL BE MOVED TO FRONT END
+  const sortedOwners = Object.values(finalObject.standingsData)
+  .sort((dataA, dataB) => {
+    // First, sort by strikes in ascending order
+    if (dataA.strikes !== dataB.strikes) {
+      return dataA.strikes - dataB.strikes;
+    }
+    // If strikes are equal, sort by total points in descending order
+    return dataB.totalPointsFor - dataA.totalPointsFor;
+  })
+  
+  // REMOVE PREVIOUS KOTH FOR CURRENT YEAR AND REPLACE WITH final object
+  updateKOTHData(currentGlobalYear, finalObject)
+  
+}
+
+// FUNCTION TO FORMAT OBJECT
+function formatStandingsObject(obj: OwnerObject, week: string, weekList: string[], year: string) {
+  const formattedObject: OwnerObject = {}
+  for (const owner in obj) {
+      formattedObject[owner] = {
+        totalPointsFor: Number(obj[owner].totalPointsFor.toFixed(2)),
+        totalPointsAgainst: Number(obj[owner].totalPointsAgainst.toFixed(2)),
+        strikes: obj[owner].strikes,
+        weeklyScores: {...obj[owner].weeklyScores}
+      }
+  }
+
+  const isYearComplete = week === weekList[weekList.length - 1]
+
+  return {
+    yearCompleted: isYearComplete,
+    year: year,
+    standingsData: {...formattedObject}
   }
 }
 
-function calculateStandings(matchupKeys: string[], matchupsByWeek: matchupKeys) {
-  const ownerStrikeList = []
-  let standings = []
-  let bigOwnersObject: OwnerObject = {}
-
-  for (let i = 0; i < matchupKeys.length; i++) {
-    let currentWeek = matchupKeys[i]
-    let allMatchups = matchupsByWeek[currentWeek]
-
-    let scores = []
-    let scoreObjects = []
-
-    for (let j = 0; j < allMatchups.length; j++) {
-      let currentMatchup: matchup = allMatchups[j]
-      let matchupOwners = Object.keys(currentMatchup)
-      let ownerOne = matchupOwners[0]
-      let ownerTwo = matchupOwners[1]
-
-      for (let owner of matchupOwners) {
-        if (!bigOwnersObject[ownerOne]) {
-          bigOwnersObject[ownerOne] = {
-            totalPointsFor: 0,
-            totalPointsAgainst: 0,
-            strikes: 0
-          }
-        }
-
-        if (!bigOwnersObject[ownerTwo]) {
-          bigOwnersObject[ownerTwo] = {
-            totalPointsFor: 0,
-            totalPointsAgainst: 0,
-            strikes: 0
-          }
-        }
-
-        scores.push(currentMatchup[owner])
-        scoreObjects.push({[owner]: currentMatchup[owner]})
-
-        bigOwnersObject[ownerOne].totalPointsFor += currentMatchup[ownerOne]
-        bigOwnersObject[ownerOne].totalPointsAgainst += currentMatchup[ownerTwo]
-
-        bigOwnersObject[ownerTwo].totalPointsFor += currentMatchup[ownerTwo]
-        bigOwnersObject[ownerTwo].totalPointsAgainst += currentMatchup[ownerOne]
-      }
-        
-    }
-
-    let testSort = scoreObjects.sort((a, b) => a[Object.keys(a)[0]] - b[Object.keys(b)[0]])
-
-    let filteredOwners = testSort.filter((owner) => {
-      return bigOwnersObject[Object.keys(owner)[0]].strikes !== 3
+async function updateKOTHData(year: string, obj: FullObject) {
+  try {
+    const res = await fetch("/api/kings/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        year: year,
+        data: obj
+      })
     })
 
-    const ownersToStrike = filteredOwners.slice(0, strikeKeys[currentWeek])
+    const data = await res.json()
 
-    for (let owner of ownersToStrike) {
-      bigOwnersObject[Object.keys(owner)[0]].strikes += 1
+    if (!data) {
+      console.log("ERROR: NO DATA")
+      return
     }
+
+    console.log(data)
+
+  } catch (error) {
+    console.log(error)
   }
-
-  console.log(bigOwnersObject)
 }
-
 /* 
-
 {
   yearCompleted: true,
   year: "2020",
   standings: {
-    one: { ownerName: "Shawn Ballay", totalPoints: 2874, strikes: 0},
-    two: { ownerName: "Steve Smith", totalPoints: 2674, strikes: 1}
+    "Shawn Ballay": {
+      pointsFor: 3842,
+      pointsAgainst: 2938,
+      strikes: 1,
+      weeklyScores: {
+        weekOne: {points: 241, strike: false},
+        weekTwo: {points: 121, strike: true}
+      }
+    },
+    "Steve Smith": {
+      pointsFor: 3842,
+      pointsAgainst: 2938,
+      strikes: 1,
+      weeklyScores: {
+        weekOne: {points: 241, strike: false},
+        weekTwo: {points: 121, strike: true}
+      }
+    }
   }
 }
-
-{
-  weekOne: [array of objects],
-  weekTwo: [array of objects],
-  weekThree: [array of objects],
-  etc...
-}
-
-[
-  {"Shawn Ballay": 134},
-  {"Dan George": 124}
-]
-
 */
