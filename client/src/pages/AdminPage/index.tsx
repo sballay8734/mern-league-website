@@ -10,6 +10,7 @@ import {
 } from "./utils/staticDataFunction"
 import "./AdminPage.scss"
 import { recordsDataInit } from "./utils/recordFunctions"
+import { KOTHInit } from "./utils/kothFunctions"
 
 // const baseUrl = "https://api.prop-odds.com"
 
@@ -75,6 +76,22 @@ export default function AdminPage() {
     setUpdateInProgress(false)
   }
 
+  async function runKOTHDataUpdate() {
+    setUpdateInProgress(true)
+    if (!data) return
+
+    try {
+      // run all update functions
+      const successData = await KOTHInit(data)
+      console.log(successData)
+      // console.log(yearlyStaticDataInit(data[0], 2014))
+    } catch (error) {
+      console.log(error)
+    }
+
+    setUpdateInProgress(false)
+  }
+
   return (
     <div className="page admin-page">
       {user && user.isAdmin === true ? (
@@ -132,13 +149,10 @@ export default function AdminPage() {
                       </button>
                     </li>
                     <li>
-                      <button disabled={updateInProgress}>
-                        Update KOTH For This Year
-                      </button>
-                    </li>
-                    <li>
-                      <button disabled={updateInProgress}>
-                        Calculate KOTH For All Years
+                      <button
+                      onClick={runKOTHDataUpdate}
+                      disabled={updateInProgress}>
+                        Update KOTH
                       </button>
                     </li>
                   </ul>
