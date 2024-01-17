@@ -97,13 +97,13 @@ export default function KothPage() {
         {activeButton === "standings" ? 
           <div className="standings">
             <div className="columnHeaders">
-                <div>Owner</div>
-                <div>Total PF</div>
-                <div>Strikes</div>
-                <div>Wk Elim.</div>
+                <div>OWNER</div>
+                <div>TOTAL PF</div>
+                <div>STRIKES</div>
+                <div>WK ELIM.</div>
               </div>
             <div className="standings-wrapper">
-              {sortedData && sortedData.map((ownerObj) => {
+              {sortedData && sortedData.map((ownerObj, index) => {
                 const ownerName = Object.keys(ownerObj)[0]
                 const formattedName = Object.keys(ownerObj)[0].split(" ")[0] + " " + Object.keys(ownerObj)[0].split(" ")[1].slice(0, 1) + "."
                 const totalPF = ownerObj[ownerName].totalPointsFor.toFixed(2)
@@ -112,19 +112,27 @@ export default function KothPage() {
                 let weekEliminated = ownerObj[ownerName].weekEliminated
                 const scoresObj = ownerObj[ownerName].weeklyScores
                 if (weekEliminated === 100) weekEliminated = "-"
+
                 return <div className="ownerWrapper" key={ownerName}>
                   <div className="ownerName">{formattedName}</div>
                   <div className="pointsFor">{totalPF}</div>
                   <div className={`strikes ${strikes === 0 ? "zero" : strikes === 1 ? "one" : strikes === 2 ? "two" : "three"}` }>
-                    <span className="circle"><span className={`strikesIcon first ${strikes > 0 ? "show" : ""}`}>
-                      <IoMdClose />
-                    </span></span>
-                    <span className="circle"><span className={`strikesIcon second ${strikes > 1 ? "show" : ""}`}>
-                      <IoMdClose />
-                    </span></span>
-                    <span className="circle"><span className={`strikesIcon third ${strikes > 2 ? "show" : ""}`}>
-                      <IoMdClose />
-                    </span></span>
+                    <span className="circle">
+                      <span className={`strikesIcon ${strikes > 0 ? "show" : ""}`}>
+                        <IoMdClose />
+                      </span>
+                    </span>
+                    <span className="circle">
+                      <span className={`strikesIcon ${strikes > 1 ? "show" : ""}`}>
+                        <IoMdClose />
+                      </span>
+                    </span>
+                    <span className="circle">
+                      <span className={`strikesIcon ${strikes > 2 ? "show" : ""}`}>
+                        <IoMdClose />
+                      </span>
+                    </span>
+                    {index === 0 ? <img className="medal" src="/public/gold.png" alt="medal" /> : index === 1 ? <img className="medal" src="/public/silver.png" alt="medal" /> : index === 2 ? <img className="medal" src="/public/bronze.png" alt="medal" /> : ""}
                   </div>
                   <div className="weekEliminated">{weekEliminated}</div>
                 </div>

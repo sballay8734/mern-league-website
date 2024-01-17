@@ -126,8 +126,9 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       place-items: center;
-      background-color: rgb(47, 47, 47);
-      padding: 1rem 0;
+      background-color: var(--primary-color-lighter);
+      color: black;
+      padding: 0.8rem 0;
       border-top-right-radius: 3px;
       border-top-left-radius: 3px;
       font-weight: bold;
@@ -138,6 +139,7 @@
       div {
         width: 100%;
         text-align: center;
+        font-size: 0.8rem;
 
         &:not(:last-child) {
           border-right: 1px solid black;
@@ -165,9 +167,25 @@
         padding: 0.6rem 0;
         position: relative;
 
+        div {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          border-right: 1px solid rgb(72, 72, 72);
+
+          &:last-child {
+            border: none;
+          }
+        }
+
         .strikes {
           display: flex;
           gap: 0.2rem;
+          align-items: center;
+          justify-content: center;
 
           .circle {
             border: 1px solid grey;
@@ -191,7 +209,7 @@
               background-color: rgb(100, 241, 100, 0.5);
               border: 1px solid rgb(55, 121, 55);
 
-              span {
+              .strikesIcon {
                 color: lightgreen;
               }
             }
@@ -202,7 +220,7 @@
               background-color: rgb(0, 84, 0);
               border: 1px solid green;
 
-              span {
+              .strikesIcon {
                 color: rgb(110, 255, 110)
               }
             }
@@ -213,7 +231,7 @@
               border: 1px solid yellow;
               background-color: rgb(149, 149, 0);
 
-              span {
+              .strikesIcon {
                 color: yellow
               }
             }
@@ -224,7 +242,7 @@
               background-color: rgb(101, 0, 0);
               border: 1px solid red;
 
-              span {
+              .strikesIcon {
                 color: rgb(255, 97, 97);
               }
             }
@@ -236,10 +254,22 @@
         }
 
         .ownerName {
-          place-self: start;
-          padding-left: 1.2rem;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          text-align: left;
+          padding-left: 0.8rem;
           font-weight: bold;
           font-size: 0.9rem;
+        }
+
+        // HIDDEN FOR NOW
+        .medal {
+          position: absolute;
+          width: 25px;
+          height: 25px;
+          left: 0;
+          opacity: 0;
         }
       }
     }
