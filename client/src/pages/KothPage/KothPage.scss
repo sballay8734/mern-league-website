@@ -6,6 +6,8 @@
   justify-content: center;
   padding: 0;
   gap: 0;
+  height: 100svh;
+
   // border: 1px solid var(--primary-color);
   .king-page-top {
     display: flex;
@@ -14,16 +16,20 @@
     justify-content: center;
     width: 100%;
     height: 25%;
+
     .king-nav {
       width: 100%;
+
       ul {
         display: flex;
         list-style-type: none;
         width: 100%;
         justify-content: space-between;
         height: 100%;
+
         li {
           width: 100%;
+
           button {
             background-color: var(--primary-color-darker);
             display: flex;
@@ -37,6 +43,7 @@
             transition: all 300ms;
             width: 100%;
             padding: 1rem 0;
+
             &.active {
               color: white;
               background-color: var(--primary-color);
@@ -44,6 +51,7 @@
             }
           }
         }
+
         .spacer {
           height: 100%;
           width: 2px;
@@ -51,49 +59,55 @@
         }
       }
     }
-    .king-page-header {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        max-width: 475px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgb(11, 11, 11);
-        // border-radius: 3px;
-        flex-direction: column;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        background-image: url("/kingbackground.jpg");
-        background-size: cover;
-        @media screen and (max-width: 400px) {
-          gap: 0.5rem;
-        }
 
-        &::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.9);
-          z-index: 1;
-          // border-radius: 3px;
-        }
-        h1 {
-          font-size: 1.7rem;
-          font-weight: bold;
-          font-family: 'Grandiflora One', cursive;
-          z-index: 2;
-          @media screen and (max-width: 400px) {
-            font-size: 1.5rem;
-          }
-        }
-        .crown {
-          z-index: 2;
+    .king-page-header {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      max-width: 475px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(11, 11, 11);
+      // border-radius: 3px;
+      flex-direction: column;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      background-image: url("/kingbackground.jpg");
+      background-size: cover;
+
+      @media screen and (max-width: 400px) {
+        gap: 0.5rem;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1;
+        // border-radius: 3px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+        font-weight: bold;
+        font-family: 'Grandiflora One', cursive;
+        z-index: 2;
+
+        @media screen and (max-width: 400px) {
+          font-size: 1.5rem;
         }
       }
+
+      .crown {
+        z-index: 2;
+      }
+    }
   }
+
   .king-page-bottom {
     height: 75%;
     width: 100%;
@@ -101,5 +115,141 @@
     align-items: center;
     justify-content: center;
     background: linear-gradient(180deg, rgb(13, 13, 13) 30%, var(--primary-color-darker-for-gradient) 100%);
+
+    .standings {
+      height: 100%;
+      width: 100%;
+      padding: 0.5rem;
+    }
+
+    .columnHeaders {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      place-items: center;
+      background-color: rgb(47, 47, 47);
+      padding: 1rem 0;
+      border-top-right-radius: 3px;
+      border-top-left-radius: 3px;
+      font-weight: bold;
+      border-left: 1px solid var(--primary-color);
+      border-right: 1px solid var(--primary-color);
+      border-top: 1px solid var(--primary-color);
+
+      div {
+        width: 100%;
+        text-align: center;
+
+        &:not(:last-child) {
+          border-right: 1px solid black;
+        }
+      }
+    }
+
+    .standings-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      // height: 100%;
+      border-left: 1px solid var(--primary-color);
+      border-right: 1px solid var(--primary-color);
+      border-bottom: 1px solid var(--primary-color);
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+
+
+      .ownerWrapper {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        place-items: center;
+        justify-content: center;
+        padding: 0.6rem 0;
+        position: relative;
+
+        .strikes {
+          display: flex;
+          gap: 0.2rem;
+
+          .circle {
+            border: 1px solid grey;
+            border-radius: 100%;
+            display: flex;
+            background-color: green;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+            .strikesIcon {
+              opacity: 0;
+              color: white;
+
+              &.show {
+                opacity: 1;
+              }
+            }
+          }
+
+          &.zero {
+            .circle {
+              background-color: rgb(100, 241, 100, 0.5);
+              border: 1px solid rgb(55, 121, 55);
+
+              span {
+                color: lightgreen;
+              }
+            }
+          }
+
+          &.one {
+            .circle {
+              background-color: rgb(0, 84, 0);
+              border: 1px solid green;
+
+              span {
+                color: rgb(110, 255, 110)
+              }
+            }
+          }
+
+          &.two {
+            .circle {
+              border: 1px solid yellow;
+              background-color: rgb(149, 149, 0);
+
+              span {
+                color: yellow
+              }
+            }
+          }
+
+          &.three {
+            .circle {
+              background-color: rgb(101, 0, 0);
+              border: 1px solid red;
+
+              span {
+                color: rgb(255, 97, 97);
+              }
+            }
+          }
+        }
+
+        .pointsFor {
+          font-size: 0.8rem;
+        }
+
+        .ownerName {
+          place-self: start;
+          padding-left: 1.2rem;
+          font-weight: bold;
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    .ownerWrapper:nth-child(odd) {
+      background-color: rgb(13, 13, 13);
+    }
+
+    .ownerWrapper:nth-child(even) {
+      background-color: rgb(27, 27, 27);
+    }
   }
 }

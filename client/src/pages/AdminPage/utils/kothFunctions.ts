@@ -5,6 +5,9 @@ const years = ["2022"] // ADD 2023
 interface StrikeKeys {
   [week: string]: number
 }
+interface EliminationKeys {
+  [week: string]: number
+}
 // 35 strikes over 14 weeks
 const strikeKeys: StrikeKeys = {
   weekOne: 4,
@@ -22,6 +25,22 @@ const strikeKeys: StrikeKeys = {
   weekThirteen: 1,
   weekFourteen: 1
 }
+const eliminationKeys: EliminationKeys = {
+  weekOne: 1,
+  weekTwo: 2,
+  weekThree: 3,
+  weekFour: 4,
+  weekFive: 5,
+  weekSix: 6,
+  weekSeven: 7,
+  weekEight: 8,
+  weekNine: 9,
+  weekTen: 10,
+  weekEleven: 11,
+  weekTwelve: 12,
+  weekThirteen: 13,
+  weekFourteen: 14
+}
 
 interface OwnerObject {
   [ownerName: string]: OwnerObjectAttr
@@ -31,6 +50,7 @@ interface OwnerObjectAttr {
   totalPointsFor: number
   totalPointsAgainst: number
   strikes: number
+  weekEliminated: number
   weeklyScores: WeeklyScores
 }
 
@@ -75,6 +95,7 @@ export function KOTHInit(owners: Owner[]) {
             totalPointsFor: 0,
             totalPointsAgainst: 0,
             strikes: 0,
+            weekEliminated: 100,
             weeklyScores: {}
           }
         }
@@ -103,6 +124,9 @@ export function KOTHInit(owners: Owner[]) {
         if (strikesGiven >= strikeKeys[currentWeek]) continue
         if (standingsObject[currentScore.owner].strikes === 3) continue
 
+        if (standingsObject[currentScore.owner].strikes === 2) {
+          standingsObject[currentScore.owner].weekEliminated = eliminationKeys[currentWeek]
+        }
         standingsObject[currentScore.owner].strikes += 1
         standingsObject[currentScore.owner].weeklyScores[currentWeek].strike = true
 
@@ -127,6 +151,7 @@ function formatStandingsObject(obj: OwnerObject, week: string, weekList: string[
         totalPointsFor: Number(obj[owner].totalPointsFor.toFixed(2)),
         totalPointsAgainst: Number(obj[owner].totalPointsAgainst.toFixed(2)),
         strikes: obj[owner].strikes,
+        weekEliminated: obj[owner].weekEliminated,
         weeklyScores: {...obj[owner].weeklyScores}
       }
   }

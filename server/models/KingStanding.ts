@@ -8,6 +8,7 @@ interface OwnerObjectAttr {
   totalPointsFor: number
   totalPointsAgainst: number
   strikes: number
+  weekEliminated: number | null
   weeklyScores: WeeklyScores
 }
 
@@ -34,6 +35,7 @@ const OwnerObjectSchema = new Schema({
   totalPointsFor: {type: Number},
   totalPointsAgainst: {type: Number},
   strikes: {type: Number},
+  weekEliminated: {type: Number},
   weeklyScores: {type: Map, of: WeeklyScoresSchema}
 })
 
