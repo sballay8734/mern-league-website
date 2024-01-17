@@ -2,20 +2,19 @@ import { NextFunction, Request, Response } from "express"
 import King from "../models/KingStanding"
 import { errorHandler } from "../utils/error"
 
-// export const standings = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   console.log("Running Standings")
-//   try {
-//     const standings = await King.find()
-//     res.status(200).json(standings)
-//   } catch (error) {
-//     console.log("ERROR GETTING STANDINGS")
-//     next(error)
-//   }
-// }
+export const getData = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const standings = await King.find()
+    res.status(200).json(standings)
+  } catch (error) {
+    console.log("ERROR GETTING STANDINGS")
+    next(error)
+  }
+}
 
 export const updateData = async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user

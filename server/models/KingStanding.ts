@@ -49,18 +49,3 @@ const King = mongoose.model<FullObject>(
 )
 
 export default King
-/*
-
-{
-  id: 1,
-  year: 2014,
-  standings: [
-    { ownerName: "Steve Smith", strikes: 0, totalPF: 750 },
-    { ownerName: "Bob Smith", strikes: 2, totalPF: 576 },
-    { ownerName: "John Smith", strikes: 1, totalPF: 600 },
-    
-    ... other owners
-  ]
-}
-
-*/

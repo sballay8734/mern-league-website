@@ -1,11 +1,11 @@
 import express from "express"
 
-import { updateData } from "../controllers/kingController"
+import { updateData, getData } from "../controllers/kingController"
 import { verifyAdmin } from "../utils/verifyAdmin"
 
 const router = express.Router()
 
-// router.get("/data", standings)
+router.get("/data", getData)
 router.post("/data", verifyAdmin, updateData)
 
 export default router

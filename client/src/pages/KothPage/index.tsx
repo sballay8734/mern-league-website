@@ -1,31 +1,83 @@
 import { LuCrown } from "react-icons/lu"
 import {
-  useFetchKingStandingsQuery,
-  useFetchWeeklyResultsQuery
+  useFetchKingStandingsQuery
 } from "../../redux/king/kingApi"
 import "./KothPage.scss"
 import { useState } from "react"
 
+interface OwnerObject {
+  [ownerName: string]: OwnerObjectAttr
+}
+
+interface OwnerObjectAttr {
+  totalPointsFor: number
+  totalPointsAgainst: number
+  strikes: number
+  weeklyScores: WeeklyScores
+}
+
+interface WeeklyScores {
+  [week: string]: {
+    points: number,
+    strike: boolean
+  }
+}
+
+interface FullObject {
+  yearCompleted: boolean
+  year: string
+  standingsData: OwnerObject
+}
+
 export default function KothPage() {
   const {
-    data: standingsData,
-    error: standingsError,
-    isLoading: standingsLoading
+    data: kingData
   } = useFetchKingStandingsQuery()
-
-  const {
-    data: resultsData,
-    error: resultsError,
-    isLoading: resultsLoading
-  } = useFetchWeeklyResultsQuery()
 
   const [activeButton, setActiveButton] = useState<string>("standings")
 
   // LOG IS WORKING
-  console.log(standingsData, resultsData)
+  // console.log(kingData)
+  // ***********************************************************************
+  // ***********************************************************************
+  // ***********************************************************************
+  // ***********************************************************************
+  // ***********************************************************************
 
-  // Just to remove errors
-  console.log(standingsError, standingsLoading, resultsError, resultsLoading)
+  // NEED TO ALSO TRACK ELIMINATION WEEK FOR EACH OWNER IN ORDER TO PROPERLY RANK !!!!!!!!!
+
+  // SORT BY elimination week -> strikes -> pointsFor ( I THINK? )
+
+    // ***********************************************************************
+  // ***********************************************************************
+  // ***********************************************************************
+  // ***********************************************************************
+  // ***********************************************************************
+  // JUST FOR TESTING (AUTOMATE THIS)
+  const currentYear = "2022"
+
+  if (kingData) {
+    const standingsData = kingData.find((obj) => obj.year.toString() === currentYear)
+
+    if (standingsData) {
+      const sortedOwners = Object.keys(standingsData.standingsData).sort((a, b) => {
+        const dataA = standingsData.standingsData[a]
+        const dataB = standingsData.standingsData[b]
+
+        if (dataA.strikes !== dataB.strikes) {
+          return dataA.strikes - dataB.strikes
+        }
+
+        return dataB.totalPointsFor - dataA.totalPointsFor
+      }).map(owner => ({ [owner]: standingsData.standingsData[owner] }))
+
+      console.log(sortedOwners)
+    }
+
+    // LOOP THROUGH AND SORT STANDINGS HERE TO CALCULATE 
+  }
+
+  // console.log(standingsError, standingsLoading)
 
   return (
     <div className="page koth-page">

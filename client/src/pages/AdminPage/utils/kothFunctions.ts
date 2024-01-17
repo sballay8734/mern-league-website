@@ -41,7 +41,7 @@ interface WeeklyScores {
   }
 }
 
-interface FullObject {
+export interface FullObject {
   yearCompleted: boolean
   year: string
   standingsData: OwnerObject
@@ -115,20 +115,8 @@ export function KOTHInit(owners: Owner[]) {
   // format, sort, and send standings object
   const finalObject = formatStandingsObject(standingsObject, currentGlobalWeek, Object.keys(strikeKeys), currentGlobalYear)
 
-  // THIS WILL BE MOVED TO FRONT END
-  const sortedOwners = Object.values(finalObject.standingsData)
-  .sort((dataA, dataB) => {
-    // First, sort by strikes in ascending order
-    if (dataA.strikes !== dataB.strikes) {
-      return dataA.strikes - dataB.strikes;
-    }
-    // If strikes are equal, sort by total points in descending order
-    return dataB.totalPointsFor - dataA.totalPointsFor;
-  })
-  
   // REMOVE PREVIOUS KOTH FOR CURRENT YEAR AND REPLACE WITH final object
-  updateKOTHData(currentGlobalYear, finalObject)
-  
+  return updateKOTHData(currentGlobalYear, finalObject)
 }
 
 // FUNCTION TO FORMAT OBJECT
@@ -172,35 +160,9 @@ async function updateKOTHData(year: string, obj: FullObject) {
       return
     }
 
-    console.log(data)
+    return data
 
   } catch (error) {
     console.log(error)
   }
 }
-/* 
-{
-  yearCompleted: true,
-  year: "2020",
-  standings: {
-    "Shawn Ballay": {
-      pointsFor: 3842,
-      pointsAgainst: 2938,
-      strikes: 1,
-      weeklyScores: {
-        weekOne: {points: 241, strike: false},
-        weekTwo: {points: 121, strike: true}
-      }
-    },
-    "Steve Smith": {
-      pointsFor: 3842,
-      pointsAgainst: 2938,
-      strikes: 1,
-      weeklyScores: {
-        weekOne: {points: 241, strike: false},
-        weekTwo: {points: 121, strike: true}
-      }
-    }
-  }
-}
-*/

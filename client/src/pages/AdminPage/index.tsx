@@ -84,7 +84,6 @@ export default function AdminPage() {
       // run all update functions
       const successData = await KOTHInit(data)
       console.log(successData)
-      // console.log(yearlyStaticDataInit(data[0], 2014))
     } catch (error) {
       console.log(error)
     }

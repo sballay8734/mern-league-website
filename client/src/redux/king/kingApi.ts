@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
-import { IKothStanding, IWeeklyResult } from "./interfaces"
+import { FullObject } from "../../pages/AdminPage/utils/kothFunctions"
 
 const kingApi = createApi({
   reducerPath: "king",
@@ -8,18 +8,9 @@ const kingApi = createApi({
     baseUrl: "/api/kings"
   }),
   endpoints: (builder) => ({
-    fetchKingStandings: builder.query<IKothStanding[], void>({
+    fetchKingStandings: builder.query<FullObject[], void>({
       query: () => ({
-        url: "/standings",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-    }),
-    fetchWeeklyResults: builder.query<IWeeklyResult[], void>({
-      query: () => ({
-        url: "/results",
+        url: "/data",
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -29,7 +20,7 @@ const kingApi = createApi({
   })
 })
 
-export const { useFetchKingStandingsQuery, useFetchWeeklyResultsQuery } =
+export const { useFetchKingStandingsQuery } =
   kingApi
 
 export { kingApi }
