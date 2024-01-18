@@ -156,40 +156,40 @@ export default function KothPage() {
         </div>
       </div>
       <div className={`king-page-extra-content ${showBreakDown && "show"}`}>
-        <div className={`breakdownWrapper ${showBreakDown && "show"}`}>
-          <div className="weekHeaders">
-            <div className="week">Week</div>
-            <div className="week">1</div>
-            <div className="week">2</div>
-            <div className="week">3</div>
-            <div className="week">4</div>
-            <div className="week">5</div>
-            <div className="week">6</div>
-            <div className="week">7</div>
-            <div className="week">8</div>
-            <div className="week">9</div>
-            <div className="week">10</div>
-            <div className="week">11</div>
-            <div className="week">12</div>
-            <div className="week">13</div>
-            <div className="week">14</div>
-          </div>
-            {sortedData && sortedData.map((ownerObj, index) => {
-              const ownerName = Object.keys(ownerObj)[0]
-              const formattedName = Object.keys(ownerObj)[0].split(" ")[0] + " " + Object.keys(ownerObj)[0].split(" ")[1].slice(0, 1) + "."
-
-              const weekKeys = Object.keys(ownerObj[ownerName].weeklyScores)
-
-              return (
-                <div key={index} className="ownerByWeekWrapper">
-                  <div className="ownerName">{formattedName}</div>
-                  {weekKeys.map((week) => {
-                    return <div key={week} className="weekCell">{ownerObj[ownerName].weeklyScores[week].points}</div>
-                  })}
-                </div>
-              )
-            })}
-          </div>
+        <div className={`paddingFixWrapper ${showBreakDown && "show"}`}>
+          <div className={`breakdownWrapper`}>
+            <div className="weekHeaders">
+              <div className="weekHeader"></div>
+              <div className="week">Wk 1</div>
+              <div className="week">2</div>
+              <div className="week">3</div>
+              <div className="week">4</div>
+              <div className="week">5</div>
+              <div className="week">6</div>
+              <div className="week">7</div>
+              <div className="week">8</div>
+              <div className="week">9</div>
+              <div className="week">10</div>
+              <div className="week">11</div>
+              <div className="week">12</div>
+              <div className="week">13</div>
+              <div className="week">14</div>
+            </div>
+              {sortedData && sortedData.map((ownerObj, index) => {
+                const ownerName = Object.keys(ownerObj)[0]
+                const formattedName = Object.keys(ownerObj)[0].split(" ")[0] + " " + Object.keys(ownerObj)[0].split(" ")[1].slice(0, 1) + "."
+                const weekKeys = Object.keys(ownerObj[ownerName].weeklyScores)
+                return (
+                  <div key={index} className="ownerByWeekWrapper">
+                    <div className={`ownerName index${index}`}>{formattedName}</div>
+                    {weekKeys.map((week) => {
+                      return <div key={week} className={`weekCell index${index} ${ownerObj[ownerName].weeklyScores[week].strike && "striked"}`}>{ownerObj[ownerName].weeklyScores[week].points.toFixed(2)}</div>
+                    })}
+                  </div>
+                )
+              })}
+            </div>
+        </div>
       </div>
     </div>
   )
