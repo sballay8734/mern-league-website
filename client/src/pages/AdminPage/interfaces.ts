@@ -7,6 +7,7 @@ export interface bestWorstWeek {
   during: "Playoffs" | "Season" | null,
 
   matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
+  type: string
 }
 
 export interface streaks {
@@ -18,6 +19,7 @@ export interface streaks {
   during: "Playoffs" | "Season" | null,
 
   matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
+  type: string
 }
 
 export interface Matchups {
@@ -29,6 +31,7 @@ export interface Matchups {
   during: "Playoffs" | "Season" | null,
 
   matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
+  type: string
 }
 
 interface MatchUpObject {
@@ -47,6 +50,7 @@ export interface HighestCombinedScore {
   during: "Playoffs" | "Season" | null,
 
   matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
+  type: string
 }
 
 export interface BaseRecord {
@@ -58,6 +62,7 @@ export interface BaseRecord {
   during: "Playoffs" | "Season" | null,
 
   matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
+  type: string
 }
 
 export interface BaseRecordMod {
@@ -69,4 +74,5 @@ export interface BaseRecordMod {
   during: "Playoffs" | "Season" | null,
 
   matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
+  type: string
 }

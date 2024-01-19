@@ -2,13 +2,66 @@ import { useEffect, useState } from "react"
 
 import { FaAward } from "react-icons/fa"
 import "./RecordsPage.scss"
+import { useFetchRecordsQuery } from "../../redux/records/recordsApi"
+
+interface IRecord {
+  recordHolder: string,
+  opponent: string | null,
+  statValue: number,
+  bonusStat: number | null
+  year: number | null
+  during: "Playoffs" | "Season" | null,
+
+  matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
+  type: string
+}
+
+interface FullRecordObject {
+  [recordName: string]: IRecord
+}
+
+interface Conversion {
+  [key: string]: string
+}
+
+const keyConversion: Conversion = {
+  bestWeeks: "Best Weeks",
+  worstWeeks: "Worst Weeks",
+  longestWinningStreaks: "Longest Winning Streaks",
+  longestLosingStreaks: "Longest Losing Streaks",
+  biggestBlowouts: "Biggest Blowouts",
+  closestGames: "Closest Games",
+  highestCombinedScores: "Highest Combined Scores",
+  lowestCombinedScores: "Worst Combined Scores",
+  lowWinPct: "Worst All-Time Win Percentage",
+  highWinPct: "Best All-Time Win Percentage",
+  highAvgPF: "Best Average Points For",
+  lowAvgPF: "Worst Average Points For",
+  highPlayoffRateAndApps: "Best Playoff Participation Rate",
+  lowPlayoffRateAndApps: "Worst Playoff Participation Rate",
+  highestAvgFinishingPlace: "Best Average Finishing Place",
+  lowestAvgFinishingPlace: "Worst Average Finishing Place"
+}
 
 export default function RecordsPage() {
   const [activeButton, setActiveButton] = useState<string>("allTime")
+  const [records, setRecords] = useState<FullRecordObject | null>(null)
+  const [recordKeys, setRecordKeys] = useState<string[]>([])
+  const { data } = useFetchRecordsQuery()
 
   useEffect(() => {
-    // fetch all records
-  }, [])
+    if (data) {
+      if (data[0].records) {
+        setRecords(data[0].records);
+        if (data[0].records !== null) {
+          setRecordKeys(Object.keys(data[0].records));
+        }
+      }
+    }
+  }, [data]);
+
+  console.log(records)
+
   return (
     <div className="page records-page">
       <div className="records-page-top">
@@ -43,10 +96,28 @@ export default function RecordsPage() {
       <div className="records-page-bottom">
         {activeButton === "allTime" ? (
           <div className="allTimeWrapper">
-            
+            {recordKeys.map((record, index) => {
+              const currentRecord = records && Object.values(records[record])
+              return (
+                <div key={index} className="recordCard">
+                  <div className="recordTitle">{keyConversion[record]}</div>
+                  <div className="recordRankings">
+                  {currentRecord && currentRecord.map((owner: IRecord, index) => {
+                    return (
+                       <div key={index} className="recordHolder">
+                         <div className="recordHolderName">{owner.recordHolder} {"-"}</div>
+                         <div className="recordValue">{owner.statValue}{owner.type}</div>
+                         {owner.year !== null && <div className="recordYear">year: {owner.year}</div> }
+                       </div>
+                    )
+                  })}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         ) : (
-          <div className="placeholder">Yearly</div>
+          <div className="placeholder">In development</div>
         )}
       </div>
     </div>

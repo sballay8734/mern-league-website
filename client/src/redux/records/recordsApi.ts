@@ -1,10 +1,24 @@
-// REDO THIS MULTIPLE TIMES!!!!
-// REDO THIS MULTIPLE TIMES!!!!
-// REDO THIS MULTIPLE TIMES!!!!
-// REDO THIS MULTIPLE TIMES!!!!
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
+interface IRecord {
+  recordHolder: string,
+  opponent: string | null,
+  statValue: number,
+  bonusStat: number | null
+  year: number | null
+  during: "Playoffs" | "Season" | null,
+
+  matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
+  type: string
+}
+
+interface FullRecordObject {
+  [recordName: string]: IRecord
+}
+
+interface Record {
+  records: FullRecordObject
+}
 
 // initialize api
 const recordsApi = createApi({
@@ -15,7 +29,7 @@ const recordsApi = createApi({
   }),
   endpoints: (builder) => ({
     // builder.query<ReturnValueHere, ArgumentTypeHere>
-    fetchRecords: builder.query<any, void>({
+    fetchRecords: builder.query<Record[], void>({
       query: () => ({
         url: "/records",
         method: "GET",

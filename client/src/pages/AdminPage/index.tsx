@@ -60,14 +60,15 @@ export default function AdminPage() {
     setUpdateInProgress(false)
   }
 
-  function runRecordsDataUpdate() {
+  async function runRecordsDataUpdate() {
     setUpdateInProgress(true)
 
     if (!data) return
 
     try {
       // run all update functions
-      console.log(recordsDataInit(data))
+      const successData = await recordsDataInit(data)
+      console.log(successData)
       // console.log(yearlyStaticDataInit(data[0], 2014))
     } catch (error) {
       console.log(error)

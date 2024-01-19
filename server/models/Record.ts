@@ -9,6 +9,11 @@ interface IRecord extends Document {
   during: "Playoffs" | "Season" | null,
 
   matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
+  type: string
+}
+
+interface FullRecordObject {
+  [recordName: string]: IRecord
 }
 
 const singleRecordData = new Schema({
@@ -40,9 +45,23 @@ export default Records
 
 /* 
    records: {
-    recordOne: {singleRecordData},
-    recordTwo: {singleRecordData},
-    recordThree: {singleRecordData},
-    recordFour: {singleRecordData},
+    recordOne: {
+      recordHolder: {type: String, required: true},
+      opponent: {type: String},
+      statValue: {type: Number, required: true},
+      bonusStat: {type: Number},
+      year: {type: Number},
+      during: {type: String},
+      matchup: {pointsFor: Number, pointsAgainst: Number, opponent: String, during: String}
+    },
+    recordTwo: {
+      recordHolder: {type: String, required: true},
+      opponent: {type: String},
+      statValue: {type: Number, required: true},
+      bonusStat: {type: Number},
+      year: {type: Number},
+      during: {type: String},
+      matchup: {pointsFor: Number, pointsAgainst: Number, opponent: String, during: String}
+    },
    }
 */
