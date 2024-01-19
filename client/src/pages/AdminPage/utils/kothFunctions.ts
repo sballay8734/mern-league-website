@@ -50,6 +50,7 @@ interface OwnerObjectAttr {
   totalPointsFor: number
   totalPointsAgainst: number
   strikes: number
+  topScorer: number
   weekEliminated: number
   weeklyScores: WeeklyScores
 }
@@ -95,6 +96,7 @@ export function KOTHInit(owners: Owner[]) {
             totalPointsFor: 0,
             totalPointsAgainst: 0,
             strikes: 0,
+            topScorer: 0,
             weekEliminated: 100,
             weeklyScores: {}
           }
@@ -120,6 +122,11 @@ export function KOTHInit(owners: Owner[]) {
       let strikesGiven = 0
       for (let m = 0; m < sortedScores.length; m++) {
         let currentScore = sortedScores[m]
+
+        // give point to top scorer
+        if (standingsObject[currentScore.owner].weeklyScores[currentWeek].points === sortedScores[sortedScores.length - 1].points) {
+          standingsObject[currentScore.owner].topScorer += 1
+        }
 
         if (strikesGiven >= strikeKeys[currentWeek]) continue
         if (standingsObject[currentScore.owner].strikes === 3) continue
@@ -151,6 +158,7 @@ function formatStandingsObject(obj: OwnerObject, week: string, weekList: string[
         totalPointsFor: Number(obj[owner].totalPointsFor.toFixed(2)),
         totalPointsAgainst: Number(obj[owner].totalPointsAgainst.toFixed(2)),
         strikes: obj[owner].strikes,
+        topScorer: obj[owner].topScorer,
         weekEliminated: obj[owner].weekEliminated,
         weeklyScores: {...obj[owner].weeklyScores}
       }

@@ -5,7 +5,7 @@ import {
 import "./KothPage.scss"
 import { useEffect, useState } from "react"
 import { IoMdClose } from "react-icons/io"
-import { IoIosArrowDown } from "react-icons/io"
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
 
 
 interface OwnerObject {
@@ -16,6 +16,7 @@ interface OwnerObjectAttr {
   totalPointsFor: number
   totalPointsAgainst: number
   strikes: number
+  topScorer: number
   weekEliminated: number | string
   weeklyScores: WeeklyScores
 }
@@ -38,6 +39,8 @@ export default function KothPage() {
 
   // JUST FOR TESTING (AUTOMATE THIS)
   const currentYear = "2022"
+
+  // INITIAL LOAD DOES NOT RENDER DATA!!!
 
   useEffect(() => {
     if (kingData) {
@@ -62,10 +65,7 @@ export default function KothPage() {
         setSortedData(sortedOwners)
       }
     }
-  }, [])
-
-  console.log(sortedData)
-
+  }, [kingData])
 
   // ADD WEEKS AS TOP SCORER?
 
@@ -107,7 +107,7 @@ export default function KothPage() {
             <div className="standings">
               <div className="columnHeaders">
                   <div>OWNER</div>
-                  <div>TOTAL PF</div>
+                  <div>TOP SCORER</div>
                   <div>STRIKES</div>
                   <div>WK ELIM.</div>
                 </div>
@@ -115,15 +115,15 @@ export default function KothPage() {
                 {sortedData && sortedData.map((ownerObj, index) => {
                   const ownerName = Object.keys(ownerObj)[0]
                   const formattedName = Object.keys(ownerObj)[0].split(" ")[0] + " " + Object.keys(ownerObj)[0].split(" ")[1].slice(0, 1) + "."
-                  const totalPF = ownerObj[ownerName].totalPointsFor.toFixed(2)
-                  // const totalPA = ownerObj[ownerName].totalPointsAgainst.toFixed(2)
+                  // const totalPF = ownerObj[ownerName].totalPointsFor.toFixed(2)
+                  const timesTopScorer = ownerObj[ownerName].topScorer
                   const strikes = ownerObj[ownerName].strikes
                   let weekEliminated = ownerObj[ownerName].weekEliminated
                   const scoresObj = ownerObj[ownerName].weeklyScores
                   if (weekEliminated === 100) weekEliminated = "-"
                   return <div className="ownerWrapper" key={ownerName}>
                     <div className="ownerName">{formattedName}</div>
-                    <div className="pointsFor">{totalPF}</div>
+                    <div className="topScorer">{timesTopScorer}</div>
                     <div className={`strikes ${strikes === 0 ? "zero" : strikes === 1 ? "one" : strikes === 2 ? "two" : "three"}` }>
                       <span className="circle">
                         <span className={`strikesIcon ${strikes > 0 ? "show" : ""}`}>
@@ -140,13 +140,13 @@ export default function KothPage() {
                           <IoMdClose />
                         </span>
                       </span>
-                      {index === 0 ? <img className="medal" src="/public/gold.png" alt="medal" /> : index === 1 ? <img className="medal" src="/public/silver.png" alt="medal" /> : index === 2 ? <img className="medal" src="/public/bronze.png" alt="medal" /> : ""}
+                      {index === 0 ? <img className="medal" src="/gold.png" alt="medal" /> : index === 1 ? <img className="medal" src="/silver.png" alt="medal" /> : index === 2 ? <img className="medal" src="/bronze.png" alt="medal" /> : ""}
                     </div>
                     <div className="weekEliminated">{weekEliminated}</div>
                   </div>
                 })}
               </div>
-              <button onClick={() => setShowBreakdown(!showBreakDown)} className={`viewBreakdown-btn`}>View Breakdown<span><IoIosArrowDown/></span></button>
+              <button onClick={() => setShowBreakdown(!showBreakDown)} className={`viewBreakdown-btn`}>View Breakdown<span>{showBreakDown ? <IoIosArrowUp/> : <IoIosArrowDown/>}</span></button>
             </div>
           </div>
         
@@ -161,19 +161,19 @@ export default function KothPage() {
             <div className="weekHeaders">
               <div className="weekHeader"></div>
               <div className="week">Wk 1</div>
-              <div className="week">2</div>
-              <div className="week">3</div>
-              <div className="week">4</div>
-              <div className="week">5</div>
-              <div className="week">6</div>
-              <div className="week">7</div>
-              <div className="week">8</div>
-              <div className="week">9</div>
-              <div className="week">10</div>
-              <div className="week">11</div>
-              <div className="week">12</div>
-              <div className="week">13</div>
-              <div className="week">14</div>
+              <div className="week">Wk 2</div>
+              <div className="week">Wk 3</div>
+              <div className="week">Wk 4</div>
+              <div className="week">Wk 5</div>
+              <div className="week">Wk 6</div>
+              <div className="week">Wk 7</div>
+              <div className="week">Wk 8</div>
+              <div className="week">Wk 9</div>
+              <div className="week">Wk 10</div>
+              <div className="week">Wk 11</div>
+              <div className="week">Wk 12</div>
+              <div className="week">Wk 13</div>
+              <div className="week">Wk 14</div>
             </div>
               {sortedData && sortedData.map((ownerObj, index) => {
                 const ownerName = Object.keys(ownerObj)[0]

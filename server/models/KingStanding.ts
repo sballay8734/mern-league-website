@@ -35,6 +35,7 @@ const OwnerObjectSchema = new Schema({
   totalPointsFor: {type: Number},
   totalPointsAgainst: {type: Number},
   strikes: {type: Number},
+  topScorer: {type: Number},
   weekEliminated: {type: Number},
   weeklyScores: {type: Map, of: WeeklyScoresSchema}
 })

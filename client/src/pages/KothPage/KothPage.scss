@@ -126,7 +126,7 @@
     .standings {
       height: 100%;
       width: 100%;
-      padding: 0.5rem;
+      padding: 0.5rem 0.5rem 0 0.5rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -289,8 +289,9 @@
           }
         }
 
-        .pointsFor {
-          font-size: 0.8rem;
+        .topScorer {
+          font-size: 1rem;
+          // font-weight: bold;
         }
 
         .ownerName {
@@ -335,6 +336,7 @@
   // FIX *******************************
 
   // SOME WEIRD STUFF GOING ON WITH BORDERS OF TABLE WHEN SCROLLING RIGHT
+  // (TOP LEFT AND BOTTOM RIGHT)
 
   // also add how many strikes for each week
 
@@ -348,24 +350,30 @@
     flex-direction: column;
     width: 100%;
     background-color: var(--primary-color-darker-for-gradient);
+    padding: 0 0.5rem 0rem 0.5rem;
 
     &.show {
-      padding: 0.5rem;
+      padding: 0 0.5rem 0.5rem 0.5rem;
     }
 
     .paddingFixWrapper {
-      overflow-x: scroll;
-      height: 0px;
+      max-height: 0px;
       opacity: 0;
-      border: 1px solid transparent;
+      border: 2px solid var(--primary-color);
       transition: all 300ms;
+      border-top-right-radius: 7px;
+      border-top-left-radius: 7px;
+      border-bottom-left-radius: 7px;
+      border-bottom-right-radius: 7px;
       overflow-x: scroll;
+      transition: all 300ms;
 
       &.show {
-        height: 700px;
+        height: fit-content;
+        max-height: 2000px;
         opacity: 1;
-        transition: all 300ms;
         overflow-x: scroll;
+        transition: all 300ms;
       }
 
     }
@@ -376,7 +384,7 @@
     flex-direction: column;
     width: 1200px;
     // 1050, 1100, 1200, 1300
-    border: 2px solid var(--primary-color);
+    // border: 2px solid var(--primary-color);
     border-left: none;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -398,6 +406,7 @@
         align-items: center;
         justify-content: center;
         border-right: 1px solid var(--primary-color);
+        color: black;
 
         &:last-child {
           border: none;
@@ -413,7 +422,7 @@
         font-weight: bold;
         position: sticky;
         left: 0;
-        border-top-left-radius: 3px;
+        // border-top-left-radius: 3px;
       }
     }
 
@@ -500,7 +509,7 @@
         padding-left: 1rem;
         font-weight: bold;
         border-right: 1px solid var(--primary-color);
-        border-left: 1px solid var(--primary-color);
+        // border-left: 1px solid var(--primary-color);
         position: sticky;
         left: 0;
         z-index: 1;
