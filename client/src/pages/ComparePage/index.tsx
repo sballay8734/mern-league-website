@@ -2429,7 +2429,7 @@ export default function ComparePage() {
                                 {(ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct > ownerOne.allTime.regSzn.RSwinningPct && ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct - ownerOne.allTime.regSzn.RSwinningPct > 0.1) ? (
                                   <>
                                     <span className="plus-minus green">
-                                      {(ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct - ownerOne.allTime.regSzn.RSwinningPct).toFixed(1)}%
+                                      *{(ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct - ownerOne.allTime.regSzn.RSwinningPct).toFixed(1)}%
                                     </span>
                                     <span className="arrow-icon green">
                                       <FaCaretUp />
@@ -2438,7 +2438,7 @@ export default function ComparePage() {
                                 ) : (ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct < ownerOne.allTime.regSzn.RSwinningPct && Math.abs(ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct - ownerOne.allTime.regSzn.RSwinningPct) > 0.1 ) ? (
                                   <>
                                     <span className="plus-minus red">
-                                      {(ownerOne.allTime.regSzn.RSwinningPct - ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct).toFixed(1)}%
+                                      *{(ownerOne.allTime.regSzn.RSwinningPct - ownerOne.scheduleSwap[ownerTwo.ownerName].allTime.scheduleSwapWinPct).toFixed(1)}%
                                     </span>
                                     <span className="arrow-icon red">
                                       <FaCaretDown />
@@ -2658,7 +2658,7 @@ export default function ComparePage() {
                                       <FaCaretUp />
                                     </span>
                                     <span className="plus-minus green">
-                                      {(ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct - ownerTwo.allTime.regSzn.RSwinningPct).toFixed(1)}%
+                                      *{(ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct - ownerTwo.allTime.regSzn.RSwinningPct).toFixed(1)}%
                                     </span>
                                   </>
                                 ) : (ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct < ownerTwo.allTime.regSzn.RSwinningPct && Math.abs(ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct - ownerTwo.allTime.regSzn.RSwinningPct) > 0.1 ) ? (
@@ -2667,7 +2667,7 @@ export default function ComparePage() {
                                       <FaCaretDown />
                                     </span>
                                     <span className="plus-minus red">
-                                      {(ownerTwo.allTime.regSzn.RSwinningPct - ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct).toFixed(1)}%
+                                      *{(ownerTwo.allTime.regSzn.RSwinningPct - ownerTwo.scheduleSwap[ownerOne.ownerName].allTime.scheduleSwapWinPct).toFixed(1)}%
                                     </span>
                                   </>
                                 ) : "" }

@@ -60,7 +60,13 @@ export default function RecordsPage() {
     }
   }, [data]);
 
-  console.log(records)
+  function formatName(name: string) {
+    if (name.includes(" ")) {
+      return name.split(" ")[0] + " " + name.split(" ")[1].charAt(0)
+    }
+
+    return name
+  }
 
   return (
     <div className="page records-page">
@@ -103,13 +109,44 @@ export default function RecordsPage() {
                   <div className="recordTitle">{keyConversion[record]}</div>
                   <div className="recordRankings">
                   {currentRecord && currentRecord.map((owner: IRecord, index) => {
-                    return (
-                       <div key={index} className="recordHolder">
-                         <div className="recordHolderName">{owner.recordHolder} {"-"}</div>
-                         <div className="recordValue">{owner.statValue}{owner.type}</div>
-                         {owner.year !== null && <div className="recordYear">year: {owner.year}</div> }
-                       </div>
-                    )
+                    // ****************************************************
+                    // ****************************************************
+                    // ****************************************************
+
+                    // JUST NEED TO MAKE THIS ALL LOOK PRETTY
+
+                    // ****************************************************
+                    // ****************************************************
+                    // ****************************************************
+                    if (owner.opponent === null) {
+                      return (
+                         <div key={index} className="recordHolder">
+                           <div className="recordHolderName">
+                           {index === 0 && <img src="/gold.png" alt="medal" /> }
+                           {index === 1 && <img src="/silver.png" alt="medal" /> }
+                           {index === 2 && <img src="/bronze.png" alt="medal" /> }
+                           {index > 2 && <img className="honor" src="/honor.png" alt="medal" /> }
+                            {owner.recordHolder}
+                            </div>
+                           <div className="recordValue">{owner.statValue}{owner.type}</div>
+                           {owner.year !== null && <div className="recordYear">{owner.year}</div> }
+                         </div>
+                      )
+                    } else {
+                      return (
+                        <div key={index} className="recordHolder">
+                           <div className="recordHolderName small">
+                           {index === 0 && <img src="/gold.png" alt="medal" /> }
+                           {index === 1 && <img src="/silver.png" alt="medal" /> }
+                           {index === 2 && <img src="/bronze.png" alt="medal" /> }
+                           {index > 2 && <img className="honor" src="/honor.png" alt="medal" /> }
+                            {formatName(owner.recordHolder)}. ({owner.matchup?.pointsFor}) & {formatName(owner.opponent)}. ({owner.matchup?.pointsAgainst})
+                            </div>
+                           <div className="recordValue small">{owner.statValue}{owner.type}</div>
+                           {owner.year !== null && <div className="recordYear small">Year: {owner.year}</div> }
+                         </div>
+                      )
+                    }
                   })}
                   </div>
                 </div>
