@@ -1,9 +1,10 @@
 import express from "express"
-import { getRecords, updateRecord } from "../controllers/recordsController"
+import { getRecords, setRecords } from "../controllers/recordsController"
+import { verifyAdmin } from "../utils/verifyAdmin"
 
 const router = express.Router()
 
 router.get("/", getRecords)
-router.put("/:id", updateRecord)
+router.post("/", verifyAdmin, setRecords)
 
 export default router

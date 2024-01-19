@@ -6,6 +6,7 @@
   justify-content: center;
   padding: 0;
   gap: 0;
+
   // border: 1px solid var(--primary-color);
   .records-page-top {
     display: flex;
@@ -14,16 +15,20 @@
     justify-content: center;
     width: 100%;
     height: 25%;
+
     .records-nav {
       width: 100%;
+
       ul {
         display: flex;
         list-style-type: none;
         width: 100%;
         justify-content: space-between;
         height: 100%;
+
         li {
           width: 100%;
+
           button {
             background-color: var(--primary-color-darker);
             display: flex;
@@ -37,6 +42,7 @@
             transition: all 300ms;
             width: 100%;
             padding: 1rem 0;
+
             &.active {
               color: white;
               background-color: var(--primary-color);
@@ -44,6 +50,7 @@
             }
           }
         }
+
         .spacer {
           height: 100%;
           width: 2px;
@@ -51,49 +58,55 @@
         }
       }
     }
-    .records-page-header {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        max-width: 475px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgb(11, 11, 11);
-        // border-radius: 3px;
-        flex-direction: column;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        background-image: url("/library.jpg");
-        background-size: cover;
-        @media screen and (max-width: 400px) {
-          gap: 0.5rem;
-        }
 
-        &::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.9);
-          z-index: 1;
-          // border-radius: 3px;
-        }
-        h1 {
-          font-size: 1.7rem;
-          font-weight: bold;
-          font-family: 'Grandiflora One', cursive;
-          z-index: 2;
-          @media screen and (max-width: 400px) {
-            font-size: 1.5rem;
-          }
-        }
-        .award {
-          z-index: 2;
+    .records-page-header {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      max-width: 475px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(11, 11, 11);
+      // border-radius: 3px;
+      flex-direction: column;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      background-image: url("/library.jpg");
+      background-size: cover;
+
+      @media screen and (max-width: 400px) {
+        gap: 0.5rem;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1;
+        // border-radius: 3px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+        font-weight: bold;
+        font-family: 'Grandiflora One', cursive;
+        z-index: 2;
+
+        @media screen and (max-width: 400px) {
+          font-size: 1.5rem;
         }
       }
+
+      .award {
+        z-index: 2;
+      }
+    }
   }
+
   .records-page-bottom {
     height: 75%;
     width: 100%;
@@ -101,5 +114,13 @@
     align-items: center;
     justify-content: center;
     background: linear-gradient(180deg, rgb(13, 13, 13) 30%, var(--primary-color-darker-for-gradient) 100%);
+    padding: 0.5rem;
+
+    .allTimeWrapper {
+      height: 100%;
+      width: 100%;
+      border: 1px solid red;
+      border-radius: 3px;
+    }
   }
 }

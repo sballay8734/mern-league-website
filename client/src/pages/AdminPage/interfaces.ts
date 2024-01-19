@@ -1,23 +1,34 @@
 export interface bestWorstWeek {
-  ownerName: string
-  points: number
-  year: number
-  during: string
+  recordHolder: string,
+  opponent: string | null,
+  statValue: number,
+  bonusStat: number | null
+  year: number | null
+  during: "Playoffs" | "Season" | null,
+
+  matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
 }
 
 export interface streaks {
-  ownerName: string
-  streak: number
-  year: number // needs to be string because it could carry over to next year
-  testString: string
+  recordHolder: string,
+  opponent: string | null,
+  statValue: number,
+  bonusStat: number | null
+  year: number | null
+  during: "Playoffs" | "Season" | null,
+
+  matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
 }
 
 export interface Matchups {
-  winner: string
-  opponent: string
-  differential: number
-  year: number // needs to be string because it could carry over to next year
-  matchUp: MatchUpObject
+  recordHolder: string,
+  opponent: string | null,
+  statValue: number,
+  bonusStat: number | null
+  year: number | null
+  during: "Playoffs" | "Season" | null,
+
+  matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
 }
 
 interface MatchUpObject {
@@ -28,22 +39,34 @@ interface MatchUpObject {
 }
 
 export interface HighestCombinedScore {
-  winner: string
-  opponent: string
-  sum: number
-  year: number
-  matchUp: MatchUpObject
+  recordHolder: string,
+  opponent: string | null,
+  statValue: number,
+  bonusStat: number | null
+  year: number | null
+  during: "Playoffs" | "Season" | null,
+
+  matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
 }
 
 export interface BaseRecord {
-  ownerName: string
-  statName: string
-  statValue: number
+  recordHolder: string,
+  opponent: string | null,
+  statValue: number,
+  bonusStat: number | null
+  year: number | null
+  during: "Playoffs" | "Season" | null,
+
+  matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
 }
 
 export interface BaseRecordMod {
-  ownerName: string
-  statName: string
-  statValue: number
-  playoffApps: number
+  recordHolder: string,
+  opponent: string | null,
+  statValue: number,
+  bonusStat: number | null
+  year: number | null
+  during: "Playoffs" | "Season" | null,
+
+  matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
 }

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express"
-import Record from "../models/Record"
 import { errorHandler } from "../utils/error"
+import User from "../models/User"
+import Records from "../models/Record"
 
 export const getRecords = async (
   req: Request,
@@ -8,29 +9,40 @@ export const getRecords = async (
   next: NextFunction
 ) => {
   try {
-    const records = await Record.find()
+    const records = await Records.find()
     res.status(200).json(records)
   } catch (error) {
     next(error)
   }
 }
 
-export const updateRecord = async (
+export const setRecords = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.params
-  const newRecord = req.body
+  const newRecords = req.body
+
   try {
-    const updatedRecord = await Record.findByIdAndUpdate(id, newRecord, {
-      new: true,
-      runValidators: true
-    })
-    if (!updatedRecord) {
-      next(errorHandler(404, "Record not found"))
-    }
-    res.status(200).json(updatedRecord)
+    if (!req.user) return next(errorHandler(400, "Unauthorized"))
+
+    const userId = req.user.id
+    const user = await User.findById(userId)
+
+    if (!user) return next(errorHandler(400, "User not found"))
+    if (user.isAdmin === false) return next(errorHandler(400, "Unauthorized"))
+
+    // delete old records
+    await Records.deleteMany({})
+
+    // write new data to Records using insertMany
+    const updatedRecords = await Records.create({records: newRecords});
+
+    if (!updatedRecords) return next(errorHandler(500, "Something went wrong"))
+
+    console.log(updatedRecords)
+
+    res.status(200).json(updatedRecords)
   } catch (error) {
     next(error)
   }

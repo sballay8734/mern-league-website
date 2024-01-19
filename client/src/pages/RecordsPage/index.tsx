@@ -1,10 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { FaAward } from "react-icons/fa"
 import "./RecordsPage.scss"
 
 export default function RecordsPage() {
   const [activeButton, setActiveButton] = useState<string>("allTime")
+
+  useEffect(() => {
+    // fetch all records
+  }, [])
   return (
     <div className="page records-page">
       <div className="records-page-top">
@@ -38,7 +42,9 @@ export default function RecordsPage() {
       </div>
       <div className="records-page-bottom">
         {activeButton === "allTime" ? (
-          <div className="placeholder">All-Time</div>
+          <div className="allTimeWrapper">
+            
+          </div>
         ) : (
           <div className="placeholder">Yearly</div>
         )}

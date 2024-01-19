@@ -5,16 +5,6 @@
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
-interface Record {
-  _id: string
-  name: string
-  displayName: string
-  description: string
-  value: number
-  holder: string
-  year: number
-  wasPlayoffs: boolean
-}
 
 // initialize api
 const recordsApi = createApi({
@@ -25,7 +15,7 @@ const recordsApi = createApi({
   }),
   endpoints: (builder) => ({
     // builder.query<ReturnValueHere, ArgumentTypeHere>
-    fetchRecords: builder.query<Record[], void>({
+    fetchRecords: builder.query<any, void>({
       query: () => ({
         url: "/records",
         method: "GET",

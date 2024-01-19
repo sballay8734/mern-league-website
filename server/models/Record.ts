@@ -1,25 +1,48 @@
 import mongoose, { Schema, Document } from "mongoose"
 
 interface IRecord extends Document {
-  name: string
-  displayName: string
-  description: string
-  value: number | null
-  holder: string | null
+  recordHolder: string,
+  opponent: string | null,
+  statValue: number,
+  bonusStat: number | null
   year: number | null
-  wasPlayoffs: boolean | null
+  during: "Playoffs" | "Season" | null,
+
+  matchup: {pointsFor: number, pointsAgainst: number, opponent: string, during: string} | null
 }
 
-const recordSchema = new Schema({
-  name: { type: String, required: true, unique: true },
-  displayName: { type: String, required: true, unique: true },
-  description: { type: String, required: true, unique: true },
-  value: { type: Number },
-  holder: { type: String },
-  year: { type: Number },
-  wasPlayoffs: { type: Boolean }
+const singleRecordData = new Schema({
+  recordHolder: {type: String, required: true},
+  opponent: {type: String},
+  statValue: {type: Number, required: true},
+  bonusStat: {type: Number},
+  year: {type: Number},
+  during: {type: String},
+  matchup: {pointsFor: Number, pointsAgainst: Number, opponent: String, during: String}
 })
 
-const Record = mongoose.model<IRecord>("Record", recordSchema)
+const singleRecordSchema = new Schema({
+  recordName: {type: Array, of: singleRecordData}
+})
 
-export default Record
+const fullRecordsSchema = new Schema({
+  records: {type: Object, of: singleRecordSchema}
+})
+
+// const RecordsSchema = new Schema({
+//   records: {type: Schema.Types.Mixed}
+// });
+
+
+const Records = mongoose.model("Record", fullRecordsSchema)
+
+export default Records
+
+/* 
+   records: {
+    recordOne: {singleRecordData},
+    recordTwo: {singleRecordData},
+    recordThree: {singleRecordData},
+    recordFour: {singleRecordData},
+   }
+*/
