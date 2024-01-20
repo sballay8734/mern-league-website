@@ -523,6 +523,16 @@
             height: 100%;
           }
         }
+
+        .insetStrikesWrapper {
+          display: flex;
+          font-size: 0.5rem;
+          gap: 0rem;
+          position: absolute;
+          bottom: 2px;
+          left: 2px;
+        }
+
       }
 
       .ownerName {

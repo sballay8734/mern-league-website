@@ -8,6 +8,7 @@ import { IoMdClose } from "react-icons/io"
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
 
 
+
 interface OwnerObject {
   [ownerName: string]: OwnerObjectAttr
 }
@@ -24,6 +25,7 @@ interface OwnerObjectAttr {
 interface WeeklyScores {
   [week: string]: {
     points: number,
+    totalStrikes: number,
     strike: boolean
   }
 }
@@ -215,6 +217,14 @@ export default function KothPage() {
                         {ownerObj[ownerName].weeklyScores[week].points.toFixed(2)}
 
                         {Number(ownerObj[ownerName].weekEliminated) < weekKeysConversion[week] && <span className="overlay"></span>}
+
+                        {ownerObj[ownerName].weeklyScores[week].strike === true && 
+                        <div className="insetStrikesWrapper">
+                          {Array.from({length: ownerObj[ownerName]?.weeklyScores[week]?. totalStrikes || 0 }).fill(null).map((_, index) => {
+                          return <div className="insetStrikes" key={index}><IoMdClose/></div>
+                        })}
+                        </div>
+                      }
                       </div>
                       )
                     })}

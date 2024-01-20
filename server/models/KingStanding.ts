@@ -27,6 +27,7 @@ interface FullObject {
 
 const WeeklyScoresSchema = new Schema({
   points: {type: Number},
+  totalStrikes: {type: Number},
   strike: {type: Boolean}
 })
 

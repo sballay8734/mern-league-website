@@ -58,8 +58,17 @@ interface OwnerObjectAttr {
 interface WeeklyScores {
   [week: string]: {
     points: number,
+    totalStrikes: number,
     strike: boolean
   }
+}
+
+interface YearlyStrikeCounter {
+  [ownerName: string]: number
+}
+
+interface StrikeCounter {
+  [year: string]: YearlyStrikeCounter
 }
 
 export interface FullObject {
@@ -73,7 +82,8 @@ export function KOTHInit(owners: Owner[]) {
   let standingsObject: OwnerObject = {}
   let currentGlobalYear = ""
   let currentGlobalWeek = ""
-
+  let globalStrikeCounter: StrikeCounter = {}
+  
   for (let i = 0; i < years.length; i++) {
     const currentYear = Number(years[i])
     currentGlobalYear = currentYear.toString()
@@ -105,6 +115,7 @@ export function KOTHInit(owners: Owner[]) {
         // initialize week
         standingsObject[currentOwner.ownerName].weeklyScores[currentWeek] = {
           points: 0,
+          totalStrikes: 0,
           strike: false
         }
 
@@ -112,6 +123,7 @@ export function KOTHInit(owners: Owner[]) {
 
         // update weeklyPointsFor
         standingsObject[currentOwner.ownerName].weeklyScores[currentWeek].points = weeklyPointsFor
+        standingsObject[currentOwner.ownerName].weeklyScores[currentWeek].totalStrikes = standingsObject[currentOwner.ownerName].strikes
         standingsObject[currentOwner.ownerName].totalPointsFor += weeklyPointsFor
         standingsObject[currentOwner.ownerName].totalPointsAgainst += weeklyPointsAgainst
       }
@@ -138,7 +150,20 @@ export function KOTHInit(owners: Owner[]) {
         standingsObject[currentScore.owner].strikes += 1
         standingsObject[currentScore.owner].weeklyScores[currentWeek].strike = true
 
+        if (!globalStrikeCounter[currentGlobalYear]) {
+          globalStrikeCounter[currentYear] = {}
+        }
+
+        if (globalStrikeCounter[currentYear][currentScore.owner]) {
+          globalStrikeCounter[currentYear][currentScore.owner] += 1
+        } else {
+          globalStrikeCounter[currentYear][currentScore.owner] = 1
+        }
+
+        standingsObject[currentScore.owner].weeklyScores[currentWeek].totalStrikes = globalStrikeCounter[currentYear][currentScore.owner]
+
         strikesGiven += 1
+
       }
       strikesGiven = 0
     }
@@ -147,6 +172,7 @@ export function KOTHInit(owners: Owner[]) {
 
   objectArray.push(finalObject)
 
+  console.log(standingsObject)
   standingsObject = {}
 }
 // MAP OVER ARRAY AND RUN THIS FOR EACH ITEM
@@ -154,6 +180,7 @@ export function KOTHInit(owners: Owner[]) {
 objectArray.forEach((obj) => {
   updateKOTHData(obj.year, obj)
 })
+
 return "SUCCESS"
 }
 
