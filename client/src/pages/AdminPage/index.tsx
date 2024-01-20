@@ -12,6 +12,7 @@ import "./AdminPage.scss"
 import { recordsDataInit } from "./utils/recordFunctions"
 import { KOTHInit } from "./utils/kothFunctions"
 import TestCountdownTimer from "../../components/TestCountDown/TestCountDown"
+import { FiAtSign } from "react-icons/fi";
 
 const ODDS_API_KEY = "0f397ef8e40fda92307241c433993cd7"
 const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=fanduel&markets=totals,spreads&oddsFormat=american`
@@ -55,6 +56,7 @@ export default function AdminPage() {
   const [activeButton, setActiveButton] = useState<string>("tempAdmins")
   const [updateInProgress, setUpdateInProgress] = useState<boolean>(false)
   const [bettingData, setBettingData] = useState<BettingProp[] | null>(null)
+  const [selected, setSelected] = useState<boolean>(false)
 
   async function runStaticDataUpdate() {
     setUpdateInProgress(true)
@@ -123,7 +125,7 @@ export default function AdminPage() {
   function capitalizeAndRemoveLast(string: string): string {
     if (string.length <= 1) return ""
 
-    return string.charAt(0).toUpperCase() + string.slice(1, -1)
+    return (string.charAt(0).toUpperCase() + string.slice(1, -1)).toLocaleUpperCase()
   }
 
   return (
@@ -213,8 +215,12 @@ export default function AdminPage() {
 
                       // const totals = markets.find((item) => item.key === "totals")
                       if (spreads) {
+                        const homeTeam = spreads.outcomes.find((item) => prop.home_team === item.name)
+
+                        const awayTeam = spreads.outcomes.find((item) => prop.away_team === item.name)
+
                         return (
-                          <div key={prop.id} className="prop">
+                          <div onClick={() => setSelected(!selected)} key={prop.id} className="prop">
                             <div className="propHeader">
                               <span className="propType">{capitalizeAndRemoveLast(spreads.key)}
                               </span>
@@ -222,7 +228,30 @@ export default function AdminPage() {
                                 <TestCountdownTimer endDate={prop.commence_time}/>
                               </span>
                             </div>
-                            <div className="propBody"></div>
+                            <div className="propBody">
+                              <div className="teamLineWrapper">
+                                <div className="teams">
+                                  <div className="away team">
+                                    <span className={`line awayLine ${awayTeam && awayTeam.point > 0 && "green"} ${awayTeam && awayTeam.point < 0 && "red"}`}>
+                                    {awayTeam && awayTeam.point > 0 ? `+${awayTeam.point}` : awayTeam?.point}
+                                    </span>
+                                    <span className="teamName">
+                                      {prop.away_team}
+                                    </span>
+                                  </div>
+                                  <span className="atSign"><FiAtSign/></span>
+                                  <div className="home team">
+                                    <span className="teamName">
+                                      {prop.home_team}
+                                    </span>
+                                  <span className={`line homeLine ${homeTeam && homeTeam.point > 0 && "green"} ${homeTeam && homeTeam.point < 0 && "red"}`}>
+                                    {homeTeam && homeTeam.point > 0 ? `+${homeTeam.point}` : homeTeam?.point}
+                                  </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {selected && <div onClick={() => setSelected(!selected)} className="overlay">Selected</div>}
                           </div>
                         )
                       }
