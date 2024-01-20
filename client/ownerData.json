@@ -222,12 +222,12 @@
       "weekOne": {
         "pointsFor": 111.04,
         "pointsAgainst": 126.26,
-        "opponent": "Cody Zwier",
+        "opponent": "Cody Zwier"
       },
       "weekTwo": {
         "pointsFor": 145.06,
         "pointsAgainst": 95.58,
-        "opponent": "Aaron Mackenzie",
+        "opponent": "Aaron Mackenzie"
       },
       "weekThree": {
         "pointsFor": 130.32,
@@ -327,12 +327,12 @@
       "weekOne": {
         "pointsFor": 126.26,
         "pointsAgainst": 111.04,
-        "opponent": "Steve Lloyd",
+        "opponent": "Steve Lloyd"
       },
       "weekTwo": {
         "pointsFor": 135.14,
         "pointsAgainst": 92.50,
-        "opponent": "Dante Nocito",
+        "opponent": "Dante Nocito"
       },
       "weekThree": {
         "pointsFor": 97.50,
@@ -432,12 +432,12 @@
       "weekOne": {
         "pointsFor": 72.76,
         "pointsAgainst": 142.20,
-        "opponent": "Dan George",
+        "opponent": "Dan George"
       },
       "weekTwo": {
         "pointsFor": 95.58,
         "pointsAgainst": 145.06,
-        "opponent": "Steve Lloyd",
+        "opponent": "Steve Lloyd"
       },
       "weekThree": {
         "pointsFor": 103.18,
@@ -537,12 +537,12 @@
       "weekOne": {
         "pointsFor": 142.20,
         "pointsAgainst": 72.76,
-        "opponent": "Aaron Mackenzie",
+        "opponent": "Aaron Mackenzie"
       },
       "weekTwo": {
         "pointsFor": 156.32,
         "pointsAgainst": 107.00,
-        "opponent": "Jimmy Wagner",
+        "opponent": "Jimmy Wagner"
       },
       "weekThree": {
         "pointsFor": 120.62,
@@ -642,12 +642,12 @@
       "weekOne": {
         "pointsFor": 105.78,
         "pointsAgainst": 95.24,
-        "opponent": "Dom Nocito",
+        "opponent": "Dom Nocito"
       },
       "weekTwo": {
         "pointsFor": 92.50,
         "pointsAgainst": 135.14,
-        "opponent": "Cody Zwier",
+        "opponent": "Cody Zwier"
       },
       "weekThree": {
         "pointsFor": 114.16,
@@ -747,12 +747,12 @@
       "weekOne": {
         "pointsFor": 95.24,
         "pointsAgainst": 105.78,
-        "opponent": "Dante Nocito",
+        "opponent": "Dante Nocito"
       },
       "weekTwo": {
         "pointsFor": 141.84,
         "pointsAgainst": 112.30,
-        "opponent": "Joe Kane",
+        "opponent": "Joe Kane"
       },
       "weekThree": {
         "pointsFor": 158.76,
@@ -852,12 +852,12 @@
       "weekOne": {
         "pointsFor": 84.96,
         "pointsAgainst": 86.20,
-        "opponent": "Don Irons",
+        "opponent": "Don Irons"
       },
       "weekTwo": {
         "pointsFor": 107.00,
         "pointsAgainst": 156.32,
-        "opponent": "Dan George",
+        "opponent": "Dan George"
       },
       "weekThree": {
         "pointsFor": 108.36,
@@ -957,12 +957,12 @@
       "weekOne": {
         "pointsFor": 86.20,
         "pointsAgainst": 84.96,
-        "opponent": "Jimmy Wagner",
+        "opponent": "Jimmy Wagner"
       },
       "weekTwo": {
         "pointsFor": 71.72,
         "pointsAgainst": 143.70,
-        "opponent": "Steve Smith",
+        "opponent": "Steve Smith"
       },
       "weekThree": {
         "pointsFor": 93.78,
@@ -1062,12 +1062,12 @@
       "weekOne": {
         "pointsFor": 103.74,
         "pointsAgainst": 119.76,
-        "opponent": "Dom Flipp",
+        "opponent": "Dom Flipp"
       },
       "weekTwo": {
         "pointsFor": 112.30,
         "pointsAgainst": 141.84,
-        "opponent": "Dom Nocito",
+        "opponent": "Dom Nocito"
       },
       "weekThree": {
         "pointsFor": 148.98,
@@ -1167,12 +1167,12 @@
       "weekOne": {
         "pointsFor": 119.76,
         "pointsAgainst": 103.74,
-        "opponent": "Joe Kane",
+        "opponent": "Joe Kane"
       },
       "weekTwo": {
         "pointsFor": 142.86,
         "pointsAgainst": 125.74,
-        "opponent": "Shawn Ballay",
+        "opponent": "Shawn Ballay"
       },
       "weekThree": {
         "pointsFor": 128.78,

@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import Owner from "../models/Owner"
 import User from "../models/User"
-import { errorHandler } from "../utils/error"
 import ComputedOwners from "../models/staticOwnerData"
 
 export const getOwners = async (
@@ -11,6 +10,7 @@ export const getOwners = async (
 ) => {
   try {
     const owners = await Owner.find()
+    console.log(owners)
     res.status(200).json(owners)
   } catch (error) {
     next(error)

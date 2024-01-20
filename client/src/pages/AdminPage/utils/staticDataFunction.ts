@@ -38,8 +38,6 @@ export async function staticDataInit(owners: Owner[]) {
       const year = allYears[i]
       if (yearsPresent.includes(year)) {
         const yearObject = calcYearlyStats(currentOwner, year, owners)
-        // const allTimeObject = calcAllTimeStats(currentOwner)
-        // const h2hObject = calcH2HStats(currentOwner)
         Object.assign(ownerObject.yearly, yearObject)
       } else {
         const tempObject = {

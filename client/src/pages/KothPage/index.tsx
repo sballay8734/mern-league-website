@@ -28,6 +28,27 @@ interface WeeklyScores {
   }
 }
 
+interface Conversion {
+  [week: string]: number
+}
+
+const weekKeysConversion: Conversion = {
+  weekOne: 1,
+  weekTwo: 2,
+  weekThree: 3,
+  weekFour: 4,
+  weekFive: 5,
+  weekSix: 6,
+  weekSeven: 7,
+  weekEight: 8,
+  weekNine: 9,
+  weekTen: 10,
+  weekEleven: 11,
+  weekTwelve: 12,
+  weekThirteen: 13,
+  weekFourteen: 14
+}
+
 export default function KothPage() {
   const {
     data: kingData
@@ -45,6 +66,8 @@ export default function KothPage() {
   useEffect(() => {
     if (kingData) {
       const standingsData = kingData.find((obj) => obj.year.toString() === currentYear)
+
+      console.log(standingsData)
   
       if (standingsData) {
         const sortedOwners = Object.keys(standingsData.standingsData).sort((a, b) => {
@@ -62,10 +85,13 @@ export default function KothPage() {
           return dataB.totalPointsFor - dataA.totalPointsFor
         }).map(owner => ({ [owner]: standingsData.standingsData[owner] }))
   
+        // console.log(sortedOwners)
         setSortedData(sortedOwners)
       }
     }
   }, [kingData])
+
+  // console.log(kingData)
 
   // ADD WEEKS AS TOP SCORER?
 
@@ -114,12 +140,13 @@ export default function KothPage() {
               <div className="standings-wrapper">
                 {sortedData && sortedData.map((ownerObj, index) => {
                   const ownerName = Object.keys(ownerObj)[0]
+
                   const formattedName = Object.keys(ownerObj)[0].split(" ")[0] + " " + Object.keys(ownerObj)[0].split(" ")[1].slice(0, 1) + "."
-                  // const totalPF = ownerObj[ownerName].totalPointsFor.toFixed(2)
+
                   const timesTopScorer = ownerObj[ownerName].topScorer
                   const strikes = ownerObj[ownerName].strikes
                   let weekEliminated = ownerObj[ownerName].weekEliminated
-                  const scoresObj = ownerObj[ownerName].weeklyScores
+
                   if (weekEliminated === 100) weekEliminated = "-"
                   return <div className="ownerWrapper" key={ownerName}>
                     <div className="ownerName">{formattedName}</div>
@@ -183,7 +210,12 @@ export default function KothPage() {
                   <div key={index} className="ownerByWeekWrapper">
                     <div className={`ownerName index${index}`}>{formattedName}</div>
                     {weekKeys.map((week) => {
-                      return <div key={week} className={`weekCell index${index} ${ownerObj[ownerName].weeklyScores[week].strike && "striked"}`}>{ownerObj[ownerName].weeklyScores[week].points.toFixed(2)}</div>
+                      return (
+                      <div key={week} className={`weekCell index${index} ${ownerObj[ownerName].weeklyScores[week].strike && "striked"} ${Number(ownerObj[ownerName].weekEliminated) < weekKeysConversion[week] && "eliminated"}`}>
+                        {ownerObj[ownerName].weeklyScores[week].points.toFixed(2)}
+                        {Number(ownerObj[ownerName].weekEliminated) < weekKeysConversion[week] && <span className="overlay"></span>}
+                      </div>
+                      )
                     })}
                   </div>
                 )

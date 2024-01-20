@@ -89,12 +89,12 @@ const YearObjectSchema = new Schema({
 })
 
 const ownerSchema = new Schema({
-  type: Schema.Types.Mixed
-  // ownerName: { type: String, required: true },
-  // id: { type: Number, required: true, unique: true },
-  // years: { type: Map, of: YearObjectSchema }
+  // type: Schema.Types.Mixed
+  ownerName: { type: String, required: true },
+  id: { type: Number, required: true, unique: true },
+  years: { type: Map, of: YearObjectSchema }
 })
 
-const Owner = mongoose.model<IOwner>("Owner", ownerSchema)
+const Owner = mongoose.model<IOwner>("testOwner", ownerSchema)
 
 export default Owner

@@ -24,7 +24,7 @@ export const updateData = async (req: Request, res: Response, next: NextFunction
   if (!user || user.isAdmin === false) next(errorHandler(400, "Unauthorized"))
 
   try {
-    const dataToUpdate = await King.find({year: updateObject.year})
+    const dataToUpdate = await King.findOne({year: updateObject.year})
 
     // if there is no data, just write to the db
     if (!dataToUpdate) {

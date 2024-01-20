@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 
 import User from "../models/User"
-import Owner from "../models/Owner"
 import ComputedOwners from "../models/staticOwnerData"
 import { errorHandler } from "../utils/error"
 import { staticOwnerSchema } from "../models/staticOwnerData"
@@ -49,56 +48,3 @@ export const updateStatic = async (
     next(error)
   }
 }
-
-export const addYear = async (req: Request, res: Response, next: NextFunction) => {
-  const data: yearUpdateObject[] = req.body
-
-  if (!data) return next(errorHandler(500, "No Data"))
-
-  try {
-    for (let i = 0; i < data.length; i++) {
-      const currentOwner = data[i]
-      const year = Object.keys(currentOwner)[0] as keyof yearUpdateObject
-      const newData = currentOwner[year]
-
-      console.log(newData) // Logging correctly
-
-      const ownerToFind = await Owner.find({ownerName: currentOwner.ownerName}).lean()
-
-      const updatedOwner = {
-        ...ownerToFind, // something is wrong here
-        [year]: newData
-      }
-
-      /* 
-        for some reason the structure of updatedOwner looks like this:
-
-        {
-          "0": {
-            "2014": {data},
-            "2015": {data},
-            "2016": {data},
-            "2017": {data},
-            "2018": {data},
-            "2019": {data},
-            ....
-          }, 
-          "2023": {data}
-        }
-      */
-
-      console.log(ownerToFind)
-    }
-  } catch (error) {
-    next(error)
-  }
-}
-
-/* 
-{
-  ownerName: "John Smith",
-  "2023": {data}
-}
-*/
-
-// During season you'll want a function to add weekly matchup also

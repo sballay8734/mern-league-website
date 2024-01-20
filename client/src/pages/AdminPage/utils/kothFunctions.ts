@@ -1,6 +1,6 @@
 import { Owner } from "../../../redux/owners/interfaces"
 
-const years = ["2022"] // ADD 2023
+const years = ["2022", "2023"] // ADD 2023
 
 interface StrikeKeys {
   [week: string]: number
@@ -12,12 +12,12 @@ interface EliminationKeys {
 const strikeKeys: StrikeKeys = {
   weekOne: 4,
   weekTwo: 4,
-  weekThree: 3,
+  weekThree: 4,
   weekFour: 3,
   weekFive: 3,
   weekSix: 3,
   weekSeven: 3,
-  weekEight: 3,
+  weekEight: 2,
   weekNine: 2,
   weekTen: 2,
   weekEleven: 2,
@@ -69,7 +69,8 @@ export interface FullObject {
 }
 
 export function KOTHInit(owners: Owner[]) {
-  const standingsObject: OwnerObject = {}
+  const objectArray = []
+  let standingsObject: OwnerObject = {}
   let currentGlobalYear = ""
   let currentGlobalWeek = ""
 
@@ -141,13 +142,19 @@ export function KOTHInit(owners: Owner[]) {
       }
       strikesGiven = 0
     }
-  }
-
-  // format, sort, and send standings object
+    // format, sort, and send standings object
   const finalObject = formatStandingsObject(standingsObject, currentGlobalWeek, Object.keys(strikeKeys), currentGlobalYear)
 
-  // REMOVE PREVIOUS KOTH FOR CURRENT YEAR AND REPLACE WITH final object
-  return updateKOTHData(currentGlobalYear, finalObject)
+  objectArray.push(finalObject)
+
+  standingsObject = {}
+}
+// MAP OVER ARRAY AND RUN THIS FOR EACH ITEM
+// REMOVE PREVIOUS KOTH FOR CURRENT YEAR AND REPLACE WITH final object
+objectArray.forEach((obj) => {
+  updateKOTHData(obj.year, obj)
+})
+return "SUCCESS"
 }
 
 // FUNCTION TO FORMAT OBJECT
