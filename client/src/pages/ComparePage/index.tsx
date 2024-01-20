@@ -183,7 +183,7 @@ export default function ComparePage() {
                 <h2 className="stat stat2">
                   KOTH Wins:{" "}
                   <span className="icons">
-                    <FaCrown /> <FaCrown />
+                    {ownerOne && ownerOne?.bonusStats.kothWins! > 0 ? new Array(ownerOne?.bonusStats.kothWins).fill(null).map((_, index) => <FaCrown key={index}/>) : "-"}
                   </span>
                 </h2>
               </div>
@@ -3368,7 +3368,7 @@ export default function ComparePage() {
                 <h2 className="stat stat2">
                   KOTH Wins:{" "}
                   <span className="icons">
-                    <FaCrown /> <FaCrown /> <FaCrown />
+                    {ownerTwo && ownerTwo?.bonusStats.kothWins! > 0 ? new Array(ownerTwo?.bonusStats.kothWins).fill(null).map((_, index) => <FaCrown key={index}/>) : "-"}
                   </span>
                 </h2>
               </div>

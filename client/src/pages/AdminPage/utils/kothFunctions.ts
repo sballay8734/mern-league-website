@@ -17,10 +17,10 @@ const strikeKeys: StrikeKeys = {
   weekFive: 3,
   weekSix: 3,
   weekSeven: 3,
-  weekEight: 2,
+  weekEight: 3,
   weekNine: 2,
   weekTen: 2,
-  weekEleven: 2,
+  weekEleven: 1,
   weekTwelve: 1,
   weekThirteen: 1,
   weekFourteen: 1

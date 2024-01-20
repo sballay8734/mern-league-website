@@ -1,27 +1,24 @@
 import mongoose, { Schema } from "mongoose"
 
 // Bonus Stats
-const bonusStatsSchema = new Schema(
-  {
-    luckyWins: Number,
-    unluckyLosses: Number,
-    mostWinsOneSeason: Number,
-    mostLossesOneSeason: Number,
-    avgFinishPlace: Number,
-    championships: Number,
-    skirts: Number,
-    everyTeamEveryWeek: {
-      wins: { type: Number },
-      losses: { type: Number },
-      ties: { type: Number },
-      winPct: { type: Number }
-    },
-    playoffRate: Number
+const bonusStatsSchema = new Schema({
+  luckyWins: Number,
+  unluckyLosses: Number,
+  mostWinsOneSeason: Number,
+  mostLossesOneSeason: Number,
+  avgFinishPlace: Number,
+  championships: Number,
+  skirts: Number,
+  playoffRate: Number,
+  kothWins: Number,
+  everyTeamEveryWeek: {
+    wins: Number,
+    losses: Number,
+    ties: Number,
+    winPct: Number
   },
-  { _id: false }
-)
+})
 
-// SCHEDULE SWAP (NOT WORKING)
 const YearlySwap = new Schema({
   scheduleSwapWins: {type: Number},
   scheduleSwapLosses: {type: Number},

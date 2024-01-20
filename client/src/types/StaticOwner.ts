@@ -6,6 +6,7 @@ interface BonusStats {
   avgFinishPlace: number
   championships: number
   skirts: number
+  kothWins: number
   everyTeamEveryWeek: {
     wins: number
     losses: number

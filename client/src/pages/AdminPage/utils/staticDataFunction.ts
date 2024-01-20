@@ -12,10 +12,14 @@ import {
   CombinedType
 } from "../../../redux/owners/interfaces"
 import { H2hCombined, H2hPlayoffs, H2hRegSzn } from "../../../types/StaticOwner"
+import { FullObject } from "./kothFunctions"
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 export async function staticDataInit(owners: Owner[]) {
   const ownerObjectsList = []
+
+  const kothData = await grabKOTHWins()
+
   // loop through owners HERE
   for (let i = 0; i < owners.length; i++) {
     const ownerObject = {
@@ -61,7 +65,7 @@ export async function staticDataInit(owners: Owner[]) {
     Object.assign(ownerObject.h2h, h2hStats)
 
     // do bonus stats here
-    const bonusStats = calcBonusStats(currentOwner, owners)
+    const bonusStats = await calcBonusStats(currentOwner, owners, kothData)
     Object.assign(ownerObject.bonusStats, bonusStats)
 
     // NEED TO CALC WIN PCT PER YEAR BEFORE DOING ANTYING ELSE
@@ -177,7 +181,7 @@ function calcH2HStats(owner: Owner) {
   }
 }
 // MAIN FUNCTION BONUS STATS
-export function calcBonusStats(owner: Owner, owners: Owner[]) {
+export async function calcBonusStats(owner: Owner, owners: Owner[], kothData: FullObject[]) {
   const finishes: number[] = []
 
   let totalETEWWins = 0
@@ -189,6 +193,7 @@ export function calcBonusStats(owner: Owner, owners: Owner[]) {
   let totalPlayoffs = 0
 
   // GOING TO HAVE TO CALCULATE THIS SOMEWHERE ELSE
+  // if year.completed === true && strikes !== 3 + WIN
   let KOTHWins = 0 
 
   let luckyWs = 0
@@ -279,7 +284,14 @@ export function calcBonusStats(owner: Owner, owners: Owner[]) {
       madePlayoffs++
     }
     totalPlayoffs++
+
+    // check if owner won KOTH
     
+    const kothYear = kothData.find((item) => item.year === year.toString())
+
+    if (kothYear && kothYear.yearCompleted === true && kothYear?.standingsData[owner.ownerName].strikes < 3) {
+      KOTHWins += 1
+    }
   }
 
   const avgFinish =
@@ -293,18 +305,19 @@ export function calcBonusStats(owner: Owner, owners: Owner[]) {
     avgFinishPlace: Number(avgFinish.toFixed(2)),
     championships: championships,
     skirts: skirts,
+    playoffRate: Number(((madePlayoffs / totalPlayoffs) * 100).toFixed(2)),
+    kothWins: KOTHWins,
     everyTeamEveryWeek: {
       wins: totalETEWWins,
-      ties: totalETEWTies,
       losses: totalETEWLosses,
+      ties: totalETEWTies,
       winPct: Number(
         (
           (totalETEWWins / (totalETEWWins + totalETEWTies + totalETEWLosses)) *
           100
         ).toFixed(2)
       )
-    },
-    playoffRate: Number(((madePlayoffs / totalPlayoffs) * 100).toFixed(2))
+    }
   }
 }
 
@@ -1080,4 +1093,15 @@ function getWhatIf(owner: Owner, owners: Owner[]) {
     // console.log(ownerOne.ownerName, singleOwnerObject)
     return singleOwnerObject
   }
+}
+
+async function grabKOTHWins() {
+  const res = await fetch("/api/kings/data", {
+    method: "GET"
+  })
+  const data = await res.json()
+
+  if (!data) return "ERROR"
+
+  return data
 }
