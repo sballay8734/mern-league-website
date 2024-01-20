@@ -32,7 +32,7 @@ interface IRoundOneObject extends IRoundObject {
 }
 
 // YearObject interface
-interface IYearObject extends Document {
+export interface IYearObject extends Document {
   participated: boolean
   wins: number
   losses: number
@@ -47,7 +47,7 @@ interface IYearObject extends Document {
 interface IOwner extends Document {
   ownerName: string
   id: number
-  years: Map<number, IYearObject>
+  [year: number]: IYearObject
 }
 
 const RoundObjectSchema = new Schema({
@@ -89,10 +89,10 @@ const YearObjectSchema = new Schema({
 })
 
 const ownerSchema = new Schema({
-  ownerName: { type: String, required: true },
-  id: { type: Number, required: true, unique: true },
-  // The years are dynamic, key is year number, value follows YearObjectSchema
-  years: { type: Map, of: YearObjectSchema }
+  type: Schema.Types.Mixed
+  // ownerName: { type: String, required: true },
+  // id: { type: Number, required: true, unique: true },
+  // years: { type: Map, of: YearObjectSchema }
 })
 
 const Owner = mongoose.model<IOwner>("Owner", ownerSchema)

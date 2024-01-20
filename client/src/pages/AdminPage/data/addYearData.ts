@@ -1,5 +1,5 @@
-// Shawn Ballay DONE
-{
+export const yearData = // Shawn Ballay DONE
+[{
   "ownerName": "Shawn Ballay",
   "2023": {
     "participated": true,
@@ -102,8 +102,7 @@
       }
     }
   }
-}
-// Steve Smith DONE
+},
 {
   "ownerName": "Steve Smith",
   "2023": {
@@ -207,8 +206,7 @@
       }
     }
   }
-}
-// Steve Lloyd DONE
+},
 {
   "ownerName": "Steve Lloyd",
   "2023": {
@@ -312,7 +310,7 @@
       }
     }
   }
-}
+},
 // Cody Zwier DONE
 {
   "ownerName": "Cody Zwier",
@@ -417,7 +415,7 @@
       }
     }
   }
-}
+},
 // Aaron Mackenzie DONE
 {
   "ownerName": "Aaron Mackenzie",
@@ -522,7 +520,7 @@
       }
     }
   }
-}
+},
 // Dan George DONE
 {
   "ownerName": "Dan George",
@@ -627,7 +625,7 @@
       }
     }
   }
-}
+},
 // Dante Nocito DONE
 {
   "ownerName": "Dante Nocito",
@@ -732,7 +730,7 @@
       }
     }
   }
-}
+},
 // Dom Nocito DONE
 {
   "ownerName": "Dom Nocito",
@@ -837,7 +835,7 @@
       }
     }
   }
-}
+},
 // Jimmy Wagner DONE
 {
   "ownerName": "Jimmy Wagner",
@@ -942,7 +940,7 @@
       }
     }
   }
-}
+},
 // Don Irons DONE
 {
   "ownerName": "Don Irons",
@@ -1047,7 +1045,7 @@
       }
     }
   }
-}
+},
 // Joe Kane DONE
 {
   "ownerName": "Joe Kane",
@@ -1152,7 +1150,7 @@
       }
     }
   }
-}
+},
 // Dom Flipp DONE
 {
   "ownerName": "Dom Flipp",
@@ -1257,4 +1255,4 @@
       }
     }
   }
-}
+}]

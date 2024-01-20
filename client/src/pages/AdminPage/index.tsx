@@ -12,6 +12,8 @@ import "./AdminPage.scss"
 import { recordsDataInit } from "./utils/recordFunctions"
 import { KOTHInit } from "./utils/kothFunctions"
 
+import {yearData} from "./data/addYearData"
+
 // const baseUrl = "https://api.prop-odds.com"
 
 export default function AdminPage() {
@@ -92,6 +94,37 @@ export default function AdminPage() {
     setUpdateInProgress(false)
   }
 
+  async function addYear(array: any) {
+    setUpdateInProgress(true)
+
+    try {
+      // run all update functions
+      const res = await fetch("api/update/static", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(array)
+      })
+
+      const data = await res.json()
+
+      if (!data) {
+        console.log("ERROR")
+        setUpdateInProgress(false)
+        return
+      }
+      setUpdateInProgress(false)
+      return data
+
+    } catch (error) {
+      setUpdateInProgress(false)
+      console.log(error)
+    }
+
+    setUpdateInProgress(false)
+  }
+
   return (
     <div className="page admin-page">
       {user && user.isAdmin === true ? (
@@ -153,6 +186,13 @@ export default function AdminPage() {
                       onClick={runKOTHDataUpdate}
                       disabled={updateInProgress}>
                         Update KOTH
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                      onClick={() => addYear(yearData)}
+                      disabled={updateInProgress}>
+                        Add Year
                       </button>
                     </li>
                   </ul>
