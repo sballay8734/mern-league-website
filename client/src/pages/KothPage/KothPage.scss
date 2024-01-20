@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Kameron:wght@400;500;600;700&display=swap');
+
 .koth-page {
   color: white;
   display: flex;
@@ -397,6 +399,13 @@
         background-color: var(--primary-color-lighter);
         font-size: 0.8rem;
         font-weight: bold;
+        display: flex;
+        flex-direction: column;
+
+        .strikes {
+          font-size: 0.6rem;
+          color: var(--primary-color-darker);
+        }
       }
 
       div {
@@ -446,6 +455,9 @@
         justify-content: center;
         border-right: 1px solid var(--primary-color);
         position: relative;
+        font-family: 'Kameron', serif;
+        font-size: 0.7rem;
+        font-weight: 400;
 
         &.index0 {
           background-color: rgb(27, 27, 27);

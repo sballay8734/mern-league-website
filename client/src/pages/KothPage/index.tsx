@@ -187,20 +187,20 @@ export default function KothPage() {
           <div className={`breakdownWrapper`}>
             <div className="weekHeaders">
               <div className="weekHeader"></div>
-              <div className="week">Wk 1</div>
-              <div className="week">Wk 2</div>
-              <div className="week">Wk 3</div>
-              <div className="week">Wk 4</div>
-              <div className="week">Wk 5</div>
-              <div className="week">Wk 6</div>
-              <div className="week">Wk 7</div>
-              <div className="week">Wk 8</div>
-              <div className="week">Wk 9</div>
-              <div className="week">Wk 10</div>
-              <div className="week">Wk 11</div>
-              <div className="week">Wk 12</div>
-              <div className="week">Wk 13</div>
-              <div className="week">Wk 14</div>
+              <div className="week">Wk 1<span className="strikes">(4 strikes)</span></div>
+              <div className="week">Wk 2<span className="strikes">(4 strikes)</span></div>
+              <div className="week">Wk 3<span className="strikes">(4 strikes)</span></div>
+              <div className="week">Wk 4<span className="strikes">(3 strikes)</span></div>
+              <div className="week">Wk 5<span className="strikes">(3 strikes)</span></div>
+              <div className="week">Wk 6<span className="strikes">(3 strikes)</span></div>
+              <div className="week">Wk 7<span className="strikes">(3 strikes)</span></div>
+              <div className="week">Wk 8<span className="strikes">(3 strikes)</span></div>
+              <div className="week">Wk 9<span className="strikes">(2 strikes)</span></div>
+              <div className="week">Wk 10<span className="strikes">(2 strikes)</span></div>
+              <div className="week">Wk 11<span className="strikes">(1 strikes)</span></div>
+              <div className="week">Wk 12<span className="strikes">(1 strikes)</span></div>
+              <div className="week">Wk 13<span className="strikes">(1 strikes)</span></div>
+              <div className="week">Wk 14<span className="strikes">(1 strikes)</span></div>
             </div>
               {sortedData && sortedData.map((ownerObj, index) => {
                 const ownerName = Object.keys(ownerObj)[0]
@@ -213,6 +213,7 @@ export default function KothPage() {
                       return (
                       <div key={week} className={`weekCell index${index} ${ownerObj[ownerName].weeklyScores[week].strike && "striked"} ${Number(ownerObj[ownerName].weekEliminated) < weekKeysConversion[week] && "eliminated"}`}>
                         {ownerObj[ownerName].weeklyScores[week].points.toFixed(2)}
+
                         {Number(ownerObj[ownerName].weekEliminated) < weekKeysConversion[week] && <span className="overlay"></span>}
                       </div>
                       )
