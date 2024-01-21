@@ -24,7 +24,7 @@ export default function ComparePage() {
     useState<string>("combined")
   const [showYearDropdown, setShowYearDropdown] = useState<boolean>(false)
   // SET YEAR TO CURRENT WHEN YOU ADD THE STATS
-  const [selectedYear, setSelectedYear] = useState<string>("2022")
+  const [selectedYear, setSelectedYear] = useState<string>("2023")
   const [ownerOne, setOwnerOne] = useState<StaticOwner | null>(null)
   const [ownerTwo, setOwnerTwo] = useState<StaticOwner | null>(null)
 
@@ -95,7 +95,10 @@ export default function ComparePage() {
 
       if (tempOwner) {
         setOwnerOne(tempOwner)
-        setOwnerTwo(data[11])
+
+        const tempOwnerIndex = data.indexOf(tempOwner);
+
+        setOwnerTwo(tempOwnerIndex !== 11 ? data[11] : data[10]);
       } else {
         setOwnerOne(data[0])
       }

@@ -1,0 +1,7 @@
+1. Find a better font for numbers and text separately
+2. Split  own component to render the locked functionality correctly
+3. Fix finishing places
+4. Only allow props to be fetched on Friday/Saturday if not Full Admin (you)
+5. Schedule swap record has a bug. When opponents play eachother is tallies a tie for the schedule swap because you'd be facing your own score but it shouldn't do that.
+
+6. CHECK THAT YOU ACTUALLY FIXED BUG WITH TIES ON Swap Schedule. I think you did but not totally sure

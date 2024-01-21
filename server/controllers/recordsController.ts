@@ -40,8 +40,6 @@ export const setRecords = async (
 
     if (!updatedRecords) return next(errorHandler(500, "Something went wrong"))
 
-    console.log(updatedRecords)
-
     res.status(200).json(updatedRecords)
   } catch (error) {
     next(error)

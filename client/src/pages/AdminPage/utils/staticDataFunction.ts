@@ -1047,16 +1047,28 @@ function getWhatIf(owner: Owner, owners: Owner[]) {
             } else if (matchupOne.pointsFor === matchupOne.pointsAgainst) {
               yearlySSTies++
             }
-
-            continue
+          } else {
+            const ownerOnePF = ownerOne[year].regularSeason[week].pointsFor
+            const ownerTwoPA = ownerTwo[year].regularSeason[week].pointsAgainst
+  
+            if (ownerOnePF > ownerTwoPA) {
+              yearlySSWins++
+              continue
+            }
+            if (ownerOnePF < ownerTwoPA) {
+              yearlySSLosses++
+              continue
+            }
+            if (ownerOnePF === ownerTwoPA && ownerOne.ownerName !== matchupTwo.opponent) {
+              yearlySSTies++
+              // keep checking by year!!!
+              if (year === 2021) {
+                console.log(year, week, ownerOne.ownerName, ownerTwo.ownerName)
+              }
+              continue
+            }
           }
 
-          const ownerOnePF = ownerOne[year].regularSeason[week].pointsFor
-          const ownerTwoPA = ownerTwo[year].regularSeason[week].pointsAgainst
-
-          if (ownerOnePF > ownerTwoPA) yearlySSWins++
-          if (ownerOnePF < ownerTwoPA) yearlySSLosses++
-          if (ownerOnePF === ownerTwoPA) yearlySSTies++
         }
 
         totalSSWins += yearlySSWins

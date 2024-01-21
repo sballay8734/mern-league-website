@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kameron:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalnia:wght@100;200;300;400;500;600;700&display=swap');
 
 .compare-page {
   color: white;
@@ -362,13 +364,16 @@
           width: 100%;
           background-color: rgb(22, 22, 22);
 
-          .cell {
-            padding: 0.5rem 0;
+          .cell.stat {
+            padding: 1rem 0;
             border-bottom: 1px solid var(--primary-color-darker);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            font-family: 'Kalnia', serif;
+            font-weight: 300;
+            // font-family: 'Kameron', serif;
           }
 
           .stat-names {
@@ -387,6 +392,11 @@
             .stat {
               position: relative;
               z-index: 1;
+              border-bottom: 1px solid var(--primary-color);
+
+              &:last-child {
+                border-bottom: none;
+              }
             }
 
             .owner-name,
@@ -437,13 +447,14 @@
 
           .owner-one-stats {
             .cell {
-              padding: 0.5rem 0;
+              padding: 1rem 0;
               border-bottom: 1px solid var(--primary-color-darker);
               display: flex;
               align-items: center;
               justify-content: center;
               position: relative;
               opacity: 0.8;
+              font-family: 'Kameron', serif;
 
               .plus-minus-and-icon {
                 position: absolute;
@@ -465,6 +476,7 @@
 
               .plus-minus {
                 font-size: 0.5rem;
+                font-family: 'Kameron', serif;
 
                 &.green {
                   color: rgb(110, 255, 110);
@@ -479,13 +491,14 @@
 
           .owner-two-stats {
             .cell {
-              padding: 0.5rem 0;
+              padding: 1rem 0;
               border-bottom: 1px solid var(--primary-color-darker);
               display: flex;
               align-items: center;
               justify-content: center;
               position: relative;
               opacity: 0.8;
+              font-family: 'Kameron', serif;
 
               .plus-minus-and-icon {
                 position: absolute;
@@ -507,6 +520,7 @@
 
               .plus-minus {
                 font-size: 0.5rem;
+                font-family: 'Kameron', serif;
 
                 &.green {
                   color: rgb(110, 255, 110);
@@ -521,6 +535,7 @@
 
           .cell {
             font-size: 0.9rem;
+            padding: 1rem 0;
           }
 
           .stat-title {
@@ -830,4 +845,18 @@
   /* Firefox */
   -ms-overflow-style: none;
   /* IE 10+ */
+}
+
+.stat-value {
+  font-family: 'Kameron', serif;
+  font-weight: bold;
+}
+
+.record {
+  font-family: 'Kameron', serif;
+  font-weight: bold;
+}
+
+.icons {
+  font-family: 'Kameron', serif;
 }
