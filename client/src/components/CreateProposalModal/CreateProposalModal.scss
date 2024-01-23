@@ -7,9 +7,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   &.hide {
     display: none;
   }
+
   .modal-background {
     position: fixed;
     z-index: 100;
@@ -17,8 +19,9 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0, 0, 0, 0.9);
   }
+
   .modal-content {
     width: 90%;
     max-width: 400px;
@@ -30,20 +33,25 @@
     border-radius: 5px;
     padding: 1rem;
     background-color: rgb(240, 240, 240);
+
     .modal-header {
       display: flex;
       gap: 1rem;
       align-items: center;
+
       .modal-icon {
         img {
           width: 25px;
         }
       }
+
       .modal-header-text {
         color: black;
+
         h2 {
           font-weight: bold;
         }
+
         p {
           font-size: 0.7rem;
           color: rgb(104, 104, 104);
@@ -51,68 +59,84 @@
         }
       }
     }
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+
+    .input-wrapper {
       width: 100%;
-      .input-wrapper {
-        width: 100%;
-        label {
-          font-size: 0.6rem;
-          color: black;
-          font-weight: bold;
-        }
-        input, textarea {
-          width: 100%;
-          align-self: flex-start;
-          background-color: white;
-          border: 2px solid var(--primary-color);
-          border-radius: 3px;
-          padding: 0.3rem 0.3rem;
-          transition: all 300ms;
-        }
-        input::placeholder, textarea::placeholder {
-          color: rgb(34, 34, 34);
-          font-size: 0.7rem;
-        }
-        input::placeholder {
-          font-size: 0.8rem;
-        }
-        input {
-          font-size: 0.8rem;
-        }
-        textarea {
-          font-size: 0.7rem;
-        }
-        #title:focus, #content:focus {
-          outline: none;
-          background-color: var(--primary-color-lighter);
-          transition: all 300ms;
-        }
-        
-      }
-      button {
-        cursor: pointer;
-        width: 100%;
-        background-color: var(--accent-color);
-        color: white;
-        border: 1px solid transparent;
-        border-radius: 3px;
-        padding: 0.5rem 0.3rem;
+
+      label {
+        font-size: 0.6rem;
+        color: black;
         font-weight: bold;
-        &:hover {
-          opacity: 0.9;
-        }
-        &:active {
-          opacity: 0.8;
-        }
       }
+
+      input,
+      textarea {
+        width: 100%;
+        align-self: flex-start;
+        background-color: white;
+        border: 2px solid var(--primary-color);
+        border-radius: 3px;
+        padding: 0.3rem 0.3rem;
+        transition: all 300ms;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: rgb(34, 34, 34);
+        font-size: 0.7rem;
+      }
+
+      input::placeholder {
+        font-size: 0.8rem;
+      }
+
+      input {
+        font-size: 0.8rem;
+      }
+
+      textarea {
+        font-size: 0.7rem;
+      }
+
+      #title:focus,
+      #content:focus {
+        outline: none;
+        background-color: var(--primary-color-lighter);
+        transition: all 300ms;
+      }
+
     }
-    .error-message {
-      margin: 0;
-      color: red;
+
+    button {
+      cursor: pointer;
+      width: 100%;
+      background-color: var(--accent-color);
+      color: white;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      padding: 0.5rem 0.3rem;
+      font-weight: bold;
+
+      &:hover {
+        opacity: 0.9;
+      }
+
+      &:active {
+        opacity: 0.8;
+      }
     }
   }
+
+  .error-message {
+    margin: 0;
+    color: red;
+  }
+}

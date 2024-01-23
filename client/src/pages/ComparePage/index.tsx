@@ -21,7 +21,7 @@ export default function ComparePage() {
   const { data } = useFetchStaticDataQuery()
   const [activeButton, setActiveButton] = useState<string>("h2h")
   const [activeFilterButton, setActiveFilterButton] =
-    useState<string>("combined")
+    useState<string>("regszn")
   const [showYearDropdown, setShowYearDropdown] = useState<boolean>(false)
   // SET YEAR TO CURRENT WHEN YOU ADD THE STATS
   const [selectedYear, setSelectedYear] = useState<string>("2023")

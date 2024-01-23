@@ -92,7 +92,7 @@ export default function Header() {
           </div>
           <div className="mobile-nav-spacer" onClick={handleAdminNav}>
             {user ? (
-              <img
+              <img className={`${user.preferredTheme === "eagles-kelly" ? "kelly" : ""}`}
                 src={
                   user?.preferredTheme === "eagles-kelly"
                     ? `${user?.preferredTheme}Logo.png`

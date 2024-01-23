@@ -137,7 +137,7 @@ function calcBestWeeks(owners: Owner[]) {
             year: year,
             during: "Season",
             matchup: null,
-            type: " Points"
+            type: " Pts"
           })
         }
       }
@@ -173,7 +173,7 @@ function calcBestWeeks(owners: Owner[]) {
             year: year,
             during: "Playoffs",
             matchup: null,
-            type: " Points"
+            type: " Pts"
           })
         }
       }
@@ -225,7 +225,7 @@ function calcWorstWeeks(owners: Owner[]) {
             year: year,
             during: "Season",
             matchup: null,
-            type: " Points"
+            type: " Pts"
           })
         }
       }
@@ -261,7 +261,7 @@ function calcWorstWeeks(owners: Owner[]) {
             year: year,
             during: "Playoffs",
             matchup: null,
-            type: " Points"
+            type: " Pts"
           })
         }
       }
@@ -308,7 +308,7 @@ function calcLongestWinStreaks(owners: Owner[]) {
               year: year - 1,
               during: null,
               matchup: null,
-              type: " Games"
+              type: " Gms"
             })
           } else {
             winStreaks.push({
@@ -319,7 +319,7 @@ function calcLongestWinStreaks(owners: Owner[]) {
               year: year,
               during: null,
               matchup: null,
-              type: " Games"
+              type: " Gms"
             })
           }
           bestStreak = 0
@@ -352,7 +352,7 @@ function calcLongestWinStreaks(owners: Owner[]) {
             year: year,
             during: null,
             matchup: null,
-            type: " Games"
+            type: " Gms"
           })
           testString = ""
           bestStreak = 0
@@ -403,7 +403,7 @@ function calcLongestLossStreaks(owners: Owner[]) {
               year: year - 1,
               during: null,
               matchup: null,
-              type: " Games"
+              type: " Gms"
             })
           } else {
             lossStreaks.push({
@@ -414,7 +414,7 @@ function calcLongestLossStreaks(owners: Owner[]) {
               year: year,
               during: null,
               matchup: null,
-              type: " Games"
+              type: " Gms"
             })
           }
           worstStreak = 0
@@ -447,7 +447,7 @@ function calcLongestLossStreaks(owners: Owner[]) {
             year: year,
             during: null,
             matchup: null,
-            type: " Games"
+            type: " Gms"
           })
           testString = ""
           worstStreak = 0
@@ -469,7 +469,7 @@ function calcBiggestBlowouts(owners: Owner[]) {
       year: 0,
       during: null,
       matchup: { pointsFor: 0, pointsAgainst: 0, opponent: "", during: "" },
-      type: " Points"
+      type: " Pts"
     }
   ]
 
@@ -507,7 +507,7 @@ function calcBiggestBlowouts(owners: Owner[]) {
               during: "Season"
             },
             during: null,
-            type: " Points"
+            type: " Pts"
           })
         } else {
           const minDifferential = Math.min(
@@ -532,7 +532,7 @@ function calcBiggestBlowouts(owners: Owner[]) {
                 during: "Season"
               },
               during: null,
-              type: " Points"
+              type: " Pts"
             })
           }
         }
@@ -565,7 +565,7 @@ function calcBiggestBlowouts(owners: Owner[]) {
             },
             during: null,
             bonusStat: null,
-            type: " Points"
+            type: " Pts"
           })
         } else {
           const minDifferential = Math.min(
@@ -590,7 +590,7 @@ function calcBiggestBlowouts(owners: Owner[]) {
               },
               bonusStat: null,
               during: null,
-              type: " Points"
+              type: " Pts"
             })
           }
         }
@@ -611,7 +611,7 @@ function calcClosestGames(owners: Owner[]) {
       during: null,
       year: 0,
       matchup: { pointsFor: 0, pointsAgainst: 0, opponent: "", during: "" },
-      type: " Points"
+      type: " Pts"
 
     }
   ]
@@ -652,7 +652,7 @@ function calcClosestGames(owners: Owner[]) {
             },
             during: null,
             bonusStat: null,
-            type: " Points"
+            type: " Pts"
           })
         } else {
           const maxDifferential = Math.max(
@@ -677,7 +677,7 @@ function calcClosestGames(owners: Owner[]) {
               },
               during: null,
               bonusStat: null,
-              type: " Points"
+              type: " Pts"
             })
           }
         }
@@ -710,7 +710,7 @@ function calcClosestGames(owners: Owner[]) {
             },
             during: null,
             bonusStat: null,
-            type: " Points"
+            type: " Pts"
           })
         } else {
           const maxDifferential = Math.max(
@@ -735,7 +735,7 @@ function calcClosestGames(owners: Owner[]) {
               },
               during: null,
               bonusStat: null,
-              type: " Points"
+              type: " Pts"
             })
           }
         }
@@ -756,7 +756,7 @@ function calcHighestCombinedScores(owners: Owner[]) {
       during: null,
       year: 0,
       matchup: { pointsFor: 0, pointsAgainst: 0, opponent: "", during: "" },
-      type: " Points"
+      type: " Pts"
     }
   ]
 
@@ -794,7 +794,7 @@ function calcHighestCombinedScores(owners: Owner[]) {
             },
             during: null,
             bonusStat: null,
-            type: " Points"
+            type: " Pts"
           })
         } else {
           const minSum = Math.min(...matchups.map((matchup) => matchup.statValue))
@@ -817,7 +817,7 @@ function calcHighestCombinedScores(owners: Owner[]) {
               },
               during: null,
               bonusStat: null,
-              type: " Points"
+              type: " Pts"
             })
           }
         }
@@ -850,7 +850,7 @@ function calcHighestCombinedScores(owners: Owner[]) {
             },
             during: null,
             bonusStat: null,
-            type: " Points"
+            type: " Pts"
           })
         } else {
           const minSum = Math.min(...matchups.map((matchup) => matchup.statValue))
@@ -873,7 +873,7 @@ function calcHighestCombinedScores(owners: Owner[]) {
               },
               during: null,
               bonusStat: null,
-              type: " Points"
+              type: " Pts"
             })
           }
         }
@@ -894,7 +894,7 @@ function calcLowestCombinedScores(owners: Owner[]) {
       matchup: { pointsFor: 0, pointsAgainst: 0, opponent: "", during: "" },
       during: null,
       bonusStat: null,
-      type: " Points"
+      type: " Pts"
     }
   ]
 
@@ -932,7 +932,7 @@ function calcLowestCombinedScores(owners: Owner[]) {
             },
             during: null,
             bonusStat: null,
-            type: " Points"
+            type: " Pts"
           })
         } else {
           const maxSum = Math.max(...matchups.map((matchup) => matchup.statValue))
@@ -955,7 +955,7 @@ function calcLowestCombinedScores(owners: Owner[]) {
               },
               during: null,
               bonusStat: null,
-              type: " Points"
+              type: " Pts"
             })
           }
         }
@@ -988,7 +988,7 @@ function calcLowestCombinedScores(owners: Owner[]) {
             },
             during: null,
             bonusStat: null,
-            type: " Points"
+            type: " Pts"
           })
         } else {
           const maxSum = Math.max(...matchups.map((matchup) => matchup.statValue))
@@ -1011,7 +1011,7 @@ function calcLowestCombinedScores(owners: Owner[]) {
               },
               during: null,
               bonusStat: null,
-              type: " Points"
+              type: " Pts"
             })
           }
         }
@@ -1087,7 +1087,7 @@ function calcHighLowPF(owners: Owner[]) {
         year: null,
         during: null,
         matchup: null,
-        type: " Points"
+        type: " Pts"
       })
     } else {
       const minWinPct = Math.min(...avgPF.map((value) => value.statValue))
@@ -1105,7 +1105,7 @@ function calcHighLowPF(owners: Owner[]) {
           year: null,
           during: null,
           matchup: null,
-          type: " Points"
+          type: " Pts"
         })
       }
     }
@@ -1157,12 +1157,13 @@ function calcPlayoffRate(owners: Owner[]) {
 
   return { top5, bottom5 }
 }
-function finishingPlaceHelper(owners: Owner[]) {
+async function finishingPlaceHelper(owners: Owner[]) {
   const finishingPlaces = []
   for (let i = 0; i < owners.length; i++) {
     const currentOwner = owners[i]
 
-    const tempVar = calcBonusStats(currentOwner, owners).avgFinishPlace
+    const bonusStats = await calcBonusStats(currentOwner, owners).avgFinishPlace
+    const tempVar = bonusStats?.avgFinishPlace
 
     finishingPlaces.push({
       recordHolder: currentOwner.ownerName,

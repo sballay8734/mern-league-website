@@ -5,3 +5,12 @@
 5. Schedule swap record has a bug. When opponents play eachother is tallies a tie for the schedule swap because you'd be facing your own score but it shouldn't do that.
 
 6. CHECK THAT YOU ACTUALLY FIXED BUG WITH TIES ON Swap Schedule. I think you did but not totally sure
+7. Cells in yearly and maybe more don't have the right font for numbers
+8. Top score of week should be gold (in koth breakdown)
+
+
+9. Test Max Width (Then check minHeight & maxHeight)
+10. Test Min Width (Then check minHeight & maxHeight)
+
+CURRENTLY DOING RECORDS PAGE
+11. LEFT: (ComparePage, Records, Picks, )

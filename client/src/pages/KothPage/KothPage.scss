@@ -14,6 +14,9 @@
   .alwaysShownContent {
     height: 100svh;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   // border: 1px solid var(--primary-color);
@@ -24,6 +27,11 @@
     justify-content: center;
     width: 100%;
     height: 25%;
+    max-width: 500px;
+
+    @media screen and (max-height: 615px) {
+      height: 30%;
+    }
 
     .king-nav {
       width: 100%;
@@ -123,7 +131,12 @@
     justify-content: center;
     width: 100%;
     background: linear-gradient(180deg, rgb(13, 13, 13) 30%, var(--primary-color-darker-for-gradient) 100%);
+    max-width: 500px;
     // overflow: scroll;
+
+    @media screen and (max-height: 615px) {
+      height: 70%;
+    }
 
     .standings {
       height: 100%;
@@ -177,6 +190,14 @@
       border-top: 1px solid var(--primary-color);
       width: 100%;
 
+      @media screen and (max-height: 615px) {
+        padding: 0.6rem 0;
+      }
+
+      @media screen and (max-height: 585px) {
+        padding: 0.4rem 0;
+      }
+
       div {
         width: 100%;
         text-align: center;
@@ -184,6 +205,11 @@
 
         &:not(:last-child) {
           border-right: 1px solid black;
+        }
+
+        @media screen and (max-width: 350px),
+        screen and (max-height: 650px) {
+          font-size: 0.6rem;
         }
       }
     }
@@ -198,7 +224,6 @@
       border-bottom: 1px solid var(--primary-color);
       border-bottom-left-radius: 3px;
       border-bottom-right-radius: 3px;
-
 
       .ownerWrapper {
         display: grid;
@@ -227,6 +252,10 @@
           gap: 0.2rem;
           align-items: center;
           justify-content: center;
+
+          @media screen and (max-width: 350px) {
+            font-size: 0.7rem;
+          }
 
           .circle {
             border: 1px solid grey;
@@ -304,6 +333,22 @@
           padding-left: 0.8rem;
           font-weight: bold;
           font-size: 0.9rem;
+
+          @media screen and (max-width: 420px),
+          screen and (max-height: 700px) {
+            font-size: 0.8rem;
+            padding-left: 0.4rem;
+          }
+
+          @media screen and (max-width: 350px) {
+            font-size: 0.7rem;
+            padding-left: 0.4rem;
+          }
+
+          @media screen and (max-width: 320px) {
+            font-size: 0.6rem;
+            padding-left: 0.2rem;
+          }
         }
 
         // HIDDEN FOR NOW
@@ -313,6 +358,104 @@
           height: 25px;
           left: 0;
           opacity: 0;
+        }
+
+        @media screen and (max-height: 850px) {
+          padding: 0.5rem;
+        }
+
+        @media screen and (max-height: 800px) {
+          padding: 0.4rem;
+        }
+
+        @media screen and (max-height: 750px) {
+          padding: 0.4rem;
+
+          .topScorer {
+            font-size: 0.9rem;
+          }
+
+          .weekEliminated {
+            font-size: 0.9rem;
+          }
+        }
+
+        @media screen and (max-height: 700px) {
+          padding: 0.4rem;
+
+          .topScorer {
+            font-size: 0.8rem;
+          }
+
+          .weekEliminated {
+            font-size: 0.8rem;
+          }
+        }
+
+        @media screen and (max-height: 675px) {
+          padding: 0.3rem;
+
+          .topScorer {
+            font-size: 0.8rem;
+          }
+
+          .weekEliminated {
+            font-size: 0.8rem;
+          }
+
+          .strikes {
+            font-size: 0.7rem;
+          }
+        }
+
+        @media screen and (max-height: 625px) {
+          padding: 0.3rem;
+
+          .topScorer {
+            font-size: 0.8rem;
+          }
+
+          .weekEliminated {
+            font-size: 0.8rem;
+          }
+        }
+
+        @media screen and (max-height: 615px) {
+          padding: 0.2rem;
+
+          .topScorer {
+            font-size: 0.8rem;
+          }
+
+          .weekEliminated {
+            font-size: 0.8rem;
+          }
+        }
+
+        @media screen and (max-height: 595px) {
+          padding: 0.2rem;
+
+          .strikes {
+            font-size: 0.5rem;
+          }
+
+          .topScorer,
+          .weekEliminated {
+            font-size: 0.6rem;
+          }
+        }
+
+        @media screen and (max-height: 560px) {
+          padding: 0.2rem;
+
+          .strikes {
+            font-size: 0.5rem;
+          }
+
+          .topScorer,
+          .weekEliminated {
+            font-size: 0.6rem;
+          }
         }
       }
     }
@@ -331,6 +474,14 @@
     height: 100%;
     flex-direction: column;
     width: 100%;
+
+    // @media screen and (max-height: 570px) {
+    //   .standings {
+    //     min-height: 400px;
+    //   }
+
+    //   overflow: auto;
+    // }
   }
 
   // FIX *******************************
@@ -350,9 +501,11 @@
   .king-page-extra-content {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    background-color: var(--primary-color-darker-for-gradient);
+    align-items: center;
+    background-color: black;
     padding: 0 0.5rem 0rem 0.5rem;
+    width: 100%;
+    max-width: 500px;
 
     &.show {
       padding: 0 0.5rem 0.5rem 0.5rem;
@@ -369,6 +522,7 @@
       border-bottom-right-radius: 7px;
       overflow-x: scroll;
       transition: all 300ms;
+      width: 100%;
 
       &.show {
         height: fit-content;
@@ -390,6 +544,8 @@
     border-left: none;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
+
+    @media screen and (max-width: 350px) {}
 
 
     .weekHeaders {
@@ -420,6 +576,17 @@
         &:last-child {
           border: none;
         }
+
+
+        @media screen and (max-height: 575px) {
+          padding: 0.2rem 0.5rem;
+          min-width: 75px;
+        }
+
+        @media screen and (max-height: 550px) {
+          padding: 0.1rem 0.5rem;
+          min-width: 70px;
+        }
       }
 
       .weekHeader {
@@ -431,6 +598,21 @@
         font-weight: bold;
         position: sticky;
         left: 0;
+
+        @media screen and (max-width: 350px) {
+          font-size: 0.7rem;
+          min-width: 100px;
+        }
+
+        @media screen and (max-width: 500px) {
+          font-size: 0.7rem;
+          min-width: 100px;
+        }
+
+        @media screen and (max-height: 570px) {
+          padding: 0.3rem, 0.5rem, 0.3rem, 1rem;
+        }
+
         // border-top-left-radius: 3px;
       }
     }
@@ -458,6 +640,19 @@
         font-family: 'Kameron', serif;
         font-size: 0.7rem;
         font-weight: 400;
+
+        @media screen and (max-width: 350px) {
+          padding: 0.6rem;
+        }
+
+        @media screen and (max-height: 575px) {
+          min-width: 75px;
+        }
+
+        @media screen and (max-height: 550px) {
+          // padding: 0.1rem 0.5rem;
+          min-width: 70px;
+        }
 
         &.index0 {
           background-color: rgb(27, 27, 27);
@@ -548,6 +743,16 @@
         position: sticky;
         left: 0;
         z-index: 1;
+
+        @media screen and (max-width: 350px) {
+          font-size: 0.7rem;
+          min-width: 100px;
+        }
+
+        @media screen and (max-width: 500px) {
+          font-size: 0.7rem;
+          min-width: 100px;
+        }
 
         &.index0 {
           background-color: rgb(27, 27, 27);

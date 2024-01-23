@@ -7,9 +7,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   &.hide {
     display: none;
   }
+
   .modal-background {
     position: fixed;
     z-index: 100;
@@ -17,8 +19,9 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0, 0, 0, 0.9);
   }
+
   .modal-content {
     width: 90%;
     max-width: 400px;
@@ -30,22 +33,27 @@
     border-radius: 5px;
     padding: 1rem;
     background-color: rgb(228, 228, 228);
+
     .title-wrapper {
       background-color: rgb(21, 21, 21);
       padding: 0.4rem 0.4rem;
       border-radius: 3px;
       color: white;
       font-weight: bold;
+
       h1 {
         display: flex;
         align-items: center;
       }
+
       h1 span {
         font-weight: normal;
       }
+
       &.hide {
         padding: 0;
       }
+
       .edit-title-input {
         width: 100%;
         font-weight: normal;
@@ -53,6 +61,7 @@
         border-radius: 3px;
         padding: 0.3rem 0.4rem;
         transition: all 300ms;
+
         &:focus {
           border: 2px solid rgb(21, 21, 21);
           outline: none;
@@ -61,6 +70,7 @@
         }
       }
     }
+
     .details-wrapper {
       padding: 0.4rem;
       border-radius: 3px;
@@ -68,14 +78,17 @@
       background-color: var(--primary-color-lighter);
       display: flex;
       flex-direction: column;
+
       &.hide {
         padding: 0;
         margin: 0;
       }
+
       .edit-content-input {
         width: 100%;
         height: 115px;
         transition: all 300ms;
+
         textarea {
           width: 100%;
           height: 115px;
@@ -83,14 +96,16 @@
           border-radius: 3px;
           font-weight: normal;
           border: 2px solid transparent;
+
           &:focus {
-          border: 2px solid rgb(21, 21, 21);
-          outline: none;
-          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-          transition: all 300ms;
-        }
+            border: 2px solid rgb(21, 21, 21);
+            outline: none;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: all 300ms;
+          }
         }
       }
+
       .vote-tally {
         align-self: flex-end;
         font-size: 0.6rem;
@@ -102,33 +117,40 @@
         margin-top: 0.4rem;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         color: white;
+
         .for-votes {
           color: rgb(0, 164, 0);
         }
+
         .against-votes {
           color: rgb(212, 0, 0);
         }
       }
     }
+
     .details-prefix {
       font-weight: bold;
     }
+
     .modal-top {
       display: flex;
       width: 100%;
       font-size: 0.6rem;
       justify-content: space-between;
+
       .top-right {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
         justify-content: space-between;
         gap: 0.5rem;
+
         .close-and-reset {
           display: flex;
           align-items: center;
           width: 100%;
           justify-content: flex-end;
+
           .reset {
             border: 1px solid transparent;
             cursor: pointer;
@@ -138,11 +160,13 @@
             border-radius: 3px;
             padding: 0.2rem 1rem;
             margin-right: auto;
+
             &:hover {
               opacity: 0.9;
             }
           }
         }
+
         .close {
           // padding: 0.3rem 0.3rem;
           cursor: pointer;
@@ -152,15 +176,18 @@
           color: rgb(98, 0, 0);
           font-size: 1.7rem;
           padding: 0;
+
           &:hover {
             opacity: 0.8;
             background-color: rgb(228, 174, 174);
             transition: all 300ms;
           }
+
           &:active {
             background-color: rgb(155, 97, 97);
           }
         }
+
         .edit {
           display: flex;
           align-items: center;
@@ -171,42 +198,53 @@
           color: black;
           border: 2px solid rgb(187, 159, 104);
           border-radius: 3px;
+
           &:hover {
             opacity: 0.9;
           }
+
           .edit-icon {
             animation: shake 1.5s infinite;
           }
         }
+
         .edit-confirm {
           display: flex;
           gap: 0.5rem;
-          .edit-save, .edit-cancel {
+
+          .edit-save,
+          .edit-cancel {
             border: 2px solid transparent;
             border-radius: 3px;
             cursor: pointer;
+
             &:hover {
               opacity: 0.9;
             }
           }
+
           .edit-save {
             background-color: rgb(0, 83, 0);
             color: white;
           }
+
           .edit-cancel {
             border: 2px solid rgb(0, 83, 0);
+
             &:hover {
               background-color: rgb(206, 206, 206);
             }
           }
+        }
       }
-      }
+
       .top-middle {
         display: flex;
         flex-direction: column;
         border-radius: 3px;
         width: 100px;
         align-self: flex-start;
+
         button {
           background-color: rgb(85, 0, 0);
           color: white;
@@ -215,12 +253,14 @@
           font-weight: bold;
           padding: 0.5rem 0rem;
           cursor: pointer;
+
           &:hover {
             opacity: 0.8;
           }
         }
       }
     }
+
     .modal-middle {
       font-size: 0.8rem;
       display: flex;
@@ -228,10 +268,12 @@
       width: 100%;
       gap: 0.5rem;
     }
+
     .modal-vote {
       display: flex;
       gap: 1rem;
       width: 100%;
+
       .commish-override-message-reject {
         display: flex;
         font-size: 0.8rem;
@@ -246,6 +288,7 @@
         font-weight: bold;
         color: rgb(106, 0, 0);
       }
+
       .commish-override-message-approve {
         display: flex;
         font-size: 0.8rem;
@@ -258,9 +301,11 @@
         background-color: rgb(118, 159, 114);
         opacity: 0.8;
         font-weight: bold;
-        color:rgb(0, 88, 16);
+        color: rgb(0, 88, 16);
       }
-      .reject, .approve {
+
+      .reject,
+      .approve {
         width: 100%;
         cursor: pointer;
         height: 3rem;
@@ -272,22 +317,35 @@
         justify-content: center;
         align-items: center;
         gap: 0.5rem;
+
         span {
           display: flex;
           justify-self: baseline;
         }
+
+        @media screen and (max-width: 375px) {
+          font-size: 0.6rem;
+        }
+
+        @media screen and (max-width: 315px) {
+          font-size: 0.5rem;
+        }
       }
+
       .reject {
         background-color: rgb(218, 68, 68);
         transition: all 300ms;
         color: black;
+
         &:hover {
           background-color: rgb(148, 26, 26);
           transition: all 300ms;
         }
+
         span {
           font-size: 1rem;
         }
+
         &.disable {
           cursor: default;
           background-color: grey;
@@ -295,14 +353,18 @@
           pointer-events: none;
         }
       }
+
       .approve {
         background-color: rgb(103, 255, 103);
         color: black;
+
         &:hover {
           background-color: rgb(52, 144, 52);
           transition: all 300ms;
         }
+
         transition: all 300ms;
+
         &.disable {
           cursor: default;
           background-color: grey;
@@ -311,17 +373,21 @@
         }
       }
     }
+
     .header {
       font-weight: bold;
     }
+
     form {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
+
       input {
         padding: 0.2rem 0.3rem;
       }
+
       button {
         cursor: pointer;
         width: 100px;
@@ -332,178 +398,245 @@
         padding: 0.3rem;
       }
     }
+
     .error-message {
       margin: 0;
       color: red;
     }
   }
+
   .info {
     font-weight: bold;
+
     &.pending {
       color: rgb(70, 70, 192);
     }
+
     &.rejected {
       color: rgb(186, 55, 55);
     }
+
     &.approved {
       color: rgb(76, 177, 76);
     }
   }
-    .commish-override-veto {
-      cursor: pointer;
-      width: 100%;
-      color: rgb(145, 0, 0);
-      border: none;
-      border-radius: 3px;
-      padding: 0.8rem 0.3rem;
-      background-color: rgb(224, 190, 190);
-      border: 2px solid rgb(145, 0, 0);
-      font-weight: bold;
+
+  .commish-override-veto {
+    cursor: pointer;
+    width: 100%;
+    color: rgb(145, 0, 0);
+    border: none;
+    border-radius: 3px;
+    padding: 0.8rem 0.3rem;
+    background-color: rgb(224, 190, 190);
+    border: 2px solid rgb(145, 0, 0);
+    font-weight: bold;
+    transition: all 300ms;
+
+    &:hover {
+      opacity: 0.9;
+      background-color: rgb(201, 124, 124);
       transition: all 300ms;
-      &:hover {
-        opacity: 0.9;
-        background-color: rgb(201, 124, 124);
-        transition: all 300ms;
-      }
     }
-    .commish-override-approve {
-      cursor: pointer;
+  }
+
+  .commish-override-approve {
+    cursor: pointer;
+    width: 100%;
+    color: rgb(0, 108, 20);
+    border: none;
+    border-radius: 3px;
+    padding: 0.8rem 0.3rem;
+    background-color: rgb(177, 208, 177);
+    border: 2px solid rgb(0, 108, 20);
+    font-weight: bold;
+    transition: all 300ms;
+
+    &:hover {
+      opacity: 0.9;
+      background-color: rgb(134, 190, 143);
+      transition: all 300ms;
+    }
+  }
+
+  .override-verify {
+    font-size: 0.8rem;
+    transition: all 300ms;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    .override-verify-buttons {
+      display: flex;
       width: 100%;
-      color: rgb(0, 108, 20);
-      border: none;
-      border-radius: 3px;
-      padding: 0.8rem 0.3rem;
+      gap: 1rem;
+    }
+
+    .confirm-veto {
       background-color: rgb(177, 208, 177);
       border: 2px solid rgb(0, 108, 20);
-      font-weight: bold;
-      transition: all 300ms;
+      color: rgb(0, 108, 20);
+
       &:hover {
         opacity: 0.9;
         background-color: rgb(134, 190, 143);
         transition: all 300ms;
       }
     }
-    .override-verify {
-      font-size: 0.8rem;
-      transition: all 300ms;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      .override-verify-buttons {
-        display: flex;
-        width: 100%;
-        gap: 1rem;
-      }
-      .confirm-veto {
-        background-color: rgb(177, 208, 177);
-        border: 2px solid rgb(0, 108, 20);
-        color: rgb(0, 108, 20);
-        &:hover {
-          opacity: 0.9;
-          background-color: rgb(134, 190, 143);
-          transition: all 300ms;
-        }
-      }
-      .deny-veto {
-        background-color: rgb(224, 190, 190);
-        border: 2px solid rgb(145, 0, 0);
-        color: rgb(145, 0, 0);
-        &:hover {
-          opacity: 0.9;
-          background-color: rgb(201, 124, 124);
-          transition: all 300ms;
-        }
-      }
-      button, span {
-        width: 100%;
-      }
-      button {
-        padding: 0.8rem 0rem;
-        cursor: pointer;
-        border: 1px solid transparent;
-        border-radius: 3px;
-        color: white;
-        font-weight: bold;
-        font-size: 0.8rem;
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-      .question {
-        background-color: rgb(255, 165, 165);
-        border-radius: 3px;
-        padding: 0.1rem 0.3rem;
-        font-weight: bold;
-        padding-left: 0.4rem;
-        font-size: 0.8rem;
-        color: rgb(144, 0, 0);
+
+    .deny-veto {
+      background-color: rgb(224, 190, 190);
+      border: 2px solid rgb(145, 0, 0);
+      color: rgb(145, 0, 0);
+
+      &:hover {
+        opacity: 0.9;
+        background-color: rgb(201, 124, 124);
+        transition: all 300ms;
       }
     }
-    .commish-buttons {
-        display: flex;
-        gap: 1rem;
-      }
-      .content-toggle {
-        width: fit-content;
-        align-self: center;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        font-weight: bold;
-        color: rgb(144, 0, 0);
-        transition: all 300ms;
-        background-color: rgb(228, 228, 228);
-        &:hover {
-          opacity: 0.6;
-          transition: all 300ms;
 
-        }
-        span {
-          animation: bounce 1s ease infinite;
+    button,
+    span {
+      width: 100%;
+    }
 
-        }
+    button {
+      padding: 0.8rem 0rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      color: white;
+      font-weight: bold;
+      font-size: 0.8rem;
+
+      &:hover {
+        opacity: 0.8;
       }
-      .commish-content-wrapper {
-        display: flex;
-        flex-direction: column;
-      }
-      .commish-content {
-        height: 0px;
-        opacity: 0;
-        padding-top: 0rem;
-        transition: height .5s, opacity 200ms, padding-top 300ms;
-        &.show {
-          padding-top: 1rem;
-          height: 66px;
-          opacity: 1;
-          transition: height 300ms, opacity 1s, padding-top 300ms;
-        }
-      }
-      .error {
-        color: red;
-        font-size: 0.6rem;
-        text-align: center;
-        font-weight: bold;
-      }
+    }
+
+    .question {
+      background-color: rgb(255, 165, 165);
+      border-radius: 3px;
+      padding: 0.1rem 0.3rem;
+      font-weight: bold;
+      padding-left: 0.4rem;
+      font-size: 0.8rem;
+      color: rgb(144, 0, 0);
+    }
+  }
+
+  .commish-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .content-toggle {
+    width: fit-content;
+    align-self: center;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    color: rgb(144, 0, 0);
+    transition: all 300ms;
+    background-color: rgb(228, 228, 228);
+
+    &:hover {
+      opacity: 0.6;
+      transition: all 300ms;
+
+    }
+
+    span {
+      animation: bounce 1s ease infinite;
+
+    }
+  }
+
+  .commish-content-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .commish-content {
+    height: 0px;
+    opacity: 0;
+    padding-top: 0rem;
+    transition: height .5s, opacity 200ms, padding-top 300ms;
+
+    &.show {
+      padding-top: 1rem;
+      height: 66px;
+      opacity: 1;
+      transition: height 300ms, opacity 1s, padding-top 300ms;
+    }
+  }
+
+  .error {
+    color: red;
+    font-size: 0.6rem;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  @media screen and (max-width: 375px) {
+    .modal-content {
+      padding: 1rem 0.5rem;
+    }
+  }
 }
 
 @keyframes bounce {
-   0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
-   40% {transform: translateY(-5px);} 
-   60% {transform: translateY(-3px);} 
-} 
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-5px);
+  }
+
+  60% {
+    transform: translateY(-3px);
+  }
+}
 
 @keyframes shake {
-  0% { transform: translateX(0) }
-  25% { transform: translateY(0px) }
-  35% { transform: translateY(0px) rotate(17deg) }
-  55% { transform: translateY(0px) rotate(-17deg) }
-  65% { transform: translateY(0px) rotate(17deg) }
-  75% { transform: translateY(0px) rotate(-17deg) }
-  100% { transform: translateY(0) rotate(0) }
+  0% {
+    transform: translateX(0)
+  }
+
+  25% {
+    transform: translateY(0px)
+  }
+
+  35% {
+    transform: translateY(0px) rotate(17deg)
+  }
+
+  55% {
+    transform: translateY(0px) rotate(-17deg)
+  }
+
+  65% {
+    transform: translateY(0px) rotate(17deg)
+  }
+
+  75% {
+    transform: translateY(0px) rotate(-17deg)
+  }
+
+  100% {
+    transform: translateY(0) rotate(0)
+  }
 }

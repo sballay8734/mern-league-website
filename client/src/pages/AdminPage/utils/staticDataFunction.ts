@@ -181,7 +181,9 @@ function calcH2HStats(owner: Owner) {
   }
 }
 // MAIN FUNCTION BONUS STATS
-export async function calcBonusStats(owner: Owner, owners: Owner[], kothData: FullObject[]) {
+export async function calcBonusStats(owner: Owner, owners: Owner[], kothData?: FullObject[]) {
+  if (!kothData) return 
+  
   const finishes: number[] = []
 
   let totalETEWWins = 0
