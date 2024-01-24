@@ -8,9 +8,7 @@
 
 CURRENTLY DOING -----------------------------------------------------
 11. PAGES LEFT: (Picks)
-
-13. Add more H2H Stats to fill space
-15. Add fadeIn to pages that need it (Picks)
+12. Add fadeIn to pages that need it (Picks)
 
 
 KNOWN BUGS

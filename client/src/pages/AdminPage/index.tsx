@@ -122,6 +122,8 @@ export default function AdminPage() {
     
   }
 
+  console.log(bettingData)
+
   function capitalizeAndRemoveLast(string: string): string {
     if (string.length <= 1) return ""
 
@@ -202,7 +204,7 @@ export default function AdminPage() {
                       <button onClick={fetchProps}>Fetch Props</button>
                     </li>
                     <li>
-                      <button>Submit Props</button>
+                      <button disabled>Submit Props</button>
                     </li>
                   </ul>
                 </div>
@@ -212,6 +214,8 @@ export default function AdminPage() {
                       const markets = prop.bookmakers[0].markets
 
                       const spreads = markets.find((item) => item.key === "spreads")
+
+                      const totals = markets.find((item) => item.key === "totals")
 
                       // const totals = markets.find((item) => item.key === "totals")
                       if (spreads) {

@@ -424,6 +424,18 @@ export default function ComparePage() {
                           </span>
                         </div>}
                       </div>
+                      <div className="cell avgFinish">
+                          {ownerTwo &&
+                          ownerOne &&
+                          ownerOne.bonusStats.avgFinishPlace && (
+                            <span className="stat-value gold">
+                              {ownerOne.bonusStats.avgFinishPlace}
+                            </span>
+                          )}
+                      </div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
                     </div>
                     {/* MIDDLE SECTION */}
                     <div className="stat-names">
@@ -435,6 +447,10 @@ export default function ComparePage() {
                       <div className="cell stat stat-one">Best Week</div>
                       <div className="cell stat stat-one">Worst Week</div>
                       <div className="cell stat stat-one">Total Points</div>
+                      <div className="cell stat stat-one">Avg. Finish</div>
+                      <div className="cell stat stat-one">*YOUR IDEA HERE*</div>
+                      <div className="cell stat stat-one">*YOUR IDEA HERE*</div>
+                      <div className="cell stat stat-one">*YOUR IDEA HERE*</div>
                     </div>
                     {/* OWNER TWO */}
                     <div className="owner-stats owner-two-stats">
@@ -606,6 +622,18 @@ export default function ComparePage() {
                           </span>
                         </div>}
                       </div>
+                      <div className="cell avgFinish">
+                          {ownerOne &&
+                          ownerTwo &&
+                          ownerTwo.bonusStats.avgFinishPlace && (
+                            <span className="stat-value gold">
+                              {ownerTwo.bonusStats.avgFinishPlace}
+                            </span>
+                          )}
+                      </div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
                     </div>
                   </div>
                 </div>
@@ -782,6 +810,18 @@ export default function ComparePage() {
                           </span>
                         </div>}
                       </div>
+                      <div className="cell avgFinish">
+                          {ownerTwo &&
+                          ownerOne &&
+                          ownerOne.bonusStats.avgFinishPlace && (
+                            <span className="stat-value gold">
+                              {ownerOne.bonusStats.avgFinishPlace}
+                            </span>
+                          )}
+                      </div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
                     </div>
                     {/* MIDDLE SECTION */}
                     <div className="stat-names">
@@ -793,6 +833,10 @@ export default function ComparePage() {
                       <div className="cell stat stat-one">Best Week</div>
                       <div className="cell stat stat-one">Worst Week</div>
                       <div className="cell stat stat-one">Total Points</div>
+                      <div className="cell stat stat-one">Avg. Finish</div>
+                      <div className="cell stat stat-one">*YOUR IDEA HERE*</div>
+                      <div className="cell stat stat-one">*YOUR IDEA HERE*</div>
+                      <div className="cell stat stat-one">*YOUR IDEA HERE*</div>
                     </div>
                     {/* OWNER TWO */}
                     <div className="owner-stats owner-two-stats">
@@ -964,6 +1008,18 @@ export default function ComparePage() {
                           </span>
                         </div>}
                       </div>
+                      <div className="cell avgFinish">
+                          {ownerOne &&
+                          ownerTwo &&
+                          ownerTwo.bonusStats.avgFinishPlace && (
+                            <span className="stat-value gold">
+                              {ownerTwo.bonusStats.avgFinishPlace}
+                            </span>
+                          )}
+                      </div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
                     </div>
                   </div>
                 </div>
@@ -1140,6 +1196,18 @@ export default function ComparePage() {
                           </span>
                         </div>}
                       </div>
+                      <div className="cell avgFinish">
+                          {ownerTwo &&
+                          ownerOne &&
+                          ownerOne.bonusStats.avgFinishPlace && (
+                            <span className="stat-value gold">
+                              {ownerOne.bonusStats.avgFinishPlace}
+                            </span>
+                          )}
+                      </div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
                     </div>
                     {/* MIDDLE SECTION */}
                     <div className="stat-names">
@@ -1151,6 +1219,10 @@ export default function ComparePage() {
                       <div className="cell stat stat-one">Best Week</div>
                       <div className="cell stat stat-one">Worst Week</div>
                       <div className="cell stat stat-one">Total Points</div>
+                      <div className="cell stat stat-one">Avg. Finish</div>
+                      <div className="cell stat stat-one">*YOUR IDEA HERE*</div>
+                      <div className="cell stat stat-one">*YOUR IDEA HERE*</div>
+                      <div className="cell stat stat-one">*YOUR IDEA HERE*</div>
                     </div>
                     {/* OWNER TWO */}
                     <div className="owner-stats owner-two-stats">
@@ -1322,6 +1394,18 @@ export default function ComparePage() {
                           </span>
                         </div>}
                       </div>
+                      <div className="cell avgFinish">
+                          {ownerOne &&
+                          ownerTwo &&
+                          ownerTwo.bonusStats.avgFinishPlace && (
+                            <span className="stat-value gold">
+                              {ownerTwo.bonusStats.avgFinishPlace}
+                            </span>
+                          )}
+                      </div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
+                      <div className="cell temp">-</div>
                     </div>
                   </div>
                 </div>

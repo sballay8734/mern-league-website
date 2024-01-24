@@ -136,7 +136,22 @@
 
             button {
               width: 100%;
-              padding: 1rem 0.3rem;
+              padding: 1.3rem 0.3rem;
+              background-color: var(--primary-color-darker);
+              color: white;
+              font-weight: bold;
+              border: none;
+              outline: none;
+              border-radius: 3px;
+              cursor: pointer;
+
+              &:hover {
+                opacity: 0.9;
+              }
+
+              &:disabled {
+                opacity: 0.3;
+              }
             }
           }
         }
