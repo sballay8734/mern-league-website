@@ -602,7 +602,7 @@ export default function ComparePage() {
                   </div>
                 </div>
               ) : activeFilterButton === "regszn" ? (
-                <div className="regszn-content h2h-content-wrapper-temp">
+                <div className="h2h-content-wrapper">
                   <div className="h2h-content h2h-content-wrapper">
                     {/* OWNER ONE */}
                     <div className="owner-stats owner-one-stats">
@@ -960,7 +960,7 @@ export default function ComparePage() {
                   </div>
                 </div>
               ) : activeFilterButton === "playoffs" ? (
-                <div className="playoff-content h2h-content-wrapper-temp">
+                <div className="h2h-content-wrapper">
                   <div className="h2h-content h2h-content-wrapper">
                     {/* OWNER ONE */}
                     <div className="owner-stats owner-one-stats">

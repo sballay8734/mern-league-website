@@ -2,15 +2,22 @@
 2. Split  own component to render the locked functionality correctly
 3. Fix finishing places
 4. Only allow props to be fetched on Friday/Saturday if not Full Admin (you)
-5. Schedule swap record has a bug. When opponents play eachother is tallies a tie for the schedule swap because you'd be facing your own score but it shouldn't do that.
 
 6. CHECK THAT YOU ACTUALLY FIXED BUG WITH TIES ON Swap Schedule. I think you did but not totally sure
-7. Cells in yearly and maybe more don't have the right font for numbers
-8. Top score of week should be gold (in koth breakdown)
 
 
-9. Test Max Width (Then check minHeight & maxHeight)
-10. Test Min Width (Then check minHeight & maxHeight)
+CURRENTLY DOING -----------------------------------------------------
+11. PAGES LEFT: (Picks)
 
-CURRENTLY DOING RECORDS PAGE
-11. LEFT: (ComparePage, Records, Picks, )
+12. SKELETONS WHEN LOADING ComparePage
+13. Add more H2H Stats to fill space
+14. Highlight topScorer in gold for each week (KOTH)
+15. Cells in yearly and maybe more don't have the right font for numbers
+16. Why isn't ETEW in Yearly RS Stats?
+
+
+KNOWN BUGS
+1. More than 3 Championships or Skirts can cause issues with ownerSelector Body
+
+Must Do For Final Version
+1. Responsiveness for Ipads and above

@@ -12,7 +12,7 @@ import {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@ MAIN INITIALIZER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 export async function recordsDataInit(owners: Owner[]) {
   // lets NOT do yearly records (overly complex for no good reason)
-  const allTimeRecords = calcAllTimeRecords(owners) // Call function
+  const allTimeRecords = await calcAllTimeRecords(owners) // Call function
 
   const res = await fetch("/api/records", {
     method: "POST",
@@ -35,7 +35,7 @@ export async function recordsDataInit(owners: Owner[]) {
 
 // YEARLY **********************************************************************
 // Called from recordsDataInit
-function calcAllTimeRecords(owners: Owner[]) {
+async function calcAllTimeRecords(owners: Owner[]) {
   const bestWeeks = calcBestWeeks(owners)
   const worstWeeks = calcWorstWeeks(owners)
   const longestWinningStreaks = calcLongestWinStreaks(owners)
@@ -52,8 +52,11 @@ function calcAllTimeRecords(owners: Owner[]) {
   const highPlayoffRateAndApps = calcPlayoffRate(owners).top5
   const lowPlayoffRateAndApps = calcPlayoffRate(owners).bottom5
 
-  const highestAvgFinishingPlace = finishingPlaceHelper(owners).top5
-  const lowestAvgFinishingPlace = finishingPlaceHelper(owners).bottom5
+  const highFinish = await finishingPlaceHelper(owners)
+  const lowFinish = await finishingPlaceHelper(owners)
+
+  const highestAvgFinishingPlace = highFinish?.top5
+  const lowestAvgFinishingPlace = lowFinish?.bottom5
 
   // const mostLuckyWins = 0 // wins when scoring in bottom 3rd (top 3) FETCH
   // const mostUnluckyLosses = 0 // losses when scoring in top 3rd (top 3) FETCH
@@ -1162,7 +1165,10 @@ async function finishingPlaceHelper(owners: Owner[]) {
   for (let i = 0; i < owners.length; i++) {
     const currentOwner = owners[i]
 
-    const bonusStats = await calcBonusStats(currentOwner, owners).avgFinishPlace
+    const bonusStats = await calcBonusStats(currentOwner, owners)
+
+    if (!bonusStats) return 
+
     const tempVar = bonusStats?.avgFinishPlace
 
     finishingPlaces.push({

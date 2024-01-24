@@ -23,6 +23,8 @@ export const setRecords = async (
 ) => {
   const newRecords = req.body
 
+  console.log(newRecords)
+
   try {
     if (!req.user) return next(errorHandler(400, "Unauthorized"))
 

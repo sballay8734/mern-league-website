@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
+
+
 .records-page {
   color: white;
   display: flex;
@@ -23,7 +26,6 @@
 
     .records-nav {
       width: 100%;
-      padding: 0 0.5rem;
 
       ul {
         display: flex;
@@ -105,6 +107,10 @@
         @media screen and (max-width: 400px) {
           font-size: 1.5rem;
         }
+
+        @media screen and (max-height: 500px) {
+          font-size: 1.1rem;
+        }
       }
 
       .award {
@@ -120,7 +126,7 @@
     align-items: center;
     justify-content: center;
     background: linear-gradient(180deg, rgb(13, 13, 13) 30%, var(--primary-color-darker-for-gradient) 100%);
-    padding: 0.5rem 0 0 0;
+    padding: 1rem 0 0 0;
     max-width: 600px;
 
     @media screen and (max-height: 700px) {
@@ -156,12 +162,16 @@
           border-top-left-radius: 1px;
           border-top-right-radius: 1px;
           padding: 0.5rem 0;
+          font-family: 'Love Ya Like A Sister', cursive;
         }
 
         .recordHolder {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+          // display: flex;
+          // align-items: center;
+          // justify-content: space-between;
+          display: grid;
+          place-items: center;
+          grid-template-columns: 2fr 1fr 1fr;
           gap: 0.5rem;
           position: relative;
           background-color: rgb(17, 17, 17);
@@ -169,15 +179,16 @@
           padding: 0.5rem 0.5rem;
 
           &:nth-child(even) {
-            background-color: rgb(43, 43, 43);
+            background-color: rgb(23, 23, 23);
           }
 
           .recordHolderName {
             display: flex;
+            text-wrap: nowrap;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.8rem;
-            width: 180px;
+            font-size: 0.7rem;
+            // width: 150px;
 
 
             &.small {
@@ -185,7 +196,7 @@
 
               @media screen and (max-width: 350px) {
                 font-size: 0.5rem;
-                width: 150px;
+                // width: 150px;
               }
             }
           }
@@ -208,6 +219,7 @@
 
           .recordYear {
             font-size: 0.8rem;
+            color: grey;
 
             &.small {
               font-size: 0.6rem;
@@ -224,8 +236,13 @@
           }
 
           .recordValue {
-            color: rgb(255, 0, 255);
+            color: rgb(255, 41, 41);
             font-weight: bold;
+          }
+
+          &.small {
+            grid-template-columns: 4fr 1fr 1fr;
+            place-items: center;
           }
         }
 

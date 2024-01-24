@@ -41,7 +41,7 @@ export default function ProfilePage() {
   const [activeTheme, setActiveTheme] = useState<string>(
     user?.preferredTheme || "eagles"
   )
-  const [initialTheme] = useState(() => {
+  const [initialTheme, setInitialTheme] = useState(() => {
     const storedTheme = localStorage.getItem("initialTheme")
     return storedTheme || null
   })
@@ -141,6 +141,8 @@ export default function ProfilePage() {
     )
   }
 
+  console.log(localStorage.getItem("initialTheme"))
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
@@ -204,6 +206,7 @@ export default function ProfilePage() {
       setFilePct(0)
       resetFormData()
       localStorage.setItem("initialTheme", data.preferredTheme)
+      setInitialTheme(data.preferredTheme)
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message)
