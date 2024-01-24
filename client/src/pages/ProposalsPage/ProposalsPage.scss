@@ -403,6 +403,7 @@
     flex-direction: column;
     background: linear-gradient(180deg, rgb(13, 13, 13) 30%, var(--primary-color-darker-for-gradient) 100%);
     overflow: auto;
+    animation: fadeIn 500ms linear;
 
     @media screen and (max-height: 615px) {
       height: 70%;
@@ -654,4 +655,14 @@
   /* Firefox */
   -ms-overflow-style: none;
   /* IE 10+ */
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

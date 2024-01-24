@@ -59,6 +59,7 @@ interface WeeklyScores {
   [week: string]: {
     points: number,
     totalStrikes: number,
+    topScorer: boolean,
     strike: boolean
   }
 }
@@ -116,6 +117,7 @@ export function KOTHInit(owners: Owner[]) {
         standingsObject[currentOwner.ownerName].weeklyScores[currentWeek] = {
           points: 0,
           totalStrikes: 0,
+          topScorer: false,
           strike: false
         }
 
@@ -139,6 +141,7 @@ export function KOTHInit(owners: Owner[]) {
         // give point to top scorer
         if (standingsObject[currentScore.owner].weeklyScores[currentWeek].points === sortedScores[sortedScores.length - 1].points) {
           standingsObject[currentScore.owner].topScorer += 1
+          standingsObject[currentScore.owner].weeklyScores[currentWeek].topScorer = true
         }
 
         if (strikesGiven >= strikeKeys[currentWeek]) continue

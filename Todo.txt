@@ -9,11 +9,11 @@
 CURRENTLY DOING -----------------------------------------------------
 11. PAGES LEFT: (Picks)
 
-12. SKELETONS WHEN LOADING ComparePage
 13. Add more H2H Stats to fill space
 14. Highlight topScorer in gold for each week (KOTH)
 15. Cells in yearly and maybe more don't have the right font for numbers
 16. Why isn't ETEW in Yearly RS Stats?
+17. Add fadeIn to pages that need it (Picks, )
 
 
 KNOWN BUGS

@@ -157,6 +157,7 @@
     justify-content: space-between;
     background: linear-gradient(180deg, rgb(13, 13, 13) 30%, var(--primary-color-darker-for-gradient) 100%);
     max-width: 500px;
+    animation: fadeIn 500ms linear;
 
     .selector-wrapper {
       border: 1px solid rgb(35, 35, 35);
@@ -1204,5 +1205,40 @@
 
   @media screen and (max-height: 1200px) {
     font-size: 0.9rem;
+  }
+}
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+
+  .spinner {
+    animation: spin 1.5s linear infinite;
+    font-size: 2rem;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }

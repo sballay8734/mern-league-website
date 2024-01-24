@@ -24,9 +24,10 @@ interface OwnerObjectAttr {
 
 interface WeeklyScores {
   [week: string]: {
-    points: number,
-    totalStrikes: number,
+    points: number
+    totalStrikes: number
     strike: boolean
+    topScorer: boolean
   }
 }
 
@@ -213,7 +214,7 @@ export default function KothPage() {
                     <div className={`ownerName index${index}`}>{formattedName}</div>
                     {weekKeys.map((week) => {
                       return (
-                      <div key={week} className={`weekCell index${index} ${ownerObj[ownerName].weeklyScores[week].strike && "striked"} ${Number(ownerObj[ownerName].weekEliminated) < weekKeysConversion[week] && "eliminated"}`}>
+                      <div key={week} className={`weekCell index${index} ${ownerObj[ownerName].weeklyScores[week].strike && "striked"} ${Number(ownerObj[ownerName].weekEliminated) < weekKeysConversion[week] && "eliminated"} ${ownerObj[ownerName].weeklyScores[week].topScorer === true && "topScore"}`}>
                         {ownerObj[ownerName].weeklyScores[week].points.toFixed(2)}
 
                         {Number(ownerObj[ownerName].weekEliminated) < weekKeysConversion[week] && <span className="overlay"></span>}

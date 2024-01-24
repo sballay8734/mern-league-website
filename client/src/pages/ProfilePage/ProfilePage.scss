@@ -9,6 +9,7 @@
   min-width: 280px;
   max-width: 350px;
   border-radius: 5px;
+  animation: fadeIn 500ms linear;
 
   .signout-button {
     color: rgb(186, 0, 0);
@@ -311,5 +312,15 @@
         transition: 300ms all;
       }
     }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }

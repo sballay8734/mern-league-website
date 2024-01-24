@@ -14,8 +14,10 @@ interface OwnerObjectAttr {
 
 interface WeeklyScores {
   [week: string]: {
-    points: number,
+    points: number
+    totalStrikes: number
     strike: boolean
+    topScorer: boolean
   }
 }
 
@@ -28,7 +30,8 @@ interface FullObject {
 const WeeklyScoresSchema = new Schema({
   points: {type: Number},
   totalStrikes: {type: Number},
-  strike: {type: Boolean}
+  strike: {type: Boolean},
+  topScorer: {type: Boolean}
 })
 
 

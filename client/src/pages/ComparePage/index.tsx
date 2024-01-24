@@ -13,12 +13,14 @@ import { FaAngleDoubleLeft } from "react-icons/fa"
 import { FaAngleDoubleDown } from "react-icons/fa"
 import { FaCaretUp } from "react-icons/fa"
 import { StaticOwner } from "../../types/StaticOwner"
+import { ImSpinner10 } from "react-icons/im";
+
 
 import "./ComparePage.scss"
 
 export default function ComparePage() {
   const { user } = useSelector((state: RootState) => state.user)
-  const { data } = useFetchStaticDataQuery()
+  const { data, isLoading, isError } = useFetchStaticDataQuery()
   const [activeButton, setActiveButton] = useState<string>("h2h")
   const [activeFilterButton, setActiveFilterButton] =
     useState<string>("regszn")
@@ -146,6 +148,12 @@ export default function ComparePage() {
         </nav>
       </div>
       <div className="compare-page-bottom">
+        {isLoading ? <div className="skeleton">
+          <span className="spinner">
+            <ImSpinner10 />
+          </span>
+        </div> : 
+        <>
         <div className="owner-one-selector-wrapper selector-wrapper">
           <div className="selector-header">
             {ownerOne && 
@@ -3389,6 +3397,7 @@ export default function ComparePage() {
             </div>
           </div>
         </div>
+        </>}
       </div>
     </div>
   )

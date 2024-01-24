@@ -132,6 +132,7 @@
     width: 100%;
     background: linear-gradient(180deg, rgb(13, 13, 13) 30%, var(--primary-color-darker-for-gradient) 100%);
     max-width: 500px;
+    animation: fadeIn 500ms linear;
     // overflow: scroll;
 
     @media screen and (max-height: 615px) {
@@ -728,6 +729,11 @@
           left: 2px;
         }
 
+        &.topScore {
+          color: rgb(255, 228, 73);
+          background-color: rgb(73, 62, 0);
+        }
+
       }
 
       .ownerName {
@@ -804,5 +810,15 @@
         }
       }
     }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
