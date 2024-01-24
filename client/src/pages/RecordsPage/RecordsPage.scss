@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kameron:wght@400;500;600;700&display=swap');
 
 
 .records-page {
@@ -204,12 +205,13 @@
 
           .recordValue {
             font-size: 0.8rem;
+            font-family: 'Kameron', serif;
 
             &.small {
               font-size: 0.6rem;
 
               @media screen and (max-width: 400px) {
-                font-size: 0.5rem;
+                font-size: 0.45rem;
               }
             }
 
@@ -221,6 +223,7 @@
           .recordYear {
             font-size: 0.8rem;
             color: grey;
+            font-family: 'Kameron', serif;
 
             &.small {
               font-size: 0.6rem;

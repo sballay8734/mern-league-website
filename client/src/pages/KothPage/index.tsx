@@ -62,7 +62,7 @@ export default function KothPage() {
   const [showBreakDown, setShowBreakdown] = useState<boolean>(false)
 
   // JUST FOR TESTING (AUTOMATE THIS)
-  const currentYear = "2022"
+  const currentYear = "2023"
 
   // INITIAL LOAD DOES NOT RENDER DATA!!!
 

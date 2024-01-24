@@ -965,7 +965,10 @@ function calcETEWYearly(owner: Owner, year: string, owners: Owner[]) {
 
       if (pointsFor > current.points) yearlyETEWWins++
       if (pointsFor < current.points) yearlyETEWLosses++
-      if (pointsFor === current.points) yearlyETEWTies++
+      if (pointsFor === current.points) {
+        yearlyETEWTies++
+      }
+      
     }
   }
 

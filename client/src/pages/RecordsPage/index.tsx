@@ -128,7 +128,7 @@ export default function RecordsPage() {
                            {index > 2 && <img className="honor" src="/honor.png" alt="medal" /> }
                             {owner.recordHolder}
                             </div>
-                           <div className="recordValue">{owner.statValue}{owner.type}</div>
+                           <div className="recordValue">{owner.statValue}{owner.type.toLocaleLowerCase()}</div>
                            {owner.year !== null ? <div className="recordYear small">{owner.year}</div> : <div className="recordYear small">N/A</div> }
                          </div>
                       )
@@ -142,7 +142,7 @@ export default function RecordsPage() {
                            {index > 2 && <img className="honor" src="/honor.png" alt="medal" /> }
                             {formatName(owner.recordHolder)}. ({owner.matchup?.pointsFor}) & {formatName(owner.opponent)}. ({owner.matchup?.pointsAgainst})
                             </div>
-                           <div className="recordValue small">{owner.statValue}{owner.type}</div>
+                           <div className="recordValue small">{owner.statValue}{owner.type.toLocaleLowerCase()}</div>
                            {owner.year !== null ? <div className="recordYear small">{owner.year}</div> : <div className="recordYear small">N/A</div> }
                          </div>
                       )
