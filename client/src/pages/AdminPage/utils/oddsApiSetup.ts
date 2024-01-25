@@ -21,7 +21,7 @@ const format = "american"
 const teamPropMarkets = ["spreads", "totals"]
 
 // NFL, NCAA
-const NflNcaaPlayerPropMarkets = ["player_pass_tds", "player_pass-yds", "player_pass_completions", "player_pass_attempts", "player_pass_interceptions", "player_rush_yds", "player_rush_attempts", "player_receptions", "player_reception_yds"]
+const NflNcaaPlayerPropMarkets = ["player_pass_tds", "player_pass_yds", "player_pass_completions", "player_pass_attempts", "player_pass_interceptions", "player_rush_yds", "player_rush_attempts", "player_receptions", "player_reception_yds"]
 
 // NBA, NCAAB also exist here
 // https://the-odds-api.com/sports-odds-data/betting-markets.html

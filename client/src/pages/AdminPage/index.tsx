@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { MdAdminPanelSettings } from "react-icons/md"
 import { RootState } from "../../redux/store"
@@ -15,9 +15,12 @@ import BettingPropSpreads from "../../components/BettingPropSpreads"
 import BettingPropTotals from "../../components/BettingPropTotals"
 
 const ODDS_API_KEY = "0f397ef8e40fda92307241c433993cd7"
+
 const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`
 
-// PROPS ROUTE `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/{EVENT_ID}/odds?apiKey=${ODDS_API_KEY}&regions=us&markets={markets}&oddsFormat=american`
+const PLAYER_PROPS_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/61dcc385d9c0927b9392d04c3b944198/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=player_pass_tds&oddsFormat=american`
+
+// PROPS ROUTE `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/61dcc385d9c0927b9392d04c3b944198/odds?apiKey=${ODDS_API_KEY}&regions=us&markets={markets}&oddsFormat=american`
 
 // const baseUrl = "https://api.prop-odds.com"
 
@@ -25,6 +28,7 @@ export interface Outcomes {
   name: string
   point: number
   price: number
+  description?: string
 }
 
 export interface Markets {
@@ -50,15 +54,57 @@ export interface BettingProp {
   bookmakers: Bookmakers[]
 }
 
+interface WeekRanges {
+  [week: string]: {
+    key: string
+    start: string
+    end: string
+  }
+}
+
+interface SubmittedProps {
+  propID: string
+  year: string // 2024
+  week: string // weekOne
+  type: string // spread | totals
+  homeTeam: string | null
+  awayTeam: string | null
+  player: string | null
+}
+
+const picksToMake = 3
+
+const nfl2024WeekRanges: WeekRanges = {
+    weekOne: {key: "weekOne", start: "2024-09-05T06:00:00Z", end: "2024-09-12T06:00:00Z" },
+    weekTwo: {key: "weekTwo", start: "", end: "" },
+    weekThree: {key: "weekThree", start: "", end: "" },
+    weekFour: {key: "weekFour", start: "", end: "" },
+    weekFive: {key: "weekFive", start: "", end: "" },
+    weekSix: {key: "weekSix", start: "", end: "" },
+    weekSeven: {key: "weekSeven", start: "", end: "" },
+    weekEight: {key: "weekEight", start: "", end: "" },
+    weekNine: {key: "weekNine", start: "", end: "" },
+    weekTen: {key: "weekTen", start: "", end: "" },
+    weekEleven: {key: "weekEleven", start: "", end: "" },
+    weekTwelve: {key: "weekTwelve", start: "", end: "" },
+    weekThirteen: {key: "weekThirteen", start: "", end: "" },
+    weekFourteen: {key: "weekFourteen", start: "", end: "" },
+    weekFifteen: {key: "weekFifteen", start: "", end: "" },
+    weekSixteen: {key: "weekSixteen", start: "", end: "" },
+    weekSeventeen: {key: "weekSeventeen", start: "", end: "" },
+    weekEighteen: {key: "weekEighteen", start: "2024-01-02T06:00:00Z", end: "2024-01-09T06:00:00Z" },
+    testWeek: {key: "testWeek", start: "2024-01-24T06:00:00Z", end: "2024-01-27T06:00:00Z" },
+}
+
 export default function AdminPage() {
   const { user } = useSelector((state: RootState) => state.user)
   const { data } = useFetchOwnersQuery()
   const [activeButton, setActiveButton] = useState<string>("tempAdmins")
   const [updateInProgress, setUpdateInProgress] = useState<boolean>(false)
   const [bettingData, setBettingData] = useState<BettingProp[] | null>(null)
-  const [propsSelected, setPropsSelected] = useState<string[]>([])
+  const [numPropsSelected, setNumPropsSelected] = useState<string[]>([])
+  const [propsSelected, setPropsSelected] = useState<SubmittedProps[]>([])
 
-  const picksToMake = 3
 
   async function runStaticDataUpdate() {
     setUpdateInProgress(true)
@@ -111,8 +157,6 @@ export default function AdminPage() {
 
   async function fetchProps() {
     // fetch this optionally. Button says "Fetch player props for this game"
-    let fanduelPlayerProps = []
-
     const res = await fetch(BASE_URL)
     const data = await res.json()
     if (!data) {
@@ -121,41 +165,42 @@ export default function AdminPage() {
     }
 
     setBettingData(data)
-    
   }
 
   // push prop.id && key
   function handlePropCounter(propId: string) {
-    if (propsSelected.includes(propId)) {
-      const filteredProps = propsSelected.filter((item) => item !== propId)
+    if (numPropsSelected.includes(propId)) {
+      const filteredProps = numPropsSelected.filter((item) => item !== propId)
 
-      setPropsSelected(filteredProps)
+      setNumPropsSelected(filteredProps)
     } else {
-      setPropsSelected([...propsSelected, propId])
+      setNumPropsSelected([...numPropsSelected, propId])
     }
   }
 
-  const nfl2024WeekRanges = {
-    weekOne: {key: "weekOne? 1? week_one?", start: "2024-09-05T06:00:00Z", end: "2024-09-12T06:00:00Z" },
-    weekTwo: {key: "", start: "", end: "" },
-    weekThree: {key: "", start: "", end: "" },
-    weekFour: {key: "", start: "", end: "" },
-    weekFive: {key: "", start: "", end: "" },
-    weekSix: {key: "", start: "", end: "" },
-    weekSeven: {key: "", start: "", end: "" },
-    weekEight: {key: "", start: "", end: "" },
-    weekNine: {key: "", start: "", end: "" },
-    weekTen: {key: "", start: "", end: "" },
-    weekEleven: {key: "", start: "", end: "" },
-    weekTwelve: {key: "", start: "", end: "" },
-    weekThirteen: {key: "", start: "", end: "" },
-    weekFourteen: {key: "", start: "", end: "" },
-    weekFifteen: {key: "", start: "", end: "" },
-    weekSixteen: {key: "", start: "", end: "" },
-    weekSeventeen: {key: "", start: "", end: "" },
-    weekEighteen: {key: "", start: "2024-01-02T06:00:00Z", end: "2024-01-09T06:00:00Z" },
+  function getCurrentWeek() {
+    const currentDate = new Date()
+    let currentWeek = null
+
+    for (const weekKey in nfl2024WeekRanges) {
+      const week = nfl2024WeekRanges[weekKey]
+
+      const startDate = new Date(week.start)
+      const endDate = new Date(week.end)
+
+      if (currentDate >= startDate && currentDate <= endDate) {
+        currentWeek = week
+        break
+      }
+    }
+
+    return currentWeek
   }
-  // console.log(bettingData)
+
+  useEffect(() => {
+    const week = getCurrentWeek()
+    // console.log(week)
+  }, [])
 
   return (
     <div className="page admin-page">
@@ -238,7 +283,7 @@ export default function AdminPage() {
                       if (prop.bookmakers.length === 0) return null
                       if (prop.bookmakers.length > 1) return "Too Many BMs"
 
-                      console.log(prop)
+                      // console.log(prop)
 
                       const markets = prop.bookmakers[0].markets
 
@@ -259,8 +304,8 @@ export default function AdminPage() {
       ) : (
         <div>You are not an Admin</div>
       )}
-      <span className={`propCounter ${propsSelected.length === picksToMake ? "done" : propsSelected.length > picksToMake ? "tooMany" : ""}`}>
-        {propsSelected.length === picksToMake ? "Submit Props" : propsSelected.length > picksToMake ? "That's Too Many!" : `Picks Made: ${propsSelected.length} / ${picksToMake}`}
+      <span className={`propCounter ${numPropsSelected.length === picksToMake ? "done" : numPropsSelected.length > picksToMake ? "tooMany" : ""}`}>
+        {numPropsSelected.length === picksToMake ? "Submit Props" : numPropsSelected.length > picksToMake ? "That's Too Many!" : `Picks Made: ${numPropsSelected.length} / ${picksToMake}`}
         </span>
     </div>
   )

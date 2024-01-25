@@ -2,9 +2,18 @@ import { useState } from "react";
 
 import TestCountdownTimer from "../TestCountDown/TestCountDown"
 import { BettingProp, Markets, Outcomes } from "../../pages/AdminPage";
+import { FaCaretDown } from "react-icons/fa";
+
+const ODDS_API_KEY = "0f397ef8e40fda92307241c433993cd7"
+
+const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`
+
+const PLAYER_PROPS_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/61dcc385d9c0927b9392d04c3b944198/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=player_pass_tds&oddsFormat=american`
 
 export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awayTeam, handlePropCounter, prop }: {outcomes: Outcomes[]; type: Markets, time: string, homeTeam: string, awayTeam: string, handlePropCounter: (propId: string) => void, prop: BettingProp }) {
   const [selected, setSelected] = useState<boolean>(false)
+  const [plyrPropdata, setPlyrPropData] = useState<BettingProp[]> ([])
+  const [gameIdsFetched, setGameIdsFetched] = useState<string[]> ([])
 
   const homeLine = outcomes.find((item) => item.name === homeTeam)
   const awayLine = outcomes.find((item) => item.name === awayTeam)
@@ -19,40 +28,122 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
     setSelected(!selected)
     handlePropCounter(propId)
   }
+
+  function calculatePayout(odds: number) {
+    if (odds > 0) {
+      return 1 + (odds / 100)
+    } else {
+      return Number(((1 + (100 / Math.abs(odds))).toFixed(2)))
+    }
+  }
+
+  function createPlayerPropUrl(string: string) {
+    return `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/${prop.id}/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=${string}&oddsFormat=american`
+  }
+
+  const testPropData: string[] = ["player_pass_tds", "player_pass_yds", "player_pass_completions", "player_pass_attempts", "player_pass_interceptions", "player_rush_yds", "player_rush_attempts", "player_receptions", "player_reception_yds", "player_anytime_td"]
+
+  async function fetchPlayerProps() {
+    if (gameIdsFetched?.includes(prop.id)) return 
+
+    let playerProps = []
+
+    const propListToString = testPropData.join(",")
+
+    const URL = createPlayerPropUrl(propListToString)
+
+    const res = await fetch(URL)
+    const data = await res.json()
+    if (!data) {
+      console.log("ERROR")
+      return
+    }
+    playerProps.push(data)
+    gameIdsFetched.push(prop.id)
+
+    setPlyrPropData(playerProps)
+  }
+
+  function handleDataRender() {
+    if (plyrPropdata.length === 1) {
+      const markets = plyrPropdata[0].bookmakers[0].markets
+  
+      return markets.map((item) => {
+        if (item.key === "player_anytime_td") {
+          return null // JUST FOR NOW (NOT SURE THIS MAKE SENSE FOR FORMAT)
+
+          // return item.outcomes.map((outcome) => {
+          //   const propKey = item.key + outcome.description + outcome.name + outcome.price
+
+          //   return <div className="playerProp" key={propKey}>{item.key} {outcome.description} {outcome.price}</div>
+          // })
+        } else {
+          return item.outcomes.map((outcome) => {
+            const propKey = item.key + outcome.description + outcome.name + outcome.price
+
+            return <div className="playerProp" key={propKey}>{item.key} {outcome.description} {outcome.price} {outcome.point}</div>
+          })
+        }
+      })
+    }
+
+    return ""
+  }
+
+  console.log(plyrPropdata)
+
+  // description = playerName
+
+  // anyTimeTd: name, description, price
+
+  // allOthers: name, description, price, point
   
   
   return (
-        <div onClick={() => handleSelectedProp(prop.id + type.key)} className="prop">
-          <div className="propHeader">
-            <span className="propType">{capitalizeAndRemoveLast(type.key)}
-            </span>
-            <span className="countdownTimer">
-              <TestCountdownTimer endDate={time}/>
-            </span>
-          </div>
-          <div className="propBody">
-            <div className="teamLineWrapper">
-              <div className="teams">
-                <div className="away team">
-                  <span className={`line awayLine ${awayLine && awayLine.point > 0 && "green"} ${awayLine && awayLine.point < 0 && "red"}`}>
-                                        {awayLine && awayLine.point > 0 ? `+${awayLine.point}` : awayLine?.point}
-                  </span>
-                  <span className="teamName">
-                    {awayTeam.split(" ").slice(-1)[0]}
-                  </span>
-                </div>
-                <span className="atSign">at</span>
-                <div className="home team">
-                  <span className="teamName">
-                    {homeTeam.split(" ").slice(-1)[0]}
-                  </span>
-                  <span className={`line homeLine ${homeLine && homeLine.point > 0 && "green"} ${homeLine && homeLine.point < 0 && "red"}`}>
-                                        {homeLine && homeLine.point > 0 ? `+${homeLine.point}` : homeLine?.point}
-                  </span>
+        <div className="prop">
+          <div onClick={() => handleSelectedProp(prop.id + type.key)}  className="propWrapper">
+            <div className="propHeader">
+              <span className="propType">{capitalizeAndRemoveLast(type.key)}
+              </span>
+              <span className="countdownTimer">
+                <TestCountdownTimer endDate={time}/>
+              </span>
+            </div>
+            <div className="propBody">
+              <div className="teamLineWrapper">
+                <div className="teams">
+                  <div className="away team">
+                    <div className="teamAndLine">
+                      <span className={`line awayLine ${awayLine && awayLine.point > 0 && "green"} ${awayLine && awayLine.point < 0 && "red"}`}>
+                                            {awayLine && awayLine.point > 0 ? `+${awayLine.point}` : awayLine?.point}
+                      </span>
+                      <span className="teamName">
+                        {awayTeam.split(" ").slice(-1)[0]}
+                      </span>
+                    </div>
+                    <div className="payout">
+                      <span className="payoutText">Payout</span>
+                      <span className="payoutValue">{awayLine && calculatePayout(awayLine.price)}</span>
+                    </div>
+                  </div>
+                  <span className="atSign">at</span>
+                  <div className="home team">
+                    <div className="teamAndLine">
+                      <span className="teamName">
+                        {homeTeam.split(" ").slice(-1)[0]}
+                      </span>
+                      <span className={`line homeLine ${homeLine && homeLine.point > 0 && "green"} ${homeLine && homeLine.point < 0 && "red"}`}>
+                                            {homeLine && homeLine.point > 0 ? `+${homeLine.point}` : homeLine?.point}
+                      </span>
+                    </div>
+                    <div className="payout">
+                      <span className="payoutText">Payout</span>
+                      <span className="payoutValue">{homeLine && calculatePayout(homeLine.price)}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
             {selected && <div onClick={() => setSelected(!selected)} className="overlay">
               <span className="selected-text"></span>
               <div className="selected-matchup">
@@ -66,5 +157,10 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
               </div>
               </div>}
           </div>
+          <button onClick={fetchPlayerProps} className="loadPlayerProps">Load Player Props For This Matchup <span><FaCaretDown /></span></button>
+          <div className="playerPropsWrapper">
+            {handleDataRender()}
+          </div>
+        </div>
   )
 }

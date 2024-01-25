@@ -9,11 +9,21 @@ export default function BettingPropTotals({ outcomes, type, time, homeTeam, away
   const [selected, setSelected] = useState<boolean>(false)
 
   const gameLine = outcomes[0].point
+  const overPayout = outcomes.find((item) => item.name === "Over")?.price
+  const underPayout = outcomes.find((item) => item.name === "Under")?.price
 
   function handleSelectedProp(propId: string) {
     setSelected(!selected)
     handlePropCounter(propId)
   }
+
+  function calculatePayout(odds: number) {
+  if (odds > 0) {
+    return 1 + (odds / 100)
+  } else {
+    return Number(((1 + (100 / Math.abs(odds))).toFixed(2)))
+  }
+}
   
   return (
         <div onClick={() => handleSelectedProp(prop.id + type.key)}  className="prop">
@@ -28,21 +38,33 @@ export default function BettingPropTotals({ outcomes, type, time, homeTeam, away
             <div className="teamLineWrapper">
               <div className="teams">
                 <div className="away team">
-                  <span className={`line awayLine red`}>
-                    Under {gameLine}
-                  </span>
-                  <span className="teamName">
-                    {awayTeam.split(" ").slice(-1)[0]}
-                  </span>
+                  <div className="teamAndLine">
+                    <span className={`line awayLine red`}>
+                      Under {gameLine}
+                    </span>
+                    <span className="teamName">
+                      {awayTeam.split(" ").slice(-1)[0]}
+                    </span>
+                  </div>
+                  <div className="payout">
+                    <span className="payoutText">Payout</span>
+                    <span className="payoutValue">{underPayout && calculatePayout(underPayout)}</span>
+                  </div>
                 </div>
                 <span className="atSign">at</span>
                 <div className="home team">
-                  <span className="teamName">
-                    {homeTeam.split(" ").slice(-1)[0]}
-                  </span>
-                  <span className={`line homeLine green`}>
-                    Over {gameLine}
-                  </span>
+                  <div className="teamAndLine">
+                    <span className="teamName">
+                      {homeTeam.split(" ").slice(-1)[0]}
+                    </span>
+                    <span className={`line homeLine green`}>
+                      Over {gameLine}
+                    </span>
+                  </div>
+                  <div className="payout">
+                    <span className="payoutText">Payout</span>
+                    <span className="payoutValue">{overPayout && calculatePayout(overPayout)}</span>
+                  </div>
                 </div>
               </div>
             </div>
