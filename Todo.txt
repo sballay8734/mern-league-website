@@ -7,8 +7,10 @@
 
 
 CURRENTLY DOING -----------------------------------------------------
-11. PAGES LEFT: (Picks)
-12. Add fadeIn to pages that need it (Picks)
+11. STYLE ADMIN PICKS PAGE
+11. NEED TO TEST IF LIST IS LONG for admin picks page
+12. PAGES LEFT: (Picks)
+13. Add fadeIn to pages that need it (Picks)
 
 
 KNOWN BUGS

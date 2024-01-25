@@ -135,7 +135,27 @@ export default function AdminPage() {
     }
   }
 
-  console.log(bettingData)
+  const nfl2024WeekRanges = {
+    weekOne: {key: "weekOne? 1? week_one?", start: "2024-09-05T06:00:00Z", end: "2024-09-12T06:00:00Z" },
+    weekTwo: {key: "", start: "", end: "" },
+    weekThree: {key: "", start: "", end: "" },
+    weekFour: {key: "", start: "", end: "" },
+    weekFive: {key: "", start: "", end: "" },
+    weekSix: {key: "", start: "", end: "" },
+    weekSeven: {key: "", start: "", end: "" },
+    weekEight: {key: "", start: "", end: "" },
+    weekNine: {key: "", start: "", end: "" },
+    weekTen: {key: "", start: "", end: "" },
+    weekEleven: {key: "", start: "", end: "" },
+    weekTwelve: {key: "", start: "", end: "" },
+    weekThirteen: {key: "", start: "", end: "" },
+    weekFourteen: {key: "", start: "", end: "" },
+    weekFifteen: {key: "", start: "", end: "" },
+    weekSixteen: {key: "", start: "", end: "" },
+    weekSeventeen: {key: "", start: "", end: "" },
+    weekEighteen: {key: "", start: "2024-01-02T06:00:00Z", end: "2024-01-09T06:00:00Z" },
+  }
+  // console.log(bettingData)
 
   return (
     <div className="page admin-page">
@@ -210,9 +230,6 @@ export default function AdminPage() {
                     <li>
                       <button onClick={fetchProps}>Fetch Props</button>
                     </li>
-                    <li>
-                      <button disabled>Submit Props</button>
-                    </li>
                   </ul>
                   Click on a prop to select it. Press "Submit Props" when you have made all of your selections.
                 </div>
@@ -220,6 +237,8 @@ export default function AdminPage() {
                     {bettingData && bettingData.map((prop: BettingProp) => {
                       if (prop.bookmakers.length === 0) return null
                       if (prop.bookmakers.length > 1) return "Too Many BMs"
+
+                      console.log(prop)
 
                       const markets = prop.bookmakers[0].markets
 
