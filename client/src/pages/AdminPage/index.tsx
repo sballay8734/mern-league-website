@@ -11,23 +11,23 @@ import {
 import "./AdminPage.scss"
 import { recordsDataInit } from "./utils/recordFunctions"
 import { KOTHInit } from "./utils/kothFunctions"
-import TestCountdownTimer from "../../components/TestCountDown/TestCountDown"
-import { FiAtSign } from "react-icons/fi";
+import BettingPropSpreads from "../../components/BettingPropSpreads"
+import BettingPropTotals from "../../components/BettingPropTotals"
 
 const ODDS_API_KEY = "0f397ef8e40fda92307241c433993cd7"
-const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=fanduel&markets=totals,spreads&oddsFormat=american`
+const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`
 
 // PROPS ROUTE `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/{EVENT_ID}/odds?apiKey=${ODDS_API_KEY}&regions=us&markets={markets}&oddsFormat=american`
 
 // const baseUrl = "https://api.prop-odds.com"
 
-interface Outcomes {
+export interface Outcomes {
   name: string
   point: number
   price: number
 }
 
-interface Markets {
+export interface Markets {
   key: string
   last_update: string
   outcomes: Outcomes[]
@@ -40,7 +40,7 @@ interface Bookmakers {
   markets: Markets[]
 }
 
-interface BettingProp {
+export interface BettingProp {
   home_team: string
   away_team: string
   commence_time: string
@@ -56,7 +56,7 @@ export default function AdminPage() {
   const [activeButton, setActiveButton] = useState<string>("tempAdmins")
   const [updateInProgress, setUpdateInProgress] = useState<boolean>(false)
   const [bettingData, setBettingData] = useState<BettingProp[] | null>(null)
-  const [selected, setSelected] = useState<boolean>(false)
+  const [propsSelected, setPropsSelected] = useState<string[]>([])
 
   async function runStaticDataUpdate() {
     setUpdateInProgress(true)
@@ -122,13 +122,18 @@ export default function AdminPage() {
     
   }
 
-  console.log(bettingData)
+  // push prop.id && key
+  function handlePropCounter(propId: string) {
+    if (propsSelected.includes(propId)) {
+      const filteredProps = propsSelected.filter((item) => item !== propId)
 
-  function capitalizeAndRemoveLast(string: string): string {
-    if (string.length <= 1) return ""
-
-    return (string.charAt(0).toUpperCase() + string.slice(1, -1)).toLocaleUpperCase()
+      setPropsSelected(filteredProps)
+    } else {
+      setPropsSelected([...propsSelected, propId])
+    }
   }
+
+  console.log(bettingData)
 
   return (
     <div className="page admin-page">
@@ -207,61 +212,26 @@ export default function AdminPage() {
                       <button disabled>Submit Props</button>
                     </li>
                   </ul>
+                  Click on a prop to select it. Press "Submit Props" when you have made all of your selections.
                 </div>
                 <div className="props">
                     {bettingData && bettingData.map((prop: BettingProp) => {
-                      // NEED TO CONDITIONALLY RENDER HERE DEPENDING ON WHAT TYPE OF PROP IT IS (spread, player prop, etc.)
+                      if (prop.bookmakers.length === 0) return null
+                      if (prop.bookmakers.length > 1) return "Too Many BMs"
+
                       const markets = prop.bookmakers[0].markets
 
-                      const spreads = markets.find((item) => item.key === "spreads")
+                      return markets.map((type, index) => {
+                        if (type.key === "spreads") {
 
-                      const totals = markets.find((item) => item.key === "totals")
-
-                      // const totals = markets.find((item) => item.key === "totals")
-                      if (spreads) {
-                        const homeTeam = spreads.outcomes.find((item) => prop.home_team === item.name)
-
-                        const awayTeam = spreads.outcomes.find((item) => prop.away_team === item.name)
-
-                        return (
-                          <div onClick={() => setSelected(!selected)} key={prop.id} className="prop">
-                            <div className="propHeader">
-                              <span className="propType">{capitalizeAndRemoveLast(spreads.key)}
-                              </span>
-                              <span className="countdownTimer">
-                                <TestCountdownTimer endDate={prop.commence_time}/>
-                              </span>
-                            </div>
-                            <div className="propBody">
-                              <div className="teamLineWrapper">
-                                <div className="teams">
-                                  <div className="away team">
-                                    <span className={`line awayLine ${awayTeam && awayTeam.point > 0 && "green"} ${awayTeam && awayTeam.point < 0 && "red"}`}>
-                                    {awayTeam && awayTeam.point > 0 ? `+${awayTeam.point}` : awayTeam?.point}
-                                    </span>
-                                    <span className="teamName">
-                                      {prop.away_team}
-                                    </span>
-                                  </div>
-                                  <span className="atSign"><FiAtSign/></span>
-                                  <div className="home team">
-                                    <span className="teamName">
-                                      {prop.home_team}
-                                    </span>
-                                  <span className={`line homeLine ${homeTeam && homeTeam.point > 0 && "green"} ${homeTeam && homeTeam.point < 0 && "red"}`}>
-                                    {homeTeam && homeTeam.point > 0 ? `+${homeTeam.point}` : homeTeam?.point}
-                                  </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            {selected && <div onClick={() => setSelected(!selected)} className="overlay">Selected</div>}
-                          </div>
-                        )
-                      }
-
+                          return <BettingPropSpreads key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} />
+                        } else if (type.key === "totals") {
+                          return <BettingPropTotals key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} />
+                        }
+                      })
                     })}
-                  </div>
+                </div>
+                {propsSelected.length}
               </div>
             )}
           </div>
