@@ -58,6 +58,8 @@ export default function AdminPage() {
   const [bettingData, setBettingData] = useState<BettingProp[] | null>(null)
   const [propsSelected, setPropsSelected] = useState<string[]>([])
 
+  const picksToMake = 3
+
   async function runStaticDataUpdate() {
     setUpdateInProgress(true)
 
@@ -231,7 +233,6 @@ export default function AdminPage() {
                       })
                     })}
                 </div>
-                {propsSelected.length}
               </div>
             )}
           </div>
@@ -239,6 +240,9 @@ export default function AdminPage() {
       ) : (
         <div>You are not an Admin</div>
       )}
+      <span className={`propCounter ${propsSelected.length === picksToMake ? "done" : propsSelected.length > picksToMake ? "tooMany" : ""}`}>
+        {propsSelected.length === picksToMake ? "Submit Props" : propsSelected.length > picksToMake ? "That's Too Many!" : `Picks Made: ${propsSelected.length} / ${picksToMake}`}
+        </span>
     </div>
   )
 }
