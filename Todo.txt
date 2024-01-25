@@ -14,6 +14,8 @@ CURRENTLY DOING -----------------------------------------------------
 13. Add fadeIn to pages that need it (Picks)
 14. Change arrow when loading player props
 15. gameIdsFetched has to be kept on admin page
+16. Add button filters for player props
+17. Add loading spinner to prop load
 
 
 KNOWN BUGS
