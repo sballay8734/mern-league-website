@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import TestCountdownTimer from "../TestCountDown/TestCountDown"
 import { BettingProp, Markets, Outcomes } from "../../pages/AdminPage";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
-import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
 import PlayerProp from "../PlayerProp";
 import PlayerPropFilterBtn from "../PlayerPropFilterBtn";
 
@@ -39,23 +38,35 @@ const propKeyConversion: KeyConversion = {
   // player_anytime_td: "TESTING"
 }
 
-const ODDS_API_KEY = "0f397ef8e40fda92307241c433993cd7";
+interface PlayerProp {
+  uniquePropKey: string
+  item: Markets
+  player: string
+  overStats: {name: string, description?: string, price: number, point: number}
+  underStats: {name: string, description?: string, price: number, point: number}
+}
+
+const ODDS_API_KEY = "7149a4ecd5269194832435e5755990ea" // baileeshaw
+const SB_API_KEY = "0f397ef8e40fda92307241c433993cd7" // shawnballay1
 
 const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`;
 
 const PLAYER_PROPS_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/61dcc385d9c0927b9392d04c3b944198/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=player_pass_tds&oddsFormat=american`;
 
 
-export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awayTeam, handlePropCounter, prop }: {outcomes: Outcomes[]; type: Markets, time: string, homeTeam: string, awayTeam: string, handlePropCounter: (propId: string) => void, prop: BettingProp }) {
+export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awayTeam, handlePropCounter, prop, gameIdsFetched, setGameIdsFetched }: {outcomes: Outcomes[]; type: Markets, time: string, homeTeam: string, awayTeam: string, handlePropCounter: (propId: string) => void, prop: BettingProp, gameIdsFetched: string[], setGameIdsFetched: (str: string[]) => void }) {
   const [selected, setSelected] = useState<boolean>(false)
-  const [plyrPropdata, setPlyrPropData] = useState<BettingProp[]> ([])
-  const [gameIdsFetched, setGameIdsFetched] = useState<string[]> ([])
+  const [plyrPropdata, setPlyrPropData] = useState<BettingProp[]>([])
   const [showPlayerProps, setShowPlayerProps] = useState<boolean>(false)
   const [filteredButtons, setFilteredButtons] = useState<string[]>([])
-  const [compsToRender, setCompsToRender] = useState([])
+  const [propsToRender, setPropsToRender] = useState<PlayerProp[]>([])
 
   const homeLine = outcomes.find((item) => item.name === homeTeam)
   const awayLine = outcomes.find((item) => item.name === awayTeam)
+
+  useEffect(() => {
+    handleDataRender()
+  }, [plyrPropdata])
 
   function capitalizeAndRemoveLast(string: string): string {
     if (string.length <= 1) return ""
@@ -101,17 +112,21 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
       return
     }
     playerProps.push(data)
-    gameIdsFetched.push(prop.id)
+    setGameIdsFetched([...gameIdsFetched, prop.id])
 
     setPlyrPropData(playerProps)
     setShowPlayerProps(true)
   }
 
+  console.log(plyrPropdata)
+
   function handleDataRender() {
+    const playerProps: PlayerProp[] = []
+
     if (plyrPropdata.length === 1) {
       const markets = plyrPropdata[0].bookmakers[0].markets
   
-      return markets.map((item) => {
+      markets.map((item) => {
         if (item.key === "player_anytime_td") {
           return null // JUST FOR NOW (NOT SURE THIS MAKE SENSE FOR FORMAT)
 
@@ -153,29 +168,34 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
 
           // console.log(combinedOutcomes)
 
-          const renderedComponents = []
-          
+          // const renderedComponents = []
           for (const uniqueKey in combinedOutcomes) {
             const player = combinedOutcomes[uniqueKey].overStats.description?.split(" ").slice(0, 2).join(" ")!
             const overStats = combinedOutcomes[uniqueKey].overStats
             const underStats = combinedOutcomes[uniqueKey].underStats
 
-            // key, item, player, overStats, underStats
 
-            renderedComponents.push(<PlayerProp key={uniqueKey} uniqueKeyProp={uniqueKey} item={item} player={player} overStats={overStats} underStats={underStats} handlePropCounter={handlePropCounter} />)
+            // removed item
+            playerProps.push({uniquePropKey: uniqueKey, item, player, overStats, underStats})
+
+            // renderedComponents.push(<PlayerProp key={uniqueKey} uniqueKeyProp={uniqueKey} item={item} player={player} overStats={overStats} underStats={underStats} handlePropCounter={handlePropCounter} />)
           }
-
-          console.log(renderedComponents) // this is logging
-          return renderedComponents
         }
       })
+      setPropsToRender(playerProps)
     }
 
     return ""
   }
 
   function handleFilterBtns(filter: string) {
-    console.log(filter)
+    if (filteredButtons.includes(filter)) {
+      setFilteredButtons(filteredButtons.filter((item) => {
+        return item !== filter
+      }))
+    } else {
+      setFilteredButtons(prevFilters => [...prevFilters, filter])
+    }
   }
 
   function renderButtons() {
@@ -187,75 +207,77 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
     return buttonKeys
   }
 
-  useEffect(() => {
-    handleDataRender()
-  }, [plyrPropdata])
+  const filteredPlayerProps = filteredButtons.length === 0 ? propsToRender :  propsToRender.filter((item) => {
+        return filteredButtons.includes(item.item.key)
+    })
   
   return (
-        <div key={prop.id + type.key} className="prop">
-          <div onClick={() => handleSelectedProp(prop.id + type.key)}  className="propWrapper">
-            <div className="propHeader">
-              <span className="propType">{capitalizeAndRemoveLast(type.key)}
-              </span>
-              <span className="countdownTimer">
-                <TestCountdownTimer endDate={time}/>
-              </span>
-            </div>
-            <div className="propBody">
-              <div className="teamLineWrapper">
-                <div className="teams">
-                  <div className="away team">
-                    <div className="teamAndLine">
-                      <span className={`line awayLine ${awayLine && awayLine.point > 0 && "green"} ${awayLine && awayLine.point < 0 && "red"}`}>
-                                            {awayLine && awayLine.point > 0 ? `+${awayLine.point}` : awayLine?.point}
-                      </span>
-                      <span className="teamName">
-                        {awayTeam.split(" ").slice(-1)[0]}
-                      </span>
-                    </div>
-                    <div className="payout">
-                      <span className="payoutText">Payout</span>
-                      <span className="payoutValue">{awayLine && calculatePayout(awayLine.price)}</span>
-                    </div>
-                  </div>
-                  <span className="atSign">at</span>
-                  <div className="home team">
-                    <div className="teamAndLine">
-                      <span className="teamName">
-                        {homeTeam.split(" ").slice(-1)[0]}
-                      </span>
-                      <span className={`line homeLine ${homeLine && homeLine.point > 0 && "green"} ${homeLine && homeLine.point < 0 && "red"}`}>
-                                            {homeLine && homeLine.point > 0 ? `+${homeLine.point}` : homeLine?.point}
-                      </span>
-                    </div>
-                    <div className="payout">
-                      <span className="payoutText">Payout</span>
-                      <span className="payoutValue">{homeLine && calculatePayout(homeLine.price)}</span>
-                    </div>
-                  </div>
+    <div key={prop.id + type.key} className="prop">
+      <div onClick={() => handleSelectedProp(prop.id + type.key)}  className="propWrapper">
+        <div className="propHeader">
+          <span className="propType">{capitalizeAndRemoveLast(type.key)}
+          </span>
+          <span className="countdownTimer">
+            <TestCountdownTimer endDate={time}/>
+          </span>
+        </div>
+        <div className="propBody">
+          <div className="teamLineWrapper">
+            <div className="teams">
+              <div className="away team">
+                <div className="teamAndLine">
+                  <span className={`line awayLine ${awayLine && awayLine.point > 0 && "green"} ${awayLine && awayLine.point < 0 && "red"}`}>
+                                        {awayLine && awayLine.point > 0 ? `+${awayLine.point}` : awayLine?.point}
+                  </span>
+                  <span className="teamName">
+                    {awayTeam.split(" ").slice(-1)[0]}
+                  </span>
+                </div>
+                <div className="payout">
+                  <span className="payoutText">Payout</span>
+                  <span className="payoutValue">{awayLine && calculatePayout(awayLine.price)}</span>
+                </div>
+              </div>
+              <span className="atSign">at</span>
+              <div className="home team">
+                <div className="teamAndLine">
+                  <span className="teamName">
+                    {homeTeam.split(" ").slice(-1)[0]}
+                  </span>
+                  <span className={`line homeLine ${homeLine && homeLine.point > 0 && "green"} ${homeLine && homeLine.point < 0 && "red"}`}>
+                                        {homeLine && homeLine.point > 0 ? `+${homeLine.point}` : homeLine?.point}
+                  </span>
+                </div>
+                <div className="payout">
+                  <span className="payoutText">Payout</span>
+                  <span className="payoutValue">{homeLine && calculatePayout(homeLine.price)}</span>
                 </div>
               </div>
             </div>
-            {selected && <div onClick={() => setSelected(!selected)} className="overlay">
-              <span className="selected-text"></span>
-              <div className="selected-matchup">
-                <span className={`selected-away line ${awayLine && awayLine.point > 0 && "green"} ${awayLine && awayLine.point < 0 && "red"}`}><span className="team">{awayTeam.split(" ").slice(-1)[0]}{" "}</span>
-                                        ({awayLine && awayLine.point > 0 ? `+${awayLine.point}` : awayLine?.point})
-                  </span>
-                <span className="selected-at">at</span>
-                <span className={`selected-home line ${homeLine && homeLine.point > 0 && "green"} ${homeLine && homeLine.point < 0 && "red"}`}><span className="team">{homeTeam.split(" ").slice(-1)[0]}{" "}</span>
-                                        ({homeLine && homeLine.point > 0 ? `+${homeLine.point}` : homeLine?.point})
-                  </span>
-              </div>
-              </div>}
-          </div>
-          <button onClick={fetchPlayerProps} className="loadPlayerProps">Load Player Props For This Matchup <span>{showPlayerProps === true ? <FaCaretDown /> : <FaCaretUp />}</span></button>
-          <div className="playerPropFilterBtnsWrapper">
-            {renderButtons()}
-          </div>
-          <div className={`playerPropsWrapper ${showPlayerProps === true ? "" : "hide" }`}>
-            {handleDataRender()}
           </div>
         </div>
+        {selected && <div onClick={() => setSelected(!selected)} className="overlay">
+          <span className="selected-text"></span>
+          <div className="selected-matchup">
+            <span className={`selected-away line ${awayLine && awayLine.point > 0 && "green"} ${awayLine && awayLine.point < 0 && "red"}`}><span className="team">{awayTeam.split(" ").slice(-1)[0]}{" "}</span>
+                                    ({awayLine && awayLine.point > 0 ? `+${awayLine.point}` : awayLine?.point})
+              </span>
+            <span className="selected-at">at</span>
+            <span className={`selected-home line ${homeLine && homeLine.point > 0 && "green"} ${homeLine && homeLine.point < 0 && "red"}`}><span className="team">{homeTeam.split(" ").slice(-1)[0]}{" "}</span>
+                                    ({homeLine && homeLine.point > 0 ? `+${homeLine.point}` : homeLine?.point})
+              </span>
+          </div>
+      </div>}
+      </div>
+      <button onClick={fetchPlayerProps} className="loadPlayerProps">Load Player Props For This Matchup <span>{showPlayerProps === true ? <FaCaretUp /> : <FaCaretDown />}</span></button>
+      <div className={`playerPropFilterBtnsWrapper ${showPlayerProps === true ? "" : "hide" }`}>
+        {renderButtons()}
+      </div>
+      <div className={`playerPropsWrapper ${showPlayerProps === true ? "" : "hide" }`}>
+        {filteredPlayerProps.map((item) => {
+          return <PlayerProp key={item.uniquePropKey} uniqueKeyProp={item.uniquePropKey} item={item.item} player={item.player} overStats={item.overStats} underStats={item.underStats} handlePropCounter={handlePropCounter} />
+        })}
+      </div>
+    </div>
   )
 }

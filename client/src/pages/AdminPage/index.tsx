@@ -14,7 +14,8 @@ import { KOTHInit } from "./utils/kothFunctions"
 import BettingPropSpreads from "../../components/BettingPropSpreads"
 import BettingPropTotals from "../../components/BettingPropTotals"
 
-const ODDS_API_KEY = "0f397ef8e40fda92307241c433993cd7"
+const ODDS_API_KEY = "7149a4ecd5269194832435e5755990ea" // baileeshaw
+const SB_API_KEY = "0f397ef8e40fda92307241c433993cd7" // shawnballay1
 
 const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`
 
@@ -103,8 +104,8 @@ export default function AdminPage() {
   const [updateInProgress, setUpdateInProgress] = useState<boolean>(false)
   const [bettingData, setBettingData] = useState<BettingProp[] | null>(null)
   const [numPropsSelected, setNumPropsSelected] = useState<string[]>([])
+  const [gameIdsFetched, setGameIdsFetched] = useState<string[]>([])
   const [propsSelected, setPropsSelected] = useState<SubmittedProps[]>([])
-
 
   async function runStaticDataUpdate() {
     setUpdateInProgress(true)
@@ -283,16 +284,14 @@ export default function AdminPage() {
                       if (prop.bookmakers.length === 0) return null
                       if (prop.bookmakers.length > 1) return "Too Many BMs"
 
-                      // console.log(prop)
-
                       const markets = prop.bookmakers[0].markets
 
                       return markets.map((type, index) => {
                         if (type.key === "spreads") {
 
-                          return <BettingPropSpreads key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} />
+                          return <BettingPropSpreads key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} gameIdsFetched={gameIdsFetched} setGameIdsFetched={setGameIdsFetched} />
                         } else if (type.key === "totals") {
-                          return <BettingPropTotals key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} />
+                          return <BettingPropTotals key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} gameIdsFetched={gameIdsFetched} setGameIdsFetched={setGameIdsFetched} />
                         }
                       })
                     })}
