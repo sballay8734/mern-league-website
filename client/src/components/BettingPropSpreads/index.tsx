@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import TestCountdownTimer from "../TestCountDown/TestCountDown"
 import { BettingProp, Markets, Outcomes } from "../../pages/AdminPage";
@@ -155,16 +155,17 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
 
           const renderedComponents = []
           
-          for (const key in combinedOutcomes) {
-            const player = combinedOutcomes[key].overStats.description?.split(" ").slice(0, 2).join(" ")!
-            const overStats = combinedOutcomes[key].overStats
-            const underStats = combinedOutcomes[key].underStats
+          for (const uniqueKey in combinedOutcomes) {
+            const player = combinedOutcomes[uniqueKey].overStats.description?.split(" ").slice(0, 2).join(" ")!
+            const overStats = combinedOutcomes[uniqueKey].overStats
+            const underStats = combinedOutcomes[uniqueKey].underStats
 
             // key, item, player, overStats, underStats
 
-            renderedComponents.push(<PlayerProp uniqueKey={key} item={item} player={player} overStats={overStats} underStats={underStats} handlePropCounter={handlePropCounter} />)
+            renderedComponents.push(<PlayerProp key={uniqueKey} uniqueKeyProp={uniqueKey} item={item} player={player} overStats={overStats} underStats={underStats} handlePropCounter={handlePropCounter} />)
           }
 
+          console.log(renderedComponents) // this is logging
           return renderedComponents
         }
       })
@@ -180,14 +181,18 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
   function renderButtons() {
     const buttonKeys = []
     for (const key in propKeyConversion) {
-      buttonKeys.push(<PlayerPropFilterBtn handleFilterBtns={handleFilterBtns} type={propKeyConversion[key]} />)
+      buttonKeys.push(<PlayerPropFilterBtn key={key} handleFilterBtns={handleFilterBtns} type={key} />)
     }
 
     return buttonKeys
   }
+
+  useEffect(() => {
+    handleDataRender()
+  }, [plyrPropdata])
   
   return (
-        <div className="prop">
+        <div key={prop.id + type.key} className="prop">
           <div onClick={() => handleSelectedProp(prop.id + type.key)}  className="propWrapper">
             <div className="propHeader">
               <span className="propType">{capitalizeAndRemoveLast(type.key)}

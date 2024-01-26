@@ -22,7 +22,7 @@ const propKeyConversion: KeyConversion = {
 interface PlayerPropInterface {
   item: Markets
   player: string
-  uniqueKey: string
+  uniqueKeyProp: string
   overStats: {name: string, description?: string, price: number, point: number}
   underStats: {name: string, description?: string, price: number, point: number}
   handlePropCounter: (propId: string) => void
@@ -36,7 +36,7 @@ function calculatePayout(odds: number) {
     }
 }
 
-export default function PlayerProp({item, player, overStats, underStats, uniqueKey, handlePropCounter}: PlayerPropInterface) {
+export default function PlayerProp({item, player, overStats, underStats, uniqueKeyProp, handlePropCounter}: PlayerPropInterface) {
   const [selected, setSelected] = useState<boolean>(false)
 
   function handlePropSelection(key: string) {
@@ -46,7 +46,7 @@ export default function PlayerProp({item, player, overStats, underStats, uniqueK
   }
 
   return (
-    <div onClick={() => handlePropSelection(uniqueKey)} className="playerProp" key={uniqueKey}>
+    <div onClick={() => handlePropSelection(uniqueKeyProp)} className="playerProp">
       <div className="statCategory">{propKeyConversion[item.key]}</div>
       <div className="propDetails">
         <div className="underPrice priceWrapper">
