@@ -46,6 +46,10 @@ interface PlayerProp {
   underStats: {name: string, description?: string, price: number, point: number}
 }
 
+interface FullMatchupProps {
+  [id: string]: PlayerProp[]
+}
+
 const ODDS_API_KEY = "7149a4ecd5269194832435e5755990ea" // baileeshaw
 const SB_API_KEY = "0f397ef8e40fda92307241c433993cd7" // shawnballay1
 
@@ -54,7 +58,7 @@ const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/od
 const PLAYER_PROPS_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/61dcc385d9c0927b9392d04c3b944198/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=player_pass_tds&oddsFormat=american`;
 
 
-export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awayTeam, handlePropCounter, prop, gameIdsFetched, setGameIdsFetched }: {outcomes: Outcomes[]; type: Markets, time: string, homeTeam: string, awayTeam: string, handlePropCounter: (propId: string) => void, prop: BettingProp, gameIdsFetched: string[], setGameIdsFetched: (str: string[]) => void }) {
+export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awayTeam, handlePropCounter, prop, gameIdsFetched, setGameIdsFetched, testPropsToRender, setTestPropsToRender }: {outcomes: Outcomes[]; type: Markets, time: string, homeTeam: string, awayTeam: string, handlePropCounter: (propId: string) => void, prop: BettingProp, gameIdsFetched: string[], setGameIdsFetched: (str: string[]) => void, testPropsToRender: FullMatchupProps, setTestPropsToRender: (obj: FullMatchupProps) => void }) {
   const [selected, setSelected] = useState<boolean>(false)
   const [plyrPropdata, setPlyrPropData] = useState<BettingProp[]>([])
   const [showPlayerProps, setShowPlayerProps] = useState<boolean>(false)
@@ -94,6 +98,8 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
   const testPropData: string[] = ["player_pass_tds", "player_pass_yds", "player_pass_completions", "player_pass_attempts", "player_pass_interceptions", "player_rush_yds", "player_rush_attempts", "player_receptions", "player_reception_yds", "player_anytime_td"]
 
   async function fetchPlayerProps() {
+    const propId = prop.id
+
     if (gameIdsFetched?.includes(prop.id)) {
       setShowPlayerProps(!showPlayerProps)
       return
@@ -115,12 +121,13 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
     setGameIdsFetched([...gameIdsFetched, prop.id])
 
     setPlyrPropData(playerProps)
+    setTestPropsToRender({[propId]: playerProps})
     setShowPlayerProps(true)
   }
 
-  console.log(plyrPropdata)
-
   function handleDataRender() {
+    // FIRST CHECK IF testPropsToRender[prop.id] exists
+    // if it does, just render those props
     const playerProps: PlayerProp[] = []
 
     if (plyrPropdata.length === 1) {
@@ -177,11 +184,10 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
 
             // removed item
             playerProps.push({uniquePropKey: uniqueKey, item, player, overStats, underStats})
-
-            // renderedComponents.push(<PlayerProp key={uniqueKey} uniqueKeyProp={uniqueKey} item={item} player={player} overStats={overStats} underStats={underStats} handlePropCounter={handlePropCounter} />)
           }
         }
       })
+      console.log(playerProps, prop.id) // logging correctly
       setPropsToRender(playerProps)
     }
 

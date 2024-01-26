@@ -73,6 +73,18 @@ interface SubmittedProps {
   player: string | null
 }
 
+interface PlayerProp {
+  uniquePropKey: string
+  item: Markets
+  player: string
+  overStats: {name: string, description?: string, price: number, point: number}
+  underStats: {name: string, description?: string, price: number, point: number}
+}
+
+interface FullMatchupProps {
+  [id: string]: PlayerProp[]
+}
+
 const picksToMake = 12
 
 const nfl2024WeekRanges: WeekRanges = {
@@ -105,6 +117,7 @@ export default function AdminPage() {
   const [bettingData, setBettingData] = useState<BettingProp[] | null>(null)
   const [numPropsSelected, setNumPropsSelected] = useState<string[]>([])
   const [gameIdsFetched, setGameIdsFetched] = useState<string[]>([])
+  const [testPropsToRender, setTestPropsToRender] = useState<FullMatchupProps>({})
   const [propsSelected, setPropsSelected] = useState<SubmittedProps[]>([])
 
   async function runStaticDataUpdate() {
@@ -203,6 +216,8 @@ export default function AdminPage() {
     // console.log(week)
   }, [])
 
+  console.log(testPropsToRender)
+
   return (
     <div className="page admin-page">
       {user && user.isAdmin === true ? (
@@ -289,7 +304,7 @@ export default function AdminPage() {
                       return markets.map((type, index) => {
                         if (type.key === "spreads") {
 
-                          return <BettingPropSpreads key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} gameIdsFetched={gameIdsFetched} setGameIdsFetched={setGameIdsFetched} />
+                          return <BettingPropSpreads key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} gameIdsFetched={gameIdsFetched} setGameIdsFetched={setGameIdsFetched} testPropsToRender={testPropsToRender} setTestPropsToRender={setTestPropsToRender} />
                         } else if (type.key === "totals") {
                           return <BettingPropTotals key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} gameIdsFetched={gameIdsFetched} setGameIdsFetched={setGameIdsFetched} />
                         }
