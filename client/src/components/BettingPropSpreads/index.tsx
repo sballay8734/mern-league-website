@@ -95,10 +95,23 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
     return `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/${prop.id}/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=${string}&oddsFormat=american`
   }
 
+  function dataExists() {
+    if (testPropsToRender[prop.id]) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   const testPropData: string[] = ["player_pass_tds", "player_pass_yds", "player_pass_completions", "player_pass_attempts", "player_pass_interceptions", "player_rush_yds", "player_rush_attempts", "player_receptions", "player_reception_yds", "player_anytime_td"]
 
   async function fetchPlayerProps() {
     const propId = prop.id
+
+    if (dataExists()) {
+      setShowPlayerProps(!showPlayerProps)
+      return
+    }
 
     if (gameIdsFetched?.includes(prop.id)) {
       setShowPlayerProps(!showPlayerProps)
@@ -121,7 +134,6 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
     setGameIdsFetched([...gameIdsFetched, prop.id])
 
     setPlyrPropData(playerProps)
-    setTestPropsToRender({[propId]: playerProps})
     setShowPlayerProps(true)
   }
 
@@ -129,6 +141,11 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
     // FIRST CHECK IF testPropsToRender[prop.id] exists
     // if it does, just render those props
     const playerProps: PlayerProp[] = []
+
+    if (dataExists()) {
+      setPropsToRender(testPropsToRender[prop.id])
+      return
+    }
 
     if (plyrPropdata.length === 1) {
       const markets = plyrPropdata[0].bookmakers[0].markets
@@ -173,9 +190,6 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
             }
           }
 
-          // console.log(combinedOutcomes)
-
-          // const renderedComponents = []
           for (const uniqueKey in combinedOutcomes) {
             const player = combinedOutcomes[uniqueKey].overStats.description?.split(" ").slice(0, 2).join(" ")!
             const overStats = combinedOutcomes[uniqueKey].overStats
@@ -187,8 +201,9 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
           }
         }
       })
-      console.log(playerProps, prop.id) // logging correctly
+
       setPropsToRender(playerProps)
+      setTestPropsToRender({[prop.id]: playerProps})
     }
 
     return ""
@@ -216,6 +231,8 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
   const filteredPlayerProps = filteredButtons.length === 0 ? propsToRender :  propsToRender.filter((item) => {
         return filteredButtons.includes(item.item.key)
     })
+
+  // console.log("FROM COMP", propsToRender)
   
   return (
     <div key={prop.id + type.key} className="prop">

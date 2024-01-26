@@ -216,7 +216,7 @@ export default function AdminPage() {
     // console.log(week)
   }, [])
 
-  console.log(testPropsToRender)
+  console.log("FROM ADMIN", testPropsToRender)
 
   return (
     <div className="page admin-page">

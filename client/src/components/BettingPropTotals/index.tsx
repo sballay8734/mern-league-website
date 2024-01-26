@@ -128,6 +128,8 @@ export default function BettingPropTotals({ outcomes, type, time, homeTeam, away
     }
   }
 
+  
+
   const filteredPlayerProps = filteredButtons.length === 0 ? propsToRender :  propsToRender.filter((item) => {
         return filteredButtons.includes(item.item.key)
     })
