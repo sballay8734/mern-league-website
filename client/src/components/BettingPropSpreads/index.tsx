@@ -4,6 +4,8 @@ import TestCountdownTimer from "../TestCountDown/TestCountDown"
 import { BettingProp, Markets, Outcomes } from "../../pages/AdminPage";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
+import PlayerProp from "../PlayerProp";
+import PlayerPropFilterBtn from "../PlayerPropFilterBtn";
 
 
 interface KeyConversion {
@@ -33,8 +35,8 @@ const propKeyConversion: KeyConversion = {
   player_rush_yds: "Rush Yds", 
   player_rush_attempts: "Rush Attempts", 
   player_receptions: "Receptions", 
-  player_reception_yds: "Receiving Yds", 
-  player_anytime_td: "TESTING"
+  player_reception_yds: "Receiving Yds"
+  // player_anytime_td: "TESTING"
 }
 
 const ODDS_API_KEY = "0f397ef8e40fda92307241c433993cd7";
@@ -49,6 +51,8 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
   const [plyrPropdata, setPlyrPropData] = useState<BettingProp[]> ([])
   const [gameIdsFetched, setGameIdsFetched] = useState<string[]> ([])
   const [showPlayerProps, setShowPlayerProps] = useState<boolean>(false)
+  const [filteredButtons, setFilteredButtons] = useState<string[]>([])
+  const [compsToRender, setCompsToRender] = useState([])
 
   const homeLine = outcomes.find((item) => item.name === homeTeam)
   const awayLine = outcomes.find((item) => item.name === awayTeam)
@@ -147,44 +151,18 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
             }
           }
 
-          console.log(combinedOutcomes)
+          // console.log(combinedOutcomes)
 
           const renderedComponents = []
           
           for (const key in combinedOutcomes) {
-            const player = combinedOutcomes[key].overStats.description?.split(" ").slice(0, 2).join(" ")
+            const player = combinedOutcomes[key].overStats.description?.split(" ").slice(0, 2).join(" ")!
             const overStats = combinedOutcomes[key].overStats
             const underStats = combinedOutcomes[key].underStats
 
             // key, item, player, overStats, underStats
 
-            renderedComponents.push(<div className="playerProp" key={key}>
-              <div className="statCategory">{propKeyConversion[item.key]}</div>
-              <div className="propDetails">
-                <div className="underPrice priceWrapper">
-                  <span className="under">under</span>
-                  <span className="price">
-                    {underStats.price < 0 ? underStats.price : `+${underStats.price}`}
-                  </span>
-                </div>
-                <div className="playerAndLine">
-                  <div className="playerName">{player}</div>
-                  <div className="lineAndPayout">
-                    <div className="underPayout payout">
-                      <FaCaretRight /> {calculatePayout(underStats.price).toFixed(2)}
-                    </div>
-                    <div className="propLine">{overStats.point}</div>
-                    <div className="overPayout payout">
-                      {calculatePayout(overStats.price).toFixed(2)} <FaCaretLeft />
-                    </div>
-                  </div>
-                </div>
-                <div className="overPrice priceWrapper">
-                  <span className="over">over</span>
-                  <span className="price">{overStats.price < 0 ? overStats.price : `+${overStats.price}`}</span>
-                </div>
-              </div>
-            </div>)
+            renderedComponents.push(<PlayerProp uniqueKey={key} item={item} player={player} overStats={overStats} underStats={underStats} handlePropCounter={handlePropCounter} />)
           }
 
           return renderedComponents
@@ -195,14 +173,18 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
     return ""
   }
 
-  console.log(plyrPropdata)
+  function handleFilterBtns(filter: string) {
+    console.log(filter)
+  }
 
-  // description = playerName
+  function renderButtons() {
+    const buttonKeys = []
+    for (const key in propKeyConversion) {
+      buttonKeys.push(<PlayerPropFilterBtn handleFilterBtns={handleFilterBtns} type={propKeyConversion[key]} />)
+    }
 
-  // anyTimeTd: name, description, price
-
-  // allOthers: name, description, price, point
-  
+    return buttonKeys
+  }
   
   return (
         <div className="prop">
@@ -262,7 +244,10 @@ export default function BettingPropSpreads({ outcomes, type, time, homeTeam, awa
               </div>
               </div>}
           </div>
-          <button onClick={fetchPlayerProps} className="loadPlayerProps">Load Player Props For This Matchup <span>{showPlayerProps === true ? <FaCaretUp /> : <FaCaretDown />}</span></button>
+          <button onClick={fetchPlayerProps} className="loadPlayerProps">Load Player Props For This Matchup <span>{showPlayerProps === true ? <FaCaretDown /> : <FaCaretUp />}</span></button>
+          <div className="playerPropFilterBtnsWrapper">
+            {renderButtons()}
+          </div>
           <div className={`playerPropsWrapper ${showPlayerProps === true ? "" : "hide" }`}>
             {handleDataRender()}
           </div>

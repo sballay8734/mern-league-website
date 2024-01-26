@@ -72,7 +72,7 @@ interface SubmittedProps {
   player: string | null
 }
 
-const picksToMake = 3
+const picksToMake = 12
 
 const nfl2024WeekRanges: WeekRanges = {
     weekOne: {key: "weekOne", start: "2024-09-05T06:00:00Z", end: "2024-09-12T06:00:00Z" },

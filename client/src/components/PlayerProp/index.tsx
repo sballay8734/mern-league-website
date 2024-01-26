@@ -1,5 +1,6 @@
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
 import { Markets } from "../../pages/AdminPage";
+import { useState } from "react";
 
 interface KeyConversion {
   [key: string]: string
@@ -19,16 +20,33 @@ const propKeyConversion: KeyConversion = {
 }
 
 interface PlayerPropInterface {
-  key: string
   item: Markets
   player: string
+  uniqueKey: string
   overStats: {name: string, description?: string, price: number, point: number}
   underStats: {name: string, description?: string, price: number, point: number}
+  handlePropCounter: (propId: string) => void
 }
 
-export default function PlayerProp({key, item, player, overStats, underStats}: PlayerPropInterface) {
+function calculatePayout(odds: number) {
+    if (odds > 0) {
+      return 1 + (odds / 100)
+    } else {
+      return Number(((1 + (100 / Math.abs(odds))).toFixed(2)))
+    }
+}
+
+export default function PlayerProp({item, player, overStats, underStats, uniqueKey, handlePropCounter}: PlayerPropInterface) {
+  const [selected, setSelected] = useState<boolean>(false)
+
+  function handlePropSelection(key: string) {
+    setSelected(!selected)
+    handlePropCounter(key)
+    console.log(key)
+  }
+
   return (
-    <div className="playerProp" key={key}>
+    <div onClick={() => handlePropSelection(uniqueKey)} className="playerProp" key={uniqueKey}>
       <div className="statCategory">{propKeyConversion[item.key]}</div>
       <div className="propDetails">
         <div className="underPrice priceWrapper">
@@ -54,6 +72,7 @@ export default function PlayerProp({key, item, player, overStats, underStats}: P
           <span className="price">{overStats.price < 0 ? overStats.price : `+${overStats.price}`}</span>
         </div>
       </div>
+      {selected && <div className="overlay">Selected</div>}
     </div>
   )
 }

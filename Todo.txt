@@ -8,14 +8,13 @@
 
 CURRENTLY DOING -----------------------------------------------------
 11. STYLE ADMIN PICKS PAGE
-11. NEED TO TEST IF LIST IS LONG for admin picks page
 12. REFORMAT OVER / UNDER CARD (Looks like your betting on a team)
 12. PAGES LEFT: (Picks)
 13. Add fadeIn to pages that need it (Picks)
-14. Change arrow when loading player props
 15. gameIdsFetched has to be kept on admin page
 16. Add button filters for player props
 17. Add loading spinner to prop load
+18. NEED TO WORK ON FILTERING DATA
 
 
 KNOWN BUGS
