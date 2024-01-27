@@ -4,109 +4,59 @@ import { useEffect, useState } from "react"
 import { MdAdminPanelSettings } from "react-icons/md"
 import { RootState } from "../../redux/store"
 import { useFetchOwnersQuery } from "../../redux/owners/ownersApi"
-import {
-  // allTimeStaticDataInit,
-  staticDataInit
-} from "./utils/staticDataFunction"
+import { staticDataInit } from "./utils/staticDataFunction"
 import "./AdminPage.scss"
 import { recordsDataInit } from "./utils/recordFunctions"
 import { KOTHInit } from "./utils/kothFunctions"
-import BettingPropSpreads from "../../components/BettingPropSpreads"
+import BettingPropSpreads, {
+  PropToDbInterface
+} from "../../components/BettingPropSpreads"
 import BettingPropTotals from "../../components/BettingPropTotals"
-
-const ODDS_API_KEY = "7149a4ecd5269194832435e5755990ea" // baileeshaw
-const SB_API_KEY = "0f397ef8e40fda92307241c433993cd7" // shawnballay1
-
-const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`
-
-const PLAYER_PROPS_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/61dcc385d9c0927b9392d04c3b944198/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=player_pass_tds&oddsFormat=american`
-
-// PROPS ROUTE `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/61dcc385d9c0927b9392d04c3b944198/odds?apiKey=${ODDS_API_KEY}&regions=us&markets={markets}&oddsFormat=american`
-
-// const baseUrl = "https://api.prop-odds.com"
-
-export interface Outcomes {
-  name: string
-  point: number
-  price: number
-  description?: string
-}
-
-export interface Markets {
-  key: string
-  last_update: string
-  outcomes: Outcomes[]
-}
-
-interface Bookmakers {
-  key: string
-  last_update: string
-  title: string
-  markets: Markets[]
-}
-
-export interface BettingProp {
-  home_team: string
-  away_team: string
-  commence_time: string
-  id: string
-  sports_key: string
-  sports_title: string
-  bookmakers: Bookmakers[]
-}
-
-interface WeekRanges {
-  [week: string]: {
-    key: string
-    start: string
-    end: string
-  }
-}
-
-interface SubmittedProps {
-  propID: string
-  year: string // 2024
-  week: string // weekOne
-  type: string // spread | totals
-  homeTeam: string | null
-  awayTeam: string | null
-  player: string | null
-}
-
-interface PlayerProp {
-  uniquePropKey: string
-  item: Markets
-  player: string
-  overStats: {name: string, description?: string, price: number, point: number}
-  underStats: {name: string, description?: string, price: number, point: number}
-}
-
-interface FullMatchupProps {
-  [id: string]: PlayerProp[]
-}
+import {
+  WeekRanges,
+  BettingProp,
+  FullMatchupProps,
+  BASE_URL
+} from "../../components/utils"
 
 const picksToMake = 12
 
+// for testing, used to calculate current week
+const currentDate = "2024-09-03T05:00:00Z" // Sept. 3, 2014 12:00am
+
 const nfl2024WeekRanges: WeekRanges = {
-    weekOne: {key: "weekOne", start: "2024-09-05T06:00:00Z", end: "2024-09-12T06:00:00Z" },
-    weekTwo: {key: "weekTwo", start: "", end: "" },
-    weekThree: {key: "weekThree", start: "", end: "" },
-    weekFour: {key: "weekFour", start: "", end: "" },
-    weekFive: {key: "weekFive", start: "", end: "" },
-    weekSix: {key: "weekSix", start: "", end: "" },
-    weekSeven: {key: "weekSeven", start: "", end: "" },
-    weekEight: {key: "weekEight", start: "", end: "" },
-    weekNine: {key: "weekNine", start: "", end: "" },
-    weekTen: {key: "weekTen", start: "", end: "" },
-    weekEleven: {key: "weekEleven", start: "", end: "" },
-    weekTwelve: {key: "weekTwelve", start: "", end: "" },
-    weekThirteen: {key: "weekThirteen", start: "", end: "" },
-    weekFourteen: {key: "weekFourteen", start: "", end: "" },
-    weekFifteen: {key: "weekFifteen", start: "", end: "" },
-    weekSixteen: {key: "weekSixteen", start: "", end: "" },
-    weekSeventeen: {key: "weekSeventeen", start: "", end: "" },
-    weekEighteen: {key: "weekEighteen", start: "2024-01-02T06:00:00Z", end: "2024-01-09T06:00:00Z" },
-    testWeek: {key: "testWeek", start: "2024-01-24T06:00:00Z", end: "2024-01-27T06:00:00Z" },
+  // Tuesday Morning (12:00am) ---> Monday Night (11:59pm)
+  weekOne: {
+    key: "weekOne",
+    start: "2024-09-03T05:00:00Z",
+    end: "2024-09-09T04:59:59Z"
+  },
+  weekTwo: { key: "weekTwo", start: "", end: "" },
+  weekThree: { key: "weekThree", start: "", end: "" },
+  weekFour: { key: "weekFour", start: "", end: "" },
+  weekFive: { key: "weekFive", start: "", end: "" },
+  weekSix: { key: "weekSix", start: "", end: "" },
+  weekSeven: { key: "weekSeven", start: "", end: "" },
+  weekEight: { key: "weekEight", start: "", end: "" },
+  weekNine: { key: "weekNine", start: "", end: "" },
+  weekTen: { key: "weekTen", start: "", end: "" },
+  weekEleven: { key: "weekEleven", start: "", end: "" },
+  weekTwelve: { key: "weekTwelve", start: "", end: "" },
+  weekThirteen: { key: "weekThirteen", start: "", end: "" },
+  weekFourteen: { key: "weekFourteen", start: "", end: "" },
+  weekFifteen: { key: "weekFifteen", start: "", end: "" },
+  weekSixteen: { key: "weekSixteen", start: "", end: "" },
+  weekSeventeen: { key: "weekSeventeen", start: "", end: "" },
+  weekEighteen: {
+    key: "weekEighteen",
+    start: "2024-01-02T06:00:00Z",
+    end: "2024-01-09T06:00:00Z"
+  },
+  testWeek: {
+    key: "testWeek",
+    start: "2024-01-24T06:00:00Z",
+    end: "2024-01-27T06:00:00Z"
+  }
 }
 
 export default function AdminPage() {
@@ -117,8 +67,9 @@ export default function AdminPage() {
   const [bettingData, setBettingData] = useState<BettingProp[] | null>(null)
   const [numPropsSelected, setNumPropsSelected] = useState<string[]>([])
   const [gameIdsFetched, setGameIdsFetched] = useState<string[]>([])
-  const [testPropsToRender, setTestPropsToRender] = useState<FullMatchupProps>({})
-  const [propsSelected, setPropsSelected] = useState<SubmittedProps[]>([])
+  const [globalPropsToRender, setGlobalPropsToRender] =
+    useState<FullMatchupProps>({})
+  const [propsSelected, setPropsSelected] = useState<PropToDbInterface[]>([])
 
   async function runStaticDataUpdate() {
     setUpdateInProgress(true)
@@ -181,7 +132,6 @@ export default function AdminPage() {
     setBettingData(data)
   }
 
-  // push prop.id && key
   function handlePropCounter(propId: string) {
     if (numPropsSelected.includes(propId)) {
       const filteredProps = numPropsSelected.filter((item) => item !== propId)
@@ -211,12 +161,15 @@ export default function AdminPage() {
     return currentWeek
   }
 
+  function handlePropSubmission() {
+    console.log("Submitting...")
+    console.log(propsSelected)
+  }
+
   useEffect(() => {
     const week = getCurrentWeek()
     // console.log(week)
   }, [])
-
-  console.log("FROM ADMIN", testPropsToRender)
 
   return (
     <div className="page admin-page">
@@ -276,8 +229,9 @@ export default function AdminPage() {
                     </li>
                     <li>
                       <button
-                      onClick={runKOTHDataUpdate}
-                      disabled={updateInProgress}>
+                        onClick={runKOTHDataUpdate}
+                        disabled={updateInProgress}
+                      >
                         Update KOTH
                       </button>
                     </li>
@@ -292,10 +246,12 @@ export default function AdminPage() {
                       <button onClick={fetchProps}>Fetch Props</button>
                     </li>
                   </ul>
-                  Click on a prop to select it. Press "Submit Props" when you have made all of your selections.
+                  Click on a prop to select it. Press "Submit Props" when you
+                  have made all of your selections.
                 </div>
                 <div className="props">
-                    {bettingData && bettingData.map((prop: BettingProp) => {
+                  {bettingData &&
+                    bettingData.map((prop: BettingProp) => {
                       if (prop.bookmakers.length === 0) return null
                       if (prop.bookmakers.length > 1) return "Too Many BMs"
 
@@ -303,10 +259,43 @@ export default function AdminPage() {
 
                       return markets.map((type, index) => {
                         if (type.key === "spreads") {
-
-                          return <BettingPropSpreads key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} gameIdsFetched={gameIdsFetched} setGameIdsFetched={setGameIdsFetched} testPropsToRender={testPropsToRender} setTestPropsToRender={setTestPropsToRender} />
+                          return (
+                            <BettingPropSpreads
+                              key={index}
+                              outcomes={type.outcomes}
+                              type={type}
+                              time={prop.commence_time}
+                              homeTeam={prop.home_team}
+                              awayTeam={prop.away_team}
+                              handlePropCounter={handlePropCounter}
+                              prop={prop}
+                              gameIdsFetched={gameIdsFetched}
+                              setGameIdsFetched={setGameIdsFetched}
+                              globalPropsToRender={globalPropsToRender}
+                              setGlobalPropsToRender={setGlobalPropsToRender}
+                              propsSelected={propsSelected}
+                              setPropsSelected={setPropsSelected}
+                            />
+                          )
                         } else if (type.key === "totals") {
-                          return <BettingPropTotals key={index} outcomes={type.outcomes} type={type} time={prop.commence_time} homeTeam={prop.home_team} awayTeam={prop.away_team} handlePropCounter={handlePropCounter} prop={prop} gameIdsFetched={gameIdsFetched} setGameIdsFetched={setGameIdsFetched} />
+                          return (
+                            <BettingPropTotals
+                              key={index}
+                              outcomes={type.outcomes}
+                              type={type}
+                              time={prop.commence_time}
+                              homeTeam={prop.home_team}
+                              awayTeam={prop.away_team}
+                              handlePropCounter={handlePropCounter}
+                              prop={prop}
+                              gameIdsFetched={gameIdsFetched}
+                              setGameIdsFetched={setGameIdsFetched}
+                              globalPropsToRender={globalPropsToRender}
+                              setGlobalPropsToRender={setGlobalPropsToRender}
+                              propsSelected={propsSelected}
+                              setPropsSelected={setPropsSelected}
+                            />
+                          )
                         }
                       })
                     })}
@@ -318,9 +307,25 @@ export default function AdminPage() {
       ) : (
         <div>You are not an Admin</div>
       )}
-      <span className={`propCounter ${numPropsSelected.length === picksToMake ? "done" : numPropsSelected.length > picksToMake ? "tooMany" : ""}`}>
-        {numPropsSelected.length === picksToMake ? "Submit Props" : numPropsSelected.length > picksToMake ? "That's Too Many!" : `Picks Made: ${numPropsSelected.length} / ${picksToMake}`}
-        </span>
+      <span
+        className={`propCounter ${
+          propsSelected.length === picksToMake
+            ? "done"
+            : propsSelected.length > picksToMake
+            ? "tooMany"
+            : ""
+        }`}
+      >
+        {propsSelected.length === picksToMake ? (
+          <button className="submitProps" onClick={handlePropSubmission}>
+            Submit Props
+          </button>
+        ) : propsSelected.length > picksToMake ? (
+          `That's Too Many! Remove ${propsSelected.length - picksToMake}`
+        ) : (
+          `Picks Made: ${propsSelected.length} / ${picksToMake}`
+        )}
+      </span>
     </div>
   )
 }

@@ -24,6 +24,16 @@
     justify-content: center;
     font-weight: bold;
     max-width: 300px;
+    font-size: 0.6rem;
+    z-index: 5;
+
+    .submitProps {
+      width: 100%;
+      height: 100%;
+      background-color: rgb(9, 106, 56);
+      border: 1px solid transparent;
+      color: white;
+    }
 
     &.done {
       background-color: green;
@@ -279,6 +289,7 @@
               display: flex;
               align-items: center;
               justify-content: center;
+              flex-direction: column;
               background-color: black;
               opacity: 0.9;
               animation: fadeInOverlay 100ms linear;
@@ -695,6 +706,32 @@
         }
       }
     }
+  }
+}
+
+.playerPropOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.95;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  .selected {
+    font-weight: bold;
+    color: rgb(62, 62, 62);
+  }
+
+  .details {
+    color: rgb(156, 0, 0);
+    font-size: 0.6rem;
+    font-weight: bold;
   }
 }
 

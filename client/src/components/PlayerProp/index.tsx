@@ -1,52 +1,111 @@
-import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
-import { Markets } from "../../pages/AdminPage";
-import { useState } from "react";
+import { FaCaretLeft, FaCaretRight } from "react-icons/fa6"
+import {
+  propKeyConversion,
+  calculatePayout,
+  Markets,
+  BettingProp
+} from "../utils"
+import { useState } from "react"
+import { PropToDbInterface } from "../BettingPropSpreads"
 
-interface KeyConversion {
-  [key: string]: string
-}
-
-const propKeyConversion: KeyConversion = {
-  player_pass_tds: "Pass TDs", 
-  player_pass_yds: "Pass Yds", 
-  player_pass_completions: "Completions", 
-  player_pass_attempts: "Pass Attempts", 
-  player_pass_interceptions: "Interceptions", 
-  player_rush_yds: "Rush Yds", 
-  player_rush_attempts: "Rush Attempts", 
-  player_receptions: "Receptions", 
-  player_reception_yds: "Receiving Yds", 
-  player_anytime_td: "TESTING"
-}
-
-interface PlayerPropInterface {
+export default function PlayerProp({
+  item,
+  player,
+  overStats,
+  underStats,
+  uniquePropKey,
+  prop,
+  handlePropCounter,
+  propsSelected,
+  setPropsSelected
+}: {
   item: Markets
   player: string
-  uniqueKeyProp: string
-  overStats: {name: string, description?: string, price: number, point: number}
-  underStats: {name: string, description?: string, price: number, point: number}
+  overStats: {
+    name: string
+    description?: string
+    price: number
+    point: number
+  }
+  underStats: {
+    name: string
+    description?: string
+    price: number
+    point: number
+  }
+  uniquePropKey: string
+  prop: BettingProp
   handlePropCounter: (propId: string) => void
-}
-
-function calculatePayout(odds: number) {
-    if (odds > 0) {
-      return 1 + (odds / 100)
-    } else {
-      return Number(((1 + (100 / Math.abs(odds))).toFixed(2)))
-    }
-}
-
-export default function PlayerProp({item, player, overStats, underStats, uniqueKeyProp, handlePropCounter}: PlayerPropInterface) {
+  propsSelected: PropToDbInterface[]
+  setPropsSelected: (obj: PropToDbInterface[]) => void
+}) {
   const [selected, setSelected] = useState<boolean>(false)
 
   function handlePropSelection(key: string) {
-    setSelected(!selected)
+    const uniqueId = uniquePropKey
+
+    // setSelected(!selected)
     handlePropCounter(key)
-    console.log(key)
+
+    const propExists = propsSelected.find((item) => item.uniqueId === uniqueId)
+
+    if (propExists) {
+      // remove prop
+      const updatedProps = propsSelected.filter(
+        (item) => item.uniqueId !== uniqueId
+      )
+      setPropsSelected(updatedProps)
+      return
+    }
+
+    const propToSend = formatPlayerProp()
+    setPropsSelected([...propsSelected, propToSend] as PropToDbInterface[])
+    // send Prop
   }
 
+  function formatPlayerProp() {
+    return {
+      type: `playerProp`,
+      subType: item.key,
+      player: `${player}`,
+      gameId: prop.id, // you MIGHT be able to use this for automatic updates
+      expiration: prop.commence_time,
+      uniqueId: uniquePropKey, // JUST for filtering
+
+      // update these right before sending to DB
+      week: 0,
+      nflYear: 0,
+
+      // updated here
+      overData: {
+        overLine: overStats.point,
+        overPayout: overStats.price,
+        calcOverPayout: calculatePayout(overStats.price)
+      },
+      underData: {
+        underLine: underStats.point,
+        underPayout: underStats.price,
+        calcUnderPayout: calculatePayout(underStats.price)
+      },
+
+      // these are updated as users make selections
+      overSelections: [],
+      underSelections: [],
+
+      // update these after game to calc results
+      result: 0
+    }
+  }
+
+  const propAlreadySelected = !!propsSelected.find(
+    (item) => item.uniqueId === uniquePropKey
+  )
+
   return (
-    <div onClick={() => handlePropSelection(uniqueKeyProp)} className="playerProp">
+    <div
+      onClick={() => handlePropSelection(uniquePropKey)}
+      className="playerProp"
+    >
       <div className="statCategory">{propKeyConversion[item.key]}</div>
       <div className="propDetails">
         <div className="underPrice priceWrapper">
@@ -69,10 +128,19 @@ export default function PlayerProp({item, player, overStats, underStats, uniqueK
         </div>
         <div className="overPrice priceWrapper">
           <span className="over">over</span>
-          <span className="price">{overStats.price < 0 ? overStats.price : `+${overStats.price}`}</span>
+          <span className="price">
+            {overStats.price < 0 ? overStats.price : `+${overStats.price}`}
+          </span>
         </div>
       </div>
-      {selected && <div className="overlay">Selected</div>}
+      {propAlreadySelected && (
+        <div className="playerPropOverlay">
+          <span className="selected">Selected</span>
+          <span className="details">
+            {player} OU {overStats.point} {propKeyConversion[item.key]}
+          </span>
+        </div>
+      )}
     </div>
   )
 }

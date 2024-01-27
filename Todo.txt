@@ -14,8 +14,8 @@ CURRENTLY DOING -----------------------------------------------------
 15. gameIdsFetched has to be kept on admin page
 16. Add button filters for player props
 17. Add loading spinner to prop load
-18. NEED TO WORK ON FILTERING DATA
-
+19. Filtering props is a bit abrupt (needs to be smooth)
+20. Need little icons or numbers to symbolize where your selected props are
 
 KNOWN BUGS
 1. More than 3 Championships or Skirts can cause issues with ownerSelector Body
