@@ -10,7 +10,6 @@ export const getOwners = async (
 ) => {
   try {
     const owners = await Owner.find()
-    console.log(owners)
     res.status(200).json(owners)
   } catch (error) {
     next(error)

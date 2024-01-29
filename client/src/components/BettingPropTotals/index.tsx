@@ -6,6 +6,7 @@ import { MdCompareArrows } from "react-icons/md"
 import PlayerProp from "../PlayerProp"
 import PlayerPropFilterBtn from "../PlayerPropFilterBtn"
 import { PropToDbInterface } from "../BettingPropSpreads"
+import { weekToNumConversion } from "../utils"
 
 import {
   Outcomes,
@@ -32,7 +33,9 @@ export default function BettingPropTotals({
   globalPropsToRender,
   setGlobalPropsToRender,
   propsSelected,
-  setPropsSelected
+  setPropsSelected,
+  currentWeek,
+  currentYear
 }: {
   outcomes: Outcomes[]
   type: Markets
@@ -47,6 +50,8 @@ export default function BettingPropTotals({
   setGlobalPropsToRender: (obj: FullMatchupProps) => void
   propsSelected: PropToDbInterface[]
   setPropsSelected: (obj: PropToDbInterface[]) => void
+  currentWeek: string
+  currentYear: number
 }) {
   const [selected, setSelected] = useState<boolean>(false)
   const [showPlayerProps, setShowPlayerProps] = useState<boolean>(false)
@@ -107,8 +112,8 @@ export default function BettingPropTotals({
         uniqueId,
 
         // update these right before sending to DB
-        week: 0,
-        nflYear: 0,
+        week: weekToNumConversion[currentWeek],
+        nflYear: currentYear,
 
         // updated here
         homeTeam: prop.home_team,
@@ -130,7 +135,14 @@ export default function BettingPropTotals({
         overSelections: [],
 
         // update these after game to calc results
-        result: 0
+        result: 0,
+
+        // if voided, don't count prop
+        void: false,
+
+        challenges: [],
+
+        weekYear: `${currentWeek}${currentYear.toString()}`
       }
     }
   }
@@ -391,6 +403,8 @@ export default function BettingPropTotals({
               handlePropCounter={handlePropCounter}
               propsSelected={propsSelected}
               setPropsSelected={setPropsSelected}
+              currentWeek={currentWeek}
+              currentYear={currentYear}
             />
           )
         })}

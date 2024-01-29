@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import TestCountdownTimer from "../TestCountDown/TestCountDown"
 import { FaCaretDown, FaCaretUp } from "react-icons/fa"
 import PlayerPropFilterBtn from "../PlayerPropFilterBtn"
+import { weekToNumConversion } from "../utils"
 import {
   Outcomes,
   Markets,
@@ -14,9 +15,19 @@ import {
   CombinedProp,
   propKeyConversion,
   capitalizeAndRemoveLast,
-  calculatePayout
+  calculatePayout,
+  createPlayerPropUrl
 } from "../utils"
 import PlayerProp from "../PlayerProp"
+
+interface Challenges {
+  challenger: string
+  acceptor: string | null
+  challengerChoice: string // "over" | "under" | "away" | "home"
+  acceptorChoice: string // "over" | "under" | "away" | "home"
+
+  void: boolean
+}
 
 export interface PropToDbInterface {
   type: string
@@ -59,6 +70,12 @@ export interface PropToDbInterface {
   homeScoreResult?: number
 
   result?: number
+
+  void: boolean
+
+  challenges: Challenges[] | []
+
+  weekYear: "weekOne2024"
 }
 
 export default function BettingPropSpreads({
@@ -74,7 +91,9 @@ export default function BettingPropSpreads({
   globalPropsToRender,
   setGlobalPropsToRender,
   propsSelected,
-  setPropsSelected
+  setPropsSelected,
+  currentWeek,
+  currentYear
 }: {
   outcomes: Outcomes[]
   type: Markets
@@ -89,6 +108,8 @@ export default function BettingPropSpreads({
   setGlobalPropsToRender: (obj: FullMatchupProps) => void
   propsSelected: PropToDbInterface[]
   setPropsSelected: (obj: PropToDbInterface[]) => void
+  currentWeek: string
+  currentYear: number
 }) {
   const [selected, setSelected] = useState<boolean>(false)
   const [plyrPropdata, setPlyrPropData] = useState<BettingProp[]>([])
@@ -133,8 +154,8 @@ export default function BettingPropSpreads({
         uniqueId: `${prop.id + type}`, // JUST for filtering
 
         // update these right before sending to DB
-        week: 0,
-        nflYear: 0,
+        week: weekToNumConversion[currentWeek],
+        nflYear: currentYear,
 
         // updated here
         homeData: {
@@ -157,13 +178,17 @@ export default function BettingPropSpreads({
 
         // update these after game to calc results
         awayScoreResult: 0,
-        homeScoreResult: 0
+        homeScoreResult: 0,
+
+        // if voided, don't count prop
+        void: false,
+
+        challenges: [],
+
+        // NEED TO GENERATE THIS
+        weekYear: `${currentWeek}${currentYear.toString()}`
       }
     }
-  }
-
-  function createPlayerPropUrl(string: string) {
-    return `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/${prop.id}/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=${string}&oddsFormat=american`
   }
 
   function dataExists() {
@@ -190,7 +215,7 @@ export default function BettingPropSpreads({
 
     const propListToString = testPropData.join(",")
 
-    const URL = createPlayerPropUrl(propListToString)
+    const URL = createPlayerPropUrl(propListToString, prop.id)
 
     const res = await fetch(URL)
     const data = await res.json()
@@ -453,6 +478,8 @@ export default function BettingPropSpreads({
               handlePropCounter={handlePropCounter}
               propsSelected={propsSelected}
               setPropsSelected={setPropsSelected}
+              currentWeek={currentWeek}
+              currentYear={currentYear}
             />
           )
         })}

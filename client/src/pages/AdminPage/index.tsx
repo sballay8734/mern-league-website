@@ -21,9 +21,6 @@ import {
 
 const picksToMake = 12
 
-// for testing, used to calculate current week
-const currentDate = "2024-09-03T05:00:00Z" // Sept. 3, 2014 12:00am
-
 const nfl2024WeekRanges: WeekRanges = {
   // Tuesday Morning (12:00am) ---> Monday Night (11:59pm)
   weekOne: {
@@ -54,8 +51,8 @@ const nfl2024WeekRanges: WeekRanges = {
   },
   testWeek: {
     key: "testWeek",
-    start: "2024-01-24T06:00:00Z",
-    end: "2024-01-27T06:00:00Z"
+    start: "2024-01-29T06:00:00Z",
+    end: "2024-02-11T18:30:00Z"
   }
 }
 
@@ -70,6 +67,8 @@ export default function AdminPage() {
   const [globalPropsToRender, setGlobalPropsToRender] =
     useState<FullMatchupProps>({})
   const [propsSelected, setPropsSelected] = useState<PropToDbInterface[]>([])
+  const [currentWeek, setCurrentWeek] = useState<string>("")
+  const [currentYear, setCurrentYear] = useState<number>(0)
 
   async function runStaticDataUpdate() {
     setUpdateInProgress(true)
@@ -158,17 +157,56 @@ export default function AdminPage() {
       }
     }
 
-    return currentWeek
+    return currentWeek?.key || "Not Found"
   }
 
-  function handlePropSubmission() {
-    console.log("Submitting...")
-    console.log(propsSelected)
+  function getCurrentYear() {
+    let currentYear = new Date().getFullYear()
+    const currentMonth = new Date().getMonth()
+
+    if (currentMonth === 0 || currentMonth === 1) {
+      currentYear -= 1
+    }
+
+    return currentYear
+  }
+
+  async function handlePropSubmission() {
+    if (propsSelected.length !== picksToMake) {
+      console.log("NOT ENOUGH PICKS!")
+      return
+    } else {
+      try {
+        const res = await fetch("/api/props/create-props", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            props: propsSelected,
+            weekYear: `${currentWeek}${currentYear}`
+          })
+        })
+
+        const data = await res.json()
+
+        if (!data) {
+          console.log("Something went wrong")
+          return
+        }
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 
   useEffect(() => {
     const week = getCurrentWeek()
-    // console.log(week)
+    const nflYear = getCurrentYear()
+
+    setCurrentWeek(week)
+    setCurrentYear(nflYear)
   }, [])
 
   return (
@@ -275,6 +313,8 @@ export default function AdminPage() {
                               setGlobalPropsToRender={setGlobalPropsToRender}
                               propsSelected={propsSelected}
                               setPropsSelected={setPropsSelected}
+                              currentWeek={currentWeek}
+                              currentYear={currentYear}
                             />
                           )
                         } else if (type.key === "totals") {
@@ -294,6 +334,8 @@ export default function AdminPage() {
                               setGlobalPropsToRender={setGlobalPropsToRender}
                               propsSelected={propsSelected}
                               setPropsSelected={setPropsSelected}
+                              currentWeek={currentWeek}
+                              currentYear={currentYear}
                             />
                           )
                         }

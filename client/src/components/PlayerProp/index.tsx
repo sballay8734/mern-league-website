@@ -7,6 +7,7 @@ import {
 } from "../utils"
 import { useState } from "react"
 import { PropToDbInterface } from "../BettingPropSpreads"
+import { weekToNumConversion } from "../utils"
 
 export default function PlayerProp({
   item,
@@ -17,7 +18,9 @@ export default function PlayerProp({
   prop,
   handlePropCounter,
   propsSelected,
-  setPropsSelected
+  setPropsSelected,
+  currentWeek,
+  currentYear
 }: {
   item: Markets
   player: string
@@ -38,6 +41,8 @@ export default function PlayerProp({
   handlePropCounter: (propId: string) => void
   propsSelected: PropToDbInterface[]
   setPropsSelected: (obj: PropToDbInterface[]) => void
+  currentWeek: string
+  currentYear: number
 }) {
   const [selected, setSelected] = useState<boolean>(false)
 
@@ -73,8 +78,8 @@ export default function PlayerProp({
       uniqueId: uniquePropKey, // JUST for filtering
 
       // update these right before sending to DB
-      week: 0,
-      nflYear: 0,
+      week: weekToNumConversion[currentWeek],
+      nflYear: currentYear,
 
       // updated here
       overData: {
@@ -93,7 +98,13 @@ export default function PlayerProp({
       underSelections: [],
 
       // update these after game to calc results
-      result: 0
+      result: 0,
+
+      // if voided, don't count prop
+      void: false,
+
+      challenges: [],
+      weekYear: `${currentWeek}${currentYear.toString()}`
     }
   }
 

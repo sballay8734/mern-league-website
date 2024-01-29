@@ -1,4 +1,5 @@
-export const ODDS_API_KEY = "7149a4ecd5269194832435e5755990ea" // baileeshaw
+export const ODDS_API_KEY = "2eed7073c0bc886d436863fc3a1844db" // shawnyahoo
+export const BAILEE_SHAW = "7149a4ecd5269194832435e5755990ea" // baileeshaw
 export const SB_API_KEY = "0f397ef8e40fda92307241c433993cd7" // shawnballay1
 export const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`
 
@@ -46,6 +47,37 @@ export interface OUStats {
   description?: string
   price: number
   point: number
+}
+
+interface WeekToNum {
+  [week: string]: number
+}
+export const weekToNumConversion: WeekToNum = {
+  // Tuesday Morning (12:00am) ---> Monday Night (11:59pm)
+  weekOne: 1,
+  weekTwo: 2,
+  weekThree: 3,
+  weekFour: 4,
+  weekFive: 5,
+  weekSix: 6,
+  weekSeven: 7,
+  weekEight: 8,
+  weekNine: 9,
+  weekTen: 10,
+  weekEleven: 11,
+  weekTwelve: 12,
+  weekThirteen: 13,
+  weekFourteen: 14,
+  weekFifteen: 15,
+  weekSixteen: 16,
+  weekSeventeen: 17,
+  weekEighteen: 18,
+  weekNineteen: 19,
+  weekTwenty: 20,
+  weekTwentyOne: 21,
+  weekTwentyTwo: 22,
+  weekTwentyThree: 23,
+  testWeek: 53
 }
 
 export interface CombinedProp {

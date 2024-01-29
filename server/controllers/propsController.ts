@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express"
 
 import { errorHandler } from "../utils/error"
 import PropSubmission from "../models/PropSubmission"
+import Prop from "../models/Prop"
 
 export const submitProp = async (
   req: Request,
@@ -48,5 +49,39 @@ export const submitProp = async (
     }
   } catch (error) {
     next(error)
+  }
+}
+
+export const createProps = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const props = req.body.props
+  const weekYear = req.body.weekYear
+  const user = req.user
+
+  if (!user) return next(errorHandler(400, "Unauthorized"))
+
+  if (props.length < 1 || !weekYear) return next(errorHandler(400, "ERROR!"))
+
+  const propsAlreadyExistForWeek = await Prop.findOne({ weekYear: weekYear })
+
+  if (propsAlreadyExistForWeek) {
+    res.status(500).json("Props have already been set for this week")
+    return
+  } else {
+    try {
+      const newProps = await Prop.insertMany(props)
+
+      if (newProps) {
+        res.status(200).json(newProps)
+      } else {
+        next(errorHandler(500, "Whoops!"))
+        return
+      }
+    } catch (error) {
+      next(error)
+    }
   }
 }
