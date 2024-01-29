@@ -294,52 +294,106 @@ export default function AdminPage() {
                       if (prop.bookmakers.length > 1) return "Too Many BMs"
 
                       const markets = prop.bookmakers[0].markets
+                      console.log(markets)
 
-                      return markets.map((type, index) => {
-                        if (type.key === "spreads") {
-                          return (
-                            <BettingPropSpreads
-                              key={index}
-                              outcomes={type.outcomes}
-                              type={type}
-                              time={prop.commence_time}
-                              homeTeam={prop.home_team}
-                              awayTeam={prop.away_team}
-                              handlePropCounter={handlePropCounter}
-                              prop={prop}
-                              gameIdsFetched={gameIdsFetched}
-                              setGameIdsFetched={setGameIdsFetched}
-                              globalPropsToRender={globalPropsToRender}
-                              setGlobalPropsToRender={setGlobalPropsToRender}
-                              propsSelected={propsSelected}
-                              setPropsSelected={setPropsSelected}
-                              currentWeek={currentWeek}
-                              currentYear={currentYear}
-                            />
-                          )
-                        } else if (type.key === "totals") {
-                          return (
-                            <BettingPropTotals
-                              key={index}
-                              outcomes={type.outcomes}
-                              type={type}
-                              time={prop.commence_time}
-                              homeTeam={prop.home_team}
-                              awayTeam={prop.away_team}
-                              handlePropCounter={handlePropCounter}
-                              prop={prop}
-                              gameIdsFetched={gameIdsFetched}
-                              setGameIdsFetched={setGameIdsFetched}
-                              globalPropsToRender={globalPropsToRender}
-                              setGlobalPropsToRender={setGlobalPropsToRender}
-                              propsSelected={propsSelected}
-                              setPropsSelected={setPropsSelected}
-                              currentWeek={currentWeek}
-                              currentYear={currentYear}
-                            />
-                          )
-                        }
-                      })
+                      return (
+                        <div key={prop.id} className="gameWrapper">
+                          {markets.map((type, index) => {
+                            if (type.key === "spreads") {
+                              return (
+                                <BettingPropSpreads
+                                  key={index}
+                                  outcomes={type.outcomes}
+                                  type={type}
+                                  time={prop.commence_time}
+                                  homeTeam={prop.home_team}
+                                  awayTeam={prop.away_team}
+                                  handlePropCounter={handlePropCounter}
+                                  prop={prop}
+                                  gameIdsFetched={gameIdsFetched}
+                                  setGameIdsFetched={setGameIdsFetched}
+                                  globalPropsToRender={globalPropsToRender}
+                                  setGlobalPropsToRender={
+                                    setGlobalPropsToRender
+                                  }
+                                  propsSelected={propsSelected}
+                                  setPropsSelected={setPropsSelected}
+                                  currentWeek={currentWeek}
+                                  currentYear={currentYear}
+                                />
+                              )
+                            } else if (type.key === "totals") {
+                              return (
+                                <BettingPropTotals
+                                  key={index}
+                                  outcomes={type.outcomes}
+                                  type={type}
+                                  time={prop.commence_time}
+                                  homeTeam={prop.home_team}
+                                  awayTeam={prop.away_team}
+                                  handlePropCounter={handlePropCounter}
+                                  prop={prop}
+                                  gameIdsFetched={gameIdsFetched}
+                                  setGameIdsFetched={setGameIdsFetched}
+                                  globalPropsToRender={globalPropsToRender}
+                                  setGlobalPropsToRender={
+                                    setGlobalPropsToRender
+                                  }
+                                  propsSelected={propsSelected}
+                                  setPropsSelected={setPropsSelected}
+                                  currentWeek={currentWeek}
+                                  currentYear={currentYear}
+                                />
+                              )
+                            }
+                          })}
+                        </div>
+                      )
+                      // return markets.map((type, index) => {
+                      //   if (type.key === "spreads") {
+                      //     return (
+                      //       <BettingPropSpreads
+                      //         key={index}
+                      //         outcomes={type.outcomes}
+                      //         type={type}
+                      //         time={prop.commence_time}
+                      //         homeTeam={prop.home_team}
+                      //         awayTeam={prop.away_team}
+                      //         handlePropCounter={handlePropCounter}
+                      //         prop={prop}
+                      //         gameIdsFetched={gameIdsFetched}
+                      //         setGameIdsFetched={setGameIdsFetched}
+                      //         globalPropsToRender={globalPropsToRender}
+                      //         setGlobalPropsToRender={setGlobalPropsToRender}
+                      //         propsSelected={propsSelected}
+                      //         setPropsSelected={setPropsSelected}
+                      //         currentWeek={currentWeek}
+                      //         currentYear={currentYear}
+                      //       />
+                      //     )
+                      //   } else if (type.key === "totals") {
+                      //     return (
+                      //       <BettingPropTotals
+                      //         key={index}
+                      //         outcomes={type.outcomes}
+                      //         type={type}
+                      //         time={prop.commence_time}
+                      //         homeTeam={prop.home_team}
+                      //         awayTeam={prop.away_team}
+                      //         handlePropCounter={handlePropCounter}
+                      //         prop={prop}
+                      //         gameIdsFetched={gameIdsFetched}
+                      //         setGameIdsFetched={setGameIdsFetched}
+                      //         globalPropsToRender={globalPropsToRender}
+                      //         setGlobalPropsToRender={setGlobalPropsToRender}
+                      //         propsSelected={propsSelected}
+                      //         setPropsSelected={setPropsSelected}
+                      //         currentWeek={currentWeek}
+                      //         currentYear={currentYear}
+                      //       />
+                      //     )
+                      //   }
+                      // })
                     })}
                 </div>
               </div>

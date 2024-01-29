@@ -17,8 +17,7 @@ CURRENTLY DOING -----------------------------------------------------
 19. Filtering props is a bit abrupt (needs to be smooth)
 20. Need little icons or numbers to symbolize where your selected props are
 21. Add clear all props button
-22. Group same games together
-23. MAKE SURE WEEKYEAR IS GENERATED!
+22. GROUP SAME GAMES TOGETHER
 
 KNOWN BUGS
 1. More than 3 Championships or Skirts can cause issues with ownerSelector Body
