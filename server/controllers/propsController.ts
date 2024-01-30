@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express"
 import { errorHandler } from "../utils/error"
 import PropSubmission from "../models/PropSubmission"
 import Prop, { PropToDbInterface } from "../models/Prop"
+import User from "../models/User"
 
 interface WeekToNum {
   [week: string]: number
@@ -77,28 +78,139 @@ export const updateProp = async (
 ) => {
   const action = req.body.action
   const prop: PropToDbInterface = req.body.prop
-  const user = req.user
+  const userId = req.user.id
 
-  console.log(prop, action)
+  // get users name
+  const currentUser = await User.findById(userId)
+  if (!currentUser) return next(errorHandler(400, "Unauthorized"))
+  const userObject = currentUser.toObject()
+  const userName = userObject.fullName
 
-  if (!user) return next(errorHandler(400, "Unauthorized"))
-
+  // get prop
   const propExists = await Prop.findOne({
     gameId: prop.gameId,
     uniqueId: prop.uniqueId
   })
-
   if (!propExists) return next(errorHandler(500, "Could not find prop"))
 
-  const updatedProp = propExists.toObject()
-
   try {
-    if (prop.type === "playerProp") {
-      res.status(200).json({ message: "Found Player Prop", action })
-    } else if (prop.type === "teamTotals") {
-      res.status(200).json({ message: "Found Team Total Prop", action })
+    if (prop.type === "playerProp" || prop.type === "teamTotals") {
+      if (action === "under") {
+        // Might need to reword the line below
+        if (!propExists.underSelections || !propExists.overSelections) {
+          return res.status(500).json("One of them doesn't exist!")
+        }
+
+        if (propExists.underSelections?.includes(userName)) {
+          return res.status(500).json("You already voted the under!")
+        }
+
+        if (propExists.overSelections?.includes(userName)) {
+          // remove from overSelections and add to underSelections
+          const index = propExists.overSelections.indexOf(userName)
+          propExists.overSelections.splice(index, 1)
+
+          if (!propExists.underSelections) return next(errorHandler(500, "NUS"))
+
+          propExists.set({
+            underSelections: [...propExists.underSelections, userName]
+          })
+          propExists.save()
+          return res.status(200).json("You have been SWITCHED to the under!")
+        }
+
+        propExists.set({
+          underSelections: [...propExists.underSelections, userName]
+        })
+        propExists.save()
+
+        return res.status(200).json("You have been ADDED to under!")
+      } else if (action === "over") {
+        if (!propExists.underSelections || !propExists.overSelections) {
+          return res.status(500).json("One of them doesn't exist!")
+        }
+
+        if (propExists.overSelections?.includes(userName)) {
+          return res.status(500).json("You already voted the over!")
+        }
+        if (propExists.underSelections?.includes(userName)) {
+          // remove from underSelections and add to overSelections
+          const index = propExists.underSelections.indexOf(userName)
+          propExists.underSelections.splice(index, 1)
+
+          if (!propExists.overSelections) return next(errorHandler(500, "NUS"))
+
+          propExists.set({
+            overSelections: [...propExists.overSelections, userName]
+          })
+          propExists.save()
+          return res.status(200).json("You have been SWITCHED to the over!")
+          //
+        }
+        propExists.set({
+          overSelections: [...propExists.overSelections, userName]
+        })
+        propExists.save()
+        res.status(200).json("You have been ADDED to the over!")
+      }
     } else if (prop.type === "teamSpreads") {
-      res.status(200).json({ message: "Found Team Spread Prop", action })
+      if (!propExists.homeLineSelections || !propExists.awayLineSelections) {
+        return res.status(500).json("One of them doesn't exist!")
+      }
+
+      if (action === prop.homeData?.homeTeam) {
+        // if they voted for home, but were already in the home list
+        if (propExists.homeLineSelections?.includes(userName)) {
+          return res.status(400).json("You already bet on the HomeTeam!")
+        }
+        // if they voted for home but were in the away list
+        if (propExists.awayLineSelections.includes(userName)) {
+          // remove them from the away list
+          const index = propExists.awayLineSelections.indexOf(userName)
+          propExists.awayLineSelections.splice(index, 1)
+
+          if (!propExists.awayLineSelections)
+            return next(errorHandler(500, "NUS"))
+
+          // add them to the home list
+          propExists.set({
+            homeLineSelections: [...propExists.homeLineSelections, userName]
+          })
+          propExists.save()
+          return res.status(200).json("You have been SWITCHED to the HomeTeam!")
+        }
+        // add if name wasn't found in either list
+        propExists.set({
+          homeLineSelections: [...propExists.homeLineSelections, userName]
+        })
+        propExists.save()
+        return res.status(200).json("You have been ADDED to the AwayTeam!")
+      } else if (action === prop.awayData?.awayTeam) {
+        // if they voted for away, but were already in the away list
+        if (propExists.awayLineSelections?.includes(userName)) {
+          return res.status(400).json("You already bet on the AwayTeam!")
+        }
+
+        if (propExists.homeLineSelections.includes(userName)) {
+          const index = propExists.homeLineSelections.indexOf(userName)
+          propExists.homeLineSelections.splice(index, 1)
+
+          if (!propExists.homeLineSelections)
+            return next(errorHandler(500, "NUS"))
+
+          propExists.set({
+            awayLineSelections: [...propExists.awayLineSelections, userName]
+          })
+          propExists.save()
+          return res.status(200).json("You have been SWITCHED to the AwayTeam!")
+        }
+
+        propExists.set({
+          awayLineSelections: [...propExists.awayLineSelections, userName]
+        })
+        propExists.save()
+        return res.status(200).json("You have been ADDED to the AwayTeam!")
+      }
     } else {
       console.log("ERROR")
     }

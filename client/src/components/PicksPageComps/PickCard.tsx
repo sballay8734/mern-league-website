@@ -277,7 +277,7 @@ export default function PickCard({
   // *****************************************************************
   // *****************************************************************
   // *****************************************************************
-  // NEED TO INCLUDE PAYOUT, SPREAD, and ALSO AND HANDLE LOCK ICONS!!!
+  // NEED TO HANDLE LOCK ICONS!!!
   // Lock icons should be handled inside Api calls if successful
   // *****************************************************************
   // *****************************************************************
@@ -296,7 +296,10 @@ export default function PickCard({
             className={`ouLeft ${OverOrUnder === "under" ? "active" : ""}`}
           >
             <span className="payoutAndCalc">
-              {item.underData?.underPayout} - {item.underData?.calcUnderPayout}
+              <span className="payout">{item.underData?.underPayout}</span>{" "}
+              <span className="calcPayout">
+                {item.underData?.calcUnderPayout}
+              </span>
             </span>
             Under
             {/* <span
@@ -327,7 +330,10 @@ export default function PickCard({
             </span>
             Over{" "}
             <span className="payoutAndCalc">
-              {item.overData?.overPayout} - {item.overData?.calcOverPayout}
+              <span className="payout">{item.overData?.overPayout}</span>
+              <span className="calcPayout">
+                {item.overData?.calcOverPayout}
+              </span>
             </span>
             {/* <span
               className={`lock-icon ${
@@ -353,7 +359,13 @@ export default function PickCard({
             onClick={() => handleUnderClick(item)}
             className={`ouLeft ${OverOrUnder === "under" ? "active" : ""}`}
           >
-            Under{" "}
+            <div className="payoutAndCalc">
+              <span className="payout">{item.underData?.underPayout}</span>
+              <span className="calcPayout">
+                {item.underData?.calcUnderPayout}
+              </span>
+            </div>
+            <span className="overText">Under</span>{" "}
             {/* <span
               className={`lock-icon ${
                 lockIcon && item.selectedOU === "under" ? "show" : ""
@@ -382,7 +394,13 @@ export default function PickCard({
             <span className="ou-icon up">
               <FaCaretUp />
             </span>
-            Over{" "}
+            <span className="overText">Over</span>{" "}
+            <div className="payoutAndCalc">
+              <span className="payout">{item.overData?.overPayout}</span>
+              <span className="calcPayout">
+                {item.overData?.calcOverPayout}
+              </span>
+            </div>
             {/* <span
               className={`lock-icon ${
                 lockIcon && item.selectedOU === "over" ? "show" : ""
@@ -413,7 +431,7 @@ export default function PickCard({
                   spreadPick === "favorite" ? "active" : ""
                 }`}
               >
-                {formatTeamName(awayTeam)}
+                <span className="teamName">{formatTeamName(awayTeam)}</span>
                 {/* <span
                   className={`lock-icon ${
                     lockIcon && item.awayData?.awayTeam === awayTeam
@@ -424,9 +442,15 @@ export default function PickCard({
                   <FaLock />
                 </span> */}
                 <span className="spread-line minus">
-                  {item.awayData?.awayLine && item.awayData.awayLine > 0
-                    ? `+${item.awayData?.awayLine}`
-                    : item.awayData?.awayLine}
+                  <span className="payout">{item.awayData?.awayPayout}</span>
+                  <span className="spread">
+                    {item.awayData?.awayLine && item.awayData.awayLine > 0
+                      ? `+${item.awayData?.awayLine}`
+                      : item.awayData?.awayLine}
+                  </span>
+                  <span className="calcPayout">
+                    {item.awayData?.calcAwayPayout}
+                  </span>
                 </span>
               </button>
               <div className="ouCenter">
@@ -451,9 +475,15 @@ export default function PickCard({
                   <FaLock />
                 </span>
                 <span className="spread-line plus">
-                  {item.homeData?.homeLine && item.homeData.homeLine > 0
-                    ? `+${item.homeData?.homeLine}`
-                    : item.homeData?.homeLine}
+                  <span className="payout">{item.homeData?.homePayout}</span>
+                  <span className="spread">
+                    {item.homeData?.homeLine && item.homeData.homeLine > 0
+                      ? `+${item.homeData?.homeLine}`
+                      : item.homeData?.homeLine}
+                  </span>
+                  <span className="calcPayout">
+                    {item.homeData?.calcHomePayout}
+                  </span>
                 </span>
               </button>
               {lockPick ? (
