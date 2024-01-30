@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import TestCountdownTimer from "../TestCountDown/TestCountDown"
-import { FaCaretDown, FaCaretUp } from "react-icons/fa"
 import { MdCompareArrows } from "react-icons/md"
 import PlayerProp from "../PlayerProp"
 import PlayerPropFilterBtn from "../PlayerPropFilterBtn"
@@ -14,9 +13,7 @@ import {
   BettingProp,
   FullMatchupProps,
   PlayerPropInterface,
-  createPlayerPropUrl,
   propKeyConversion,
-  CombinedProp,
   calculatePayout
 } from "../utils"
 
@@ -28,10 +25,6 @@ export default function BettingPropTotals({
   awayTeam,
   handlePropCounter,
   prop,
-  gameIdsFetched,
-  setGameIdsFetched,
-  globalPropsToRender,
-  setGlobalPropsToRender,
   propsSelected,
   setPropsSelected,
   currentWeek,
@@ -55,30 +48,12 @@ export default function BettingPropTotals({
 }) {
   const [selected, setSelected] = useState<boolean>(false)
   const [showPlayerProps, setShowPlayerProps] = useState<boolean>(false)
-  const [plyrPropdata, setPlyrPropData] = useState<BettingProp[]>([])
   const [filteredButtons, setFilteredButtons] = useState<string[]>([])
   const [propsToRender, setPropsToRender] = useState<PlayerPropInterface[]>([])
-
-  useEffect(() => {
-    handleDataRender()
-  }, [plyrPropdata])
 
   const gameLine = outcomes[0].point
   const overData = outcomes.find((item) => item.name === "Over")
   const underData = outcomes.find((item) => item.name === "Under")
-
-  const testPropData: string[] = [
-    "player_pass_tds",
-    "player_pass_yds",
-    "player_pass_completions",
-    "player_pass_attempts",
-    "player_pass_interceptions",
-    "player_rush_yds",
-    "player_rush_attempts",
-    "player_receptions",
-    "player_reception_yds",
-    "player_anytime_td"
-  ]
 
   function handleSelectedProp(propId: string) {
     const uniqueId = propId
@@ -147,36 +122,6 @@ export default function BettingPropTotals({
     }
   }
 
-  async function fetchPlayerProps() {
-    if (dataExists()) {
-      setShowPlayerProps(!showPlayerProps)
-      setPropsToRender(globalPropsToRender[prop.id])
-      return
-    }
-    if (gameIdsFetched?.includes(prop.id)) {
-      setShowPlayerProps(!showPlayerProps)
-      return
-    }
-
-    let playerProps = []
-
-    const propListToString = testPropData.join(",")
-
-    const URL = createPlayerPropUrl(propListToString, prop.id)
-
-    const res = await fetch(URL)
-    const data = await res.json()
-    if (!data) {
-      console.log("ERROR")
-      return
-    }
-    playerProps.push(data)
-    setGameIdsFetched([...gameIdsFetched, prop.id])
-
-    setPlyrPropData(playerProps)
-    setShowPlayerProps(true)
-  }
-
   function renderButtons() {
     const buttonKeys = []
     for (const key in propKeyConversion) {
@@ -204,93 +149,6 @@ export default function BettingPropTotals({
     }
   }
 
-  function dataExists() {
-    if (globalPropsToRender[prop.id]) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  function handleDataRender() {
-    // FIRST CHECK IF globalPropsToRender[prop.id] exists
-    // if it does, just render those props
-    const playerProps: PlayerPropInterface[] = []
-
-    if (dataExists()) {
-      setPropsToRender(globalPropsToRender[prop.id])
-      return
-    }
-
-    if (plyrPropdata.length === 1) {
-      const markets = plyrPropdata[0].bookmakers[0].markets
-
-      markets.map((item) => {
-        if (item.key === "player_anytime_td") {
-          return null
-        } else {
-          let combinedOutcomes: CombinedProp = {}
-
-          for (let i = 0; i < item.outcomes.length; i++) {
-            const current = item.outcomes[i]
-            const player = current.description
-            const combinedKey = player?.split(" ").join("") + item.key
-            const statTemplate = {
-              name: current.name,
-              description: current.description,
-              price: current.price,
-              point: current.point
-            }
-
-            if (!combinedOutcomes[combinedKey]) {
-              combinedOutcomes[combinedKey] = {
-                overStats: { name: "", description: "", price: 0, point: 0 },
-                underStats: { name: "", description: "", price: 0, point: 0 }
-              }
-
-              if (current.name === "Over") {
-                combinedOutcomes[combinedKey].overStats = statTemplate
-              }
-              if (current.name === "Under") {
-                combinedOutcomes[combinedKey].underStats = statTemplate
-              }
-            } else {
-              if (current.name === "Over") {
-                combinedOutcomes[combinedKey].overStats = statTemplate
-              }
-              if (current.name === "Under") {
-                combinedOutcomes[combinedKey].underStats = statTemplate
-              }
-            }
-          }
-
-          for (const uniqueKey in combinedOutcomes) {
-            const player = combinedOutcomes[uniqueKey].overStats.description
-              ?.split(" ")
-              .slice(0, 2)
-              .join(" ")!
-            const overStats = combinedOutcomes[uniqueKey].overStats
-            const underStats = combinedOutcomes[uniqueKey].underStats
-
-            // removed item
-            playerProps.push({
-              uniquePropKey: uniqueKey,
-              item,
-              player,
-              overStats,
-              underStats
-            })
-          }
-        }
-      })
-
-      setPropsToRender(playerProps)
-      setGlobalPropsToRender({ [prop.id]: playerProps })
-    }
-
-    return ""
-  }
-
   // return null
 
   const filteredPlayerProps =
@@ -301,17 +159,11 @@ export default function BettingPropTotals({
         })
 
   return (
-    <div key={prop.id + type.key} className="prop">
+    <div key={prop.id + type.key} className="prop total">
       <div
         onClick={() => handleSelectedProp(prop.id + type.key)}
         className="propWrapper"
       >
-        <div className="propHeader">
-          <span className="propType totals">OVER / UNDER</span>
-          <span className="countdownTimer">
-            <TestCountdownTimer endDate={time} />
-          </span>
-        </div>
         <div className="propBody">
           <div className="teamLineWrapper">
             <div className="teams">
@@ -331,7 +183,7 @@ export default function BettingPropTotals({
                   </span>
                 </div>
               </div>
-              <span className="atSign">at</span>
+              <span className="atSign points">OU {underData?.point}</span>
               <div className="home team">
                 <div className="teamAndLine">
                   <span className="teamName">
@@ -372,12 +224,6 @@ export default function BettingPropTotals({
           </div>
         )}
       </div>
-      <button onClick={fetchPlayerProps} className="loadPlayerProps">
-        Load Player Props For This Matchup{" "}
-        <span>
-          {showPlayerProps === true ? <FaCaretUp /> : <FaCaretDown />}
-        </span>
-      </button>
       <div
         className={`playerPropFilterBtnsWrapper ${
           showPlayerProps === true ? "" : "hide"

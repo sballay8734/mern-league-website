@@ -5,7 +5,6 @@ import {
   Markets,
   BettingProp
 } from "../utils"
-import { useState } from "react"
 import { PropToDbInterface } from "../BettingPropSpreads"
 import { weekToNumConversion } from "../utils"
 
@@ -44,8 +43,6 @@ export default function PlayerProp({
   currentWeek: string
   currentYear: number
 }) {
-  const [selected, setSelected] = useState<boolean>(false)
-
   function handlePropSelection(key: string) {
     const uniqueId = uniquePropKey
 

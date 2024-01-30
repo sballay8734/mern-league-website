@@ -104,6 +104,7 @@ export interface PlayerPropInterface {
   uniquePropKey: string
   item: Markets
   player: string
+  gameId: string
   overStats: {
     name: string
     description?: string

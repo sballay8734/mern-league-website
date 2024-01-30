@@ -17,7 +17,8 @@ CURRENTLY DOING -----------------------------------------------------
 19. Filtering props is a bit abrupt (needs to be smooth)
 20. Need little icons or numbers to symbolize where your selected props are
 21. Add clear all props button
-22. GROUP SAME GAMES TOGETHER
+23. YOU NEED TO TEST WHAT HAPPENS WITH MULTIPLE GAMES!! SINCE THERE IS ONLY ONE NOW, SOMETHING MAY BE BROKEN AND YOU WOULDN'T KNOW IT
+24. NEED TO ADD add arrow to button and clean things up. Refactoring made some things look weird.
 
 KNOWN BUGS
 1. More than 3 Championships or Skirts can cause issues with ownerSelector Body
