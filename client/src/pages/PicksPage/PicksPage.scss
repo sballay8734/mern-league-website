@@ -939,6 +939,7 @@
               font-size: 1.2rem;
               padding: 0.4rem;
               max-width: 220px;
+              line-height: 1;
               @media screen and (max-width: 420px) {
                 max-width: 210px;
                 font-size: 1.1rem;
@@ -949,9 +950,18 @@
               }
               .team-name {
                 font-weight: normal;
+                font-size: 0.8rem;
+                line-height: 1.6;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
                 .vs {
                   font-weight: normal;
                   font-size: 0.6rem;
+                  font-weight: bold;
+                  color: rgb(75, 75, 75);
                 }
               }
               .stat-and-line {
@@ -1018,16 +1028,16 @@
       .makePicks {
           animation: fadeInMakePicks 300ms ease;
         }
-        .yearly {
+        .history {
           animation: fadeInYearly 300ms ease;
         }
-        .allTime {
+        .standings {
           animation: fadeInAllTime 300ms ease;
         }
     }
   }
 
-  .allTime, .yearly {
+  .standings, .history {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1035,6 +1045,12 @@
     height: 100%;
     width: 100%;
     transition: background-color 300ms;
+  }
+
+  .payoutAndCalc {
+    display: flex;
+    font-size: 0.5rem;
+    color: rgb(86, 86, 86);
   }
 
 .disable-scrollbars::-webkit-scrollbar {

@@ -172,12 +172,9 @@ export default function BettingPropTotals({
                   <span className={`line awayLine red`}>
                     Under {underData?.price}
                   </span>
-                  <span className="teamName">
-                    {awayTeam.split(" ").slice(-1)[0]}
-                  </span>
                 </div>
                 <div className="payout">
-                  <span className="payoutText">Payout</span>
+                  <span className="payoutText">Payout asdfads</span>
                   <span className="payoutValue">
                     {underData && calculatePayout(underData?.price).toFixed(2)}
                   </span>
@@ -186,15 +183,12 @@ export default function BettingPropTotals({
               <span className="atSign points">OU {underData?.point}</span>
               <div className="home team">
                 <div className="teamAndLine">
-                  <span className="teamName">
-                    {homeTeam.split(" ").slice(-1)[0]}
-                  </span>
                   <span className={`line homeLine green`}>
                     Over {overData?.price}
                   </span>
                 </div>
                 <div className="payout">
-                  <span className="payoutText">Payout</span>
+                  <span className="payoutText">Payout fasdjfa</span>
                   <span className="payoutValue">
                     {overData && calculatePayout(overData.price).toFixed(2)}
                   </span>

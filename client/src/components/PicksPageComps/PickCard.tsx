@@ -7,30 +7,69 @@ import { FaCaretDown } from "react-icons/fa"
 import { FaCaretUp } from "react-icons/fa"
 import { FaLock } from "react-icons/fa"
 import CountdownTimer from "../CountDownTimer/CountDownTimer"
+import { propKeyConversion } from "../utils"
+// import { PropToDbInterface } from "../BettingPropSpreads"
 
-interface Item {
-  propID: number
-  type: "ouPlayer" | "ouTeam" | "spread"
-  team1?: string
-  team2?: string
-  player?: string
-  stat?: string | null
-  line: number
-  favorite?: string
-  nonFavorite?: string
-  selectedOU?: null | "under" | "over"
-  selectedTeam?: null | string
-  startDate: string
-  endDate: string
-  result: number | string | null
-  nflYear: number
-  week: number
+interface Challenges {
+  challenger: string
+  acceptor: string | null
+  challengerChoice: string // "over" | "under" | "away" | "home"
+  acceptorChoice: string // "over" | "under" | "away" | "home"
+
+  void: boolean
 }
 
 interface PickCardProps {
-  item: Item
-  picksMade: Item[]
-  setPicksMade: React.Dispatch<React.SetStateAction<Item[]>>
+  item: PropToDbInterface
+  picksMade: PropToDbInterface[]
+  setPicksMade: React.Dispatch<React.SetStateAction<PropToDbInterface[]>>
+}
+
+interface PropToDbInterface {
+  type: string
+  subType?: string
+  player?: string
+  gameId: string
+  expiration: string
+  uniqueId: string
+  week: number
+  nflYear: number
+
+  overData?: { overLine: number; overPayout: number; calcOverPayout: number }
+  underData?: {
+    underLine: number
+    underPayout: number
+    calcUnderPayout: number
+  }
+  overSelections?: string[]
+  underSelections?: string[]
+
+  homeTeam?: string
+  awayTeam?: string
+
+  homeData?: {
+    homeTeam: string
+    homeLine: number
+    homePayout: number
+    calcHomePayout: number
+  }
+  awayData?: {
+    awayTeam: string
+    awayLine: number
+    awayPayout: number
+    calcAwayPayout: number
+  }
+  homeLineSelections?: string[]
+  awayLineSelections?: string[]
+
+  awayScoreResult?: number
+  homeScoreResult?: number
+
+  result?: number
+
+  void: boolean
+
+  challenges: Challenges[] | []
 }
 
 export default function PickCard({
@@ -43,137 +82,209 @@ export default function PickCard({
   const [lockIcon, setLockIcon] = useState<boolean>(false)
   const [lockPick, setLockPick] = useState<boolean>(false)
 
-  async function handleUnderClick(item: Item) {
-    if (item.selectedOU === "under") return
-    if (lockPick) return
+  // async function handleUnderClick(item: PropToDbInterface) {
+  //   if (item.selectedOU === "under") return
+  //   if (lockPick) return
 
-    setLockIcon(false)
+  //   setLockIcon(false)
 
-    const res = await fetch(`/api/props/${item.propID}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ ...item, selectedOU: "under" })
-    })
+  //   const res = await fetch(`/api/props/${item.propID}`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({ ...item, selectedOU: "under" })
+  //   })
 
-    const data = await res.json()
+  //   const data = await res.json()
 
-    if (data.success === false) {
-      console.log("ERROR")
-      setLockIcon(false)
-      return
-    }
-    console.log(data)
+  //   if (data.success === false) {
+  //     console.log("ERROR")
+  //     setLockIcon(false)
+  //     return
+  //   }
+  //   console.log(data)
 
-    setOverOrUnder("under")
-    item.selectedOU = "under"
-    setLockIcon(true)
-    const filteredPicks = picksMade.filter(
-      (pick) => pick.propID !== item.propID
-    )
-    setPicksMade([...filteredPicks, item])
-  }
+  //   setOverOrUnder("under")
+  //   item.selectedOU = "under"
+  //   setLockIcon(true)
+  //   const filteredPicks = picksMade.filter(
+  //     (pick) => pick.propID !== item.propID
+  //   )
+  //   setPicksMade([...filteredPicks, item])
+  // }
 
-  async function handleOverClick(item: Item) {
-    if (item.selectedOU === "over") return
-    if (lockPick) return
+  // async function handleOverClick(item: PropToDbInterface) {
+  //   if (item.selectedOU === "over") return
+  //   if (lockPick) return
 
-    setLockIcon(false)
+  //   setLockIcon(false)
 
-    const res = await fetch(`/api/props/${item.propID}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ ...item, selectedOU: "over" })
-    })
+  //   const res = await fetch(`/api/props/${item.propID}`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({ ...item, selectedOU: "over" })
+  //   })
 
-    const data = await res.json()
+  //   const data = await res.json()
 
-    if (data.success === false) {
-      console.log("ERROR")
-      setLockIcon(false)
-      return
-    }
-    console.log(data)
+  //   if (data.success === false) {
+  //     console.log("ERROR")
+  //     setLockIcon(false)
+  //     return
+  //   }
+  //   console.log(data)
 
-    setOverOrUnder("over")
-    setLockIcon(true)
-    item.selectedOU = "over"
+  //   setOverOrUnder("over")
+  //   setLockIcon(true)
+  //   item.selectedOU = "over"
 
-    const filteredPicks = picksMade.filter(
-      (pick) => pick.propID !== item.propID
-    )
-    setPicksMade([...filteredPicks, item])
-  }
+  //   const filteredPicks = picksMade.filter(
+  //     (pick) => pick.propID !== item.propID
+  //   )
+  //   setPicksMade([...filteredPicks, item])
+  // }
 
-  async function handleSpreadPick(team: string, item: Item) {
-    if (lockPick) return
-    if (item.selectedTeam === team) return
+  // async function handleSpreadPick(team: string, item: PropToDbInterface) {
+  //   if (lockPick) return
+  //   if (item.selectedTeam === team) return
 
-    setLockIcon(false)
+  //   setLockIcon(false)
 
-    if (team === item.favorite) {
-      const res = await fetch(`/api/props/${item.propID}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ ...item, selectedTeam: team })
-      })
+  //   if (team === item.favorite) {
+  //     const res = await fetch(`/api/props/${item.propID}`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: JSON.stringify({ ...item, selectedTeam: team })
+  //     })
 
-      const data = await res.json()
+  //     const data = await res.json()
 
-      if (data.success === false) {
-        console.log("ERROR")
-        setLockIcon(false)
-        return
-      }
-      console.log(data)
+  //     if (data.success === false) {
+  //       console.log("ERROR")
+  //       setLockIcon(false)
+  //       return
+  //     }
+  //     console.log(data)
 
-      setSpreadPick("favorite")
-      setLockIcon(true)
-      item.selectedTeam = team
+  //     setSpreadPick("favorite")
+  //     setLockIcon(true)
+  //     item.selectedTeam = team
 
-      const filteredPicks = picksMade.filter(
-        (pick) => pick.propID !== item.propID
-      )
-      setPicksMade([...filteredPicks, item])
-    } else if (team === item.nonFavorite) {
-      const res = await fetch(`/api/props/${item.propID}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ ...item, selectedTeam: team })
-      })
+  //     const filteredPicks = picksMade.filter(
+  //       (pick) => pick.propID !== item.propID
+  //     )
+  //     setPicksMade([...filteredPicks, item])
+  //   } else if (team === item.nonFavorite) {
+  //     const res = await fetch(`/api/props/${item.propID}`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: JSON.stringify({ ...item, selectedTeam: team })
+  //     })
 
-      const data = await res.json()
+  //     const data = await res.json()
 
-      if (data.success === false) {
-        console.log("ERROR")
-        setLockIcon(false)
-        return
-      }
-      console.log(data)
+  //     if (data.success === false) {
+  //       console.log("ERROR")
+  //       setLockIcon(false)
+  //       return
+  //     }
+  //     console.log(data)
 
-      setSpreadPick("nonFavorite")
-      setLockIcon(true)
-      item.selectedTeam = team
+  //     setSpreadPick("nonFavorite")
+  //     setLockIcon(true)
+  //     item.selectedTeam = team
 
-      const filteredPicks = picksMade.filter(
-        (pick) => pick.propID !== item.propID
-      )
+  //     const filteredPicks = picksMade.filter(
+  //       (pick) => pick.propID !== item.propID
+  //     )
 
-      setPicksMade([...filteredPicks, item])
-    }
-  }
+  //     setPicksMade([...filteredPicks, item])
+  //   }
+  // }
 
   // console.log(picksMade)
   // WHY IS THIS LOGGING 10 TIMES?
 
-  if (item.type === "ouPlayer") {
+  async function handleUnderClick(item: PropToDbInterface) {
+    const res = await fetch("/api/props/update-prop", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prop: item, action: "under" })
+    })
+
+    const data = await res.json()
+
+    if (!data) {
+      console.log("no data")
+      return
+    }
+
+    console.log(data)
+  }
+
+  async function handleOverClick(item: PropToDbInterface) {
+    const res = await fetch("/api/props/update-prop", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prop: item, action: "over" })
+    })
+
+    const data = await res.json()
+
+    if (!data) {
+      console.log("no data")
+      return
+    }
+
+    console.log(data)
+  }
+
+  async function handleSpreadPick(selection: string, item: PropToDbInterface) {
+    const res = await fetch("/api/props/update-prop", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prop: item, action: selection })
+    })
+
+    const data = await res.json()
+
+    if (!data) {
+      console.log("no data")
+      return
+    }
+
+    console.log(data)
+  }
+
+  function formatTeamName(teamName: string) {
+    return teamName.split(" ")[0].charAt(0) + teamName.split(" ")[1].charAt(0)
+  }
+
+  // *****************************************************************
+  // *****************************************************************
+  // *****************************************************************
+  // *****************************************************************
+  // NEED TO INCLUDE PAYOUT, SPREAD, and ALSO AND HANDLE LOCK ICONS!!!
+  // Lock icons should be handled inside Api calls if successful
+  // *****************************************************************
+  // *****************************************************************
+  // *****************************************************************
+  // *****************************************************************
+
+  if (item.type === "playerProp") {
     return (
       <div className="pick-wrapper">
         <div className="pick-header">
@@ -184,14 +295,17 @@ export default function PickCard({
             onClick={() => handleUnderClick(item)}
             className={`ouLeft ${OverOrUnder === "under" ? "active" : ""}`}
           >
-            Under{" "}
-            <span
+            <span className="payoutAndCalc">
+              {item.underData?.underPayout} - {item.underData?.calcUnderPayout}
+            </span>
+            Under
+            {/* <span
               className={`lock-icon ${
                 lockIcon && item.selectedOU === "under" ? "show" : ""
               }`}
             >
               <FaLock />
-            </span>
+            </span> */}
             <span className="ou-icon down">
               <FaCaretDown />
             </span>
@@ -199,7 +313,8 @@ export default function PickCard({
           <div className="ouCenter">
             <span className="player-name">{item.player}</span> over or under{" "}
             <span className="stat-and-line">
-              {item.line} {item.stat}
+              {item.underData?.underLine}{" "}
+              {propKeyConversion[item.subType!].toLocaleLowerCase()}
             </span>
             ?
           </div>
@@ -211,20 +326,23 @@ export default function PickCard({
               <FaCaretUp />
             </span>
             Over{" "}
-            <span
+            <span className="payoutAndCalc">
+              {item.overData?.overPayout} - {item.overData?.calcOverPayout}
+            </span>
+            {/* <span
               className={`lock-icon ${
                 lockIcon && item.selectedOU === "over" ? "show" : ""
               }`}
             >
               <FaLock />
-            </span>
+            </span> */}
           </button>
           {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
         </div>
-        <CountdownTimer endDate={item.endDate} setLockPick={setLockPick} />
+        <CountdownTimer endDate={item.expiration} setLockPick={setLockPick} />
       </div>
     )
-  } else if (item.type === "ouTeam") {
+  } else if (item.type === "teamTotals") {
     return (
       <div className="pick-wrapper">
         <div className="pick-header">
@@ -236,23 +354,26 @@ export default function PickCard({
             className={`ouLeft ${OverOrUnder === "under" ? "active" : ""}`}
           >
             Under{" "}
-            <span
+            {/* <span
               className={`lock-icon ${
                 lockIcon && item.selectedOU === "under" ? "show" : ""
               }`}
             >
               <FaLock />
-            </span>
+            </span> */}
             <span className="ou-icon down">
               <FaCaretDown />
             </span>
           </button>
           <div className="ouCenter">
             <span className="team-name">
-              {item.team1} <span className="vs">vs.</span> {item.team2}
+              {item.awayTeam} <span className="vs">+</span> {item.homeTeam}
             </span>{" "}
             over or under{" "}
-            <span className="stat-and-line">{item.line} total points</span>?
+            <span className="stat-and-line">
+              {item.overData?.overLine} total points
+            </span>
+            ?
           </div>
           <button
             onClick={() => handleOverClick(item)}
@@ -262,65 +383,92 @@ export default function PickCard({
               <FaCaretUp />
             </span>
             Over{" "}
-            <span
+            {/* <span
               className={`lock-icon ${
                 lockIcon && item.selectedOU === "over" ? "show" : ""
               }`}
             >
               <FaLock />
-            </span>
+            </span> */}
           </button>
           {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
         </div>
-        <CountdownTimer endDate={item.endDate} setLockPick={setLockPick} />
+        <CountdownTimer endDate={item.expiration} setLockPick={setLockPick} />
       </div>
     )
-  } else if (item.type === "spread") {
+  } else if (item.type === "teamSpreads") {
+    const awayTeam = item.awayData?.awayTeam
+    const homeTeam = item.homeData?.homeTeam
     return (
-      <div className="pick-wrapper">
-        <div className="pick-header spread">
-          <h2 className="pick-type">SPREAD</h2>
-        </div>
-        <div className="pick spread">
-          <button
-            onClick={() => handleSpreadPick(item.favorite!, item)}
-            className={`ouLeft ${spreadPick === "favorite" ? "active" : ""}`}
-          >
-            {item.favorite}{" "}
-            <span
-              className={`lock-icon ${
-                lockIcon && item.selectedTeam === item.favorite ? "show" : ""
-              }`}
-            >
-              <FaLock />
-            </span>
-            <span className="spread-line minus">-{item.line}</span>
-          </button>
-          <div className="ouCenter">
-            <span className="team-name">
-              {item.team1} <span className="vs">vs.</span> {item.team2}
-            </span>
+      <>
+        {awayTeam && homeTeam && (
+          <div className="pick-wrapper">
+            <div className="pick-header spread">
+              <h2 className="pick-type">SPREAD</h2>
+            </div>
+            <div className="pick spread">
+              <button
+                onClick={() => handleSpreadPick(awayTeam, item)}
+                className={`ouLeft ${
+                  spreadPick === "favorite" ? "active" : ""
+                }`}
+              >
+                {formatTeamName(awayTeam)}
+                {/* <span
+                  className={`lock-icon ${
+                    lockIcon && item.awayData?.awayTeam === awayTeam
+                      ? "show"
+                      : ""
+                  }`}
+                >
+                  <FaLock />
+                </span> */}
+                <span className="spread-line minus">
+                  {item.awayData?.awayLine && item.awayData.awayLine > 0
+                    ? `+${item.awayData?.awayLine}`
+                    : item.awayData?.awayLine}
+                </span>
+              </button>
+              <div className="ouCenter">
+                <span className="team-name">
+                  {awayTeam} <span className="vs">@</span> {homeTeam}
+                </span>
+              </div>
+              <button
+                onClick={() => handleSpreadPick(homeTeam, item)}
+                className={`ouRight ${
+                  spreadPick === "nonFavorite" ? "active" : ""
+                }`}
+              >
+                {formatTeamName(homeTeam)}
+                <span
+                  className={`lock-icon ${
+                    lockIcon && item.homeData?.homeTeam === homeTeam
+                      ? "show"
+                      : ""
+                  }`}
+                >
+                  <FaLock />
+                </span>
+                <span className="spread-line plus">
+                  {item.homeData?.homeLine && item.homeData.homeLine > 0
+                    ? `+${item.homeData?.homeLine}`
+                    : item.homeData?.homeLine}
+                </span>
+              </button>
+              {lockPick ? (
+                <div className="locked-overlay">Pick is Locked</div>
+              ) : (
+                ""
+              )}
+            </div>
+            <CountdownTimer
+              endDate={item.expiration}
+              setLockPick={setLockPick}
+            />
           </div>
-          <button
-            onClick={() => handleSpreadPick(item.nonFavorite!, item)}
-            className={`ouRight ${
-              spreadPick === "nonFavorite" ? "active" : ""
-            }`}
-          >
-            {item.nonFavorite}{" "}
-            <span
-              className={`lock-icon ${
-                lockIcon && item.selectedTeam === item.nonFavorite ? "show" : ""
-              }`}
-            >
-              <FaLock />
-            </span>
-            <span className="spread-line plus">+{item.line}</span>
-          </button>
-          {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
-        </div>
-        <CountdownTimer endDate={item.endDate} setLockPick={setLockPick} />
-      </div>
+        )}
+      </>
     )
   } else {
     return <div className="pick wrong">Incorrect Format</div>

@@ -2,54 +2,38 @@ import { Request, Response, NextFunction } from "express"
 
 import { errorHandler } from "../utils/error"
 import PropSubmission from "../models/PropSubmission"
-import Prop from "../models/Prop"
+import Prop, { PropToDbInterface } from "../models/Prop"
 
-export const submitProp = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (!req.user) return next(errorHandler(400, "Unauthorized"))
+interface WeekToNum {
+  [week: string]: number
+}
 
-  const propID = req.params.id
-  const userID = req.user.id
-  const incomingProp = req.body
-
-  if (incomingProp.endDate) {
-    const propEndDate = new Date(incomingProp.endDate)
-    const currentDate = new Date()
-
-    // Check if the prop's endDate is before the current date
-    if (propEndDate < currentDate) {
-      return next(errorHandler(400, "Game has already started"))
-    }
-  }
-
-  try {
-    const propExists = await PropSubmission.findOne({ propID, userID })
-
-    if (propExists) {
-      const updatedProp = await PropSubmission.findOneAndUpdate(
-        { propID, userID },
-        // might need to spread the current existing prop to avoid having to write the userID also
-        { $set: { ...incomingProp, userID } },
-        { new: true, runValidators: true }
-      )
-
-      res.status(200).json(updatedProp)
-    } else {
-      const newProp = new PropSubmission({ ...incomingProp, userID })
-      const savedProp = await newProp.save()
-
-      if (savedProp) {
-        res.status(200).json(savedProp)
-      } else {
-        next(errorHandler(400, "Error creating prop submission"))
-      }
-    }
-  } catch (error) {
-    next(error)
-  }
+const weekToNumConversion: WeekToNum = {
+  // Tuesday Morning (12:00am) ---> Monday Night (11:59pm)
+  weekOne: 1,
+  weekTwo: 2,
+  weekThree: 3,
+  weekFour: 4,
+  weekFive: 5,
+  weekSix: 6,
+  weekSeven: 7,
+  weekEight: 8,
+  weekNine: 9,
+  weekTen: 10,
+  weekEleven: 11,
+  weekTwelve: 12,
+  weekThirteen: 13,
+  weekFourteen: 14,
+  weekFifteen: 15,
+  weekSixteen: 16,
+  weekSeventeen: 17,
+  weekEighteen: 18,
+  weekNineteen: 19,
+  weekTwenty: 20,
+  weekTwentyOne: 21,
+  weekTwentyTwo: 22,
+  weekTwentyThree: 23,
+  testWeek: 53
 }
 
 export const createProps = async (
@@ -83,5 +67,72 @@ export const createProps = async (
     } catch (error) {
       next(error)
     }
+  }
+}
+
+export const updateProp = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const action = req.body.action
+  const prop: PropToDbInterface = req.body.prop
+  const user = req.user
+
+  console.log(prop, action)
+
+  if (!user) return next(errorHandler(400, "Unauthorized"))
+
+  const propExists = await Prop.findOne({
+    gameId: prop.gameId,
+    uniqueId: prop.uniqueId
+  })
+
+  if (!propExists) return next(errorHandler(500, "Could not find prop"))
+
+  const updatedProp = propExists.toObject()
+
+  try {
+    if (prop.type === "playerProp") {
+      res.status(200).json({ message: "Found Player Prop", action })
+    } else if (prop.type === "teamTotals") {
+      res.status(200).json({ message: "Found Team Total Prop", action })
+    } else if (prop.type === "teamSpreads") {
+      res.status(200).json({ message: "Found Team Spread Prop", action })
+    } else {
+      console.log("ERROR")
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getProps = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const week = req.params.week
+  const year = req.params.year
+
+  console.log(weekToNumConversion[week], Number(year))
+
+  // add validation here
+
+  try {
+    const propsForThisWeek = await Prop.find({
+      week: weekToNumConversion[week],
+      nflYear: Number(year)
+    })
+
+    // this needs to handle what happens if people visit the page when props havne't been submitted yet.
+    if (!propsForThisWeek || propsForThisWeek.length === 0) {
+      res.status(500).json("No props found for this week")
+      return
+    }
+
+    res.status(200).json(propsForThisWeek)
+  } catch (error) {
+    next(error)
   }
 }

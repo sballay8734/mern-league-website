@@ -69,8 +69,6 @@ export interface PropToDbInterface {
   void: boolean
 
   challenges: Challenges[] | []
-
-  weekYear: "weekOne2024"
 }
 
 export default function BettingPropSpreads({
