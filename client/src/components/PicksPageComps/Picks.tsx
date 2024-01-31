@@ -13,7 +13,9 @@ interface PicksProps {
 export default function Picks({ propData }: PicksProps): JSX.Element {
   const { user } = useSelector((state: RootState) => state.user)
   const [activeButton, setActiveButton] = useState<string>("makePicks")
-  const [picksMade, setPicksMade] = useState<PropToDbInterface[]>([])
+  const [picksMade, setPicksMade] = useState<string[]>([])
+
+  const picksToMake = propData.length
 
   return (
     <>
@@ -84,6 +86,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                       return (
                         <PickCard
                           key={prop.uniqueId}
+                          user={user}
                           item={prop}
                           setPicksMade={setPicksMade}
                           picksMade={picksMade}
@@ -93,11 +96,13 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                 </div>
                 <div
                   className={`counter ${
-                    picksMade.length === 10 ? "complete" : ""
+                    picksMade.length === picksToMake ? "complete" : ""
                   }`}
                 >
                   Picks Made:{" "}
-                  <span className="pick-split">{picksMade.length}/10</span>
+                  <span className="pick-split">
+                    {picksMade.length}/{picksToMake}
+                  </span>
                 </div>
               </>
             ) : activeButton === "standings" ? (

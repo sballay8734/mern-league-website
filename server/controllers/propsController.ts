@@ -53,7 +53,7 @@ export const createProps = async (
   const propsAlreadyExistForWeek = await Prop.findOne({ weekYear: weekYear })
 
   if (propsAlreadyExistForWeek) {
-    res.status(500).json("Props have already been set for this week")
+    res.status(400).json("Props have already been set for this week")
     return
   } else {
     try {
@@ -91,18 +91,18 @@ export const updateProp = async (
     gameId: prop.gameId,
     uniqueId: prop.uniqueId
   })
-  if (!propExists) return next(errorHandler(500, "Could not find prop"))
+  if (!propExists) return next(errorHandler(400, "Could not find prop"))
 
   try {
     if (prop.type === "playerProp" || prop.type === "teamTotals") {
       if (action === "under") {
         // Might need to reword the line below
         if (!propExists.underSelections || !propExists.overSelections) {
-          return res.status(500).json("One of them doesn't exist!")
+          return res.status(400).json("One of them doesn't exist!")
         }
 
         if (propExists.underSelections?.includes(userName)) {
-          return res.status(500).json("You already voted the under!")
+          return res.status(400).json("You already voted the under!")
         }
 
         if (propExists.overSelections?.includes(userName)) {
@@ -110,7 +110,7 @@ export const updateProp = async (
           const index = propExists.overSelections.indexOf(userName)
           propExists.overSelections.splice(index, 1)
 
-          if (!propExists.underSelections) return next(errorHandler(500, "NUS"))
+          if (!propExists.underSelections) return next(errorHandler(400, "NUS"))
 
           propExists.set({
             underSelections: [...propExists.underSelections, userName]
@@ -127,18 +127,18 @@ export const updateProp = async (
         return res.status(200).json("You have been ADDED to under!")
       } else if (action === "over") {
         if (!propExists.underSelections || !propExists.overSelections) {
-          return res.status(500).json("One of them doesn't exist!")
+          return res.status(400).json("One of them doesn't exist!")
         }
 
         if (propExists.overSelections?.includes(userName)) {
-          return res.status(500).json("You already voted the over!")
+          return res.status(400).json("You already voted the over!")
         }
         if (propExists.underSelections?.includes(userName)) {
           // remove from underSelections and add to overSelections
           const index = propExists.underSelections.indexOf(userName)
           propExists.underSelections.splice(index, 1)
 
-          if (!propExists.overSelections) return next(errorHandler(500, "NUS"))
+          if (!propExists.overSelections) return next(errorHandler(400, "NUS"))
 
           propExists.set({
             overSelections: [...propExists.overSelections, userName]
@@ -155,7 +155,7 @@ export const updateProp = async (
       }
     } else if (prop.type === "teamSpreads") {
       if (!propExists.homeLineSelections || !propExists.awayLineSelections) {
-        return res.status(500).json("One of them doesn't exist!")
+        return res.status(400).json("One of them doesn't exist!")
       }
 
       if (action === prop.homeData?.homeTeam) {
@@ -170,7 +170,7 @@ export const updateProp = async (
           propExists.awayLineSelections.splice(index, 1)
 
           if (!propExists.awayLineSelections)
-            return next(errorHandler(500, "NUS"))
+            return next(errorHandler(400, "NUS"))
 
           // add them to the home list
           propExists.set({
@@ -196,7 +196,7 @@ export const updateProp = async (
           propExists.homeLineSelections.splice(index, 1)
 
           if (!propExists.homeLineSelections)
-            return next(errorHandler(500, "NUS"))
+            return next(errorHandler(400, "NUS"))
 
           propExists.set({
             awayLineSelections: [...propExists.awayLineSelections, userName]
@@ -239,7 +239,7 @@ export const getProps = async (
 
     // this needs to handle what happens if people visit the page when props havne't been submitted yet.
     if (!propsForThisWeek || propsForThisWeek.length === 0) {
-      res.status(500).json("No props found for this week")
+      res.status(400).json("No props found for this week")
       return
     }
 

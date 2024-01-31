@@ -9,6 +9,17 @@ import { FaLock } from "react-icons/fa"
 import CountdownTimer from "../CountDownTimer/CountDownTimer"
 import { propKeyConversion } from "../utils"
 // import { PropToDbInterface } from "../BettingPropSpreads"
+interface User {
+  _id: string
+  email: string
+  firstName: string
+  lastInitial: string
+  avatar: string
+  preferredTheme: string
+  isAdmin: boolean
+  isCommissioner: boolean
+  fullName: string
+}
 
 interface Challenges {
   challenger: string
@@ -21,8 +32,9 @@ interface Challenges {
 
 interface PickCardProps {
   item: PropToDbInterface
-  picksMade: PropToDbInterface[]
-  setPicksMade: React.Dispatch<React.SetStateAction<PropToDbInterface[]>>
+  picksMade: string[]
+  user: User
+  setPicksMade: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 interface PropToDbInterface {
@@ -75,9 +87,10 @@ interface PropToDbInterface {
 export default function PickCard({
   item,
   picksMade,
+  user,
   setPicksMade
 }: PickCardProps) {
-  const [OverOrUnder, setOverOrUnder] = useState<string | null>(null)
+  const [overOrUnder, setOverOrUnder] = useState<string | null>(null)
   const [spreadPick, setSpreadPick] = useState<string | null>(null)
   const [lockIcon, setLockIcon] = useState<boolean>(false)
   const [lockPick, setLockPick] = useState<boolean>(false)
@@ -213,6 +226,13 @@ export default function PickCard({
   // WHY IS THIS LOGGING 10 TIMES?
 
   async function handleUnderClick(item: PropToDbInterface) {
+    // if under is already selected or pick is locked
+    if (overOrUnder === "under") return
+    if (lockPick) return
+
+    // remove lock icon in case update fails
+    setLockIcon(false)
+
     const res = await fetch("/api/props/update-prop", {
       method: "POST",
       headers: {
@@ -228,10 +248,23 @@ export default function PickCard({
       return
     }
 
+    setOverOrUnder("under")
+    setLockIcon(true)
+
+    if (picksMade.includes(item.uniqueId)) return
+    setPicksMade([...picksMade, item.uniqueId])
+
     console.log(data)
   }
 
   async function handleOverClick(item: PropToDbInterface) {
+    // if over is already selected or pick is locked
+    if (overOrUnder === "over") return
+    if (lockPick) return
+
+    // remove lock icon in case update fails
+    setLockIcon(false)
+
     const res = await fetch("/api/props/update-prop", {
       method: "POST",
       headers: {
@@ -247,16 +280,29 @@ export default function PickCard({
       return
     }
 
+    setOverOrUnder("over")
+    setLockIcon(true)
+
+    if (picksMade.includes(item.uniqueId)) return
+    setPicksMade([...picksMade, item.uniqueId])
+
     console.log(data)
   }
 
-  async function handleSpreadPick(selection: string, item: PropToDbInterface) {
+  async function handleSpreadPick(team: string, item: PropToDbInterface) {
+    // if you already selected that team or the pick is locked
+
+    if (spreadPick === team) return
+    if (lockPick) return
+
+    setLockIcon(false)
+
     const res = await fetch("/api/props/update-prop", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ prop: item, action: selection })
+      body: JSON.stringify({ prop: item, action: team })
     })
 
     const data = await res.json()
@@ -265,6 +311,12 @@ export default function PickCard({
       console.log("no data")
       return
     }
+
+    setSpreadPick(team)
+    setLockIcon(true)
+
+    if (picksMade.includes(item.uniqueId)) return
+    setPicksMade([...picksMade, item.uniqueId])
 
     console.log(data)
   }
@@ -277,8 +329,9 @@ export default function PickCard({
   // *****************************************************************
   // *****************************************************************
   // *****************************************************************
-  // NEED TO HANDLE LOCK ICONS!!!
-  // Lock icons should be handled inside Api calls if successful
+  // EVERYTHING IS WORKING BUT, ON REFRESH, the props should be refetched and styling should be applied based on what the user has already voted
+  // NEED TO HANDLE LOCK ICONS ON RENDER
+  // WHEN A USER LOADS THE PAGE, THEIR CURRENT PICKS SHOULD BE HIGHLIGHTED
   // *****************************************************************
   // *****************************************************************
   // *****************************************************************
@@ -293,24 +346,24 @@ export default function PickCard({
         <div className="pick ouPlayer">
           <button
             onClick={() => handleUnderClick(item)}
-            className={`ouLeft ${OverOrUnder === "under" ? "active" : ""}`}
+            className={`ouLeft ${overOrUnder === "under" ? "active" : ""}`}
           >
-            <span className="payoutAndCalc">
-              <span className="payout">{item.underData?.underPayout}</span>{" "}
-              <span className="calcPayout">
-                {item.underData?.calcUnderPayout}
-              </span>
-            </span>
             Under
-            {/* <span
+            <span
               className={`lock-icon ${
-                lockIcon && item.selectedOU === "under" ? "show" : ""
+                lockIcon && overOrUnder === "under" ? "show" : ""
               }`}
             >
               <FaLock />
-            </span> */}
+            </span>
             <span className="ou-icon down">
               <FaCaretDown />
+            </span>
+            <span className="payoutAndCalc">
+              <span className="payout">{item.underData?.underPayout}</span>{" "}
+              <span className="calcPayout">
+                {item.underData?.calcUnderPayout.toFixed(2)}
+              </span>
             </span>
           </button>
           <div className="ouCenter">
@@ -323,7 +376,7 @@ export default function PickCard({
           </div>
           <button
             onClick={() => handleOverClick(item)}
-            className={`ouRight ${OverOrUnder === "over" ? "active" : ""}`}
+            className={`ouRight ${overOrUnder === "over" ? "active" : ""}`}
           >
             <span className="ou-icon up">
               <FaCaretUp />
@@ -332,16 +385,16 @@ export default function PickCard({
             <span className="payoutAndCalc">
               <span className="payout">{item.overData?.overPayout}</span>
               <span className="calcPayout">
-                {item.overData?.calcOverPayout}
+                {item.overData?.calcOverPayout.toFixed(2)}
               </span>
             </span>
-            {/* <span
+            <span
               className={`lock-icon ${
-                lockIcon && item.selectedOU === "over" ? "show" : ""
+                lockIcon && overOrUnder === "over" ? "show" : ""
               }`}
             >
               <FaLock />
-            </span> */}
+            </span>
           </button>
           {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
         </div>
@@ -357,24 +410,24 @@ export default function PickCard({
         <div className="pick ouTeam">
           <button
             onClick={() => handleUnderClick(item)}
-            className={`ouLeft ${OverOrUnder === "under" ? "active" : ""}`}
+            className={`ouLeft ${overOrUnder === "under" ? "active" : ""}`}
           >
+            <span className="overText">Under</span>{" "}
+            <span className="ou-icon down">
+              <FaCaretDown />
+            </span>
             <div className="payoutAndCalc">
               <span className="payout">{item.underData?.underPayout}</span>
               <span className="calcPayout">
-                {item.underData?.calcUnderPayout}
+                {item.underData?.calcUnderPayout.toFixed(2)}
               </span>
             </div>
-            <span className="overText">Under</span>{" "}
-            {/* <span
+            <span
               className={`lock-icon ${
-                lockIcon && item.selectedOU === "under" ? "show" : ""
+                lockIcon && overOrUnder === "under" ? "show" : ""
               }`}
             >
               <FaLock />
-            </span> */}
-            <span className="ou-icon down">
-              <FaCaretDown />
             </span>
           </button>
           <div className="ouCenter">
@@ -389,7 +442,7 @@ export default function PickCard({
           </div>
           <button
             onClick={() => handleOverClick(item)}
-            className={`ouRight ${OverOrUnder === "over" ? "active" : ""}`}
+            className={`ouRight ${overOrUnder === "over" ? "active" : ""}`}
           >
             <span className="ou-icon up">
               <FaCaretUp />
@@ -398,16 +451,16 @@ export default function PickCard({
             <div className="payoutAndCalc">
               <span className="payout">{item.overData?.overPayout}</span>
               <span className="calcPayout">
-                {item.overData?.calcOverPayout}
+                {item.overData?.calcOverPayout.toFixed(2)}
               </span>
             </div>
-            {/* <span
+            <span
               className={`lock-icon ${
-                lockIcon && item.selectedOU === "over" ? "show" : ""
+                lockIcon && overOrUnder === "over" ? "show" : ""
               }`}
             >
               <FaLock />
-            </span> */}
+            </span>
           </button>
           {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
         </div>
@@ -428,19 +481,17 @@ export default function PickCard({
               <button
                 onClick={() => handleSpreadPick(awayTeam, item)}
                 className={`ouLeft ${
-                  spreadPick === "favorite" ? "active" : ""
+                  spreadPick === `${awayTeam}` ? "active" : ""
                 }`}
               >
                 <span className="teamName">{formatTeamName(awayTeam)}</span>
-                {/* <span
+                <span
                   className={`lock-icon ${
-                    lockIcon && item.awayData?.awayTeam === awayTeam
-                      ? "show"
-                      : ""
+                    lockIcon && spreadPick === awayTeam ? "show" : ""
                   }`}
                 >
                   <FaLock />
-                </span> */}
+                </span>
                 <span className="spread-line minus">
                   <span className="payout">{item.awayData?.awayPayout}</span>
                   <span className="spread">
@@ -461,15 +512,13 @@ export default function PickCard({
               <button
                 onClick={() => handleSpreadPick(homeTeam, item)}
                 className={`ouRight ${
-                  spreadPick === "nonFavorite" ? "active" : ""
+                  spreadPick === `${homeTeam}` ? "active" : ""
                 }`}
               >
                 {formatTeamName(homeTeam)}
                 <span
                   className={`lock-icon ${
-                    lockIcon && item.homeData?.homeTeam === homeTeam
-                      ? "show"
-                      : ""
+                    lockIcon && spreadPick === homeTeam ? "show" : ""
                   }`}
                 >
                   <FaLock />

@@ -11,7 +11,7 @@ export default function PicksPage() {
   const [viewportWidth, setViewportWidth] = useState<number | undefined>(
     window.innerWidth
   )
-  const { data: propData } = useFetchPropsQuery()
+  const { data: propData, refetch } = useFetchPropsQuery()
 
   useEffect(() => {
     function handleResize() {

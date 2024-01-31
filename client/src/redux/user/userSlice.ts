@@ -9,6 +9,7 @@ interface User {
   preferredTheme: string
   isAdmin: boolean
   isCommissioner: boolean
+  fullName: string
 }
 
 interface UserState {
