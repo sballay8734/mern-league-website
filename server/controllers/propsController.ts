@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 
 import { errorHandler } from "../utils/error"
-import PropSubmission from "../models/PropSubmission"
 import Prop, { PropToDbInterface } from "../models/Prop"
 import User from "../models/User"
 

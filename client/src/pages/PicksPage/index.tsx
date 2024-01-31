@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
 
-import AllTimeRate from "../../components/PicksPageComps/AllTimeRate"
-import SeasonalRate from "../../components/PicksPageComps/SeasonalRate"
 import Picks from "../../components/PicksPageComps/Picks"
 import { useFetchPropsQuery } from "../../redux/props/propsApi"
 
@@ -11,7 +9,7 @@ export default function PicksPage() {
   const [viewportWidth, setViewportWidth] = useState<number | undefined>(
     window.innerWidth
   )
-  const { data: propData, refetch } = useFetchPropsQuery()
+  const { data: propData } = useFetchPropsQuery()
 
   useEffect(() => {
     function handleResize() {
@@ -30,9 +28,7 @@ export default function PicksPage() {
         <div className="page picks-page">
           {viewportWidth && viewportWidth > 820 ? (
             <div className="desktop">
-              <AllTimeRate />
               <Picks propData={propData} />
-              <SeasonalRate />
             </div>
           ) : (
             <div className="mobile">

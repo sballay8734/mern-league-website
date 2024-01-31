@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { RootState } from "../../redux/store"
 import PickCard from "./PickCard"
 import { PropToDbInterface } from "../BettingPropSpreads"
+import { useFetchPropsQuery } from "../../redux/props/propsApi"
 
 interface PicksProps {
   propData: PropToDbInterface[]
@@ -14,8 +15,38 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
   const { user } = useSelector((state: RootState) => state.user)
   const [activeButton, setActiveButton] = useState<string>("makePicks")
   const [picksMade, setPicksMade] = useState<string[]>([])
+  const [triggerRefetch, setTriggerRefetch] = useState<boolean>(false)
+  const { refetch } = useFetchPropsQuery()
 
   const picksToMake = propData.length
+
+  useEffect(() => {
+    refetch()
+  }, [picksMade, triggerRefetch])
+
+  function handlePicksMadeUpdate(prop: PropToDbInterface) {
+    if (!user) return
+
+    if (prop.type === "playerProp" || prop.type === "teamTotals") {
+      if (
+        prop.overSelections?.includes(user.fullName) ||
+        prop.underSelections?.includes(user.fullName)
+      ) {
+        if (picksMade.includes(prop.uniqueId)) return
+
+        setPicksMade((prevPicksMade) => [...prevPicksMade, prop.uniqueId])
+      }
+    } else if (prop.type === "teamSpreads") {
+      if (
+        prop.homeLineSelections?.includes(user.fullName) ||
+        prop.awayLineSelections?.includes(user.fullName)
+      ) {
+        if (picksMade.includes(prop.uniqueId)) return
+
+        setPicksMade((prevPicksMade) => [...prevPicksMade, prop.uniqueId])
+      }
+    }
+  }
 
   return (
     <>
@@ -83,6 +114,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                 <div className="picks-wrapper disable-scrollbars">
                   {propData &&
                     propData.map((prop) => {
+                      handlePicksMadeUpdate(prop)
                       return (
                         <PickCard
                           key={prop.uniqueId}
@@ -90,6 +122,8 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                           item={prop}
                           setPicksMade={setPicksMade}
                           picksMade={picksMade}
+                          setTriggerRefetch={setTriggerRefetch}
+                          triggerRefetch={triggerRefetch}
                         />
                       )
                     })}
@@ -106,9 +140,9 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                 </div>
               </>
             ) : activeButton === "standings" ? (
-              <div className="standings">Standings</div>
+              <div className="standings">Coming Soon</div>
             ) : (
-              <div className="yearly">History</div>
+              <div className="history">Coming Soon</div>
             )}
           </div>
         </div>

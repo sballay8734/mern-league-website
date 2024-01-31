@@ -1,13 +1,14 @@
 // Need locks to appear when successful database write
 // Lock pick when timer is up
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { FaCaretDown } from "react-icons/fa"
 import { FaCaretUp } from "react-icons/fa"
 import { FaLock } from "react-icons/fa"
 import CountdownTimer from "../CountDownTimer/CountDownTimer"
 import { propKeyConversion } from "../utils"
+import { useFetchPropsQuery } from "../../redux/props/propsApi"
 // import { PropToDbInterface } from "../BettingPropSpreads"
 interface User {
   _id: string
@@ -35,6 +36,8 @@ interface PickCardProps {
   picksMade: string[]
   user: User
   setPicksMade: React.Dispatch<React.SetStateAction<string[]>>
+  setTriggerRefetch: (type: boolean) => void
+  triggerRefetch: boolean
 }
 
 interface PropToDbInterface {
@@ -88,7 +91,9 @@ export default function PickCard({
   item,
   picksMade,
   user,
-  setPicksMade
+  setPicksMade,
+  setTriggerRefetch,
+  triggerRefetch
 }: PickCardProps) {
   const [overOrUnder, setOverOrUnder] = useState<string | null>(null)
   const [spreadPick, setSpreadPick] = useState<string | null>(null)
@@ -251,10 +256,12 @@ export default function PickCard({
     setOverOrUnder("under")
     setLockIcon(true)
 
-    if (picksMade.includes(item.uniqueId)) return
-    setPicksMade([...picksMade, item.uniqueId])
-
-    console.log(data)
+    // HERE (Below)
+    if (picksMade.includes(item.uniqueId)) {
+      setTriggerRefetch(!triggerRefetch)
+      return
+    }
+    setPicksMade((prevPicksMade) => [...prevPicksMade, item.uniqueId])
   }
 
   async function handleOverClick(item: PropToDbInterface) {
@@ -283,10 +290,11 @@ export default function PickCard({
     setOverOrUnder("over")
     setLockIcon(true)
 
-    if (picksMade.includes(item.uniqueId)) return
-    setPicksMade([...picksMade, item.uniqueId])
-
-    console.log(data)
+    if (picksMade.includes(item.uniqueId)) {
+      setTriggerRefetch(!triggerRefetch)
+      return
+    }
+    setPicksMade((prevPicksMade) => [...prevPicksMade, item.uniqueId])
   }
 
   async function handleSpreadPick(team: string, item: PropToDbInterface) {
@@ -315,15 +323,57 @@ export default function PickCard({
     setSpreadPick(team)
     setLockIcon(true)
 
-    if (picksMade.includes(item.uniqueId)) return
-    setPicksMade([...picksMade, item.uniqueId])
-
-    console.log(data)
+    if (picksMade.includes(item.uniqueId)) {
+      setTriggerRefetch(!triggerRefetch)
+      return
+    }
+    setPicksMade((prevPicksMade) => [...prevPicksMade, item.uniqueId])
   }
 
   function formatTeamName(teamName: string) {
     return teamName.split(" ")[0].charAt(0) + teamName.split(" ")[1].charAt(0)
   }
+
+  function initializePick() {
+    setLockIcon(false)
+    setOverOrUnder(null)
+    setSpreadPick(null)
+
+    if (item.type === "playerProp" || item.type === "teamTotals") {
+      if (item.overSelections?.includes(user.fullName)) {
+        setOverOrUnder("over")
+        setLockIcon(true)
+        return
+      } else if (item.underSelections?.includes(user.fullName)) {
+        setOverOrUnder("under")
+        setLockIcon(true)
+        return
+      } else {
+        return
+      }
+    } else if (item.type === "teamSpreads") {
+      if (!item.homeData?.homeTeam || !item.awayData?.awayTeam) return
+
+      if (item.homeLineSelections?.includes(user.fullName)) {
+        setSpreadPick(item.homeData?.homeTeam)
+        setLockIcon(true)
+        return
+      } else if (item.awayLineSelections?.includes(user.fullName)) {
+        setSpreadPick(item.awayData?.awayTeam)
+        setLockIcon(true)
+        return
+      } else {
+        return
+      }
+    } else {
+      console.log("SOMETHING WENT WRONG")
+      return
+    }
+  }
+
+  useEffect(() => {
+    initializePick()
+  }, [])
 
   // *****************************************************************
   // *****************************************************************
