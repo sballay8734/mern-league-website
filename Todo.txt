@@ -21,6 +21,9 @@ CURRENTLY DOING -----------------------------------------------------
 24. YOU NEED TO TEST WHAT HAPPENS WHEN PICKS LOCK ON FRONT END!
 24. NEED TO ADD add arrow to button and clean things up. Refactoring made some things look weird.
 
+25. STYLE ADMIN PROPS PAGE!!!
+26. AND USE NBA TO CHECK MULTIPLE GAMES
+
 KNOWN BUGS
 1. More than 3 Championships or Skirts can cause issues with ownerSelector Body
 

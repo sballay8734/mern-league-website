@@ -1,19 +1,13 @@
 import { useState } from "react"
 
-import TestCountdownTimer from "../TestCountDown/TestCountDown"
-import PlayerPropFilterBtn from "../PlayerPropFilterBtn"
 import { weekToNumConversion } from "../utils"
 import {
   Outcomes,
   Markets,
   BettingProp,
   FullMatchupProps,
-  PlayerPropInterface,
-  propKeyConversion,
-  capitalizeAndRemoveLast,
   calculatePayout
 } from "../utils"
-import PlayerProp from "../PlayerProp"
 
 interface Challenges {
   challenger: string
@@ -74,7 +68,6 @@ export interface PropToDbInterface {
 export default function BettingPropSpreads({
   outcomes,
   type,
-  time,
   homeTeam,
   awayTeam,
   handlePropCounter,
@@ -101,9 +94,6 @@ export default function BettingPropSpreads({
   currentYear: number
 }) {
   const [selected, setSelected] = useState<boolean>(false)
-  const [showPlayerProps, setShowPlayerProps] = useState<boolean>(false)
-  const [filteredButtons, setFilteredButtons] = useState<string[]>([])
-  const [propsToRender, setPropsToRender] = useState<PlayerPropInterface[]>([])
 
   const homeLine = outcomes.find((item) => item.name === homeTeam)
   const awayLine = outcomes.find((item) => item.name === awayTeam)
@@ -174,40 +164,6 @@ export default function BettingPropSpreads({
       }
     }
   }
-
-  function handleFilterBtns(filter: string) {
-    if (filteredButtons.includes(filter)) {
-      setFilteredButtons(
-        filteredButtons.filter((item) => {
-          return item !== filter
-        })
-      )
-    } else {
-      setFilteredButtons((prevFilters) => [...prevFilters, filter])
-    }
-  }
-
-  function renderButtons() {
-    const buttonKeys = []
-    for (const key in propKeyConversion) {
-      buttonKeys.push(
-        <PlayerPropFilterBtn
-          key={key}
-          handleFilterBtns={handleFilterBtns}
-          type={key}
-        />
-      )
-    }
-
-    return buttonKeys
-  }
-
-  const filteredPlayerProps =
-    filteredButtons.length === 0
-      ? propsToRender
-      : propsToRender.filter((item) => {
-          return filteredButtons.includes(item.item.key)
-        })
 
   return (
     <div key={prop.id + type.key} className="prop spread">
@@ -302,37 +258,6 @@ export default function BettingPropSpreads({
             </div>
           </div>
         )}
-      </div>
-      <div
-        className={`playerPropFilterBtnsWrapper ${
-          showPlayerProps === true ? "" : "hide"
-        }`}
-      >
-        {renderButtons()}
-      </div>
-      <div
-        className={`playerPropsWrapper ${
-          showPlayerProps === true ? "" : "hide"
-        }`}
-      >
-        {filteredPlayerProps.map((item) => {
-          return (
-            <PlayerProp
-              key={item.uniquePropKey}
-              uniquePropKey={item.uniquePropKey}
-              item={item.item}
-              player={item.player}
-              overStats={item.overStats}
-              underStats={item.underStats}
-              prop={prop}
-              handlePropCounter={handlePropCounter}
-              propsSelected={propsSelected}
-              setPropsSelected={setPropsSelected}
-              currentWeek={currentWeek}
-              currentYear={currentYear}
-            />
-          )
-        })}
       </div>
     </div>
   )

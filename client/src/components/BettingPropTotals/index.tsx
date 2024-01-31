@@ -1,9 +1,6 @@
 import { useState } from "react"
 
-import TestCountdownTimer from "../TestCountDown/TestCountDown"
 import { MdCompareArrows } from "react-icons/md"
-import PlayerProp from "../PlayerProp"
-import PlayerPropFilterBtn from "../PlayerPropFilterBtn"
 import { PropToDbInterface } from "../BettingPropSpreads"
 import { weekToNumConversion } from "../utils"
 
@@ -12,15 +9,12 @@ import {
   Markets,
   BettingProp,
   FullMatchupProps,
-  PlayerPropInterface,
-  propKeyConversion,
   calculatePayout
 } from "../utils"
 
 export default function BettingPropTotals({
   outcomes,
   type,
-  time,
   homeTeam,
   awayTeam,
   handlePropCounter,
@@ -47,9 +41,6 @@ export default function BettingPropTotals({
   currentYear: number
 }) {
   const [selected, setSelected] = useState<boolean>(false)
-  const [showPlayerProps, setShowPlayerProps] = useState<boolean>(false)
-  const [filteredButtons, setFilteredButtons] = useState<string[]>([])
-  const [propsToRender, setPropsToRender] = useState<PlayerPropInterface[]>([])
 
   const gameLine = outcomes[0].point
   const overData = outcomes.find((item) => item.name === "Over")
@@ -122,42 +113,6 @@ export default function BettingPropTotals({
     }
   }
 
-  function renderButtons() {
-    const buttonKeys = []
-    for (const key in propKeyConversion) {
-      buttonKeys.push(
-        <PlayerPropFilterBtn
-          key={key}
-          handleFilterBtns={handleFilterBtns}
-          type={key}
-        />
-      )
-    }
-
-    return buttonKeys
-  }
-
-  function handleFilterBtns(filter: string) {
-    if (filteredButtons.includes(filter)) {
-      setFilteredButtons(
-        filteredButtons.filter((item) => {
-          return item !== filter
-        })
-      )
-    } else {
-      setFilteredButtons((prevFilters) => [...prevFilters, filter])
-    }
-  }
-
-  // return null
-
-  const filteredPlayerProps =
-    filteredButtons.length === 0
-      ? propsToRender
-      : propsToRender.filter((item) => {
-          return filteredButtons.includes(item.item.key)
-        })
-
   return (
     <div key={prop.id + type.key} className="prop total">
       <div
@@ -173,8 +128,8 @@ export default function BettingPropTotals({
                     Under {underData?.price}
                   </span>
                 </div>
-                <div className="payout">
-                  <span className="payoutText">Payout asdfads</span>
+                <div className="payoutWrapper">
+                  <span className="payoutText">Payout</span>
                   <span className="payoutValue">
                     {underData && calculatePayout(underData?.price).toFixed(2)}
                   </span>
@@ -187,8 +142,8 @@ export default function BettingPropTotals({
                     Over {overData?.price}
                   </span>
                 </div>
-                <div className="payout">
-                  <span className="payoutText">Payout fasdjfa</span>
+                <div className="payoutWrapper">
+                  <span className="payoutText">Payout</span>
                   <span className="payoutValue">
                     {overData && calculatePayout(overData.price).toFixed(2)}
                   </span>
@@ -217,37 +172,6 @@ export default function BettingPropTotals({
             </span>
           </div>
         )}
-      </div>
-      <div
-        className={`playerPropFilterBtnsWrapper ${
-          showPlayerProps === true ? "" : "hide"
-        }`}
-      >
-        {renderButtons()}
-      </div>
-      <div
-        className={`playerPropsWrapper ${
-          showPlayerProps === true ? "" : "hide"
-        }`}
-      >
-        {filteredPlayerProps.map((item) => {
-          return (
-            <PlayerProp
-              key={item.uniquePropKey}
-              uniquePropKey={item.uniquePropKey}
-              item={item.item}
-              player={item.player}
-              overStats={item.overStats}
-              underStats={item.underStats}
-              prop={prop}
-              handlePropCounter={handlePropCounter}
-              propsSelected={propsSelected}
-              setPropsSelected={setPropsSelected}
-              currentWeek={currentWeek}
-              currentYear={currentYear}
-            />
-          )
-        })}
       </div>
     </div>
   )

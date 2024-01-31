@@ -17,6 +17,8 @@ interface FormData {
   lastInitial: string
   password: string
   confirmPassword: string
+  isTempAdmin: boolean
+  fullName: string
 }
 
 export default function Signup() {
@@ -30,7 +32,9 @@ export default function Signup() {
     firstName: "",
     lastInitial: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    isTempAdmin: false,
+    fullName: ""
   })
   const [standardError, setStandardError] = useState<string | null>(null)
 

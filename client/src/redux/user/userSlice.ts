@@ -10,6 +10,7 @@ interface User {
   isAdmin: boolean
   isCommissioner: boolean
   fullName: string
+  isTempAdmin: boolean
 }
 
 interface UserState {

@@ -8,23 +8,15 @@ import { staticDataInit } from "./utils/staticDataFunction"
 import "./AdminPage.scss"
 import { recordsDataInit } from "./utils/recordFunctions"
 import { KOTHInit } from "./utils/kothFunctions"
-import BettingPropSpreads, {
-  PropToDbInterface
-} from "../../components/BettingPropSpreads"
-import BettingPropTotals from "../../components/BettingPropTotals"
+import { PropToDbInterface } from "../../components/BettingPropSpreads"
+
 import {
   WeekRanges,
   BettingProp,
   FullMatchupProps,
-  BASE_URL,
-  Markets
+  BASE_URL
 } from "../../components/utils"
-import { testPropData, createPlayerPropUrl } from "../../components/utils"
-import { CombinedProp } from "../../components/utils"
-import { PlayerPropInterface } from "../../components/utils"
 import GameWrapper from "../../components/GameWrapper/GameWrapper"
-import { propKeyConversion } from "../../components/utils"
-import PlayerPropFilterBtn from "../../components/PlayerPropFilterBtn"
 
 const picksToMake = 12
 
@@ -76,11 +68,10 @@ export default function AdminPage() {
   const [propsSelected, setPropsSelected] = useState<PropToDbInterface[]>([])
   const [currentWeek, setCurrentWeek] = useState<string>("")
   const [currentYear, setCurrentYear] = useState<number>(0)
-  const [globalPlayerProps, setGlobalPlayerProps] = useState<FullMatchupProps>(
-    {}
-  )
 
   async function runStaticDataUpdate() {
+    if (user && user.isAdmin === false) return
+
     setUpdateInProgress(true)
 
     if (!data) return
@@ -97,6 +88,7 @@ export default function AdminPage() {
   }
 
   async function runRecordsDataUpdate() {
+    if (user && user.isAdmin === false) return
     setUpdateInProgress(true)
 
     if (!data) return
@@ -113,6 +105,7 @@ export default function AdminPage() {
   }
 
   async function runKOTHDataUpdate() {
+    if (user && user.isAdmin === false) return
     setUpdateInProgress(true)
     if (!data) return
 
@@ -128,7 +121,9 @@ export default function AdminPage() {
   }
 
   async function fetchProps() {
+    if (user && user.isAdmin === false) return
     // fetch this optionally. Button says "Fetch player props for this game"
+    console.log("FETCHING...")
     const res = await fetch(BASE_URL)
     const data = await res.json()
     if (!data) {
@@ -136,6 +131,7 @@ export default function AdminPage() {
       return
     }
 
+    console.log(data)
     setBettingData(data)
   }
 
@@ -209,6 +205,14 @@ export default function AdminPage() {
     }
   }
 
+  function handleAdminNav() {
+    if (user && user.isAdmin === true) {
+      setActiveButton("shawn")
+    } else {
+      alert("Only guys with unalive girlfriends can go there!")
+    }
+  }
+
   useEffect(() => {
     const week = getCurrentWeek()
     const nflYear = getCurrentYear()
@@ -233,7 +237,7 @@ export default function AdminPage() {
                 <li>
                   <button
                     className={`${activeButton === "shawn" ? "active" : ""}`}
-                    onClick={() => setActiveButton("shawn")}
+                    onClick={handleAdminNav}
                   >
                     Shawn
                   </button>
@@ -292,8 +296,10 @@ export default function AdminPage() {
                       <button onClick={fetchProps}>Fetch Props</button>
                     </li>
                   </ul>
-                  Click on a prop to select it. Press "Submit Props" when you
-                  have made all of your selections.
+                  <span className="instructions">
+                    Click on a prop to select it. Press "Submit Props" when you
+                    have made all of your selections.
+                  </span>
                 </div>
                 <div className="props">
                   {bettingData &&

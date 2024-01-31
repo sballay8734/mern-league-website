@@ -8,7 +8,6 @@ import { FaCaretUp } from "react-icons/fa"
 import { FaLock } from "react-icons/fa"
 import CountdownTimer from "../CountDownTimer/CountDownTimer"
 import { propKeyConversion } from "../utils"
-import { useFetchPropsQuery } from "../../redux/props/propsApi"
 // import { PropToDbInterface } from "../BettingPropSpreads"
 interface User {
   _id: string

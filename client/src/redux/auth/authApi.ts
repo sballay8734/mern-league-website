@@ -9,6 +9,8 @@ interface User {
   preferredTheme: string
   isAdmin: boolean
   isCommissioner: boolean
+  isTempAdmin: boolean
+  fullName: string
 }
 
 interface signInData {
@@ -21,6 +23,8 @@ interface FormData {
   password: string
   firstName: string
   lastInitial: string
+  isTempAdmin: boolean
+  fullName: string
 }
 
 const authApi = createApi({

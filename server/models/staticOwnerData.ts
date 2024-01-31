@@ -16,28 +16,21 @@ const bonusStatsSchema = new Schema({
     losses: Number,
     ties: Number,
     winPct: Number
-  },
+  }
 })
 
 const YearlySwap = new Schema({
-  scheduleSwapWins: {type: Number},
-  scheduleSwapLosses: {type: Number},
-  scheduleSwapTies: {type: Number},
-  scheduleSwapWinPct: {type: Number}
+  scheduleSwapWins: { type: Number },
+  scheduleSwapLosses: { type: Number },
+  scheduleSwapTies: { type: Number },
+  scheduleSwapWinPct: { type: Number }
 })
 
 const AllTimeSwap = new Schema({
-  scheduleSwapWins: {type: Number},
-  scheduleSwapLosses: {type: Number},
-  scheduleSwapTies: {type: Number},
-  scheduleSwapWinPct: {type: Number}
-})
-
-const finalSchema = new Schema({
-  ownerName: {
-    yearly: {type: Map, of: YearlySwap},
-    allTime: AllTimeSwap
-  }
+  scheduleSwapWins: { type: Number },
+  scheduleSwapLosses: { type: Number },
+  scheduleSwapTies: { type: Number },
+  scheduleSwapWinPct: { type: Number }
 })
 
 // Yearly Helpers
@@ -198,7 +191,10 @@ export const staticOwnerSchema = new Schema({
   allTime: allTimeStatsSchema,
   h2h: h2hStatsSchema,
   bonusStats: bonusStatsSchema,
-  scheduleSwap: { type: Map, of: { yearly: {type: Map, of: YearlySwap}, allTime: AllTimeSwap } }
+  scheduleSwap: {
+    type: Map,
+    of: { yearly: { type: Map, of: YearlySwap }, allTime: AllTimeSwap }
+  }
   // scheduleSwap: { type: Schema.Types.Mixed }
 })
 

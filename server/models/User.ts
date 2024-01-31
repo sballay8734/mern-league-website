@@ -9,6 +9,7 @@ interface IUser extends Document {
   preferredTheme: string
   isAdmin: boolean
   isCommissioner: boolean
+  isTempAdmin: boolean
   fullName: string
 }
 
@@ -25,7 +26,8 @@ const userSchema = new Schema({
   preferredTheme: { type: String, default: "eagles" },
   isAdmin: { type: Boolean, default: false },
   isCommissioner: { type: Boolean, default: false },
-  fullName: { type: String }
+  isTempAdmin: { type: Boolean, default: true },
+  fullName: { type: String, default: "" }
 })
 
 const User = mongoose.model<IUser>("User", userSchema)

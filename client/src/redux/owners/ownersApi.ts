@@ -1,4 +1,3 @@
-import { staticOwnerSchema } from "./../../../../server/models/staticOwnerData"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { Owner } from "./interfaces"
 
@@ -36,7 +35,7 @@ const ownersApi = createApi({
         }
       })
     }),
-    fetchStaticData: builder.query<(StaticOwner)[], void>({
+    fetchStaticData: builder.query<StaticOwner[], void>({
       query: () => ({
         url: "/owners/static",
         method: "GET",
