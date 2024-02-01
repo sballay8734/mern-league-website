@@ -100,135 +100,9 @@ export default function PickCard({
   const [lockPick, setLockPick] = useState<boolean>(false)
   const [showChallenges, setShowChallenges] = useState<boolean>(false)
 
-  // async function handleUnderClick(item: PropToDbInterface) {
-  //   if (item.selectedOU === "under") return
-  //   if (lockPick) return
-
-  //   setLockIcon(false)
-
-  //   const res = await fetch(`/api/props/${item.propID}`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify({ ...item, selectedOU: "under" })
-  //   })
-
-  //   const data = await res.json()
-
-  //   if (data.success === false) {
-  //     console.log("ERROR")
-  //     setLockIcon(false)
-  //     return
-  //   }
-  //   console.log(data)
-
-  //   setOverOrUnder("under")
-  //   item.selectedOU = "under"
-  //   setLockIcon(true)
-  //   const filteredPicks = picksMade.filter(
-  //     (pick) => pick.propID !== item.propID
-  //   )
-  //   setPicksMade([...filteredPicks, item])
-  // }
-
-  // async function handleOverClick(item: PropToDbInterface) {
-  //   if (item.selectedOU === "over") return
-  //   if (lockPick) return
-
-  //   setLockIcon(false)
-
-  //   const res = await fetch(`/api/props/${item.propID}`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify({ ...item, selectedOU: "over" })
-  //   })
-
-  //   const data = await res.json()
-
-  //   if (data.success === false) {
-  //     console.log("ERROR")
-  //     setLockIcon(false)
-  //     return
-  //   }
-  //   console.log(data)
-
-  //   setOverOrUnder("over")
-  //   setLockIcon(true)
-  //   item.selectedOU = "over"
-
-  //   const filteredPicks = picksMade.filter(
-  //     (pick) => pick.propID !== item.propID
-  //   )
-  //   setPicksMade([...filteredPicks, item])
-  // }
-
-  // async function handleSpreadPick(team: string, item: PropToDbInterface) {
-  //   if (lockPick) return
-  //   if (item.selectedTeam === team) return
-
-  //   setLockIcon(false)
-
-  //   if (team === item.favorite) {
-  //     const res = await fetch(`/api/props/${item.propID}`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json"
-  //       },
-  //       body: JSON.stringify({ ...item, selectedTeam: team })
-  //     })
-
-  //     const data = await res.json()
-
-  //     if (data.success === false) {
-  //       console.log("ERROR")
-  //       setLockIcon(false)
-  //       return
-  //     }
-  //     console.log(data)
-
-  //     setSpreadPick("favorite")
-  //     setLockIcon(true)
-  //     item.selectedTeam = team
-
-  //     const filteredPicks = picksMade.filter(
-  //       (pick) => pick.propID !== item.propID
-  //     )
-  //     setPicksMade([...filteredPicks, item])
-  //   } else if (team === item.nonFavorite) {
-  //     const res = await fetch(`/api/props/${item.propID}`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json"
-  //       },
-  //       body: JSON.stringify({ ...item, selectedTeam: team })
-  //     })
-
-  //     const data = await res.json()
-
-  //     if (data.success === false) {
-  //       console.log("ERROR")
-  //       setLockIcon(false)
-  //       return
-  //     }
-  //     console.log(data)
-
-  //     setSpreadPick("nonFavorite")
-  //     setLockIcon(true)
-  //     item.selectedTeam = team
-
-  //     const filteredPicks = picksMade.filter(
-  //       (pick) => pick.propID !== item.propID
-  //     )
-
-  //     setPicksMade([...filteredPicks, item])
-  //   }
-  // }
-
-  // console.log(picksMade)
-  // WHY IS THIS LOGGING 10 TIMES?
+  const [challengeSelection, setChallengeSelection] = useState<string>("")
+  const [wager, setWager] = useState<string>("")
+  const [formValid, setFormValid] = useState<boolean>(false)
 
   async function handleUnderClick(item: PropToDbInterface) {
     // if under is already selected or pick is locked
@@ -375,6 +249,63 @@ export default function PickCard({
     setShowChallenges(!showChallenges)
   }
 
+  function handleChallengeChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.value.toString().length === 5) return
+
+    const isValidInput = /^(?!0\d*$)\d{0,5}$/.test(e.target.value)
+
+    if (!isValidInput) {
+      // If the input does not match the pattern, ignore the change
+      return
+    }
+
+    setWager(e.target.value)
+
+    if (
+      (challengeSelection === "over" || challengeSelection === "under") &&
+      e.target.value.length > 0
+    ) {
+      setFormValid(true)
+      return
+    }
+    setFormValid(false)
+  }
+
+  function handleChallengeSelection(str: string) {
+    setChallengeSelection(() => {
+      if ((str === "over" || str === "under") && wager.toString().length > 0) {
+        setFormValid(true)
+      } else {
+        setFormValid(false)
+      }
+
+      return str
+    })
+  }
+
+  function handleClearChallenge() {
+    setChallengeSelection("")
+    setWager("")
+    setFormValid(false)
+  }
+
+  function submitChallenge() {
+    const challenge = {
+      challengerName: user.fullName,
+      challengerSelection: challengeSelection,
+      acceptorName: "",
+      acceptorSelection: challengeSelection === "under" ? "over" : "under",
+      wagerAmount: Number(wager),
+      void: false
+    }
+
+    const gameId = item.gameId
+    const propId = item.uniqueId
+
+    // use gameId AND propId to find prop and add challenge to array
+    console.log(challenge)
+  }
+
   useEffect(() => {
     initializePick()
   }, [])
@@ -384,13 +315,15 @@ export default function PickCard({
       challengerName: "Shawn Ballay",
       challengerSelection: "over", 
       acceptorName: "", 
-      acceptorSelection: "under"
+      acceptorSelection: "under",
+      wagerAmount: 25.00
     }
     { 
       challengerName: "Shawn Ballay",
       challengerSelection: "Kansas City Chiefs", 
       acceptorName: "", 
-      acceptorSelection: "San Fransisco 49ers"
+      acceptorSelection: "San Fransisco 49ers",
+      wagerAmount: 25.00
     }
   */
 
@@ -533,21 +466,53 @@ export default function PickCard({
               <div className="selection">
                 <span className="your-selection">Your selection</span>
                 <div className="over-selector selector">
-                  <button className="button">Over</button>
+                  <button
+                    onClick={() => handleChallengeSelection("over")}
+                    className={`button ${
+                      challengeSelection === "over" && "active"
+                    }`}
+                  >
+                    Over
+                  </button>
                 </div>
                 <div className="under-selector selector">
-                  <button className="button">Under</button>
+                  <button
+                    onClick={() => handleChallengeSelection("under")}
+                    className={`button ${
+                      challengeSelection === "under" && "active"
+                    }`}
+                  >
+                    Under
+                  </button>
                 </div>
               </div>
               <div className="bet">
                 <label htmlFor="wager-amount">
                   Wager<span className="money-sign">$</span>
                 </label>
-                <input type="number" name="wager-amount" id="wager-amount" />
+                <input
+                  value={wager}
+                  onChange={handleChallengeChange}
+                  type="number"
+                  name="wager-amount"
+                  id="wager-amount"
+                />
               </div>
             </div>
-            <div className="submit-overlay">
-              Submit (ENTER CHALLENGE DETAILS)
+            <div className="challenge-action">
+              <button
+                onClick={handleClearChallenge}
+                className="cancel-challenge"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={submitChallenge}
+                disabled={!formValid}
+                className="submit-challenge"
+              >
+                Submit
+              </button>
             </div>
             <div className={`challenges-list ${showChallenges && "show"}`}>
               {/* Loop through "item.challenges" and show */}

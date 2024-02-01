@@ -1,10 +1,11 @@
 import mongoose, { Schema } from "mongoose"
 
 interface Challenges {
-  challenger: string
-  acceptor: string | null
-  challengerChoice: string // "over" | "under" | "away" | "home"
-  acceptorChoice: string // "over" | "under" | "away" | "home"
+  challengerName: string
+  acceptorName: string
+  challengerSelection: string // "over" | "under" | "away" | "home"
+  acceptorSelection: string // "over" | "under" | "away" | "home"
+  wagerAmount: number
 
   void: boolean
 }
@@ -57,10 +58,11 @@ export interface PropToDbInterface {
 }
 
 const ChallengesSchema = new Schema({
-  challenger: String,
-  acceptor: String,
-  challengerChoice: String, // "over" | "under" | "away" | "home"
-  acceptorChoice: String, // "over" | "under" | "away" | "home"
+  challengerName: String,
+  acceptorName: String,
+  challengerSelection: String,
+  acceptorSelection: String,
+  wagerAmount: Number,
 
   void: { type: Boolean, default: false }
 })
