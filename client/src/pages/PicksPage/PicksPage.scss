@@ -810,6 +810,12 @@
     flex-direction: column;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
+    max-height: 0px;
+    transition: all 200ms;
+    &.show {
+      max-height: 1000px;
+      transition: all 500ms;
+    }
     .challenges-setter {
       display: flex;
       align-items: center;

@@ -310,23 +310,6 @@ export default function PickCard({
     initializePick()
   }, [])
 
-  /*
-    { 
-      challengerName: "Shawn Ballay",
-      challengerSelection: "over", 
-      acceptorName: "", 
-      acceptorSelection: "under",
-      wagerAmount: 25.00
-    }
-    { 
-      challengerName: "Shawn Ballay",
-      challengerSelection: "Kansas City Chiefs", 
-      acceptorName: "", 
-      acceptorSelection: "San Fransisco 49ers",
-      wagerAmount: 25.00
-    }
-  */
-
   if (item.type === "playerProp") {
     return (
       <div className="pick-wrapper">
@@ -461,7 +444,9 @@ export default function PickCard({
           >
             Challenges <span className="unaccepted">(2)</span>
           </button>
-          <div className="challenges-list-and-setter">
+          <div
+            className={`challenges-list-and-setter ${showChallenges && "show"}`}
+          >
             <div className="challenges-setter">
               <div className="selection">
                 <span className="your-selection">Your selection</span>
@@ -514,9 +499,8 @@ export default function PickCard({
                 Submit
               </button>
             </div>
-            <div className={`challenges-list ${showChallenges && "show"}`}>
+            <div className="challenges-list">
               {/* Loop through "item.challenges" and show */}
-              asdfhalksdf
             </div>
           </div>
         </div>

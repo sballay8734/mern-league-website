@@ -18,6 +18,7 @@ NOT THAT IMPORTANT
 
 VERY IMPORTANT (START WITH KOTH AND COMPARE PAGE) ********************************************************************************
 - Compare page needs a lot of love LOL.
+- If there are NO challenges, button should be greyed out. It should be red and obvious if people have submitted challenges.
 
 - Picks on admin page need to be locked when timer runs out
 ********************************************************************************
