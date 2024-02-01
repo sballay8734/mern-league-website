@@ -109,10 +109,10 @@ export default function ComparePage() {
       userImages &&
       (userImages.find((item: User) => {
         return item.fullName === ownerName
-      }) as User | undefined)
+      }) as User | null)
 
     if (ownerAvatar) {
-      return ownerAvatar.avatar
+      return ownerAvatar.avatar || "/profileImg.png"
     } else {
       return "/profileImg.png"
     }
@@ -240,7 +240,7 @@ export default function ComparePage() {
               <div className="selector-body">
                 <img
                   className="profileImg"
-                  src={ownerOne && grabAvatar(ownerOne)}
+                  src={ownerOne ? grabAvatar(ownerOne) : "/profileImg.png"}
                   alt="profile"
                 />
                 <div className="main-stats-wrapper">
@@ -6889,7 +6889,10 @@ export default function ComparePage() {
                 )}
               </div>
               <div className="selector-body">
-                <img src={ownerTwo && grabAvatar(ownerTwo)} alt="profile" />
+                <img
+                  src={ownerTwo ? grabAvatar(ownerTwo) : "/profileImg.png"}
+                  alt="profile"
+                />
                 <div className="main-stats-wrapper">
                   <div className="main-stats main-stats-left">
                     <h2 className="stat stat1">

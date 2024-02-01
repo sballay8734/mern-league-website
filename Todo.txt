@@ -17,7 +17,6 @@ NOT THAT IMPORTANT
 
 
 VERY IMPORTANT (START WITH KOTH AND COMPARE PAGE) ********************************************************************************
-- Compare Page is still too compact on smaller devices. Make text smaller and remove some padding on buttons and such.
 - Compare page needs a lot of love LOL.
 
 - Picks on admin page need to be locked when timer runs out

@@ -248,8 +248,6 @@ export default function ViewProposalModal({
     })
   }
 
-  console.log(formData)
-
   const children = (
     <div
       className={`proposal-modal-wrapper modal ${user && user?.preferredTheme}`}

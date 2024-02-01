@@ -788,6 +788,112 @@
   }
 }
 
+.challenges {
+  width: 100%;
+  overflow: hidden;
+  .expand-challenges-btn {
+    width: 100%;
+    border: none;
+    padding: 0.3rem;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-color: rgb(93, 0, 0);
+    color: white;
+    &:active {
+      opacity: 0.9;
+    }
+  }
+  .challenges-list-and-setter {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.8rem;
+    background-color: rgb(24, 0, 0);
+    position: relative;
+    .submit-overlay { 
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: black;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      // AND SHOW
+    }
+    .challenges-setter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      .selection {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        span {
+          margin-right: 0.5rem;
+        }
+        .your-selection {
+          color: rgb(75, 75, 75);
+        }
+        .selector {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.3rem;
+          .button {
+            min-width: 60px;
+            border-radius: none;
+            border: 1px solid rgb(70, 70, 70);
+            margin-right: 0.3rem;
+            background-color: rgb(41, 41, 41);
+            color: white;
+            border-radius: 1px;
+          }
+        }
+      }
+      .bet {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        justify-self: flex-end;
+        gap: 0.4rem;
+        color: rgb(75, 75, 75);
+        .money-sign {
+          color: rgb(0, 194, 0);
+          font-weight: bold;
+          margin-left: 0.2rem;
+        }
+        input {
+          max-width: 50px;
+          height: 27px;
+          font-size: 0.7rem;
+          border: none;
+          outline: none;
+          border-radius: 1px;
+          background-color: rgb(60, 60, 60);
+          color: rgb(5, 207, 5);
+          &:focus {
+            outline: none;
+            border: none;
+          }
+        }
+      }
+    }
+    .challenges-list {
+      max-height: 0px;
+      opacity: 0;
+      transition: all 300ms;
+      
+      &.show {
+        max-height: 100px;
+        opacity: 1;
+        transition: all 300ms;
+    }
+  }
+    }
+}
+
 
 @keyframes fadeInMakePicks {
   from {

@@ -98,6 +98,7 @@ export default function PickCard({
   const [spreadPick, setSpreadPick] = useState<string | null>(null)
   const [lockIcon, setLockIcon] = useState<boolean>(false)
   const [lockPick, setLockPick] = useState<boolean>(false)
+  const [showChallenges, setShowChallenges] = useState<boolean>(false)
 
   // async function handleUnderClick(item: PropToDbInterface) {
   //   if (item.selectedOU === "under") return
@@ -370,21 +371,28 @@ export default function PickCard({
     }
   }
 
+  function handleShowChallenges() {
+    setShowChallenges(!showChallenges)
+  }
+
   useEffect(() => {
     initializePick()
   }, [])
 
-  // *****************************************************************
-  // *****************************************************************
-  // *****************************************************************
-  // *****************************************************************
-  // EVERYTHING IS WORKING BUT, ON REFRESH, the props should be refetched and styling should be applied based on what the user has already voted
-  // NEED TO HANDLE LOCK ICONS ON RENDER
-  // WHEN A USER LOADS THE PAGE, THEIR CURRENT PICKS SHOULD BE HIGHLIGHTED
-  // *****************************************************************
-  // *****************************************************************
-  // *****************************************************************
-  // *****************************************************************
+  /*
+    { 
+      challengerName: "Shawn Ballay",
+      challengerSelection: "over", 
+      acceptorName: "", 
+      acceptorSelection: "under"
+    }
+    { 
+      challengerName: "Shawn Ballay",
+      challengerSelection: "Kansas City Chiefs", 
+      acceptorName: "", 
+      acceptorSelection: "San Fransisco 49ers"
+    }
+  */
 
   if (item.type === "playerProp") {
     return (
@@ -512,6 +520,40 @@ export default function PickCard({
             </span>
           </button>
           {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
+        </div>
+        <div className="challenges">
+          <button
+            className="expand-challenges-btn"
+            onClick={handleShowChallenges}
+          >
+            Challenges <span className="unaccepted">(2)</span>
+          </button>
+          <div className="challenges-list-and-setter">
+            <div className="challenges-setter">
+              <div className="selection">
+                <span className="your-selection">Your selection</span>
+                <div className="over-selector selector">
+                  <button className="button">Over</button>
+                </div>
+                <div className="under-selector selector">
+                  <button className="button">Under</button>
+                </div>
+              </div>
+              <div className="bet">
+                <label htmlFor="wager-amount">
+                  Wager<span className="money-sign">$</span>
+                </label>
+                <input type="number" name="wager-amount" id="wager-amount" />
+              </div>
+            </div>
+            <div className="submit-overlay">
+              Submit (ENTER CHALLENGE DETAILS)
+            </div>
+            <div className={`challenges-list ${showChallenges && "show"}`}>
+              {/* Loop through "item.challenges" and show */}
+              asdfhalksdf
+            </div>
+          </div>
         </div>
         <CountdownTimer endDate={item.expiration} setLockPick={setLockPick} />
       </div>
