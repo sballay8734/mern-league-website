@@ -226,8 +226,6 @@ export const getProps = async (
   const week = req.params.week
   const year = req.params.year
 
-  console.log(weekToNumConversion[week], Number(year))
-
   // add validation here
 
   try {

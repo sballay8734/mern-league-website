@@ -8,6 +8,7 @@ import { useState } from "react"
 import {
   createPlayerPropUrl,
   testPropData,
+  NBA_PROP_DATA,
   Markets,
   CombinedProp
 } from "../utils"
@@ -71,6 +72,7 @@ export default function GameWrapper({
     let playerProps = []
 
     const propListToString = testPropData.join(",")
+    // const propListToString = NBA_PROP_DATA.join(",")
 
     const URL = createPlayerPropUrl(propListToString, propId)
 

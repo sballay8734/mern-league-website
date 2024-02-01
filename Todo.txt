@@ -1,28 +1,31 @@
 1. Find a better font for numbers and text separately
-2. Split  own component to render the locked functionality correctly
 3. Fix finishing places
 4. Only allow props to be fetched on Friday/Saturday if not Full Admin (you)
 
-6. CHECK THAT YOU ACTUALLY FIXED BUG WITH TIES ON Swap Schedule. I think you did but not totally sure
-
 
 CURRENTLY DOING -----------------------------------------------------
-11. STYLE ADMIN PICKS PAGE
-12. REFORMAT OVER / UNDER CARD (Looks like your betting on a team)
-12. PAGES LEFT: (Picks)
-13. Add fadeIn to pages that need it (Picks)
-15. gameIdsFetched has to be kept on admin page
-16. Add button filters for player props
-17. Add loading spinner to prop load
+NOT THAT IMPORTANT
 19. Filtering props is a bit abrupt (needs to be smooth)
 20. Need little icons or numbers to symbolize where your selected props are
 21. Add clear all props button
-23. YOU NEED TO TEST WHAT HAPPENS WITH MULTIPLE GAMES!! SINCE THERE IS ONLY ONE NOW, SOMETHING MAY BE BROKEN AND YOU WOULDN'T KNOW IT
 24. YOU NEED TO TEST WHAT HAPPENS WHEN PICKS LOCK ON FRONT END!
 24. NEED TO ADD add arrow to button and clean things up. Refactoring made some things look weird.
+25. Filter buttons are too small on admin page
+26. Filtering causes some janky/abrubt behavior (scroll within scroll)
 
-25. STYLE ADMIN PROPS PAGE!!!
-26. AND USE NBA TO CHECK MULTIPLE GAMES
+
+
+
+VERY IMPORTANT (START WITH KOTH AND COMPARE PAGE) ********************************************************************************
+- Compare Page is still too compact on smaller devices. Make text smaller and remove some padding on buttons and such.
+- Compare page needs a lot of love LOL.
+
+- Picks on admin page need to be locked when timer runs out
+********************************************************************************
+
+
+
+
 
 KNOWN BUGS
 1. More than 3 Championships or Skirts can cause issues with ownerSelector Body

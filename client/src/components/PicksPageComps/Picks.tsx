@@ -56,7 +56,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
           <div className="picks-header-wrapper">
             <div className="picks-header">
               <h1>Picks and Dicks</h1>
-              <p>Week 3</p>
+              <p>Week {propData[0].week}</p>
             </div>
             <div className="picks-nav">
               <nav className="tab">

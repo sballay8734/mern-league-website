@@ -11,7 +11,7 @@ export default function HomePage() {
 
   // console.log(isError, isLoading)
 
-  // console.log(data)
+  // console.log(userImages)
 
   useEffect(() => {
     refetch()
@@ -43,72 +43,6 @@ export default function HomePage() {
                 <div className="icon__pole"></div>
               </div>
             ))}
-          {/* <div className="icon__wrapper icon__wrapper-1">
-            <div className="relative icon__1 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-2">
-            <div className="relative icon__2 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-3">
-            <div className="relative icon__3 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-4">
-            <div className="relative icon__4 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-5">
-            <div className="relative icon__5 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-6">
-            <div className="relative icon__6 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-7">
-            <div className="relative icon__7 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-8">
-            <div className="relative icon__8 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-9">
-            <div className="relative icon__9 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-10">
-            <div className="relative icon__10 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div>
-          <div className="icon__wrapper icon__wrapper-11">
-            <div className="relative icon__11 icon">
-              <img src={"/liverpoolLogo.svg"} alt="profile"></img>
-            </div>
-            <div className="icon__pole"></div>
-          </div> */}
         </div>
       </div>
       {user !== null ? (

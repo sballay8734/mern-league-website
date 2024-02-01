@@ -1,6 +1,11 @@
 export const ODDS_API_KEY = "2eed7073c0bc886d436863fc3a1844db" // shawnyahoo
 export const BAILEE_SHAW = "7149a4ecd5269194832435e5755990ea" // baileeshaw
 export const SB_API_KEY = "0f397ef8e40fda92307241c433993cd7" // shawnballay1
+
+export const TEST_BASE_URL = `https://api.the-odds-api.com/v4/sports/basketball_nba/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`
+
+export const NBA_PLAYER_PROPS_URL = `https://api.the-odds-api.com/v4/sports/basketball_nba/events/61dcc385d9c0927b9392d04c3b944198/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=player_pass_tds&oddsFormat=american`
+
 export const BASE_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`
 
 export const PLAYER_PROPS_URL = `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/61dcc385d9c0927b9392d04c3b944198/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=player_pass_tds&oddsFormat=american`
@@ -34,9 +39,22 @@ export const testPropData: string[] = [
   "player_anytime_td"
 ]
 
+export const NBA_PROP_DATA: string[] = [
+  "player_points",
+  "player_rebounds",
+  "player_assists",
+  "player_threes",
+  "player_blocks",
+  "player_steals"
+]
+
 export function createPlayerPropUrl(string: string, propId: string) {
   return `https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/${propId}/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=${string}&oddsFormat=american`
 }
+// TEST FUNCTION NBA
+// export function createPlayerPropUrl(string: string, propId: string) {
+//   return `https://api.the-odds-api.com/v4/sports/basketball_nba/events/${propId}/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=${string}&oddsFormat=american`
+// }
 
 export interface KeyConversion {
   [key: string]: string

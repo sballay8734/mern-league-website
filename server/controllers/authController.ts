@@ -53,6 +53,8 @@ export const signin = async (
 ) => {
   const { email, password } = req.body
 
+  console.log(email, password)
+
   try {
     const validUser = await User.findOne({ email })
     if (!validUser) return next(errorHandler(400, "User not found"))

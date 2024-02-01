@@ -7,6 +7,7 @@ interface User {
   lastInitial: string
   preferredTheme: string
   avatar: string
+  fullName: string
 }
 
 import { StaticOwner } from "../../types/StaticOwner"

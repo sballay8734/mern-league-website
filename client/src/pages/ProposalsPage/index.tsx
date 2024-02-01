@@ -54,6 +54,10 @@ export default function ProposalsPage() {
           <div className="proposal-page-top">
             <div className="proposals-header">
               <h1>Proposals</h1>
+              <p className="instructions">
+                To <span className="voteText">vote</span>, expand the proposal
+                and click the description!
+              </p>
               <button
                 onClick={handleShowCreateProposal}
                 className="create-proposal-btn"

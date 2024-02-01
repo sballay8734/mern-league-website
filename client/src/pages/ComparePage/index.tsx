@@ -1,3 +1,4 @@
+import "./ComparePage.scss"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
@@ -14,12 +15,21 @@ import { FaAngleDoubleDown } from "react-icons/fa"
 import { FaCaretUp } from "react-icons/fa"
 import { StaticOwner } from "../../types/StaticOwner"
 import { ImSpinner10 } from "react-icons/im"
+import { useFetchUserImagesQuery } from "../../redux/owners/ownersApi"
 
-import "./ComparePage.scss"
+interface User {
+  email: string
+  firstName: string
+  lastInitial: string
+  preferredTheme: string
+  avatar: string
+  fullName: string
+}
 
 export default function ComparePage() {
   const { user } = useSelector((state: RootState) => state.user)
   const { data, isLoading } = useFetchStaticDataQuery()
+  const { data: userImages } = useFetchUserImagesQuery()
   const [activeButton, setActiveButton] = useState<string>("h2h")
   const [activeFilterButton, setActiveFilterButton] = useState<string>("regszn")
   const [showYearDropdown, setShowYearDropdown] = useState<boolean>(false)
@@ -32,8 +42,6 @@ export default function ComparePage() {
     setShowYearDropdown(false)
     setSelectedYear(year)
   }
-
-  // console.log(ownerOne, ownerTwo)
 
   function handleOwnerSwitch(ownerSwitched: StaticOwner, direction: string) {
     if (data && ownerOne && ownerTwo) {
@@ -94,6 +102,21 @@ export default function ComparePage() {
     }
     return 0
   }
+  function grabAvatar(owner: StaticOwner) {
+    const ownerName = owner.ownerName
+
+    const ownerAvatar =
+      userImages &&
+      (userImages.find((item: User) => {
+        return item.fullName === ownerName
+      }) as User | undefined)
+
+    if (ownerAvatar) {
+      return ownerAvatar.avatar
+    } else {
+      return "/profileImg.png"
+    }
+  }
 
   const owner1Participated = ownerOne?.yearly[selectedYear].participated
   const owner2Participated = ownerTwo?.yearly[selectedYear].participated
@@ -125,7 +148,7 @@ export default function ComparePage() {
         setOwnerOne(data[0])
       }
     }
-  }, [data, user])
+  }, [data, user, userImages])
 
   return (
     <div className="page compare-page">
@@ -154,7 +177,7 @@ export default function ComparePage() {
                 }`}
                 onClick={() => setActiveButton("h2h")}
               >
-                <img src="/vsIcon.png" alt="" />
+                <img className="profileImg" src="/vsIcon.png" alt="" />
               </button>
             </li>
             <li className="spacer"></li>
@@ -215,7 +238,11 @@ export default function ComparePage() {
                 )}
               </div>
               <div className="selector-body">
-                <img src="/profileImg.png" alt="profile" />
+                <img
+                  className="profileImg"
+                  src={ownerOne && grabAvatar(ownerOne)}
+                  alt="profile"
+                />
                 <div className="main-stats-wrapper">
                   <div className="main-stats main-stats-left">
                     <h2 className="stat stat1">
@@ -6862,7 +6889,7 @@ export default function ComparePage() {
                 )}
               </div>
               <div className="selector-body">
-                <img src="/profileImg.png" alt="profile" />
+                <img src={ownerTwo && grabAvatar(ownerTwo)} alt="profile" />
                 <div className="main-stats-wrapper">
                   <div className="main-stats main-stats-left">
                     <h2 className="stat stat1">

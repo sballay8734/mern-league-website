@@ -14,7 +14,8 @@ import {
   WeekRanges,
   BettingProp,
   FullMatchupProps,
-  BASE_URL
+  BASE_URL,
+  TEST_BASE_URL
 } from "../../components/utils"
 import GameWrapper from "../../components/GameWrapper/GameWrapper"
 
@@ -124,6 +125,7 @@ export default function AdminPage() {
     if (user && user.isAdmin === false) return
     // fetch this optionally. Button says "Fetch player props for this game"
     console.log("FETCHING...")
+    // const res = await fetch(TEST_BASE_URL)
     const res = await fetch(BASE_URL)
     const data = await res.json()
     if (!data) {

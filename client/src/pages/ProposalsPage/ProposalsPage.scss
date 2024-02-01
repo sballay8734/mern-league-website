@@ -17,7 +17,7 @@
     height: 25%;
     max-width: 500px;
 
-    @media screen and (max-height: 615px) {
+    @media screen and (max-height: 700px) {
       height: 30%;
     }
 
@@ -108,9 +108,9 @@
       position: relative;
       height: 100%;
       width: 100%;
-      max-width: 475px;
+      max-width: 500px;
       display: flex;
-      gap: 1rem;
+      // gap: 1rem;
       align-items: center;
       justify-content: center;
       background-color: rgb(11, 11, 11);
@@ -120,6 +120,17 @@
       background-image: url("/courtroom.jpg");
       background-size: cover;
       background-position: center;
+
+      .instructions {
+        padding: 0.4rem 0.5rem 0.8rem 0.5rem;
+        font-size: 0.7rem;
+        @media screen and (max-height: 760px) {
+            padding: 0.2rem 0.5rem 0.4rem 0.5rem;
+          }
+                    @media screen and (max-height: 700px) {
+                      padding: 0.1rem 0.5rem 0.2rem 0.5rem;
+                    }
+      }
 
       @media screen and (max-width: 400px) {
         gap: 0.5rem;
@@ -405,7 +416,7 @@
     overflow: auto;
     animation: fadeIn 500ms linear;
 
-    @media screen and (max-height: 615px) {
+    @media screen and (max-height: 700px) {
       height: 70%;
     }
 
@@ -655,6 +666,11 @@
   /* Firefox */
   -ms-overflow-style: none;
   /* IE 10+ */
+}
+
+.voteText {
+  color: var(--primary-color);
+  font-weight: bold;
 }
 
 @keyframes fadeIn {
