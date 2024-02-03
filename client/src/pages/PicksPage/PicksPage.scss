@@ -1009,6 +1009,7 @@
               background-color: rgb(72, 175, 72);
               border: 1px solid rgb(0, 91, 0);
               transition: all 200ms;
+              color: black;
               // color: rgb(0, 227, 0);
               &:active {
                 transition: all 200ms;
@@ -1034,6 +1035,7 @@
           padding: 0.5rem;
           background-color: rgb(72, 175, 72);
           border: 1px solid rgb(0, 255, 0);
+          color: black;
 
           &:active {
             opacity: 0.9;
@@ -1089,6 +1091,10 @@
       }
     }
   }
+}
+
+.accept-challenge-btn {
+  color: black !important;
 }
 
 
