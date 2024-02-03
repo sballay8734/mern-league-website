@@ -102,7 +102,7 @@ export default function KothPage() {
         setSortedData(sortedOwners)
       }
     }
-  }, [currentYear])
+  }, [currentYear, kingData])
 
   return (
     <div className="page koth-page">

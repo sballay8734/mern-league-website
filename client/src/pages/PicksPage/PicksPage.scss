@@ -322,21 +322,7 @@
           max-width: 500px;
           border: 1px solid rgb(62, 62, 62);
           box-shadow: var(--primary-color-trans) 0px 3px 8px;
-          // .locked-overlay {
-          //   position: absolute;
-          //   width: 100%;
-          //   top: 50%;
-          //   left: 50%;
-          //   transform: translate(-50%, -50%);
-          //   width: 100%;
-          //   height: 100%;
-          //   display: flex;
-          //   align-items: center;
-          //   justify-content: center;
-          //   background-color: rgb(0, 0, 0, 0.95);
-          //   // backdrop-filter: blur(2px);
-          //   border-radius: 3px;
-          // }
+
           .countdown-timer {
             position: absolute;
             top: 7px;
@@ -791,18 +777,51 @@
 .challenges {
   width: 100%;
   overflow: hidden;
+  .challenge-btn-wrapper {
+    display: flex;
+  }
   .expand-challenges-btn {
     width: 100%;
     border: none;
     padding: 0.3rem;
     border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    background-color: rgb(93, 0, 0);
+    background-color: rgb(88, 29, 29);
+    transition: all 300ms;
     color: white;
     &:active {
       opacity: 0.9;
     }
+    &.remove-br {
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+      transition: all 300ms;
+    }
+    &.disabled {
+      background-color: rgb(52, 52, 52);
+      color: rgb(22, 22, 22);
+      transition: all 300ms;
+      pointer-events: none;
+    }
   }
+    .create-challenge-btn {
+      width: 100%;
+      border: none;
+      padding: 0.3rem;
+      border-bottom-right-radius: 2px;
+      background-color: rgb(39, 87, 39);
+      transition: all 300ms;
+      color: white;
+  
+      &:active {
+        opacity: 0.9;
+      }
+  
+      &.remove-br {
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        transition: all 300ms;
+      }
+    }
   .challenges-list-and-setter {
     font-size: 0.8rem;
     background-color: rgb(24, 0, 0);
@@ -812,9 +831,23 @@
     border-bottom-right-radius: 2px;
     max-height: 0px;
     transition: all 200ms;
+    // padding: 0 0.5rem;
     &.show {
       max-height: 1000px;
       transition: all 500ms;
+      overflow: auto;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+      // padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    }
+    .create-challenge {
+      text-align: center;
+      padding: 0.2rem;
+      background-color: rgb(52, 0, 0);
+    }
+    .create-challenge-wrapper {
+      overflow: hidden;
+      // border: 1px solid rgb(127, 0, 0);
     }
     .challenges-setter {
       display: flex;
@@ -822,6 +855,7 @@
       justify-content: space-between;
       gap: 1rem;
       padding: 0.5rem;
+      background-color: rgb(17, 17, 17);
       .selection {
         display: flex;
         align-items: center;
@@ -830,7 +864,15 @@
           margin-right: 0.5rem;
         }
         .your-selection {
-          color: rgb(255, 165, 165);
+          color: rgb(183, 183, 183);
+          font-size: 0.7rem;
+          text-align: center;
+          line-height: 1.2;
+          @media screen and (max-width: 340px) {
+              font-size: 0.6rem;
+              padding: 0.1rem;
+              min-width: 45px;
+            }
         }
         .selector {
           display: flex;
@@ -846,9 +888,15 @@
             color: white;
             border-radius: 1px;
             transition: all 300ms;
+
+            @media screen and (max-width: 340px) {
+              font-size: 0.7rem;
+              padding: 0.1rem;
+              min-width: 45px;
+            }
             &.active {
-              background-color: rgb(0, 55, 0);
-              border: 1px solid green;
+              background-color: rgb(0, 45, 7);
+              border: 1px solid rgb(11, 241, 7);
               transition: all 300ms;
             }
           }
@@ -860,7 +908,8 @@
         justify-content: center;
         justify-self: flex-end;
         gap: 0.4rem;
-        color: rgb(255, 165, 165);
+        color: rgb(183, 183, 183);
+        font-size: 0.7rem;
         .money-sign {
           color: rgb(0, 194, 0);
           font-weight: bold;
@@ -873,35 +922,130 @@
           border: none;
           outline: none;
           border-radius: 1px;
-          background-color: rgb(60, 60, 60);
+          background-color: rgb(0, 45, 7);
           color: rgb(5, 207, 5);
           font-weight: bold;
+          @media screen and (max-width: 340px) {
+              max-width: 45px;
+            }
           &:focus {
             outline: none;
             border: none;
-            border: 1px solid green;
+            border: 1px solid rgb(11, 241, 7);
           }
         }
       }
     }
     .challenges-list {
-      max-height: 0px;
-      opacity: 0;
+      padding: 0.5rem;
+      max-height: 200px;
+      opacity: 1;
       transition: all 300ms;
-      
-      &.show {
-        max-height: 100px;
-        opacity: 1;
-        transition: all 300ms;
-    }
+      display: flex;
+      flex-direction: column;
+      overflow: scroll;
+      background-color: rgb(17, 17, 17);
+      gap: 0.5rem;
+      .challenge-list-header {
+        background-color: rgb(0, 53, 0);
+        text-align: center;
+      }
+
+      .challenge-wrapper {
+        display: flex;
+        // flex-direction: column;
+        // align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        background-color: rgb(26, 26, 26);
+        border: 1px solid rgb(62, 62, 62);
+        border-radius: 2px;
+        overflow: hidden;
+
+
+        &:nth-child(even) {
+          background-color: rgb(26, 26, 26);
+        }
+        
+        .challenge-details {
+          display: flex;
+          flex-wrap: wrap;
+          line-height: 1;
+          align-items: center;
+          justify-content: center;
+          gap: 0.3rem;
+          font-size: 0.6rem;
+          padding: 0.5rem;
+          width: 50%;
+          .challengerName {
+            font-weight: bold;
+          }
+          .challengerWager {
+            color: rgb(0, 202, 0);
+            font-weight: 600;
+          }
+          .challengerSelection {
+            color: rgb(211, 0, 214);
+            font-weight: 600;
+          }
+          // padding: 0.5rem;
+        }
+
+        .accept-btn-wrapper {
+          width: 50%;
+          // width: 100%;
+          .acceptSelection {
+            font-weight: 600;
+          }
+          .confirm-buttons {
+            display: flex;
+            button {
+              font-size: 0.6rem;
+              width: 50%;
+              border: none;
+              height: 32.4px;
+            }
+            .confirm {
+              background-color: rgb(72, 175, 72);
+              border: 1px solid rgb(0, 91, 0);
+              transition: all 200ms;
+              // color: rgb(0, 227, 0);
+              &:active {
+                transition: all 200ms;
+                opacity: 0.9;
+              }
+            }
+            .deny {
+              background-color: rgb(152, 78, 78);
+              border: 1px solid rgb(89, 0, 0);
+              color: black;
+              transition: all 200ms;
+              &:active {
+                  opacity: 0.9;
+                  transition: all 200ms;
+                }
+            }
+          }
+        }
+        .accept-challenge-btn {
+          border: none;
+          font-size: 0.6rem;
+          width: 100%;
+          padding: 0.5rem;
+          background-color: rgb(72, 175, 72);
+          border: 1px solid rgb(0, 255, 0);
+
+          &:active {
+            opacity: 0.9;
+          }
+        }
+
+      }
     }
     .challenge-action {
       width: 100%;
       border: none;
       padding: 0rem;
-      border-bottom-left-radius: 2px;
-      border-bottom-right-radius: 2px;
-      // background-color: rgb(79, 132, 79);
       color: white;
       display: flex;
       align-items: center;
@@ -923,28 +1067,25 @@
       }
     }
     .cancel-challenge {
-      border-bottom-left-radius: 2px;
-      border-top: 1px solid rgb(55, 55, 55);
-      border-left: none;
-      border-right: 1px solid rgb(55, 55, 55);
+      border: none;
       color: rgb(255, 71, 71) !important;
-      font-weight: bold;
       background-color: rgb(41, 0, 0) !important;
       &:active {
         opacity: 0.9;
       }
     }
     .submit-challenge {
-      border-bottom-right-radius: 2px;
-      border-right: none;
-      border-left: none;
-      border-top: 1px solid rgb(55, 55, 55);
-      color: rgb(58, 255, 58) !important;
-      font-weight: bold;
-      background-color: rgb(0, 30, 0) !important;
+      border: none;
+      color: rgb(92, 255, 92) !important;
+      background-color: rgb(0, 49, 0) !important;
+      transition: all 300ms;
       &:disabled {
         background-color: rgb(52, 52, 52) !important;
         color: rgb(22, 22, 22) !important;
+        transition: all 300ms;
+      }
+      &:active {
+        opacity: 0.9;
       }
     }
   }

@@ -1,11 +1,12 @@
 import mongoose, { Schema } from "mongoose"
 
-interface Challenges {
+interface Challenge {
   challengerName: string
   acceptorName: string
   challengerSelection: string // "over" | "under" | "away" | "home"
   acceptorSelection: string // "over" | "under" | "away" | "home"
   wagerAmount: number
+  _id: string
 
   void: boolean
 }
@@ -19,6 +20,7 @@ export interface PropToDbInterface {
   uniqueId: string
   week: number
   nflYear: number
+  _id: string
 
   overData?: { overLine: number; overPayout: number; calcOverPayout: number }
   underData?: {
@@ -54,7 +56,7 @@ export interface PropToDbInterface {
 
   void: boolean
 
-  challenges: Challenges[] | []
+  challenges: Challenge[] | []
 }
 
 const ChallengesSchema = new Schema({

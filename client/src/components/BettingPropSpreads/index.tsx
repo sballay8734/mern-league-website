@@ -9,11 +9,13 @@ import {
   calculatePayout
 } from "../utils"
 
-interface Challenges {
-  challenger: string
-  acceptor: string | null
-  challengerChoice: string // "over" | "under" | "away" | "home"
-  acceptorChoice: string // "over" | "under" | "away" | "home"
+interface Challenge {
+  challengerName: string
+  acceptorName: string
+  challengerSelection: string // "over" | "under" | "away" | "home"
+  acceptorSelection: string // "over" | "under" | "away" | "home"
+  wagerAmount: number
+  _id: string
 
   void: boolean
 }
@@ -27,6 +29,7 @@ export interface PropToDbInterface {
   uniqueId: string
   week: number
   nflYear: number
+  _id: string
 
   overData?: { overLine: number; overPayout: number; calcOverPayout: number }
   underData?: {
@@ -62,7 +65,7 @@ export interface PropToDbInterface {
 
   void: boolean
 
-  challenges: Challenges[] | []
+  challenges: Challenge[] | []
 }
 
 export default function BettingPropSpreads({
@@ -121,6 +124,7 @@ export default function BettingPropSpreads({
 
   function formatTeamProp(type: string) {
     if (homeLine && awayLine) {
+      console.log(prop.id, type)
       return {
         type: `team${type.charAt(0).toLocaleUpperCase() + type.slice(1)}`,
         gameId: prop.id, // you MIGHT be able to use this for automatic updates

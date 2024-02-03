@@ -117,7 +117,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                       handlePicksMadeUpdate(prop)
                       return (
                         <PickCard
-                          key={prop.uniqueId}
+                          key={prop._id}
                           user={user}
                           item={prop}
                           setPicksMade={setPicksMade}

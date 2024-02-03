@@ -245,3 +245,89 @@ export const getProps = async (
     next(error)
   }
 }
+
+interface Challenge {
+  challengerName: string
+  acceptorName: string
+  challengerSelection: string // "over" | "under" | "away" | "home"
+  acceptorSelection: string // "over" | "under" | "away" | "home"
+  wagerAmount: number
+  _id: string
+
+  void: boolean
+}
+
+export const addChallenge = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const challenge: Challenge = req.body.challenge
+  const gameId: string = req.body.gameId
+  const uniqueId: string = req.body.uniqueId
+  const userId: string = req.user.id
+
+  try {
+    const challengeToUpdate = await Prop.findOne({
+      gameId: gameId,
+      uniqueId: uniqueId
+    })
+
+    // console.log(challengeToUpdate)
+
+    if (!challengeToUpdate) return next(errorHandler(404, `Prop not found`))
+
+    challengeToUpdate.set({
+      challenges: [...challengeToUpdate.challenges, challenge]
+    })
+
+    await challengeToUpdate.save()
+
+    res.status(200).json(challengeToUpdate)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const acceptChallenge = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const gameId = req.body.gameId
+  const uniqueId = req.body.uniqueId
+  const acceptorName = req.body.acceptorName
+  const challengeId = req.body.challengeId
+  const challengerName = req.body.challengerName
+
+  if (acceptorName === challengerName)
+    return next(errorHandler(400, "You cannot accept your own challenge!"))
+
+  try {
+    const propToUpdate = await Prop.findOne({
+      gameId: gameId,
+      uniqueId: uniqueId
+    })
+
+    if (!propToUpdate) return next(errorHandler(404, "Prop not found!"))
+
+    // Find the index of the challenge with the given challengeId
+    const challengeIndex = propToUpdate.challenges.findIndex(
+      (challenge) => challenge._id.toString() === challengeId
+    )
+
+    // Update the acceptorName if the challengeIndex is valid
+    if (challengeIndex !== -1) {
+      propToUpdate.challenges[challengeIndex].acceptorName = acceptorName
+
+      // Save the updated document
+      const updatedProp = await propToUpdate.save()
+
+      return res.status(200).json(updatedProp)
+    } else {
+      return next(errorHandler(404, "Challenge not found!"))
+    }
+  } catch (error) {
+    next(error)
+  }
+}
