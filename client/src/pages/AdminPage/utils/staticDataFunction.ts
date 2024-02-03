@@ -181,9 +181,13 @@ function calcH2HStats(owner: Owner) {
   }
 }
 // MAIN FUNCTION BONUS STATS
-export async function calcBonusStats(owner: Owner, owners: Owner[], kothData?: FullObject[]) {
-  if (!kothData) return 
-  
+export async function calcBonusStats(
+  owner: Owner,
+  owners: Owner[],
+  kothData?: FullObject[]
+) {
+  if (!kothData) return
+
   const finishes: number[] = []
 
   let totalETEWWins = 0
@@ -196,7 +200,7 @@ export async function calcBonusStats(owner: Owner, owners: Owner[], kothData?: F
 
   // GOING TO HAVE TO CALCULATE THIS SOMEWHERE ELSE
   // if year.completed === true && strikes !== 3 + WIN
-  let KOTHWins = 0 
+  let KOTHWins = 0
 
   let luckyWs = 0
   let unluckyLs = 0
@@ -276,7 +280,10 @@ export async function calcBonusStats(owner: Owner, owners: Owner[], kothData?: F
 
     // check if owner won finals
     const finals = owner[year].playoffs["finalRound"]
-    if (finals.participated === true && finals.pointsFor! > finals.pointsAgainst!) {
+    if (
+      finals.participated === true &&
+      finals.pointsFor! > finals.pointsAgainst!
+    ) {
       championships++
     }
 
@@ -288,10 +295,14 @@ export async function calcBonusStats(owner: Owner, owners: Owner[], kothData?: F
     totalPlayoffs++
 
     // check if owner won KOTH
-    
+
     const kothYear = kothData.find((item) => item.year === year.toString())
 
-    if (kothYear && kothYear.yearCompleted === true && kothYear?.standingsData[owner.ownerName].strikes < 3) {
+    if (
+      kothYear &&
+      kothYear.yearCompleted === true &&
+      kothYear?.standingsData[owner.ownerName].strikes < 3
+    ) {
       KOTHWins += 1
     }
   }
@@ -338,9 +349,7 @@ function yearlyRegSznStats(owner: Owner, year: string): RegSznData {
   let RSTies = 0
   let bestWeek = 0
   let worstWeek = 1000
-  let finishPlace = owner[Number(year)].finished
-
-
+  const finishPlace = owner[Number(year)].finished
 
   for (const game of regSznKeys) {
     RSPointsFor += game.pointsFor
@@ -436,7 +445,7 @@ function yearlyPlayoffStats(owner: Owner, year: string): PlayoffData {
     avgPA: Number((POPointsAgainst / POGames).toFixed(2)),
     winningPct: Number(((POWins / POGames) * 100).toFixed(2)),
     POByes: POByes,
-    worstWeek: (worstWeek === 1000) ? 0 : worstWeek,
+    worstWeek: worstWeek === 1000 ? 0 : worstWeek,
     bestWeek
   }
 }
@@ -476,8 +485,16 @@ function yearlyCombinedStats(
           100
         ).toFixed(2)
       ),
-      bestWeek: Number(((regSznData.bestWeek > playoffData.bestWeek!) ? regSznData.bestWeek : playoffData.bestWeek!)),
-      worstWeek: Number(((regSznData.worstWeek < playoffData.bestWeek!) ? regSznData.worstWeek : playoffData.worstWeek!)),
+      bestWeek: Number(
+        regSznData.bestWeek > playoffData.bestWeek!
+          ? regSznData.bestWeek
+          : playoffData.bestWeek!
+      ),
+      worstWeek: Number(
+        regSznData.worstWeek < playoffData.bestWeek!
+          ? regSznData.worstWeek
+          : playoffData.worstWeek!
+      ),
       finishPlace: regSznData.finishPlace
     }
 
@@ -538,7 +555,6 @@ function allTimeRegSznStats(owner: Owner) {
       if (pointsFor === pointsAgainst) RSties++
       if (pointsFor > bestWeek) bestWeek = pointsFor
       if (pointsFor < worstWeek) worstWeek = pointsFor
-
 
       RSGamesPlayed++
       RSpointsFor += pointsFor
@@ -613,7 +629,7 @@ function allTimePlayoffStats(owner: Owner) {
     POwinningPct: Number(((POwins / POGamesPlayed) * 100).toFixed(2)) || 0,
     POwins: POwins || 0,
     bestWeek,
-    worstWeek: (worstWeek === 1000 ? 0 : worstWeek)
+    worstWeek: worstWeek === 1000 ? 0 : worstWeek
   }
 }
 // Called from calcAllTimeStats
@@ -666,8 +682,14 @@ function allTimeCombinedStats(
         ).toFixed(2)
       ),
       wins: regSznData.RSwins + playoffData.POwins,
-      bestWeek: (regSznData.bestWeek > playoffData.bestWeek) ? regSznData.bestWeek : playoffData.bestWeek,
-      worstWeek: (regSznData.worstWeek < playoffData.worstWeek) ? regSznData.worstWeek : playoffData.worstWeek
+      bestWeek:
+        regSznData.bestWeek > playoffData.bestWeek
+          ? regSznData.bestWeek
+          : playoffData.bestWeek,
+      worstWeek:
+        regSznData.worstWeek < playoffData.worstWeek
+          ? regSznData.worstWeek
+          : playoffData.worstWeek
     }
   }
 }
@@ -724,7 +746,7 @@ function h2hRegSzn(owner: Owner, owner2: string): H2hRegSzn {
     avgPF: Number((totalPointsFor / RSgamesPlayed).toFixed(2)),
     winningPct: Number(((wins / (wins + losses + ties)) * 100).toFixed(2)),
     bestWeek: Number(bestWeek.toFixed(2)),
-    worstWeek: (worstWeek === 1000 ? 0 : Number(worstWeek.toFixed(2)) ),
+    worstWeek: worstWeek === 1000 ? 0 : Number(worstWeek.toFixed(2))
   }
 }
 // Called from calcH2HStats
@@ -779,11 +801,17 @@ function h2hPlayoffs(owner: Owner, owner2: string): H2hPlayoffs {
     losses,
     ties,
     totalPointsFor: Number(totalPointsFor.toFixed(2)),
-    avgPF: isNaN(Number((totalPointsFor / POgamesPlayed).toFixed(2))) ? 0 : Number((totalPointsFor / POgamesPlayed).toFixed(2)),
+    avgPF: isNaN(Number((totalPointsFor / POgamesPlayed).toFixed(2)))
+      ? 0
+      : Number((totalPointsFor / POgamesPlayed).toFixed(2)),
     totalPointsAgainst: Number(totalPointsAgainst.toFixed(2)),
-    winningPct: isNaN(Number(((wins / (wins + losses + ties)) * 100).toFixed(2))) ? 0 : Number(((wins / (wins + losses + ties)) * 100).toFixed(2)),
+    winningPct: isNaN(
+      Number(((wins / (wins + losses + ties)) * 100).toFixed(2))
+    )
+      ? 0
+      : Number(((wins / (wins + losses + ties)) * 100).toFixed(2)),
     bestWeek: Number(bestWeek.toFixed(2)),
-    worstWeek: (worstWeek === 1000 ? 0 : Number(worstWeek.toFixed(2)))
+    worstWeek: worstWeek === 1000 ? 0 : Number(worstWeek.toFixed(2))
   }
 }
 // Called from calcH2HStats
@@ -797,7 +825,9 @@ function h2hCombined(
       wins: regSznData.wins,
       losses: regSznData.losses,
       ties: regSznData.ties,
-      avgPF: Number((regSznData.totalPointsFor / regSznData.RSgamesPlayed).toFixed(2)),
+      avgPF: Number(
+        (regSznData.totalPointsFor / regSznData.RSgamesPlayed).toFixed(2)
+      ),
       totalPointsFor: Number(regSznData.totalPointsFor.toFixed(2)),
       totalPointsAgainst: Number(regSznData.totalPointsAgainst.toFixed(2)),
       winningPct: Number(regSznData.winningPct.toFixed(2)),
@@ -810,7 +840,12 @@ function h2hCombined(
       wins: regSznData.wins + playoffData.wins,
       losses: regSznData.losses + playoffData.losses,
       ties: regSznData.ties + playoffData.ties,
-      avgPF: Number(((regSznData.totalPointsFor + playoffData.totalPointsFor) / (regSznData.RSgamesPlayed + playoffData.POgamesPlayed)).toFixed(2)),
+      avgPF: Number(
+        (
+          (regSznData.totalPointsFor + playoffData.totalPointsFor) /
+          (regSznData.RSgamesPlayed + playoffData.POgamesPlayed)
+        ).toFixed(2)
+      ),
       totalPointsFor: Number(
         (regSznData.totalPointsFor + playoffData.totalPointsFor).toFixed(2)
       ),
@@ -826,9 +861,14 @@ function h2hCombined(
           100
         ).toFixed(2)
       ),
-      bestWeek: (regSznData.bestWeek > playoffData.bestWeek ? regSznData.bestWeek : playoffData.bestWeek),
-      worstWeek: (regSznData.worstWeek < playoffData.worstWeek ? regSznData.worstWeek : playoffData.worstWeek),
-
+      bestWeek:
+        regSznData.bestWeek > playoffData.bestWeek
+          ? regSznData.bestWeek
+          : playoffData.bestWeek,
+      worstWeek:
+        regSznData.worstWeek < playoffData.worstWeek
+          ? regSznData.worstWeek
+          : playoffData.worstWeek
     }
   }
 }
@@ -968,7 +1008,6 @@ function calcETEWYearly(owner: Owner, year: string, owners: Owner[]) {
       if (pointsFor === current.points) {
         yearlyETEWTies++
       }
-      
     }
   }
 
@@ -1000,8 +1039,8 @@ interface Yearly {
 
 interface SingleOwner {
   [ownerName: string]: {
-    yearly: Yearly;
-    allTime: MatchupStats;
+    yearly: Yearly
+    allTime: MatchupStats
   }
 }
 
@@ -1009,7 +1048,7 @@ interface SingleOwner {
 function getWhatIf(owner: Owner, owners: Owner[]) {
   // let fullOwnerObject: FullOwnerObject = {}
   for (let i = 0; i < owners.length; i++) {
-    let singleOwnerObject: SingleOwner = {}
+    const singleOwnerObject: SingleOwner = {}
 
     const ownerOne = owner
 
@@ -1025,7 +1064,9 @@ function getWhatIf(owner: Owner, owners: Owner[]) {
       const owner1YrsPresent = getYearsParticipated(ownerOne).yearsParticipated
       const owner2YrsPresent = getYearsParticipated(ownerTwo).yearsParticipated
 
-      const overlap = owner1YrsPresent.filter((year) => owner2YrsPresent.includes(year))
+      const overlap = owner1YrsPresent.filter((year) =>
+        owner2YrsPresent.includes(year)
+      )
 
       // loop through overlap years
       for (let k = 0; k < overlap.length; k++) {
@@ -1055,7 +1096,7 @@ function getWhatIf(owner: Owner, owners: Owner[]) {
           } else {
             const ownerOnePF = ownerOne[year].regularSeason[week].pointsFor
             const ownerTwoPA = ownerTwo[year].regularSeason[week].pointsAgainst
-  
+
             if (ownerOnePF > ownerTwoPA) {
               yearlySSWins++
               continue
@@ -1064,7 +1105,10 @@ function getWhatIf(owner: Owner, owners: Owner[]) {
               yearlySSLosses++
               continue
             }
-            if (ownerOnePF === ownerTwoPA && ownerOne.ownerName !== matchupTwo.opponent) {
+            if (
+              ownerOnePF === ownerTwoPA &&
+              ownerOne.ownerName !== matchupTwo.opponent
+            ) {
               yearlySSTies++
               // keep checking by year!!!
               if (year === 2021) {
@@ -1073,7 +1117,6 @@ function getWhatIf(owner: Owner, owners: Owner[]) {
               continue
             }
           }
-
         }
 
         totalSSWins += yearlySSWins
@@ -1081,31 +1124,43 @@ function getWhatIf(owner: Owner, owners: Owner[]) {
         totalSSTies += yearlySSTies
 
         // INITIALIZE
-        singleOwnerObject[ownerTwo.ownerName] = singleOwnerObject[ownerTwo.ownerName] || {};
-        singleOwnerObject[ownerTwo.ownerName].yearly = singleOwnerObject[ownerTwo.ownerName].yearly || {};
+        singleOwnerObject[ownerTwo.ownerName] =
+          singleOwnerObject[ownerTwo.ownerName] || {}
+        singleOwnerObject[ownerTwo.ownerName].yearly =
+          singleOwnerObject[ownerTwo.ownerName].yearly || {}
 
         // Make sure singleOwnerObject[ownerTwo.ownerName].yearly[year] is initialized as an object
-        singleOwnerObject[ownerTwo.ownerName].yearly[year] = singleOwnerObject[ownerTwo.ownerName].yearly[year] || {};
+        singleOwnerObject[ownerTwo.ownerName].yearly[year] =
+          singleOwnerObject[ownerTwo.ownerName].yearly[year] || {}
 
         singleOwnerObject[ownerTwo.ownerName].yearly[year] = {
-            scheduleSwapWins: yearlySSWins,
-            scheduleSwapLosses: yearlySSLosses,
-            scheduleSwapTies: yearlySSTies,
-            scheduleSwapWinPct: Number((yearlySSWins / (yearlySSWins + yearlySSLosses + yearlySSTies) * 100).toFixed(1))
+          scheduleSwapWins: yearlySSWins,
+          scheduleSwapLosses: yearlySSLosses,
+          scheduleSwapTies: yearlySSTies,
+          scheduleSwapWinPct: Number(
+            (
+              (yearlySSWins / (yearlySSWins + yearlySSLosses + yearlySSTies)) *
+              100
+            ).toFixed(1)
+          )
         }
       }
 
       // initialize allTime if not present
-      singleOwnerObject[ownerTwo.ownerName].allTime = singleOwnerObject[ownerTwo.ownerName].allTime || {};
+      singleOwnerObject[ownerTwo.ownerName].allTime =
+        singleOwnerObject[ownerTwo.ownerName].allTime || {}
 
       singleOwnerObject[ownerTwo.ownerName].allTime = {
         scheduleSwapWins: totalSSWins,
         scheduleSwapLosses: totalSSLosses,
         scheduleSwapTies: totalSSTies,
-        scheduleSwapWinPct: Number((totalSSWins / (totalSSWins + totalSSLosses + totalSSTies) * 100).toFixed(1))
-        
+        scheduleSwapWinPct: Number(
+          (
+            (totalSSWins / (totalSSWins + totalSSLosses + totalSSTies)) *
+            100
+          ).toFixed(1)
+        )
       }
-
     }
     // console.log(ownerOne.ownerName, singleOwnerObject)
     return singleOwnerObject

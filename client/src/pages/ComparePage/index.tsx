@@ -3423,7 +3423,8 @@ export default function ComparePage() {
                             <span className="stat-value">
                               {ownerOne &&
                               ownerTwo &&
-                              ownerOne.yearly[selectedYear] &&
+                              ownerOne.yearly[selectedYear].participated ===
+                                true &&
                               ownerTwo.yearly[selectedYear].participated ===
                                 true ? (
                                 <>
@@ -3440,7 +3441,8 @@ export default function ComparePage() {
                             <div className="plus-minus-and-icon">
                               {ownerOne &&
                                 ownerTwo &&
-                                ownerOne.yearly[selectedYear] && (
+                                ownerOne.yearly[selectedYear].participated ===
+                                  true && (
                                   <>
                                     {ownerOne.yearly[selectedYear]
                                       .everyTeamEveryWeekStats.ETEWWinPct >
@@ -4005,7 +4007,10 @@ export default function ComparePage() {
                             <div className="plus-minus-and-icon">
                               {ownerTwo &&
                                 ownerOne &&
-                                ownerTwo.yearly[selectedYear] && (
+                                ownerTwo.yearly[selectedYear].participated ===
+                                  true &&
+                                ownerOne.yearly[selectedYear].participated ===
+                                  true && (
                                   <>
                                     {ownerTwo.yearly[selectedYear]
                                       .everyTeamEveryWeekStats.ETEWWinPct >
@@ -4058,7 +4063,7 @@ export default function ComparePage() {
                                         </span>
                                       </>
                                     ) : (
-                                      ""
+                                      "-"
                                     )}
                                   </>
                                 )}
