@@ -17,6 +17,8 @@ NOT THAT IMPORTANT
 
 
 VERY IMPORTANT (START WITH KOTH AND COMPARE PAGE) ********************************************************************************
+- Flipp and Dom N. having same first name is going to cause unexpected behavior in the compare owners tab
+
 -DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
 
 - [MONGODB DRIVER] Warning: Top-level use of w, wtimeout, j, and fsync is deprecated. Use writeConcern instead.
