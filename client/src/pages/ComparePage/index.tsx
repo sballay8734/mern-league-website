@@ -88,6 +88,7 @@ export default function ComparePage() {
       }
     }
   }
+
   function calcNextIndex(index: number, direction: string) {
     if (index === 0 && direction === "back") {
       return 11
@@ -102,6 +103,7 @@ export default function ComparePage() {
     }
     return 0
   }
+
   function grabAvatar(owner: StaticOwner) {
     const ownerName = owner.ownerName
 
@@ -146,6 +148,22 @@ export default function ComparePage() {
         setOwnerTwo(tempOwnerIndex !== 11 ? data[11] : data[10])
       } else {
         setOwnerOne(data[0])
+      }
+    } else {
+      if (data) {
+        const randomIndex1 = Math.floor(Math.random() * data.length)
+        let randomIndex2 = Math.floor(Math.random() * data.length)
+
+        // Ensure the second random index is different from the first
+        while (randomIndex2 === randomIndex1) {
+          randomIndex2 = Math.floor(Math.random() * data.length)
+        }
+
+        // Set ownerOne
+        setOwnerOne(data[randomIndex1])
+
+        // Set ownerTwo
+        setOwnerTwo(data[randomIndex2])
       }
     }
   }, [data, user, userImages])

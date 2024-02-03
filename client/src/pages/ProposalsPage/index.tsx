@@ -4,6 +4,7 @@ import { useFetchProposalsQuery } from "../../redux/proposalsApi/proposalsApi"
 // import { BiUpvote, BiDownvote } from "react-icons/bi"
 import ViewProposalModal from "../../components/ViewProposalModal"
 import CreateProposalModal from "../../components/CreateProposalModal"
+import { Link } from "react-router-dom"
 
 import { FaPlus } from "react-icons/fa6"
 import { IProposal } from "../../redux/proposalsApi/proposalsApi"
@@ -48,7 +49,10 @@ export default function ProposalsPage() {
   return (
     <div className="page proposals-page">
       {user === null ? (
-        <div>You must be logged in to view this page</div>
+        <div className="picks-section-unauth">
+          You must be signed in to view this page
+          <Link to={"/signin"}>Sign in</Link>
+        </div>
       ) : (
         <>
           <div className="proposal-page-top">

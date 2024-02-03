@@ -673,6 +673,48 @@
   font-weight: bold;
 }
 
+.picks-section-unauth {
+  height: 100%;
+  width: 100%;
+  border: 1px solid var(--accent-color);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.8rem;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  a {
+    margin-top: 1rem;
+    text-decoration: none;
+    color: black;
+    width: 120px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color-darker);
+    border-radius: 3px;
+    color: var(--white);
+    cursor: pointer;
+    border: 1px solid var(--accent-color);
+    padding: 0.3rem 1rem;
+    font-size: 1.1rem;
+
+    &:hover {
+      opacity: .90;
+      color: white;
+    }
+
+    &:active {
+      opacity: .80;
+      color: var(--white-active)
+    }
+  }
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
