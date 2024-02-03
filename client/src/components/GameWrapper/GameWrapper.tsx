@@ -8,7 +8,7 @@ import { useState } from "react"
 import {
   createPlayerPropUrl,
   testPropData,
-  NBA_PROP_DATA,
+  // NBA_PROP_DATA,
   Markets,
   CombinedProp
 } from "../utils"

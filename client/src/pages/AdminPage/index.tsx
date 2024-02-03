@@ -14,8 +14,8 @@ import {
   WeekRanges,
   BettingProp,
   FullMatchupProps,
-  BASE_URL,
-  TEST_BASE_URL
+  BASE_URL
+  // TEST_BASE_URL
 } from "../../components/utils"
 import GameWrapper from "../../components/GameWrapper/GameWrapper"
 

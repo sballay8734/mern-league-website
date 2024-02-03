@@ -17,12 +17,9 @@ NOT THAT IMPORTANT
 
 
 VERY IMPORTANT (START WITH KOTH AND COMPARE PAGE) ********************************************************************************
-- Accepting challenges needs to be split into own component for active control (right now, clicking accept, pulls up the confirm messsage for all challenges)
 - View Challenges and Create A Challenge need to smooth transition when opening
-- Need to create wagers for playerProps and spreads!
-- You cannot bet on your own challenge (Front-end - backend is done)
+- "You cannot accept own challenge" (Front-end - backend is done)
 - Compare page needs a lot of love LOL.
-- If there are NO challenges, button should be greyed out. It should be red and obvious if people have submitted challenges.
 - Probably should add calculation to show what the challenger should win and also what the acceptor will win if they accept.
 - Picks on admin page need to be locked when timer runs out
 ********************************************************************************

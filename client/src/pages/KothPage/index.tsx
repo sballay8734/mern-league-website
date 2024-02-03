@@ -69,6 +69,30 @@ export default function KothPage() {
     return currentYear.toString()
   }
 
+  function handleShowBreakdown() {
+    if (showBreakDown === false) {
+      setShowBreakdown(!showBreakDown)
+      console.log("SCROLLING")
+      setTimeout(() => {
+        scrollToBottom()
+      }, 100)
+    }
+
+    setShowBreakdown(!showBreakDown)
+  }
+
+  function scrollToBottom() {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth" // You can change this to 'auto' for instant scrolling
+    })
+  }
+
+  function handleShowStandings() {
+    setActiveButton("standings")
+    setCurrentYear(getCurrentYear())
+  }
+
   useEffect(() => {
     if (activeButton === "standings") {
       const newCurrentYear = getCurrentYear()
@@ -119,7 +143,7 @@ export default function KothPage() {
               <li>
                 <button
                   className={`${activeButton === "standings" ? "active" : ""}`}
-                  onClick={() => setActiveButton("standings")}
+                  onClick={handleShowStandings}
                 >
                   Standings (Cur. Year)
                 </button>
@@ -232,7 +256,7 @@ export default function KothPage() {
                     })}
                 </div>
                 <button
-                  onClick={() => setShowBreakdown(!showBreakDown)}
+                  onClick={handleShowBreakdown}
                   className={`viewBreakdown-btn`}
                 >
                   View Breakdown
@@ -351,7 +375,7 @@ export default function KothPage() {
                     })}
                 </div>
                 <button
-                  onClick={() => setShowBreakdown(!showBreakDown)}
+                  onClick={handleShowBreakdown}
                   className={`viewBreakdown-btn`}
                 >
                   View Breakdown

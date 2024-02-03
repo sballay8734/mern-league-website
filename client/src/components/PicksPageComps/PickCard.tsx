@@ -8,7 +8,8 @@ import { FaCaretUp } from "react-icons/fa"
 import { FaLock } from "react-icons/fa"
 import CountdownTimer from "../CountDownTimer/CountDownTimer"
 import { propKeyConversion } from "../utils"
-// import { PropToDbInterface } from "../BettingPropSpreads"
+import ChallengeAccept from "./ChallengeAccept"
+
 interface User {
   _id: string
   email: string
@@ -107,7 +108,6 @@ export default function PickCard({
   const [challengeSelection, setChallengeSelection] = useState<string>("")
   const [wager, setWager] = useState<string>("")
   const [formValid, setFormValid] = useState<boolean>(false)
-  const [verifyAcceptance, setVerifyAcceptance] = useState<boolean>(false)
 
   async function handleUnderClick(item: PropToDbInterface) {
     // if under is already selected or pick is locked
@@ -210,7 +210,10 @@ export default function PickCard({
   }
 
   function formatTeamName(teamName: string) {
-    return teamName.split(" ")[0].charAt(0) + teamName.split(" ")[1].charAt(0)
+    const splitTeam = teamName.split(" ")
+    const formattedTeam = splitTeam[splitTeam.length - 1]
+
+    return formattedTeam
   }
 
   function initializePick() {
@@ -282,18 +285,29 @@ export default function PickCard({
     ) {
       setFormValid(true)
       return
+    } else if (
+      (challengeSelection === "away" || challengeSelection === "home") &&
+      e.target.value.length > 0
+    ) {
+      setFormValid(true)
+      return
     }
     setFormValid(false)
   }
 
   function handleChallengeSelection(str: string) {
+    console.log(str)
     setChallengeSelection(() => {
       if ((str === "over" || str === "under") && wager.toString().length > 0) {
+        setFormValid(true)
+      } else if (
+        (str === "away" || str === "home") &&
+        wager.toString().length > 0
+      ) {
         setFormValid(true)
       } else {
         setFormValid(false)
       }
-
       return str
     })
   }
@@ -306,13 +320,25 @@ export default function PickCard({
   }
 
   async function submitChallenge() {
-    const challenge = {
-      challengerName: user.fullName,
-      challengerSelection: challengeSelection,
-      acceptorName: "",
-      acceptorSelection: challengeSelection === "under" ? "over" : "under",
-      wagerAmount: Number(wager),
-      void: false
+    let challenge = {}
+    if (item.type === "playerProp" || item.type === "teamTotals") {
+      challenge = {
+        challengerName: user.fullName,
+        challengerSelection: challengeSelection,
+        acceptorName: "",
+        acceptorSelection: challengeSelection === "under" ? "over" : "under",
+        wagerAmount: Number(wager),
+        void: false
+      }
+    } else {
+      challenge = {
+        challengerName: user.fullName,
+        challengerSelection: challengeSelection,
+        acceptorName: "",
+        acceptorSelection: challengeSelection === "away" ? "home" : "away",
+        wagerAmount: Number(wager),
+        void: false
+      }
     }
 
     const gameId = item.gameId
@@ -341,50 +367,6 @@ export default function PickCard({
     console.log("Triggering Refetch")
     setTriggerRefetch(!triggerRefetch)
     handleClearChallenge()
-  }
-
-  function formatOwnerName(str: string) {
-    return (
-      str.split(" ")[0] +
-      " " +
-      str.split(" ")[1].charAt(0).toLocaleUpperCase() +
-      "."
-    )
-  }
-
-  async function handleAcceptChallenge(challenge: Challenge) {
-    const gameId = item.gameId
-    const uniqueId = item.uniqueId
-    const acceptorName = user.fullName
-    const challengeId = challenge._id
-    const challengerName = challenge.challengerName
-
-    if (acceptorName === challengerName) {
-      return
-    }
-
-    const res = await fetch("/api/props/accept-challenge", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        gameId: gameId,
-        uniqueId: uniqueId,
-        acceptorName: acceptorName,
-        challengeId: challengeId,
-        challengerName: challengerName
-      })
-    })
-
-    const data = await res.json()
-
-    if (!data) {
-      console.log("ERROR")
-      return
-    }
-
-    setTriggerRefetch(!triggerRefetch)
   }
 
   const filteredChallenges = item.challenges.filter((challenge) => {
@@ -455,6 +437,108 @@ export default function PickCard({
             </span>
           </button>
           {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
+        </div>
+        <div className="challenges">
+          <div className="challenge-btn-wrapper">
+            <button
+              className={`expand-challenges-btn ${
+                filteredChallenges.length === 0 && "disabled"
+              }`}
+              onClick={handleShowChallenges}
+            >
+              View Challenges ({filteredChallenges.length})
+            </button>
+            <button
+              className={`create-challenge-btn`}
+              onClick={handleShowCreateChallenge}
+            >
+              Create A Challenge +
+            </button>
+          </div>
+          <div
+            className={`challenges-list-and-setter ${
+              (showChallenges || showCreate) && "show"
+            }`}
+          >
+            {showCreate && (
+              <div className="create-challenge-wrapper">
+                <div className="challenges-setter">
+                  <div className="selection">
+                    <span className="your-selection">Your selection</span>
+                    <div className="under-selector selector">
+                      <button
+                        onClick={() => handleChallengeSelection("under")}
+                        className={`button ${
+                          challengeSelection === "under" && "active"
+                        }`}
+                      >
+                        Under
+                      </button>
+                    </div>
+                    <div className="over-selector selector">
+                      <button
+                        onClick={() => handleChallengeSelection("over")}
+                        className={`button ${
+                          challengeSelection === "over" && "active"
+                        }`}
+                      >
+                        Over
+                      </button>
+                    </div>
+                  </div>
+                  <div className="bet">
+                    <label htmlFor="wager-amount">
+                      Wager<span className="money-sign">$</span>
+                    </label>
+                    <input
+                      value={wager}
+                      onChange={handleChallengeChange}
+                      type="number"
+                      name="wager-amount"
+                      id="wager-amount"
+                    />
+                  </div>
+                </div>
+                <div className="challenge-action">
+                  <button
+                    onClick={handleClearChallenge}
+                    className="cancel-challenge"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={submitChallenge}
+                    disabled={!formValid}
+                    className="submit-challenge"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {showChallenges && (
+              <div className="challenges-list">
+                {item.challenges &&
+                  item.challenges.map((challenge) => {
+                    if (challenge.acceptorName !== "") {
+                      return null
+                    }
+
+                    return (
+                      <ChallengeAccept
+                        key={challenge._id}
+                        challenge={challenge}
+                        item={item}
+                        user={user}
+                        setTriggerRefetch={setTriggerRefetch}
+                        triggerRefetch={triggerRefetch}
+                      />
+                    )
+                  })}
+              </div>
+            )}
+          </div>
         </div>
         <CountdownTimer endDate={item.expiration} setLockPick={setLockPick} />
       </div>
@@ -549,16 +633,6 @@ export default function PickCard({
                 <div className="challenges-setter">
                   <div className="selection">
                     <span className="your-selection">Your selection</span>
-                    <div className="over-selector selector">
-                      <button
-                        onClick={() => handleChallengeSelection("over")}
-                        className={`button ${
-                          challengeSelection === "over" && "active"
-                        }`}
-                      >
-                        Over
-                      </button>
-                    </div>
                     <div className="under-selector selector">
                       <button
                         onClick={() => handleChallengeSelection("under")}
@@ -567,6 +641,16 @@ export default function PickCard({
                         }`}
                       >
                         Under
+                      </button>
+                    </div>
+                    <div className="over-selector selector">
+                      <button
+                        onClick={() => handleChallengeSelection("over")}
+                        className={`button ${
+                          challengeSelection === "over" && "active"
+                        }`}
+                      >
+                        Over
                       </button>
                     </div>
                   </div>
@@ -610,53 +694,14 @@ export default function PickCard({
                     }
 
                     return (
-                      <div className="challenge-wrapper" key={challenge._id}>
-                        <p className="challenge-details">
-                          <span className="challengerName">
-                            {formatOwnerName(challenge.challengerName)}
-                          </span>{" "}
-                          <span className="challenge-word">bet</span>
-                          <span className="challengerWager">
-                            ${challenge.wagerAmount}
-                          </span>
-                          <span className="challenge-word">on</span>{" "}
-                          <span className="challenge-word">the</span>
-                          <span className="challengerSelection">
-                            {challenge.challengerSelection}
-                          </span>
-                        </p>
-                        <div className="accept-btn-wrapper">
-                          {!verifyAcceptance ? (
-                            <button
-                              onClick={() => setVerifyAcceptance(true)}
-                              className="accept-challenge-btn"
-                            >
-                              Accept wager and{" "}
-                              <span className="acceptSelection">
-                                take the{" "}
-                                {challenge.challengerSelection === "under"
-                                  ? "over"
-                                  : "under"}
-                              </span>
-                            </button>
-                          ) : (
-                            <div className="confirm-buttons">
-                              <button
-                                className="confirm"
-                                onClick={() => handleAcceptChallenge(challenge)}
-                              >
-                                Yes I'm Sure
-                              </button>
-                              <button
-                                className="deny"
-                                onClick={() => setVerifyAcceptance(false)}
-                              >
-                                Just Kidding
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                      <ChallengeAccept
+                        key={challenge._id}
+                        challenge={challenge}
+                        item={item}
+                        user={user}
+                        setTriggerRefetch={setTriggerRefetch}
+                        triggerRefetch={triggerRefetch}
+                      />
                     )
                   })}
               </div>
@@ -739,6 +784,109 @@ export default function PickCard({
               ) : (
                 ""
               )}
+            </div>
+            <div className="challenges">
+              <div className="challenge-btn-wrapper">
+                <button
+                  className={`expand-challenges-btn ${
+                    filteredChallenges.length === 0 && "disabled"
+                  }`}
+                  onClick={handleShowChallenges}
+                >
+                  View Challenges ({filteredChallenges.length})
+                </button>
+                <button
+                  className={`create-challenge-btn`}
+                  onClick={handleShowCreateChallenge}
+                >
+                  Create A Challenge +
+                </button>
+              </div>
+              <div
+                className={`challenges-list-and-setter ${
+                  (showChallenges || showCreate) && "show"
+                }`}
+              >
+                {showCreate && (
+                  <div className="create-challenge-wrapper">
+                    <div className="challenges-setter">
+                      {/* HOME TEAM SELECTION */}
+                      <div className="selection">
+                        <span className="your-selection">Your selection</span>
+                        <div className="under-selector selector">
+                          <button
+                            onClick={() => handleChallengeSelection("away")}
+                            className={`button ${
+                              challengeSelection === "away" && "active"
+                            }`}
+                          >
+                            {formatTeamName(awayTeam)}
+                          </button>
+                        </div>
+                        <div className="over-selector selector">
+                          <button
+                            onClick={() => handleChallengeSelection("home")}
+                            className={`button ${
+                              challengeSelection === "home" && "active"
+                            }`}
+                          >
+                            {formatTeamName(homeTeam)}
+                          </button>
+                        </div>
+                      </div>
+                      <div className="bet">
+                        <label htmlFor="wager-amount">
+                          Wager<span className="money-sign">$</span>
+                        </label>
+                        <input
+                          value={wager}
+                          onChange={handleChallengeChange}
+                          type="number"
+                          name="wager-amount"
+                          id="wager-amount"
+                        />
+                      </div>
+                    </div>
+                    <div className="challenge-action">
+                      <button
+                        onClick={handleClearChallenge}
+                        className="cancel-challenge"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={submitChallenge}
+                        disabled={!formValid}
+                        className="submit-challenge"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {showChallenges && (
+                  <div className="challenges-list">
+                    {item.challenges &&
+                      item.challenges.map((challenge) => {
+                        if (challenge.acceptorName !== "") {
+                          return null
+                        }
+
+                        return (
+                          <ChallengeAccept
+                            key={challenge._id}
+                            challenge={challenge}
+                            item={item}
+                            user={user}
+                            setTriggerRefetch={setTriggerRefetch}
+                            triggerRefetch={triggerRefetch}
+                          />
+                        )
+                      })}
+                  </div>
+                )}
+              </div>
             </div>
             <CountdownTimer
               endDate={item.expiration}

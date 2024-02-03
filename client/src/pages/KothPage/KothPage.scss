@@ -496,8 +496,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: black;
-    padding: 0 0rem 0rem 0rem;
+    background-color: var(--primary-color-darker-for-gradient);
+    padding: 0 0.5rem 0 0.5rem;
     width: 100%;
     max-width: 500px;
 
