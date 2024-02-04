@@ -124,7 +124,9 @@ export default function ChallengeAccept({
                 ? formatTeamName(item.awayData?.awayTeam)
                 : item.homeData && challenge.challengerSelection === "away"
                 ? formatTeamName(item.homeData.homeTeam)
-                : challenge.challengerSelection}
+                : challenge.challengerSelection === "under"
+                ? "over"
+                : "under"}
             </span>
           </button>
         ) : (
