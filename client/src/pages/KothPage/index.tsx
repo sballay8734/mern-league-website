@@ -4,70 +4,22 @@ import "./KothPage.scss"
 import { useEffect, useState } from "react"
 import { IoMdClose } from "react-icons/io"
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
-
-interface OwnerObject {
-  [ownerName: string]: OwnerObjectAttr
-}
-
-interface OwnerObjectAttr {
-  totalPointsFor: number
-  totalPointsAgainst: number
-  strikes: number
-  topScorer: number
-  weekEliminated: number | string
-  weeklyScores: WeeklyScores
-}
-
-interface WeeklyScores {
-  [week: string]: {
-    points: number
-    totalStrikes: number
-    strike: boolean
-    topScorer: boolean
-  }
-}
-
-interface Conversion {
-  [week: string]: number
-}
-
-const weekKeysConversion: Conversion = {
-  weekOne: 1,
-  weekTwo: 2,
-  weekThree: 3,
-  weekFour: 4,
-  weekFive: 5,
-  weekSix: 6,
-  weekSeven: 7,
-  weekEight: 8,
-  weekNine: 9,
-  weekTen: 10,
-  weekEleven: 11,
-  weekTwelve: 12,
-  weekThirteen: 13,
-  weekFourteen: 14
-}
+import { OwnerObject, weekKeysConversion } from "./types"
+import { useSelector } from "react-redux"
+import KingNav from "../../components/KingPage/KingNav"
+import { RootState } from "../../redux/store"
 
 export default function KothPage() {
   const { data: kingData } = useFetchKingStandingsQuery()
+  const activeButton = useSelector(
+    (state: RootState) => state.kingSlice.activeButton
+  )
 
-  const [activeButton, setActiveButton] = useState<string>("standings")
   const [sortedData, setSortedData] = useState<OwnerObject[] | null>(null)
   const [showBreakDown, setShowBreakdown] = useState<boolean>(false)
   const [currentYear, setCurrentYear] = useState<string | null>(null)
 
-  // JUST FOR TESTING (AUTOMATE THIS)
-
-  function getCurrentYear() {
-    let currentYear = new Date().getFullYear()
-    const currentMonth = new Date().getMonth()
-
-    if (currentMonth === 0 || currentMonth === 1) {
-      currentYear -= 1
-    }
-
-    return currentYear.toString()
-  }
+  console.log("Loading KOTH Page...")
 
   function handleShowBreakdown() {
     if (showBreakDown === false) {
@@ -88,17 +40,7 @@ export default function KothPage() {
     })
   }
 
-  function handleShowStandings() {
-    setActiveButton("standings")
-    setCurrentYear(getCurrentYear())
-  }
-
   useEffect(() => {
-    if (activeButton === "standings") {
-      const newCurrentYear = getCurrentYear()
-      setCurrentYear(newCurrentYear)
-    }
-
     if (kingData) {
       const standingsData = kingData.find(
         (obj) => obj.year.toString() === currentYear
@@ -138,27 +80,7 @@ export default function KothPage() {
               <LuCrown />
             </div>
           </div>
-          <nav className="king-nav">
-            <ul>
-              <li>
-                <button
-                  className={`${activeButton === "standings" ? "active" : ""}`}
-                  onClick={handleShowStandings}
-                >
-                  Standings (Cur. Year)
-                </button>
-              </li>
-              <li className="spacer"></li>
-              <li>
-                <button
-                  className={`${activeButton === "history" ? "active" : ""}`}
-                  onClick={() => setActiveButton("history")}
-                >
-                  History
-                </button>
-              </li>
-            </ul>
-          </nav>
+          <KingNav />
         </div>
         <div className="king-page-bottom">
           {activeButton === "standings" ? (
