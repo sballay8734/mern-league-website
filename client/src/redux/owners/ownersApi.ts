@@ -53,4 +53,5 @@ export const {
   useFetchUserImagesQuery,
   useFetchStaticDataQuery
 } = ownersApi
+
 export { ownersApi }

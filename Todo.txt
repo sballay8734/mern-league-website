@@ -17,6 +17,7 @@ NOT THAT IMPORTANT
 
 
 VERY IMPORTANT (START WITH KOTH AND COMPARE PAGE) ********************************************************************************
+- Move things to their own component
 - State management changes
 - Optimization (useCallback, useMemo, etc...)
 - scss refactor
