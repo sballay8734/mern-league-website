@@ -17,6 +17,8 @@ NOT THAT IMPORTANT
 
 
 VERY IMPORTANT (START WITH KOTH AND COMPARE PAGE) ********************************************************************************
+- Try and refactor the logic that checks if owners exist or owners participated exists in compare page....
+
 - Move things to their own component
 - State management changes
 - Optimization (useCallback, useMemo, etc...)
