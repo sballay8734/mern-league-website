@@ -1,46 +1,54 @@
+import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { setActiveButton, setCurrentYear } from "../../redux/king/kingSlice"
+import { setActiveYear } from "../../redux/king/kingSlice"
 import { RootState } from "../../redux/store"
-import { getCurrentYear } from "../../pages/KothPage/helpers"
-import { useEffect } from "react"
+import { FaCaretDown } from "react-icons/fa"
+
+const kingYears: string[] = ["2022", "2023", "2024"]
 
 export default function KingNav() {
   const dispatch = useDispatch()
-  const activeButton = useSelector(
-    (state: RootState) => state.kingSlice.activeButton
+  const activeYear = useSelector(
+    (state: RootState) => state.kingSlice.activeYear
   )
+  const [showDropdown, setShowDropdown] = useState<boolean>(false)
 
-  function handleShowStandings() {
-    dispatch(setActiveButton("standings"))
-    dispatch(setCurrentYear(getCurrentYear()))
+  function handleYearSelect(year: string) {
+    console.log("RUNNING...")
+    dispatch(setActiveYear(year))
+    setShowDropdown(!showDropdown)
   }
-
-  useEffect(() => {
-    if (activeButton === "standings") {
-      const newCurrentYear = getCurrentYear()
-      setCurrentYear(newCurrentYear)
-    }
-  }, [])
 
   return (
     <nav className="king-nav">
       <ul>
         <li>
-          <button
-            className={`${activeButton === "standings" ? "active" : ""}`}
-            onClick={handleShowStandings}
-          >
-            Standings (Cur. Year)
-          </button>
-        </li>
-        <li className="spacer"></li>
-        <li>
-          <button
-            className={`${activeButton === "history" ? "active" : ""}`}
-            onClick={() => dispatch(setActiveButton("history"))}
-          >
-            History
-          </button>
+          <div className={`dropdown-header`}>
+            <div className="standings">
+              <div className="standings-text">Standings</div>
+              <div className="dropdown-wrapper">
+                <div
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="year-selector"
+                >
+                  {activeYear} <FaCaretDown />
+                </div>
+                <div className={`year-dropdown ${showDropdown ? "show" : ""}`}>
+                  {kingYears.map((year) => {
+                    return (
+                      <button
+                        key={year}
+                        className="year-button"
+                        onClick={() => handleYearSelect(year)}
+                      >
+                        {year}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
       </ul>
     </nav>

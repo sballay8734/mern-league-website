@@ -1,16 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { getCurrentYear } from "../../pages/KothPage/helpers"
 
+const currentYear = getCurrentYear()
+
 interface KingState {
   activeButton: string | null
   showStandings: boolean
-  currentYear: string
+  activeYear: string
 }
 
 const initialState: KingState = {
   activeButton: "standings",
   showStandings: false,
-  currentYear: getCurrentYear()
+  activeYear: currentYear
 }
 
 const kingSlice = createSlice({
@@ -23,13 +25,13 @@ const kingSlice = createSlice({
     setShowStandings: (state, action: PayloadAction<boolean>) => {
       state.showStandings = action.payload
     },
-    setCurrentYear: (state, action: PayloadAction<string>) => {
-      state.currentYear = action.payload
+    setActiveYear: (state, action: PayloadAction<string>) => {
+      state.activeYear = action.payload
     }
   }
 })
 
-export const { setActiveButton, setShowStandings, setCurrentYear } =
+export const { setActiveButton, setShowStandings, setActiveYear } =
   kingSlice.actions
 
 export default kingSlice.reducer

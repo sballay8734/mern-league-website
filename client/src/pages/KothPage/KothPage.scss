@@ -19,6 +19,16 @@
     flex-direction: column;
     align-items: center;
   }
+  .error {
+    height: 75%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgb(13, 13, 13) 30%, var(--primary-color-darker-for-gradient) 100%);
+    
+  }
 
   // border: 1px solid var(--primary-color);
   .king-page-top {
@@ -835,6 +845,82 @@
 .currentYearText {
   font-size: 0.6rem;
 }
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0rem 0.5rem 0rem 0.5rem;
+  background-color: var(--primary-color);
+  .standings {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+    .standings-text {
+      padding: 1rem 0rem;
+
+    }
+    .dropdown-wrapper {
+      display: flex;
+      position: relative;
+      .year-selector {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        border-radius: 2px;
+        padding: 0.4rem 0.7rem;
+        position: relative;
+        background-color: var(--primary-color-darker);
+        border: 1px solid var(--primary-color-lighter);
+        &:active {
+          opacity: 0.9;
+        }
+      }
+      .year-dropdown {
+        position: absolute;
+        top: 38.5px;
+        left: 0;
+        border: 1px solid transparent;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        opacity: 0;
+        min-height: 0px;
+        max-height: 0px;
+        overflow: hidden;
+        transition: all 300ms;
+        z-index: 2;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        // border-left: 1px solid transparent;
+        // border-right: 1px solid transparent;
+        // border-bottom: 1px solid transparent;
+        &.show {
+          min-height: 120px;
+          max-height: 200px;
+          opacity: 1;
+          background-color: var(--primary-color-darker);
+          overflow: scroll;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+          color: white;
+          border-left: 1px solid var(--primary-color);
+          border-right: 1px solid var(--primary-color);
+          border-bottom: 1px solid var(--primary-color);
+          transition: all 300ms;
+        }
+        .year-button {
+          padding: 0.6rem 0;
+          width: 100%;
+          &:not(:last-child) {
+            border-bottom: 1px solid var(--primary-color);
+          }
+        }
+      }
+    }
+    }
+  }
+
 
 @keyframes fadeIn {
   0% {
