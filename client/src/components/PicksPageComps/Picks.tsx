@@ -33,32 +33,6 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
     refetch()
   }, [picksMade, triggerRefetch])
 
-  // this function grabs the most up to date data from the database and sets the ui accordingly
-
-  function handlePicksMadeUpdate(prop: PropToDbInterface) {
-    if (!user) return
-
-    if (prop.type === "playerProp" || prop.type === "teamTotals") {
-      if (
-        prop.overSelections?.includes(user.fullName) ||
-        prop.underSelections?.includes(user.fullName)
-      ) {
-        if (picksMade.includes(prop.uniqueId)) return
-
-        dispatch(setPicksMade(prop.uniqueId))
-      }
-    } else if (prop.type === "teamSpreads") {
-      if (
-        prop.homeLineSelections?.includes(user.fullName) ||
-        prop.awayLineSelections?.includes(user.fullName)
-      ) {
-        if (picksMade.includes(prop.uniqueId)) return
-
-        dispatch(setPicksMade(prop.uniqueId))
-      }
-    }
-  }
-
   return (
     <>
       {user ? (
@@ -125,7 +99,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                 <div className="picks-wrapper disable-scrollbars">
                   {propData &&
                     propData.map((prop) => {
-                      handlePicksMadeUpdate(prop)
+                      // handlePicksMadeUpdate(prop)
                       return (
                         <PickCard
                           key={prop._id}

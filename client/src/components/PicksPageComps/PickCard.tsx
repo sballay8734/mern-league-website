@@ -12,84 +12,8 @@ import CountdownTimer from "../CountDownTimer/CountDownTimer"
 import { propKeyConversion } from "../utils"
 import ChallengeAccept from "./ChallengeAccept"
 import { RootState } from "../../redux/store"
-
-interface User {
-  _id: string
-  email: string
-  firstName: string
-  lastInitial: string
-  avatar: string
-  preferredTheme: string
-  isAdmin: boolean
-  isCommissioner: boolean
-  fullName: string
-}
-
-interface Challenge {
-  challengerName: string
-  acceptorName: string
-  challengerSelection: string // "over" | "under" | "away" | "home"
-  acceptorSelection: string // "over" | "under" | "away" | "home"
-  wagerAmount: number
-  _id: string
-
-  void: boolean
-}
-
-interface PickCardProps {
-  item: PropToDbInterface
-  user: User
-  setTriggerRefetch: (type: boolean) => void
-  triggerRefetch: boolean
-}
-
-interface PropToDbInterface {
-  type: string
-  subType?: string
-  player?: string
-  gameId: string
-  expiration: string
-  uniqueId: string
-  week: number
-  nflYear: number
-  _id: string
-
-  overData?: { overLine: number; overPayout: number; calcOverPayout: number }
-  underData?: {
-    underLine: number
-    underPayout: number
-    calcUnderPayout: number
-  }
-  overSelections?: string[]
-  underSelections?: string[]
-
-  homeTeam?: string
-  awayTeam?: string
-
-  homeData?: {
-    homeTeam: string
-    homeLine: number
-    homePayout: number
-    calcHomePayout: number
-  }
-  awayData?: {
-    awayTeam: string
-    awayLine: number
-    awayPayout: number
-    calcAwayPayout: number
-  }
-  homeLineSelections?: string[]
-  awayLineSelections?: string[]
-
-  awayScoreResult?: number
-  homeScoreResult?: number
-
-  result?: number
-
-  void: boolean
-
-  challenges: Challenge[] | []
-}
+import { formatTeamName } from "./helpers"
+import { PickCardProps, PropToDbInterface } from "./types"
 
 export default function PickCard({
   item,
@@ -113,45 +37,12 @@ export default function PickCard({
     (state: RootState) => state.picksSlice.picksMade
   )
 
-  console.log(picksMade)
+  // console.log(picksMade)
 
-  async function handleUnderClick(item: PropToDbInterface) {
-    // if under is already selected or pick is locked
-    if (overOrUnder === "under") return
-    if (lockPick) return
-
-    // remove lock icon in case update fails
-    setLockIcon(false)
-
-    const res = await fetch("/api/props/update-prop", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ prop: item, action: "under" })
-    })
-
-    const data = await res.json()
-
-    if (!data) {
-      console.log("no data")
-      return
-    }
-
-    setOverOrUnder("under")
-    setLockIcon(true)
-
-    // HERE (Below)
-    if (picksMade.includes(item.uniqueId)) {
-      setTriggerRefetch(!triggerRefetch)
-      return
-    }
-    dispatch(setPicksMade(item.uniqueId))
-  }
-
-  async function handleOverClick(item: PropToDbInterface) {
+  // THIS IS CAUSE ALL 12 PICKS TO BE REFETCHED AND LOADED
+  async function handleOUClick(item: PropToDbInterface, action: string) {
     // if over is already selected or pick is locked
-    if (overOrUnder === "over") return
+    if (overOrUnder === action) return
     if (lockPick) return
 
     // remove lock icon in case update fails
@@ -162,7 +53,7 @@ export default function PickCard({
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ prop: item, action: "over" })
+      body: JSON.stringify({ prop: item, action: action })
     })
 
     const data = await res.json()
@@ -172,7 +63,7 @@ export default function PickCard({
       return
     }
 
-    setOverOrUnder("over")
+    setOverOrUnder(action)
     setLockIcon(true)
 
     if (picksMade.includes(item.uniqueId)) {
@@ -182,10 +73,10 @@ export default function PickCard({
     dispatch(setPicksMade(item.uniqueId))
   }
 
-  async function handleSpreadPick(team: string, item: PropToDbInterface) {
+  async function handleSpreadPick(item: PropToDbInterface, action: string) {
     // if you already selected that team or the pick is locked
 
-    if (spreadPick === team) return
+    if (spreadPick === action) return
     if (lockPick) return
 
     setLockIcon(false)
@@ -195,7 +86,7 @@ export default function PickCard({
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ prop: item, action: team })
+      body: JSON.stringify({ prop: item, action: action })
     })
 
     const data = await res.json()
@@ -205,7 +96,7 @@ export default function PickCard({
       return
     }
 
-    setSpreadPick(team)
+    setSpreadPick(action)
     setLockIcon(true)
 
     if (picksMade.includes(item.uniqueId)) {
@@ -215,14 +106,18 @@ export default function PickCard({
     dispatch(setPicksMade(item.uniqueId))
   }
 
-  function formatTeamName(teamName: string) {
-    const splitTeam = teamName.split(" ")
-    const formattedTeam = splitTeam[splitTeam.length - 1]
-
-    return formattedTeam
+  async function handlePickSelection(item: PropToDbInterface, action: string) {
+    if (item.type === "playerProp" || item.type === "teamTotals") {
+      handleOUClick(item, action)
+      return
+    }
+    if (item.type === "teamSpreads") {
+      handleSpreadPick(item, action)
+    }
   }
 
   function initializePick() {
+    console.log("Running for ", item)
     setLockIcon(false)
     setOverOrUnder(null)
     setSpreadPick(null)
@@ -391,7 +286,7 @@ export default function PickCard({
         </div>
         <div className="pick ouPlayer">
           <button
-            onClick={() => handleUnderClick(item)}
+            onClick={() => handleOUClick(item, "under")}
             className={`ouLeft ${overOrUnder === "under" ? "active" : ""}`}
           >
             Under
@@ -421,7 +316,7 @@ export default function PickCard({
             ?
           </div>
           <button
-            onClick={() => handleOverClick(item)}
+            onClick={() => handleOUClick(item, "over")}
             className={`ouRight ${overOrUnder === "over" ? "active" : ""}`}
           >
             <span className="ou-icon up">
@@ -557,7 +452,7 @@ export default function PickCard({
         </div>
         <div className="pick ouTeam">
           <button
-            onClick={() => handleUnderClick(item)}
+            onClick={() => handleOUClick(item, "under")}
             className={`ouLeft ${overOrUnder === "under" ? "active" : ""}`}
           >
             <span className="overText">Under</span>{" "}
@@ -589,7 +484,7 @@ export default function PickCard({
             ?
           </div>
           <button
-            onClick={() => handleOverClick(item)}
+            onClick={() => handleOUClick(item, "over")}
             className={`ouRight ${overOrUnder === "over" ? "active" : ""}`}
           >
             <span className="ou-icon up">
@@ -729,7 +624,7 @@ export default function PickCard({
             </div>
             <div className="pick spread">
               <button
-                onClick={() => handleSpreadPick(awayTeam, item)}
+                onClick={() => handleSpreadPick(item, awayTeam)}
                 className={`ouLeft ${
                   spreadPick === `${awayTeam}` ? "active" : ""
                 }`}
@@ -760,7 +655,7 @@ export default function PickCard({
                 </span>
               </div>
               <button
-                onClick={() => handleSpreadPick(homeTeam, item)}
+                onClick={() => handleSpreadPick(item, homeTeam)}
                 className={`ouRight ${
                   spreadPick === `${homeTeam}` ? "active" : ""
                 }`}

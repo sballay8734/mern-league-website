@@ -1,14 +1,19 @@
+import { useEffect } from "react"
 import Picks from "../../components/PicksPageComps/Picks"
 import { useFetchPropsQuery } from "../../redux/props/propsApi"
 
 import "./PicksPage.scss"
 
 export default function PicksPage() {
-  const { data: propData } = useFetchPropsQuery()
+  const { data: propData, refetch } = useFetchPropsQuery()
 
   console.log("Rendering Picks Page...")
 
   // console.log(propData)
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   return (
     <>
