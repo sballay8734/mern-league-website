@@ -1,7 +1,8 @@
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 
+import { setActiveButton, setPicksMade } from "../../redux/props/picksSlice"
 import { RootState } from "../../redux/store"
 import PickCard from "./PickCard"
 import { PropToDbInterface } from "../BettingPropSpreads"
@@ -12,17 +13,27 @@ interface PicksProps {
 }
 
 export default function Picks({ propData }: PicksProps): JSX.Element {
+  const dispatch = useDispatch()
   const { user } = useSelector((state: RootState) => state.user)
-  const [activeButton, setActiveButton] = useState<string>("makePicks")
-  const [picksMade, setPicksMade] = useState<string[]>([])
+  const activeButton = useSelector(
+    (state: RootState) => state.picksSlice.activeButton
+  )
+  const picksMade = useSelector(
+    (state: RootState) => state.picksSlice.picksMade
+  )
   const [triggerRefetch, setTriggerRefetch] = useState<boolean>(false)
+
+  // need to refetch ONLY when loading page again
   const { refetch } = useFetchPropsQuery()
 
   const picksToMake = propData.length
 
+  // THIS IS CAUSE PARENT TO RE-RENDER TWICE (NOT GOOD!!)
   useEffect(() => {
     refetch()
   }, [picksMade, triggerRefetch])
+
+  // this function grabs the most up to date data from the database and sets the ui accordingly
 
   function handlePicksMadeUpdate(prop: PropToDbInterface) {
     if (!user) return
@@ -34,7 +45,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
       ) {
         if (picksMade.includes(prop.uniqueId)) return
 
-        setPicksMade((prevPicksMade) => [...prevPicksMade, prop.uniqueId])
+        dispatch(setPicksMade(prop.uniqueId))
       }
     } else if (prop.type === "teamSpreads") {
       if (
@@ -43,7 +54,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
       ) {
         if (picksMade.includes(prop.uniqueId)) return
 
-        setPicksMade((prevPicksMade) => [...prevPicksMade, prop.uniqueId])
+        dispatch(setPicksMade(prop.uniqueId))
       }
     }
   }
@@ -70,7 +81,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                       className={`${
                         activeButton === "standings" ? "active" : ""
                       }`}
-                      onClick={() => setActiveButton("standings")}
+                      onClick={() => dispatch(setActiveButton("standings"))}
                     >
                       Standings
                     </button>
@@ -85,7 +96,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                       className={`picks-button ${
                         activeButton === "makePicks" ? "active" : ""
                       }`}
-                      onClick={() => setActiveButton("makePicks")}
+                      onClick={() => dispatch(setActiveButton("makePicks"))}
                     >
                       Make Picks <img src="/picks.png" alt="picks" />
                     </button>
@@ -98,7 +109,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                       className={`${
                         activeButton === "history" ? "active" : ""
                       }`}
-                      onClick={() => setActiveButton("history")}
+                      onClick={() => dispatch(setActiveButton("history"))}
                     >
                       History
                     </button>
@@ -120,8 +131,6 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                           key={prop._id}
                           user={user}
                           item={prop}
-                          setPicksMade={setPicksMade}
-                          picksMade={picksMade}
                           setTriggerRefetch={setTriggerRefetch}
                           triggerRefetch={triggerRefetch}
                         />

@@ -15,6 +15,7 @@ import userReducer from "./user/userSlice"
 import compareReducer from "./owners/compareSlice"
 import kingReducer from "./king/kingSlice"
 import recordsReducer from "./records/recordsSlice"
+import picksReducer from "./props/picksSlice"
 import { recordsApi } from "./records/recordsApi"
 import { ownersApi } from "./owners/ownersApi"
 import { authApi } from "./auth/authApi"
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   compare: compareReducer,
   kingSlice: kingReducer,
   recordsSlice: recordsReducer,
+  picksSlice: picksReducer,
   [recordsApi.reducerPath]: recordsApi.reducer,
   [ownersApi.reducerPath]: ownersApi.reducer,
   [authApi.reducerPath]: authApi.reducer,

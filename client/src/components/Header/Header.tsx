@@ -31,7 +31,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="desktop-header-wrapper">
+      {/* <div className="desktop-header-wrapper">
         <div className="header">
           <div className="nav-left">
             <Link to="/">Home</Link>
@@ -70,7 +70,7 @@ export default function Header() {
         </div>
         <div className="header-hover-effect"></div>
         <img className="hover-image" src="/hover.svg" alt="hover" />
-      </div>
+      </div> */}
       <div className="mobile-header-wrapper">
         <div onClick={handleNavToggle} className="menu-icon">
           {!navIsShown ? <CgMenuLeft /> : <IoCloseOutline />}
@@ -92,7 +92,10 @@ export default function Header() {
           </div>
           <div className="mobile-nav-spacer" onClick={handleAdminNav}>
             {user ? (
-              <img className={`${user.preferredTheme === "eagles-kelly" ? "kelly" : ""}`}
+              <img
+                className={`${
+                  user.preferredTheme === "eagles-kelly" ? "kelly" : ""
+                }`}
                 src={
                   user?.preferredTheme === "eagles-kelly"
                     ? `${user?.preferredTheme}Logo.png`

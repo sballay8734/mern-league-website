@@ -2,13 +2,16 @@
 // Lock pick when timer is up
 
 import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
+import { setPicksMade } from "../../redux/props/picksSlice"
 import { FaCaretDown } from "react-icons/fa"
 import { FaCaretUp } from "react-icons/fa"
 import { FaLock } from "react-icons/fa"
 import CountdownTimer from "../CountDownTimer/CountDownTimer"
 import { propKeyConversion } from "../utils"
 import ChallengeAccept from "./ChallengeAccept"
+import { RootState } from "../../redux/store"
 
 interface User {
   _id: string
@@ -35,9 +38,7 @@ interface Challenge {
 
 interface PickCardProps {
   item: PropToDbInterface
-  picksMade: string[]
   user: User
-  setPicksMade: React.Dispatch<React.SetStateAction<string[]>>
   setTriggerRefetch: (type: boolean) => void
   triggerRefetch: boolean
 }
@@ -92,12 +93,11 @@ interface PropToDbInterface {
 
 export default function PickCard({
   item,
-  picksMade,
   user,
-  setPicksMade,
   setTriggerRefetch,
   triggerRefetch
 }: PickCardProps) {
+  const dispatch = useDispatch()
   const [overOrUnder, setOverOrUnder] = useState<string | null>(null)
   const [spreadPick, setSpreadPick] = useState<string | null>(null)
   const [lockIcon, setLockIcon] = useState<boolean>(false)
@@ -108,6 +108,12 @@ export default function PickCard({
   const [challengeSelection, setChallengeSelection] = useState<string>("")
   const [wager, setWager] = useState<string>("")
   const [formValid, setFormValid] = useState<boolean>(false)
+
+  const picksMade = useSelector(
+    (state: RootState) => state.picksSlice.picksMade
+  )
+
+  console.log(picksMade)
 
   async function handleUnderClick(item: PropToDbInterface) {
     // if under is already selected or pick is locked
@@ -140,7 +146,7 @@ export default function PickCard({
       setTriggerRefetch(!triggerRefetch)
       return
     }
-    setPicksMade((prevPicksMade) => [...prevPicksMade, item.uniqueId])
+    dispatch(setPicksMade(item.uniqueId))
   }
 
   async function handleOverClick(item: PropToDbInterface) {
@@ -173,7 +179,7 @@ export default function PickCard({
       setTriggerRefetch(!triggerRefetch)
       return
     }
-    setPicksMade((prevPicksMade) => [...prevPicksMade, item.uniqueId])
+    dispatch(setPicksMade(item.uniqueId))
   }
 
   async function handleSpreadPick(team: string, item: PropToDbInterface) {
@@ -206,7 +212,7 @@ export default function PickCard({
       setTriggerRefetch(!triggerRefetch)
       return
     }
-    setPicksMade((prevPicksMade) => [...prevPicksMade, item.uniqueId])
+    dispatch(setPicksMade(item.uniqueId))
   }
 
   function formatTeamName(teamName: string) {
