@@ -14,6 +14,7 @@ import storage from "redux-persist/lib/storage/session"
 import userReducer from "./user/userSlice"
 import compareReducer from "./owners/compareSlice"
 import kingReducer from "./king/kingSlice"
+import recordsReducer from "./records/recordsSlice"
 import { recordsApi } from "./records/recordsApi"
 import { ownersApi } from "./owners/ownersApi"
 import { authApi } from "./auth/authApi"
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   compare: compareReducer,
   kingSlice: kingReducer,
+  recordsSlice: recordsReducer,
   [recordsApi.reducerPath]: recordsApi.reducer,
   [ownersApi.reducerPath]: ownersApi.reducer,
   [authApi.reducerPath]: authApi.reducer,

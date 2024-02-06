@@ -14,7 +14,6 @@ export default function KingNav() {
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
 
   function handleYearSelect(year: string) {
-    console.log("RUNNING...")
     dispatch(setActiveYear(year))
     setShowDropdown(!showDropdown)
   }

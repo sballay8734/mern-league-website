@@ -45,7 +45,6 @@ export default function KingMainTable() {
       )
       if (standingsData) {
         setDataError(false)
-        console.log("Running Standings Data")
         const sortedOwners = Object.keys(standingsData.standingsData)
           .sort((a, b) => {
             const dataA = standingsData.standingsData[a]
