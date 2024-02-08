@@ -4,17 +4,18 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { setPicksMade } from "../../redux/props/picksSlice"
-import { FaCaretDown } from "react-icons/fa"
-import { FaCaretUp } from "react-icons/fa"
-import { FaLock } from "react-icons/fa"
+import {
+  setPicksMade,
+  setPickIds,
+  setChallenge
+} from "../../redux/props/picksSlice"
+import { FaCaretDown, FaCaretUp, FaLock } from "react-icons/fa"
 import CountdownTimer from "../CountDownTimer/CountDownTimer"
 import { propKeyConversion } from "../utils"
 import ChallengeAccept from "./ChallengeAccept"
 import { RootState } from "../../redux/store"
 import { formatTeamName } from "./helpers"
 import { PickCardProps, PropToDbInterface } from "./types"
-import { useFetchPropsQuery } from "../../redux/props/propsApi"
 
 export default function PickCard({ item, user }: PickCardProps) {
   const dispatch = useDispatch()
@@ -29,30 +30,17 @@ export default function PickCard({ item, user }: PickCardProps) {
   const [wager, setWager] = useState<string>("")
   const [formValid, setFormValid] = useState<boolean>(false)
 
-  const pickIds = useSelector((state: RootState) => state.picksSlice.pickIds)
-
-  // **************************************************************
-  // **************************************************************
-  // **************************************************************
-  // **************************************************************
-  // MOVING ON TO FIX THE PICKSMADE COUNTER AT BOTTOM
   const thisProp = useSelector(
     (state: RootState) => state.picksSlice.picksMade[item.uniqueId]
   )
-  // **************************************************************
-  // **************************************************************
-  // **************************************************************
-  // **************************************************************
+  // const thisPropChallenges = useSelector((state: RootState) => state.picksSlice.challenges[])
 
-  const { refetch } = useFetchPropsQuery()
+  // NOTE: Even though pickIds is unused, it will STILL trigger a refresh for ALL PropCards if it is updated! Make sure to remove these from code!!
+  // const pickIds = useSelector((state: RootState) => state.picksSlice.pickIds)
 
-  // console.log("Rendering Card...", item.uniqueId)
-
-  // THIS IS CAUSE ALL 12 PICKS TO BE REFETCHED AND LOADED
   async function handleOUClick(item: PropToDbInterface, action: string) {
     // if over is already selected or pick is locked
-    if (overOrUnder === action) return
-    if (lockPick) return
+    if (overOrUnder === action || lockPick) return
 
     // remove lock icon in case update fails
     setLockIcon(false)
@@ -84,11 +72,7 @@ export default function PickCard({ item, user }: PickCardProps) {
     }
 
     dispatch(setPicksMade(pickMade))
-    // if (pickIds.includes(item.uniqueId)) {
-    //   refetch()
-    //   return
-    // }
-    // dispatch(setPickIds(item.uniqueId))
+    dispatch(setPickIds(item.uniqueId))
   }
 
   async function handleSpreadPick(item: PropToDbInterface, action: string) {
@@ -132,34 +116,30 @@ export default function PickCard({ item, user }: PickCardProps) {
     }
 
     dispatch(setPicksMade(pickMade))
-
-    // if (pickIds.includes(item.uniqueId)) {
-    //   refetch()
-    //   return
-    // }
-    // dispatch(setPickIds(item.uniqueId))
+    dispatch(setPickIds(item.uniqueId))
   }
 
   function populateState() {
-    // console.log("Running for ", item)
     const homeTeam = item.homeData?.homeTeam || null
     const awayTeam = item.awayData?.awayTeam || null
 
+    // if there IS persisted state for this prop, derive UI with it
     if (thisProp) {
       if (thisProp.over === "over") setOverOrUnder("over")
       if (thisProp.under === "under") setOverOrUnder("under")
       if (thisProp.homeTeam === homeTeam) setSpreadPick(homeTeam)
       if (thisProp.awayTeam === awayTeam) setSpreadPick(awayTeam)
+
+      dispatch(setPickIds(item.uniqueId))
       setLockIcon(true)
-      console.log("Populating from state...")
       return
     }
-    console.log("No persisted state found. Populating from data...")
 
     setLockIcon(false)
     setOverOrUnder(null)
     setSpreadPick(null)
 
+    // if there is NOT persisted state for this prop, use the fetched data
     if (item.type === "playerProp" || item.type === "teamTotals") {
       if (item.overSelections?.includes(user.fullName)) {
         setPicksMade({
@@ -170,6 +150,7 @@ export default function PickCard({ item, user }: PickCardProps) {
           homeTeam: null
         })
         setOverOrUnder("over")
+        dispatch(setPickIds(item.uniqueId))
         setLockIcon(true)
         return
       } else if (item.underSelections?.includes(user.fullName)) {
@@ -181,6 +162,7 @@ export default function PickCard({ item, user }: PickCardProps) {
           homeTeam: null
         })
         setOverOrUnder("under")
+        dispatch(setPickIds(item.uniqueId))
         setLockIcon(true)
         return
       }
@@ -196,6 +178,7 @@ export default function PickCard({ item, user }: PickCardProps) {
           homeTeam: item.homeData.homeTeam
         })
         setSpreadPick(item.homeData?.homeTeam)
+        dispatch(setPickIds(item.uniqueId))
         setLockIcon(true)
         return
       } else if (item.awayLineSelections?.includes(user.fullName)) {
@@ -207,6 +190,7 @@ export default function PickCard({ item, user }: PickCardProps) {
           homeTeam: null
         })
         setSpreadPick(item.awayData?.awayTeam)
+        dispatch(setPickIds(item.uniqueId))
         setLockIcon(true)
         return
       }
@@ -259,7 +243,6 @@ export default function PickCard({ item, user }: PickCardProps) {
   }
 
   function handleChallengeSelection(str: string) {
-    console.log(str)
     setChallengeSelection(() => {
       if ((str === "over" || str === "under") && wager.toString().length > 0) {
         setFormValid(true)
@@ -326,15 +309,21 @@ export default function PickCard({ item, user }: PickCardProps) {
       return
     }
 
-    refetch()
+    // const challengeObject = {
+    //   challengerName:
+    // }
+    console.log(data)
+
+    // you MIGHT need this refetch() probably not though
+    // refetch()
     handleClearChallenge()
   }
+
+  console.log("Rendering Pick Card For... ", item.uniqueId)
 
   const filteredChallenges = item.challenges.filter((challenge) => {
     return challenge.acceptorName === ""
   })
-
-  // console.log(picksMade)
 
   useEffect(() => {
     populateState()

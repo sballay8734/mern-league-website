@@ -5,12 +5,11 @@ import { setActiveButton } from "../../redux/props/picksSlice"
 import { RootState } from "../../redux/store"
 import PickCard from "./PickCard"
 import { PropToDbInterface } from "../BettingPropSpreads"
+import PickCounter from "./PickCounter"
 
 interface PicksProps {
   propData: PropToDbInterface[]
 }
-
-console.log("Rendering Parent 2...")
 
 export default function Picks({ propData }: PicksProps): JSX.Element {
   const dispatch = useDispatch()
@@ -18,9 +17,8 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
   const activeButton = useSelector(
     (state: RootState) => state.picksSlice.activeButton
   )
-  const pickIds = useSelector((state: RootState) => state.picksSlice.pickIds)
 
-  const picksToMake = propData.length
+  console.log("Rendering Parent WHYYYY...")
 
   return (
     <>
@@ -92,16 +90,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                       return <PickCard key={prop._id} user={user} item={prop} />
                     })}
                 </div>
-                <div
-                  className={`counter ${
-                    pickIds.length === picksToMake ? "complete" : ""
-                  }`}
-                >
-                  Picks Made:{" "}
-                  <span className="pick-split">
-                    {pickIds.length}/{picksToMake}
-                  </span>
-                </div>
+                <PickCounter propData={propData} />
               </>
             ) : activeButton === "standings" ? (
               <div className="standings">Coming Soon</div>

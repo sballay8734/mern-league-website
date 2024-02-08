@@ -17,8 +17,8 @@ NOT THAT IMPORTANT
 
 
 VERY IMPORTANT (START WITH KOTH AND COMPARE PAGE) ********************************************************************************
-- FIX USE EFFECT ON LINE 32 in PICKS
 - FIX PICK COUNTER AT BOTTOM OF SCREEN (NOT LOADING WITH CURRENT AMOUNT)
+- "Open Challenges" instead of history
 - Try and refactor the logic that checks if owners exist or owners participated exists in compare page....
 
 - Move things to their own component

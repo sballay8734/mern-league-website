@@ -88,10 +88,9 @@ export default function ChallengeAccept({
       return
     }
 
-    refetch()
+    // Might need this?
+    // refetch()
   }
-
-  // console.log("Challenge Accept...")
 
   return (
     <div className="challenge-wrapper" key={challenge._id}>

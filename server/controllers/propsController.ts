@@ -268,22 +268,20 @@ export const addChallenge = async (
   const userId: string = req.user.id
 
   try {
-    const challengeToUpdate = await Prop.findOne({
+    const PropToUpdate = await Prop.findOne({
       gameId: gameId,
       uniqueId: uniqueId
     })
 
-    // console.log(challengeToUpdate)
+    if (!PropToUpdate) return next(errorHandler(404, `Prop not found`))
 
-    if (!challengeToUpdate) return next(errorHandler(404, `Prop not found`))
-
-    challengeToUpdate.set({
-      challenges: [...challengeToUpdate.challenges, challenge]
+    PropToUpdate.set({
+      challenges: [...PropToUpdate.challenges, challenge]
     })
 
-    await challengeToUpdate.save()
+    await PropToUpdate.save()
 
-    res.status(200).json(challengeToUpdate)
+    res.status(200).json(challenge)
   } catch (error) {
     next(error)
   }
