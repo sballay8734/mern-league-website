@@ -1,16 +1,16 @@
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { useEffect, useState } from "react"
 
-import { setActiveButton, setPicksMade } from "../../redux/props/picksSlice"
+import { setActiveButton } from "../../redux/props/picksSlice"
 import { RootState } from "../../redux/store"
 import PickCard from "./PickCard"
 import { PropToDbInterface } from "../BettingPropSpreads"
-import { useFetchPropsQuery } from "../../redux/props/propsApi"
 
 interface PicksProps {
   propData: PropToDbInterface[]
 }
+
+console.log("Rendering Parent 2...")
 
 export default function Picks({ propData }: PicksProps): JSX.Element {
   const dispatch = useDispatch()
@@ -18,20 +18,9 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
   const activeButton = useSelector(
     (state: RootState) => state.picksSlice.activeButton
   )
-  const picksMade = useSelector(
-    (state: RootState) => state.picksSlice.picksMade
-  )
-  const [triggerRefetch, setTriggerRefetch] = useState<boolean>(false)
-
-  // need to refetch ONLY when loading page again
-  const { refetch } = useFetchPropsQuery()
+  const pickIds = useSelector((state: RootState) => state.picksSlice.pickIds)
 
   const picksToMake = propData.length
-
-  // THIS IS CAUSE PARENT TO RE-RENDER TWICE (NOT GOOD!!)
-  useEffect(() => {
-    refetch()
-  }, [picksMade, triggerRefetch])
 
   return (
     <>
@@ -100,25 +89,17 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                   {propData &&
                     propData.map((prop) => {
                       // handlePicksMadeUpdate(prop)
-                      return (
-                        <PickCard
-                          key={prop._id}
-                          user={user}
-                          item={prop}
-                          setTriggerRefetch={setTriggerRefetch}
-                          triggerRefetch={triggerRefetch}
-                        />
-                      )
+                      return <PickCard key={prop._id} user={user} item={prop} />
                     })}
                 </div>
                 <div
                   className={`counter ${
-                    picksMade.length === picksToMake ? "complete" : ""
+                    pickIds.length === picksToMake ? "complete" : ""
                   }`}
                 >
                   Picks Made:{" "}
                   <span className="pick-split">
-                    {picksMade.length}/{picksToMake}
+                    {pickIds.length}/{picksToMake}
                   </span>
                 </div>
               </>

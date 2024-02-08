@@ -14,13 +14,9 @@ import ChallengeAccept from "./ChallengeAccept"
 import { RootState } from "../../redux/store"
 import { formatTeamName } from "./helpers"
 import { PickCardProps, PropToDbInterface } from "./types"
+import { useFetchPropsQuery } from "../../redux/props/propsApi"
 
-export default function PickCard({
-  item,
-  user,
-  setTriggerRefetch,
-  triggerRefetch
-}: PickCardProps) {
+export default function PickCard({ item, user }: PickCardProps) {
   const dispatch = useDispatch()
   const [overOrUnder, setOverOrUnder] = useState<string | null>(null)
   const [spreadPick, setSpreadPick] = useState<string | null>(null)
@@ -33,11 +29,24 @@ export default function PickCard({
   const [wager, setWager] = useState<string>("")
   const [formValid, setFormValid] = useState<boolean>(false)
 
-  const picksMade = useSelector(
-    (state: RootState) => state.picksSlice.picksMade
-  )
+  const pickIds = useSelector((state: RootState) => state.picksSlice.pickIds)
 
-  // console.log(picksMade)
+  // **************************************************************
+  // **************************************************************
+  // **************************************************************
+  // **************************************************************
+  // MOVING ON TO FIX THE PICKSMADE COUNTER AT BOTTOM
+  const thisProp = useSelector(
+    (state: RootState) => state.picksSlice.picksMade[item.uniqueId]
+  )
+  // **************************************************************
+  // **************************************************************
+  // **************************************************************
+  // **************************************************************
+
+  const { refetch } = useFetchPropsQuery()
+
+  // console.log("Rendering Card...", item.uniqueId)
 
   // THIS IS CAUSE ALL 12 PICKS TO BE REFETCHED AND LOADED
   async function handleOUClick(item: PropToDbInterface, action: string) {
@@ -66,11 +75,20 @@ export default function PickCard({
     setOverOrUnder(action)
     setLockIcon(true)
 
-    if (picksMade.includes(item.uniqueId)) {
-      setTriggerRefetch(!triggerRefetch)
-      return
+    const pickMade = {
+      uniqueId: item.uniqueId,
+      over: action === "over" ? action : null,
+      under: action === "under" ? action : null,
+      awayTeam: null,
+      homeTeam: null
     }
-    dispatch(setPicksMade(item.uniqueId))
+
+    dispatch(setPicksMade(pickMade))
+    // if (pickIds.includes(item.uniqueId)) {
+    //   refetch()
+    //   return
+    // }
+    // dispatch(setPickIds(item.uniqueId))
   }
 
   async function handleSpreadPick(item: PropToDbInterface, action: string) {
@@ -99,53 +117,97 @@ export default function PickCard({
     setSpreadPick(action)
     setLockIcon(true)
 
-    if (picksMade.includes(item.uniqueId)) {
-      setTriggerRefetch(!triggerRefetch)
-      return
+    const pickMade = {
+      uniqueId: item.uniqueId,
+      over: null,
+      under: null,
+      awayTeam:
+        action === item.awayData?.awayTeam
+          ? item.awayData?.awayTeam
+          : null ?? null,
+      homeTeam:
+        action === item.homeData?.homeTeam
+          ? item.homeData?.homeTeam
+          : null ?? null
     }
-    dispatch(setPicksMade(item.uniqueId))
+
+    dispatch(setPicksMade(pickMade))
+
+    // if (pickIds.includes(item.uniqueId)) {
+    //   refetch()
+    //   return
+    // }
+    // dispatch(setPickIds(item.uniqueId))
   }
 
-  async function handlePickSelection(item: PropToDbInterface, action: string) {
-    if (item.type === "playerProp" || item.type === "teamTotals") {
-      handleOUClick(item, action)
+  function populateState() {
+    // console.log("Running for ", item)
+    const homeTeam = item.homeData?.homeTeam || null
+    const awayTeam = item.awayData?.awayTeam || null
+
+    if (thisProp) {
+      if (thisProp.over === "over") setOverOrUnder("over")
+      if (thisProp.under === "under") setOverOrUnder("under")
+      if (thisProp.homeTeam === homeTeam) setSpreadPick(homeTeam)
+      if (thisProp.awayTeam === awayTeam) setSpreadPick(awayTeam)
+      setLockIcon(true)
+      console.log("Populating from state...")
       return
     }
-    if (item.type === "teamSpreads") {
-      handleSpreadPick(item, action)
-    }
-  }
+    console.log("No persisted state found. Populating from data...")
 
-  function initializePick() {
-    console.log("Running for ", item)
     setLockIcon(false)
     setOverOrUnder(null)
     setSpreadPick(null)
 
     if (item.type === "playerProp" || item.type === "teamTotals") {
       if (item.overSelections?.includes(user.fullName)) {
+        setPicksMade({
+          uniqueId: item.uniqueId,
+          over: "over",
+          under: null,
+          awayTeam: null,
+          homeTeam: null
+        })
         setOverOrUnder("over")
         setLockIcon(true)
         return
       } else if (item.underSelections?.includes(user.fullName)) {
+        setPicksMade({
+          uniqueId: item.uniqueId,
+          over: null,
+          under: "under",
+          awayTeam: null,
+          homeTeam: null
+        })
         setOverOrUnder("under")
         setLockIcon(true)
-        return
-      } else {
         return
       }
     } else if (item.type === "teamSpreads") {
       if (!item.homeData?.homeTeam || !item.awayData?.awayTeam) return
 
       if (item.homeLineSelections?.includes(user.fullName)) {
+        setPicksMade({
+          uniqueId: item.uniqueId,
+          over: null,
+          under: null,
+          awayTeam: null,
+          homeTeam: item.homeData.homeTeam
+        })
         setSpreadPick(item.homeData?.homeTeam)
         setLockIcon(true)
         return
       } else if (item.awayLineSelections?.includes(user.fullName)) {
+        setPicksMade({
+          uniqueId: item.uniqueId,
+          over: null,
+          under: null,
+          awayTeam: item.awayData.awayTeam,
+          homeTeam: null
+        })
         setSpreadPick(item.awayData?.awayTeam)
         setLockIcon(true)
-        return
-      } else {
         return
       }
     } else {
@@ -244,7 +306,6 @@ export default function PickCard({
 
     const gameId = item.gameId
     const uniqueId = item.uniqueId
-    console.log(uniqueId)
 
     const res = await fetch("/api/props/add-challenge", {
       method: "POST",
@@ -265,8 +326,7 @@ export default function PickCard({
       return
     }
 
-    console.log("Triggering Refetch")
-    setTriggerRefetch(!triggerRefetch)
+    refetch()
     handleClearChallenge()
   }
 
@@ -274,8 +334,10 @@ export default function PickCard({
     return challenge.acceptorName === ""
   })
 
+  // console.log(picksMade)
+
   useEffect(() => {
-    initializePick()
+    populateState()
   }, [])
 
   if (item.type === "playerProp") {
@@ -432,8 +494,6 @@ export default function PickCard({
                         challenge={challenge}
                         item={item}
                         user={user}
-                        setTriggerRefetch={setTriggerRefetch}
-                        triggerRefetch={triggerRefetch}
                       />
                     )
                   })}
@@ -600,8 +660,6 @@ export default function PickCard({
                         challenge={challenge}
                         item={item}
                         user={user}
-                        setTriggerRefetch={setTriggerRefetch}
-                        triggerRefetch={triggerRefetch}
                       />
                     )
                   })}
@@ -780,8 +838,6 @@ export default function PickCard({
                             challenge={challenge}
                             item={item}
                             user={user}
-                            setTriggerRefetch={setTriggerRefetch}
-                            triggerRefetch={triggerRefetch}
                           />
                         )
                       })}

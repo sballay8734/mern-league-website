@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { PropToDbInterface } from "../BettingPropSpreads"
+import { useFetchPropsQuery } from "../../redux/props/propsApi"
 
 interface User {
   _id: string
@@ -28,19 +29,16 @@ interface ChallengeAcceptProps {
   challenge: Challenge
   item: PropToDbInterface
   user: User
-  setTriggerRefetch: (type: boolean) => void
-  triggerRefetch: boolean
 }
 
 export default function ChallengeAccept({
   challenge,
   item,
-  user,
-  triggerRefetch,
-  setTriggerRefetch
+  user
 }: ChallengeAcceptProps) {
   // MIGHT NEED SOME LOGIC TO DETERMINE THE TYPE OF CHALLENGE
   const [verifyAcceptance, setVerifyAcceptance] = useState<boolean>(false)
+  const { refetch } = useFetchPropsQuery()
 
   function formatOwnerName(str: string) {
     return (
@@ -90,8 +88,10 @@ export default function ChallengeAccept({
       return
     }
 
-    setTriggerRefetch(!triggerRefetch)
+    refetch()
   }
+
+  // console.log("Challenge Accept...")
 
   return (
     <div className="challenge-wrapper" key={challenge._id}>

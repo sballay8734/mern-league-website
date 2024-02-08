@@ -13,8 +13,8 @@ interface User {
 export interface PickCardProps {
   item: PropToDbInterface
   user: User
-  triggerRefetch: boolean
-  setTriggerRefetch: (item: boolean) => void
+  // triggerRefetch: boolean
+  // setTriggerRefetch: (item: boolean) => void
 }
 
 export interface PropToDbInterface {
@@ -92,6 +92,6 @@ export interface ChallengeAcceptProps {
   challenge: Challenge
   item: PropToDbInterface
   user: User
-  triggerRefetch: boolean
-  setTriggerRefetch: (item: boolean) => void
+  // triggerRefetch: boolean
+  // setTriggerRefetch: (item: boolean) => void
 }
