@@ -8,12 +8,12 @@ import { PropToDbInterface } from "../BettingPropSpreads"
 import PickCounter from "./PickCounter"
 
 interface PicksProps {
-  propData: PropToDbInterface[]
+  propData: PropToDbInterface[] | undefined
 }
 
 export default function Picks({ propData }: PicksProps): JSX.Element {
   const dispatch = useDispatch()
-  const { user } = useSelector((state: RootState) => state.user)
+  const user = useSelector((state: RootState) => state.user.user)
   const activeButton = useSelector(
     (state: RootState) => state.picksSlice.activeButton
   )
@@ -28,7 +28,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
           <div className="picks-header-wrapper">
             <div className="picks-header">
               <h1>Picks and Dicks</h1>
-              <p>Week {propData[0].week}</p>
+              <p>Week {propData ? propData[0].week : "N/A"}</p>
             </div>
             <div className="picks-nav">
               <nav className="tab">
@@ -79,16 +79,17 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
               </nav>
             </div>
           </div>
-
           <div className={`picks ${activeButton}`}>
             {activeButton === "makePicks" ? (
               <>
                 <div className="picks-wrapper disable-scrollbars">
-                  {propData &&
+                  {propData ? (
                     propData.map((prop) => {
-                      // handlePicksMadeUpdate(prop)
                       return <PickCard key={prop._id} user={user} item={prop} />
-                    })}
+                    })
+                  ) : (
+                    <div className="picks no-picks">No picks available</div>
+                  )}
                 </div>
                 <PickCounter propData={propData} />
               </>

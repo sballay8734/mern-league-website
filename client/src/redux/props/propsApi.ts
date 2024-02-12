@@ -95,6 +95,20 @@ export interface PropToDbInterface {
   challenges: Challenge[] | []
 }
 
+interface Challenge {
+  challengerId: string
+  acceptorId: string
+  challengerSelection: string // "over" | "under" | "away" | "home"
+  acceptorSelection: string // "over" | "under" | "away" | "home"
+  wagerAmount: number
+  gameId: string
+  propId: string
+  dateProposed: string
+  dateAccepted: string
+
+  voided: boolean
+}
+
 function getCurrentWeek() {
   const currentDate = new Date()
   let currentWeek = null
@@ -142,9 +156,21 @@ const propsApi = createApi({
           "Content-Type": "application/json"
         }
       })
+    }),
+    fetchChallenges: builder.query<
+      Challenge[],
+      { gameId: string; uniqueId: string }
+    >({
+      query: ({ gameId, uniqueId }) => ({
+        url: `/get-challenges/${gameId}/${uniqueId}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
     })
   })
 })
 
-export const { useFetchPropsQuery } = propsApi
+export const { useFetchPropsQuery, useFetchChallengesQuery } = propsApi
 export { propsApi }

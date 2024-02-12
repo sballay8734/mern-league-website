@@ -6,15 +6,11 @@ import "./PicksPage.scss"
 export default function PicksPage() {
   const { data: propData } = useFetchPropsQuery()
 
-  console.log("Rendering Parent 1...")
+  console.log("Rendering Parent 1...", propData)
 
   return (
-    propData && (
-      <div className="page picks-page">
-        {/* <div className="mobile"> */}
-        <Picks propData={propData} />
-        {/* </div> */}
-      </div>
-    )
+    <div className="page picks-page">
+      <Picks propData={propData} />
+    </div>
   )
 }

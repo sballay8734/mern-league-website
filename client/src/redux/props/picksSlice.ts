@@ -1,5 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Challenge } from "../../components/PicksPageComps/types"
+
+export interface Challenge {
+  challengerId: string
+  acceptorId: string
+  challengerName: string
+  acceptorName: string
+  challengerSelection: string // "over" | "under" | "away" | "home"
+  acceptorSelection: string // "over" | "under" | "away" | "home"
+  wagerAmount: number
+  gameId: string
+  propId: string
+  dateProposed: string
+  dateAccepted: string
+  _id: string
+
+  voided: boolean
+}
 
 interface FullPicksObject {
   [uniqueId: string]: Pick
@@ -18,8 +34,15 @@ interface PicksState {
   pickIds: string[]
   picksMade: FullPicksObject
   challenges: {
-    [challengeId: string]: Challenge
+    [propId: string]: Challenge[]
   }
+}
+
+interface RemoveChallenge {
+  acceptorName: string
+  acceptorId: string
+  challengeId: string
+  propId: string
 }
 
 const initialState: PicksState = {
@@ -60,39 +83,75 @@ const picksSlice = createSlice({
       state.picksMade[uniqueId].awayTeam = awayTeam
       state.picksMade[uniqueId].homeTeam = homeTeam
     },
-    setChallenge: (state, action: PayloadAction<Challenge>) => {
+    addChallenge: (state, action: PayloadAction<Challenge>) => {
       const {
+        challengerId,
+        acceptorId,
         challengerName,
         acceptorName,
         challengerSelection,
         acceptorSelection,
         wagerAmount,
-        _id
+        gameId,
+        propId,
+        dateProposed,
+        dateAccepted,
+        _id,
+        voided
       } = action.payload
-      const { void: voided } = action.payload
 
-      if (!state.challenges[_id]) {
-        state.challenges[_id] = {
-          challengerName: challengerName,
-          acceptorName: acceptorName,
-          challengerSelection: challengerSelection,
-          acceptorSelection: acceptorSelection,
-          wagerAmount: wagerAmount,
-          _id: _id,
-          void: voided
-        }
+      const challengeToAdd = {
+        challengerId: challengerId,
+        acceptorId: acceptorId,
+        challengerName: challengerName,
+        acceptorName: acceptorName,
+        challengerSelection: challengerSelection,
+        acceptorSelection: acceptorSelection,
+        wagerAmount: wagerAmount,
+        gameId: gameId,
+        propId: propId,
+        dateProposed: dateProposed,
+        dateAccepted: dateAccepted,
+        _id: _id,
+        voided: voided
       }
-      state.challenges[_id]._id = _id
-      state.challenges[_id].challengerName = challengerName
-      state.challenges[_id].acceptorName = acceptorName
-      state.challenges[_id].challengerSelection = challengerSelection
-      state.challenges[_id].acceptorSelection = acceptorSelection
-      state.challenges[_id].wagerAmount = wagerAmount
-      state.challenges[_id].void = voided
+
+      if (!state.challenges[propId]) {
+        state.challenges[propId] = []
+        state.challenges[propId].push(challengeToAdd)
+        return
+      }
+
+      const challengeExists = state.challenges[propId].find((challenge) => {
+        return challenge._id === _id
+      })
+
+      if (challengeExists) return
+
+      state.challenges[propId].push(challengeToAdd)
+    },
+
+    // This doesn't actually remove the challenge from state, it just adds the acceptor so that the filtered challenges will update!
+    removeChallenge: (state, action: PayloadAction<RemoveChallenge>) => {
+      const { acceptorName, challengeId, propId, acceptorId } = action.payload
+
+      const challengeToUpdate = state.challenges[propId].find((challenge) => {
+        return challenge._id === challengeId
+      })
+
+      if (!challengeToUpdate) return
+
+      challengeToUpdate.acceptorName = acceptorName
+      challengeToUpdate.acceptorId = acceptorId
     }
   }
 })
 
-export const { setActiveButton, setPickIds, setPicksMade, setChallenge } =
-  picksSlice.actions
+export const {
+  setActiveButton,
+  setPickIds,
+  setPicksMade,
+  addChallenge,
+  removeChallenge
+} = picksSlice.actions
 export default picksSlice.reducer

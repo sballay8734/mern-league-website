@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { PropToDbInterface } from "../BettingPropSpreads"
-import { useFetchPropsQuery } from "../../redux/props/propsApi"
+import { Challenge, removeChallenge } from "../../redux/props/picksSlice"
+import { useDispatch } from "react-redux"
 
 interface User {
   _id: string
@@ -14,31 +15,21 @@ interface User {
   fullName: string
 }
 
-interface Challenge {
-  challengerName: string
-  acceptorName: string
-  challengerSelection: string // "over" | "under" | "away" | "home"
-  acceptorSelection: string // "over" | "under" | "away" | "home"
-  wagerAmount: number
-  _id: string
-
-  void: boolean
-}
-
 interface ChallengeAcceptProps {
   challenge: Challenge
   item: PropToDbInterface
   user: User
+  handleShowChallenges: () => void
 }
 
 export default function ChallengeAccept({
   challenge,
   item,
-  user
+  user,
+  handleShowChallenges
 }: ChallengeAcceptProps) {
-  // MIGHT NEED SOME LOGIC TO DETERMINE THE TYPE OF CHALLENGE
+  const dispatch = useDispatch()
   const [verifyAcceptance, setVerifyAcceptance] = useState<boolean>(false)
-  const { refetch } = useFetchPropsQuery()
 
   function formatOwnerName(str: string) {
     return (
@@ -87,6 +78,17 @@ export default function ChallengeAccept({
       console.log("ERROR")
       return
     }
+
+    const challengeToRemove = {
+      acceptorName: acceptorName,
+      challengeId: challengeId,
+      propId: uniqueId,
+      acceptorId: user._id
+    }
+
+    dispatch(removeChallenge(challengeToRemove))
+
+    handleShowChallenges()
 
     // Might need this?
     // refetch()

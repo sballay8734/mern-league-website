@@ -17,9 +17,12 @@ NOT THAT IMPORTANT
 
 
 VERY IMPORTANT (START WITH KOTH AND COMPARE PAGE) ********************************************************************************
+- Break challenges UI into separate component
+- ADD BACK IN "YOU CAN'T ACCPET YOUR OWN CHALLENGE CHECK"
 - FIX PICK COUNTER AT BOTTOM OF SCREEN (NOT LOADING WITH CURRENT AMOUNT)
 - "Open Challenges" instead of history
 - Try and refactor the logic that checks if owners exist or owners participated exists in compare page....
+- NEED TO SET A TIME FRAME FOR AUTO REFETCH OF DATA INCASE SOME PEOPLE LEAVE THEIR TABS OPEN
 
 - Move things to their own component
 - State management changes

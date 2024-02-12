@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express"
 import { errorHandler } from "../utils/error"
 import Prop, { PropToDbInterface } from "../models/Prop"
 import User from "../models/User"
+import Challenge from "../models/Challenge"
 
 interface WeekToNum {
   [week: string]: number
@@ -234,7 +235,7 @@ export const getProps = async (
       nflYear: Number(year)
     })
 
-    // this needs to handle what happens if people visit the page when props havne't been submitted yet.
+    // this needs to handle what happens if people visit the page when props havne't been submitted yet or if they have expired
     if (!propsForThisWeek || propsForThisWeek.length === 0) {
       res.status(400).json("No props found for this week")
       return
@@ -246,7 +247,7 @@ export const getProps = async (
   }
 }
 
-interface Challenge {
+interface IChallenge {
   challengerName: string
   acceptorName: string
   challengerSelection: string // "over" | "under" | "away" | "home"
@@ -257,34 +258,60 @@ interface Challenge {
   void: boolean
 }
 
-export const addChallenge = async (
+export const createChallenge = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const challenge: Challenge = req.body.challenge
+  if (!req.user) return next(errorHandler(400, "Unauthorized"))
+
+  const challengerId: string = req.user.id
   const gameId: string = req.body.gameId
-  const uniqueId: string = req.body.uniqueId
-  const userId: string = req.user.id
+  const propId: string = req.body.uniqueId
+  const challenge: IChallenge = req.body.challenge
+
+  const formattedChallenge = {
+    challengerId: challengerId,
+    acceptorId: "",
+    challengerName: challenge.challengerName,
+    acceptorName: "",
+    challengerSelection: challenge.challengerSelection,
+    acceptorSelection: challenge.acceptorSelection,
+    wagerAmount: challenge.wagerAmount,
+    gameId: gameId,
+    propId: propId,
+    dateProposed: new Date().toISOString(),
+    dateAccepted: "",
+    voided: false
+  }
 
   try {
-    const PropToUpdate = await Prop.findOne({
-      gameId: gameId,
-      uniqueId: uniqueId
-    })
+    // try to create the challenge
+    const newChallenge = await Challenge.create(formattedChallenge)
 
-    if (!PropToUpdate) return next(errorHandler(404, `Prop not found`))
+    if (newChallenge) {
+      return res.status(200).json(newChallenge)
+    }
 
-    PropToUpdate.set({
-      challenges: [...PropToUpdate.challenges, challenge]
-    })
-
-    await PropToUpdate.save()
-
-    res.status(200).json(challenge)
+    return next(errorHandler(500, "Could not create challenge"))
   } catch (error) {
     next(error)
   }
+}
+
+export const getChallenges = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const gameId: string = req.params.gameId
+  const propId: string = req.params.propId
+
+  const challenges = await Challenge.find({ gameId: gameId, propId: propId })
+
+  if (challenges) return res.status(200).json(challenges)
+
+  return
 }
 
 export const acceptChallenge = async (
@@ -292,39 +319,31 @@ export const acceptChallenge = async (
   res: Response,
   next: NextFunction
 ) => {
-  const gameId = req.body.gameId
-  const uniqueId = req.body.uniqueId
+  const acceptorId = req.user.id
   const acceptorName = req.body.acceptorName
   const challengeId = req.body.challengeId
   const challengerName = req.body.challengerName
+  const dateAccepted = new Date().toISOString()
 
   if (acceptorName === challengerName)
     return next(errorHandler(400, "You cannot accept your own challenge!"))
 
   try {
-    const propToUpdate = await Prop.findOne({
-      gameId: gameId,
-      uniqueId: uniqueId
-    })
+    const challengeToUpdate = await Challenge.findById(challengeId)
 
-    if (!propToUpdate) return next(errorHandler(404, "Prop not found!"))
-
-    // Find the index of the challenge with the given challengeId
-    const challengeIndex = propToUpdate.challenges.findIndex(
-      (challenge) => challenge._id.toString() === challengeId
-    )
+    if (!challengeToUpdate) return next(errorHandler(404, "Prop not found!"))
+    if (challengeToUpdate.acceptorName !== "")
+      return next(errorHandler(400, "Someone already accepted this!"))
 
     // Update the acceptorName if the challengeIndex is valid
-    if (challengeIndex !== -1) {
-      propToUpdate.challenges[challengeIndex].acceptorName = acceptorName
+    challengeToUpdate.acceptorName = acceptorName
+    challengeToUpdate.acceptorId = acceptorId
+    challengeToUpdate.dateAccepted = dateAccepted
 
-      // Save the updated document
-      const updatedProp = await propToUpdate.save()
+    // Save the updated document
+    const updatedChallenge = await challengeToUpdate.save()
 
-      return res.status(200).json(updatedProp)
-    } else {
-      return next(errorHandler(404, "Challenge not found!"))
-    }
+    return res.status(200).json(updatedChallenge)
   } catch (error) {
     next(error)
   }

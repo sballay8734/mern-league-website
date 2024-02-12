@@ -4,12 +4,12 @@ import { RootState } from "../../redux/store"
 import { PropToDbInterface } from "../BettingPropSpreads"
 
 interface PicksProps {
-  propData: PropToDbInterface[]
+  propData: PropToDbInterface[] | undefined
 }
 
 export default function PickCounter({ propData }: PicksProps): JSX.Element {
   const pickIds = useSelector((state: RootState) => state.picksSlice.pickIds)
-  const picksToMake = propData.length
+  const picksToMake = propData ? propData.length : 0
 
   return (
     <div

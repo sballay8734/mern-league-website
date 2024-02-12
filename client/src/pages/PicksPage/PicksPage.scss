@@ -1097,6 +1097,13 @@
   color: black !important;
 }
 
+.no-picks {
+  height: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 @keyframes fadeInMakePicks {
   from {

@@ -1,13 +1,14 @@
 // Need locks to appear when successful database write
 // Lock pick when timer is up
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, memo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import {
   setPicksMade,
   setPickIds,
-  setChallenge
+  addChallenge,
+  Challenge
 } from "../../redux/props/picksSlice"
 import { FaCaretDown, FaCaretUp, FaLock } from "react-icons/fa"
 import CountdownTimer from "../CountDownTimer/CountDownTimer"
@@ -17,7 +18,8 @@ import { RootState } from "../../redux/store"
 import { formatTeamName } from "./helpers"
 import { PickCardProps, PropToDbInterface } from "./types"
 
-export default function PickCard({ item, user }: PickCardProps) {
+// export at bottom
+function PickCard({ item, user }: PickCardProps) {
   const dispatch = useDispatch()
   const [overOrUnder, setOverOrUnder] = useState<string | null>(null)
   const [spreadPick, setSpreadPick] = useState<string | null>(null)
@@ -33,7 +35,9 @@ export default function PickCard({ item, user }: PickCardProps) {
   const thisProp = useSelector(
     (state: RootState) => state.picksSlice.picksMade[item.uniqueId]
   )
-  // const thisPropChallenges = useSelector((state: RootState) => state.picksSlice.challenges[])
+  const thisPropChallenges = useSelector(
+    (state: RootState) => state.picksSlice.challenges[item.uniqueId]
+  )
 
   // NOTE: Even though pickIds is unused, it will STILL trigger a refresh for ALL PropCards if it is updated! Make sure to remove these from code!!
   // const pickIds = useSelector((state: RootState) => state.picksSlice.pickIds)
@@ -119,7 +123,7 @@ export default function PickCard({ item, user }: PickCardProps) {
     dispatch(setPickIds(item.uniqueId))
   }
 
-  function populateState() {
+  async function populateState() {
     const homeTeam = item.homeData?.homeTeam || null
     const awayTeam = item.awayData?.awayTeam || null
 
@@ -132,6 +136,7 @@ export default function PickCard({ item, user }: PickCardProps) {
 
       dispatch(setPickIds(item.uniqueId))
       setLockIcon(true)
+      populateChallenges()
       return
     }
 
@@ -152,6 +157,7 @@ export default function PickCard({ item, user }: PickCardProps) {
         setOverOrUnder("over")
         dispatch(setPickIds(item.uniqueId))
         setLockIcon(true)
+        populateChallenges()
         return
       } else if (item.underSelections?.includes(user.fullName)) {
         setPicksMade({
@@ -164,6 +170,7 @@ export default function PickCard({ item, user }: PickCardProps) {
         setOverOrUnder("under")
         dispatch(setPickIds(item.uniqueId))
         setLockIcon(true)
+        populateChallenges()
         return
       }
     } else if (item.type === "teamSpreads") {
@@ -179,6 +186,7 @@ export default function PickCard({ item, user }: PickCardProps) {
         })
         setSpreadPick(item.homeData?.homeTeam)
         dispatch(setPickIds(item.uniqueId))
+        populateChallenges()
         setLockIcon(true)
         return
       } else if (item.awayLineSelections?.includes(user.fullName)) {
@@ -191,6 +199,7 @@ export default function PickCard({ item, user }: PickCardProps) {
         })
         setSpreadPick(item.awayData?.awayTeam)
         dispatch(setPickIds(item.uniqueId))
+        populateChallenges()
         setLockIcon(true)
         return
       }
@@ -198,6 +207,28 @@ export default function PickCard({ item, user }: PickCardProps) {
       console.log("SOMETHING WENT WRONG")
       return
     }
+  }
+
+  async function populateChallenges() {
+    const gameId = item.gameId
+    const uniqueId = item.uniqueId
+    const res = await fetch(`/api/props/get-challenges/${gameId}/${uniqueId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+
+    const challenges = await res.json()
+
+    if (!challenges) return
+
+    challenges.forEach((challenge: Challenge) => {
+      if (challenge.acceptorName !== "") return null
+
+      // if challenge already exists in state return null
+      // if (challenge._id) dispatch(addChallenge(challenge))
+    })
   }
 
   function handleShowCreateChallenge() {
@@ -290,7 +321,7 @@ export default function PickCard({ item, user }: PickCardProps) {
     const gameId = item.gameId
     const uniqueId = item.uniqueId
 
-    const res = await fetch("/api/props/add-challenge", {
+    const res = await fetch("/api/props/create-challenge", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -302,30 +333,43 @@ export default function PickCard({ item, user }: PickCardProps) {
       })
     })
 
-    const data = await res.json()
+    const data: Challenge = await res.json()
 
     if (!data) {
       console.log("ERROR")
       return
     }
 
-    // const challengeObject = {
-    //   challengerName:
-    // }
-    console.log(data)
+    const reformattedForState: Challenge = {
+      challengerId: data.challengerId,
+      acceptorId: data.acceptorId,
+      challengerName: data.challengerName,
+      acceptorName: data.acceptorName,
+      challengerSelection: data.challengerSelection,
+      acceptorSelection: data.acceptorSelection,
+      wagerAmount: data.wagerAmount,
+      gameId: data.gameId,
+      propId: data.propId,
+      dateProposed: data.dateProposed,
+      dateAccepted: data.dateAccepted,
+      _id: data._id,
 
-    // you MIGHT need this refetch() probably not though
-    // refetch()
+      voided: data.voided
+    }
+    dispatch(addChallenge(reformattedForState))
     handleClearChallenge()
   }
 
-  console.log("Rendering Pick Card For... ", item.uniqueId)
+  const filteredPropChallenges = thisPropChallenges
+    ? thisPropChallenges.filter((challenge) => {
+        return challenge.acceptorId === ""
+      })
+    : []
 
-  const filteredChallenges = item.challenges.filter((challenge) => {
-    return challenge.acceptorName === ""
-  })
+  console.log("Rendering...")
 
   useEffect(() => {
+    console.log("Mounted...")
     populateState()
   }, [])
 
@@ -394,11 +438,11 @@ export default function PickCard({ item, user }: PickCardProps) {
           <div className="challenge-btn-wrapper">
             <button
               className={`expand-challenges-btn ${
-                filteredChallenges.length === 0 && "disabled"
+                filteredPropChallenges.length === 0 && "disabled"
               }`}
               onClick={handleShowChallenges}
             >
-              View Challenges ({filteredChallenges.length})
+              View Challenges ({filteredPropChallenges.length})
             </button>
             <button
               className={`create-challenge-btn`}
@@ -471,8 +515,8 @@ export default function PickCard({ item, user }: PickCardProps) {
 
             {showChallenges && (
               <div className="challenges-list">
-                {item.challenges &&
-                  item.challenges.map((challenge) => {
+                {filteredPropChallenges &&
+                  filteredPropChallenges.map((challenge) => {
                     if (challenge.acceptorName !== "") {
                       return null
                     }
@@ -483,6 +527,7 @@ export default function PickCard({ item, user }: PickCardProps) {
                         challenge={challenge}
                         item={item}
                         user={user}
+                        handleShowChallenges={handleShowChallenges}
                       />
                     )
                   })}
@@ -560,11 +605,11 @@ export default function PickCard({ item, user }: PickCardProps) {
           <div className="challenge-btn-wrapper">
             <button
               className={`expand-challenges-btn ${
-                filteredChallenges.length === 0 && "disabled"
+                filteredPropChallenges.length === 0 && "disabled"
               }`}
               onClick={handleShowChallenges}
             >
-              View Challenges ({filteredChallenges.length})
+              View Challenges ({filteredPropChallenges.length})
             </button>
             <button
               className={`create-challenge-btn`}
@@ -637,8 +682,8 @@ export default function PickCard({ item, user }: PickCardProps) {
 
             {showChallenges && (
               <div className="challenges-list">
-                {item.challenges &&
-                  item.challenges.map((challenge) => {
+                {filteredPropChallenges &&
+                  filteredPropChallenges.map((challenge) => {
                     if (challenge.acceptorName !== "") {
                       return null
                     }
@@ -649,6 +694,7 @@ export default function PickCard({ item, user }: PickCardProps) {
                         challenge={challenge}
                         item={item}
                         user={user}
+                        handleShowChallenges={handleShowChallenges}
                       />
                     )
                   })}
@@ -737,11 +783,11 @@ export default function PickCard({ item, user }: PickCardProps) {
               <div className="challenge-btn-wrapper">
                 <button
                   className={`expand-challenges-btn ${
-                    filteredChallenges.length === 0 && "disabled"
+                    filteredPropChallenges.length === 0 && "disabled"
                   }`}
                   onClick={handleShowChallenges}
                 >
-                  View Challenges ({filteredChallenges.length})
+                  View Challenges ({filteredPropChallenges.length})
                 </button>
                 <button
                   className={`create-challenge-btn`}
@@ -815,8 +861,8 @@ export default function PickCard({ item, user }: PickCardProps) {
 
                 {showChallenges && (
                   <div className="challenges-list">
-                    {item.challenges &&
-                      item.challenges.map((challenge) => {
+                    {filteredPropChallenges &&
+                      filteredPropChallenges.map((challenge) => {
                         if (challenge.acceptorName !== "") {
                           return null
                         }
@@ -827,6 +873,7 @@ export default function PickCard({ item, user }: PickCardProps) {
                             challenge={challenge}
                             item={item}
                             user={user}
+                            handleShowChallenges={handleShowChallenges}
                           />
                         )
                       })}
@@ -846,3 +893,5 @@ export default function PickCard({ item, user }: PickCardProps) {
     return <div className="pick wrong">Incorrect Format</div>
   }
 }
+
+export default memo(PickCard)
