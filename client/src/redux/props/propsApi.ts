@@ -1,17 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { WeekRanges } from "../../components/utils";
 
-interface Challenge {
-  challengerName: string;
-  acceptorName: string;
-  challengerSelection: string; // "over" | "under" | "away" | "home"
-  acceptorSelection: string; // "over" | "under" | "away" | "home"
-  wagerAmount: number;
-  _id: string;
-
-  void: boolean;
-}
-
 const nfl2024WeekRanges: WeekRanges = {
   // Tuesday Morning (12:00am) ---> Monday Night (11:59pm)
   weekOne: {
@@ -108,6 +97,8 @@ interface Challenge {
   dateProposed: string;
   dateAccepted: string;
   result: string;
+  type: string;
+  _id: string;
 
   voided: boolean;
 }
@@ -181,8 +172,24 @@ const propsApi = createApi({
         },
       }),
     }),
+
+    // CAN be used to get BOTH active challenges and history (just filter on FE)
+    fetchChallengesByUser: builder.query<Challenge[], string>({
+      query: (userId) => ({
+        url: `/get-challenges/${userId}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
   }),
 });
 
-export const { useFetchPropsQuery, useFetchChallengesQuery } = propsApi;
+export const {
+  useFetchPropsQuery,
+  useFetchChallengesQuery,
+  useFetchChallengesToUpdateQuery,
+  useFetchChallengesByUserQuery,
+} = propsApi;
 export { propsApi };

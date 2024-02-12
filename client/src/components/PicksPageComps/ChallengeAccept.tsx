@@ -147,21 +147,3 @@ export default function ChallengeAccept({
     </div>
   );
 }
-
-/*
-{
-  "challengerId": "656f3ba90a4cfce43f17bf5a",
-  "acceptorId": "656f17d50a4cfce43f17bef6",
-  "challengerName": "Shawn Ballay",
-  "acceptorName": "Cody Zwier",
-  "challengerSelection": "over",
-  "acceptorSelection": "under",
-  "wagerAmount": 25,
-  "gameId": "821066e2d2f7a99b660ffc6aec1cb85f",
-  "propId": "PatrickMahomesplayer_pass_attempts",
-  "dateProposed": "2024-02-10T00:28:02.914Z",
-  "dateAccepted": "2024-02-10T00:28:05.380Z",
-  "result": "",
-  "voided": true
-}
-*/

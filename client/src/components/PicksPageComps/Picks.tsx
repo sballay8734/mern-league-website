@@ -21,7 +21,8 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
 
   console.log("Rendering Parent WHYYYY...");
 
-  // IF THERE ARE NO PICKS TO MAKE (The week has started, MAKE PICKS SHOULD SHOW STANDINGS)
+  // ADD ANOTHER ICON ABOVE NAV TOGGLE TO SHOW CURRENT YEAR STANDINGS
+  //
 
   return (
     <>
@@ -99,7 +100,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
             ) : activeButton === "history" ? (
               <div className="standings">Coming Soon</div>
             ) : (
-              <div className="challenges">
+              <div className="challenges flex flex-col">
                 <ChallengeHistory />
               </div>
             )}

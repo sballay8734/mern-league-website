@@ -6,6 +6,7 @@ import {
   createChallenge,
   createProps,
   getChallenges,
+  getChallengesByUser,
   getChallengesToUpdate,
   getProps,
   updateProp
@@ -20,5 +21,6 @@ router.post("/accept-challenge", verifyUser, acceptChallenge)
 router.post("/create-challenge", verifyUser, createChallenge)
 router.get("/get-challenges/:gameId/:propId", getChallenges)
 router.get("/get-challenges-to-update", getChallengesToUpdate)
+router.get("/get-challenges/:userId", verifyUser, getChallengesByUser)
 
 export default router

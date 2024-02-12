@@ -716,13 +716,13 @@
         .history {
           animation: fadeInYearly 300ms ease;
         }
-        .standings {
+        .challenges {
           animation: fadeInAllTime 300ms ease;
         }
     }
   }
 
-  .standings, .history {
+  .challenges, .history {
     display: flex;
     align-items: center;
     justify-content: center;

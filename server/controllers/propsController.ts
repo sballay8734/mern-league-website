@@ -238,7 +238,6 @@ export const getProps = async (
     // this needs to handle what happens if people visit the page when props havne't been submitted yet or if they have expired
     if (!propsForThisWeek || propsForThisWeek.length === 0) {
       res.status(404).json("No props found for this week")
-      console.log("NO PROPS FOUND!")
       return
     }
 
@@ -254,6 +253,7 @@ interface IChallenge {
   challengerSelection: string // "over" | "under" | "away" | "home"
   acceptorSelection: string // "over" | "under" | "away" | "home"
   wagerAmount: number
+  type: string
   _id: string
 
   void: boolean
@@ -283,6 +283,7 @@ export const createChallenge = async (
     propId: propId,
     dateProposed: new Date().toISOString(),
     dateAccepted: "",
+    type: challenge.type,
     voided: false
   }
 
@@ -321,6 +322,26 @@ export const getChallengesToUpdate = async (
   next: NextFunction
 ) => {
   const challenges = await Challenge.find({ result: "" })
+
+  if (challenges) return res.status(200).json(challenges)
+
+  return
+}
+
+export const getChallengesByUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.user.id
+
+  // console.log(req.user)
+
+  if (!userId) return next(errorHandler(404, "User not found"))
+
+  const challenges = await Challenge.find({
+    $or: [{ challengerId: userId }, { acceptorId: userId }]
+  })
 
   if (challenges) return res.status(200).json(challenges)
 

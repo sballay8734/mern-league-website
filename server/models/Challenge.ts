@@ -12,6 +12,7 @@ interface Challenge {
   propId: string
   dateProposed: string
   dateAccepted: string
+  type: string
   result: string
 
   voided: boolean
@@ -27,6 +28,7 @@ const ChallengeSchema = new Schema({
   wagerAmount: Number,
   gameId: String,
   propId: String,
+  type: String,
   dateProposed: String,
   dateAccepted: String,
   result: { type: String, default: "" },
