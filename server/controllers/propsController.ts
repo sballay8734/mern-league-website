@@ -256,7 +256,7 @@ interface IChallenge {
   type: string
   _id: string
 
-  void: boolean
+  voided: boolean
 }
 
 export const createChallenge = async (

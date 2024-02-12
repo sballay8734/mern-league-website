@@ -1,22 +1,7 @@
-interface Challenge {
-  challengerId: string;
-  acceptorId: string;
-  challengerName: string;
-  acceptorName: string;
-  challengerSelection: string; // "over" | "under" | "away" | "home"
-  acceptorSelection: string; // "over" | "under" | "away" | "home"
-  wagerAmount: number;
-  gameId: string;
-  propId: string;
-  dateProposed: string;
-  dateAccepted: string;
-  _id: string;
-
-  voided: boolean;
-}
+import { IChallenge } from "../../types/challenges";
 
 interface completedChallengesProps {
-  completedChallenges: Challenge[];
+  completedChallenges: IChallenge[];
 }
 
 export default function CompletedChallenges({

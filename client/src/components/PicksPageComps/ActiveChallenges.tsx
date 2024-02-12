@@ -1,25 +1,8 @@
 import ChallengeCard from "./ChallengeCard";
-
-interface Challenge {
-  challengerId: string;
-  acceptorId: string;
-  challengerName: string;
-  acceptorName: string;
-  challengerSelection: string; // "over" | "under" | "away" | "home"
-  acceptorSelection: string; // "over" | "under" | "away" | "home"
-  wagerAmount: number;
-  gameId: string;
-  propId: string;
-  dateProposed: string;
-  dateAccepted: string;
-  type: string;
-  _id: string;
-
-  voided: boolean;
-}
+import { IChallenge } from "../../types/challenges";
 
 interface ActiveChallengesProps {
-  activeChallenges: Challenge[];
+  activeChallenges: IChallenge[];
 }
 
 export default function ActiveChallenges({

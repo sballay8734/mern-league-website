@@ -8,8 +8,8 @@ import {
   setPicksMade,
   setPickIds,
   addChallenge,
-  Challenge,
 } from "../../redux/props/picksSlice";
+import { PropChallenge } from "./types";
 import { FaCaretDown, FaCaretUp, FaLock } from "react-icons/fa";
 import CountdownTimer from "../CountDownTimer/CountDownTimer";
 import { propKeyConversion } from "../utils";
@@ -17,6 +17,7 @@ import ChallengeAccept from "./ChallengeAccept";
 import { RootState } from "../../redux/store";
 import { formatTeamName } from "./helpers";
 import { PickCardProps, PropToDbInterface } from "./types";
+import { IChallenge } from "../../types/challenges";
 
 // export at bottom
 function PickCard({ item, user }: PickCardProps) {
@@ -223,7 +224,7 @@ function PickCard({ item, user }: PickCardProps) {
 
     if (!challenges) return;
 
-    challenges.forEach((challenge: Challenge) => {
+    challenges.forEach((challenge: PropChallenge) => {
       if (challenge.acceptorName !== "") return null;
 
       // if challenge already exists in state return null
@@ -335,14 +336,14 @@ function PickCard({ item, user }: PickCardProps) {
       }),
     });
 
-    const data: Challenge = await res.json();
+    const data: IChallenge = await res.json();
 
     if (!data) {
       console.log("ERROR");
       return;
     }
 
-    const reformattedForState: Challenge = {
+    const reformattedForState: IChallenge = {
       challengerId: data.challengerId,
       acceptorId: data.acceptorId,
       challengerName: data.challengerName,
@@ -354,6 +355,8 @@ function PickCard({ item, user }: PickCardProps) {
       propId: data.propId,
       dateProposed: data.dateProposed,
       dateAccepted: data.dateAccepted,
+      type: data.type,
+      result: "",
       _id: data._id,
 
       voided: data.voided,

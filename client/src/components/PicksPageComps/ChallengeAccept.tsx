@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { PropToDbInterface } from "../BettingPropSpreads";
-import { Challenge, removeChallenge } from "../../redux/props/picksSlice";
+import { removeChallenge } from "../../redux/props/picksSlice";
+import { PropChallenge } from "../../types/challenges";
 import { useDispatch } from "react-redux";
 
 interface User {
@@ -16,7 +17,7 @@ interface User {
 }
 
 interface ChallengeAcceptProps {
-  challenge: Challenge;
+  challenge: PropChallenge;
   item: PropToDbInterface;
   user: User;
   handleShowChallenges: () => void;
@@ -47,7 +48,7 @@ export default function ChallengeAccept({
     return formattedTeam;
   }
 
-  async function handleAcceptChallenge(challenge: Challenge) {
+  async function handleAcceptChallenge(challenge: PropChallenge) {
     const gameId = item.gameId;
     const uniqueId = item.uniqueId;
     const acceptorName = user.fullName;

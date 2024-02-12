@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { WeekRanges } from "../../components/utils";
+import { IChallenge, PropChallenge } from "../../types/challenges";
 
 const nfl2024WeekRanges: WeekRanges = {
   // Tuesday Morning (12:00am) ---> Monday Night (11:59pm)
@@ -79,28 +80,9 @@ export interface PropToDbInterface {
 
   result?: number;
 
-  void: boolean;
-
-  challenges: Challenge[] | [];
-}
-
-interface Challenge {
-  challengerId: string;
-  acceptorId: string;
-  challengerName: string;
-  acceptorName: string;
-  challengerSelection: string; // "over" | "under" | "away" | "home"
-  acceptorSelection: string; // "over" | "under" | "away" | "home"
-  wagerAmount: number;
-  gameId: string;
-  propId: string;
-  dateProposed: string;
-  dateAccepted: string;
-  result: string;
-  type: string;
-  _id: string;
-
   voided: boolean;
+
+  challenges: PropChallenge[] | [];
 }
 
 function getCurrentWeek() {
@@ -152,7 +134,7 @@ const propsApi = createApi({
       }),
     }),
     fetchChallenges: builder.query<
-      Challenge[],
+      IChallenge[],
       { gameId: string; uniqueId: string }
     >({
       query: ({ gameId, uniqueId }) => ({
@@ -163,7 +145,7 @@ const propsApi = createApi({
         },
       }),
     }),
-    fetchChallengesToUpdate: builder.query<Challenge[], void>({
+    fetchChallengesToUpdate: builder.query<IChallenge[], void>({
       query: () => ({
         url: `/get-challenges-to-update`,
         method: "GET",
@@ -174,7 +156,7 @@ const propsApi = createApi({
     }),
 
     // CAN be used to get BOTH active challenges and history (just filter on FE)
-    fetchChallengesByUser: builder.query<Challenge[], string>({
+    fetchChallengesByUser: builder.query<IChallenge[], string>({
       query: (userId) => ({
         url: `/get-challenges/${userId}`,
         method: "GET",

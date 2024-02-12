@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose"
 
-interface Challenge {
+export interface IChallenge {
   challengerId: string
   acceptorId: string
   challengerName: string
@@ -14,6 +14,7 @@ interface Challenge {
   dateAccepted: string
   type: string
   result: string
+  _id: string
 
   voided: boolean
 }
@@ -36,6 +37,6 @@ const ChallengeSchema = new Schema({
   voided: Boolean
 })
 
-const Challenge = mongoose.model<Challenge>("challenge", ChallengeSchema)
+const Challenge = mongoose.model<IChallenge>("challenge", ChallengeSchema)
 
 export default Challenge

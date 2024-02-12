@@ -1,71 +1,71 @@
-import { useState } from "react"
+import { useState } from "react";
 
-import { weekToNumConversion } from "../utils"
+import { weekToNumConversion } from "../utils";
 import {
   Outcomes,
   Markets,
   BettingProp,
   FullMatchupProps,
-  calculatePayout
-} from "../utils"
+  calculatePayout,
+} from "../utils";
 
-interface Challenge {
-  challengerName: string
-  acceptorName: string
-  challengerSelection: string // "over" | "under" | "away" | "home"
-  acceptorSelection: string // "over" | "under" | "away" | "home"
-  wagerAmount: number
-  _id: string
+interface PropChallenge {
+  challengerName: string;
+  acceptorName: string;
+  challengerSelection: string; // "over" | "under" | "away" | "home"
+  acceptorSelection: string; // "over" | "under" | "away" | "home"
+  wagerAmount: number;
+  _id: string;
 
-  void: boolean
+  voided: boolean;
 }
 
 export interface PropToDbInterface {
-  type: string
-  subType?: string
-  player?: string
-  gameId: string
-  expiration: string
-  uniqueId: string
-  week: number
-  nflYear: number
-  _id: string
+  type: string;
+  subType?: string;
+  player?: string;
+  gameId: string;
+  expiration: string;
+  uniqueId: string;
+  week: number;
+  nflYear: number;
+  _id: string;
 
-  overData?: { overLine: number; overPayout: number; calcOverPayout: number }
+  overData?: { overLine: number; overPayout: number; calcOverPayout: number };
   underData?: {
-    underLine: number
-    underPayout: number
-    calcUnderPayout: number
-  }
-  overSelections?: string[]
-  underSelections?: string[]
+    underLine: number;
+    underPayout: number;
+    calcUnderPayout: number;
+  };
+  overSelections?: string[];
+  underSelections?: string[];
 
-  homeTeam?: string
-  awayTeam?: string
+  homeTeam?: string;
+  awayTeam?: string;
 
   homeData?: {
-    homeTeam: string
-    homeLine: number
-    homePayout: number
-    calcHomePayout: number
-  }
+    homeTeam: string;
+    homeLine: number;
+    homePayout: number;
+    calcHomePayout: number;
+  };
   awayData?: {
-    awayTeam: string
-    awayLine: number
-    awayPayout: number
-    calcAwayPayout: number
-  }
-  homeLineSelections?: string[]
-  awayLineSelections?: string[]
+    awayTeam: string;
+    awayLine: number;
+    awayPayout: number;
+    calcAwayPayout: number;
+  };
+  homeLineSelections?: string[];
+  awayLineSelections?: string[];
 
-  awayScoreResult?: number
-  homeScoreResult?: number
+  awayScoreResult?: number;
+  homeScoreResult?: number;
 
-  result?: number
+  result?: number;
 
-  void: boolean
+  voided: boolean;
 
-  challenges: Challenge[] | []
+  challenges: PropChallenge[] | [];
 }
 
 export default function BettingPropSpreads({
@@ -78,53 +78,53 @@ export default function BettingPropSpreads({
   propsSelected,
   setPropsSelected,
   currentWeek,
-  currentYear
+  currentYear,
 }: {
-  outcomes: Outcomes[]
-  type: Markets
-  time: string
-  homeTeam: string
-  awayTeam: string
-  handlePropCounter: (propId: string) => void
-  prop: BettingProp
-  gameIdsFetched: string[]
-  setGameIdsFetched: (str: string[]) => void
-  globalPropsToRender: FullMatchupProps
-  setGlobalPropsToRender: (obj: FullMatchupProps) => void
-  propsSelected: PropToDbInterface[]
-  setPropsSelected: (obj: PropToDbInterface[]) => void
-  currentWeek: string
-  currentYear: number
+  outcomes: Outcomes[];
+  type: Markets;
+  time: string;
+  homeTeam: string;
+  awayTeam: string;
+  handlePropCounter: (propId: string) => void;
+  prop: BettingProp;
+  gameIdsFetched: string[];
+  setGameIdsFetched: (str: string[]) => void;
+  globalPropsToRender: FullMatchupProps;
+  setGlobalPropsToRender: (obj: FullMatchupProps) => void;
+  propsSelected: PropToDbInterface[];
+  setPropsSelected: (obj: PropToDbInterface[]) => void;
+  currentWeek: string;
+  currentYear: number;
 }) {
-  const [selected, setSelected] = useState<boolean>(false)
+  const [selected, setSelected] = useState<boolean>(false);
 
-  const homeLine = outcomes.find((item) => item.name === homeTeam)
-  const awayLine = outcomes.find((item) => item.name === awayTeam)
+  const homeLine = outcomes.find((item) => item.name === homeTeam);
+  const awayLine = outcomes.find((item) => item.name === awayTeam);
 
   function handleSelectedProp(propId: string, type: string) {
-    const uniqueId = prop.id + type
+    const uniqueId = prop.id + type;
 
-    setSelected(!selected)
-    handlePropCounter(propId + type)
+    setSelected(!selected);
+    handlePropCounter(propId + type);
 
-    const propExists = propsSelected.find((item) => item.uniqueId === uniqueId)
+    const propExists = propsSelected.find((item) => item.uniqueId === uniqueId);
 
     if (propExists) {
       // remove prop
       const updatedProps = propsSelected.filter(
-        (item) => item.uniqueId !== uniqueId
-      )
-      setPropsSelected(updatedProps)
-      return
+        (item) => item.uniqueId !== uniqueId,
+      );
+      setPropsSelected(updatedProps);
+      return;
     }
 
-    const propToSend = formatTeamProp(type)
-    setPropsSelected([...propsSelected, propToSend] as PropToDbInterface[])
+    const propToSend = formatTeamProp(type);
+    setPropsSelected([...propsSelected, propToSend] as PropToDbInterface[]);
   }
 
   function formatTeamProp(type: string) {
     if (homeLine && awayLine) {
-      console.log(prop.id, type)
+      console.log(prop.id, type);
       return {
         type: `team${type.charAt(0).toLocaleUpperCase() + type.slice(1)}`,
         gameId: prop.id, // you MIGHT be able to use this for automatic updates
@@ -140,14 +140,14 @@ export default function BettingPropSpreads({
           homeTeam: homeLine.name,
           homeLine: homeLine.point,
           homePayout: homeLine.price,
-          calcHomePayout: calculatePayout(homeLine.price)
+          calcHomePayout: calculatePayout(homeLine.price),
         },
 
         awayData: {
           awayTeam: awayLine.name,
           awayLine: awayLine.point,
           awayPayout: awayLine.price,
-          calcAwayPayout: calculatePayout(awayLine.price)
+          calcAwayPayout: calculatePayout(awayLine.price),
         },
 
         // these are updated as users make selections
@@ -164,8 +164,8 @@ export default function BettingPropSpreads({
         challenges: [],
 
         // NEED TO GENERATE THIS
-        weekYear: `${currentWeek}${currentYear.toString()}`
-      }
+        weekYear: `${currentWeek}${currentYear.toString()}`,
+      };
     }
   }
 
@@ -264,5 +264,5 @@ export default function BettingPropSpreads({
         )}
       </div>
     </div>
-  )
+  );
 }

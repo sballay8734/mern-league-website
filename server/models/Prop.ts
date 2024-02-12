@@ -8,7 +8,7 @@ interface Challenge {
   wagerAmount: number
   _id: string
 
-  void: boolean
+  voided: boolean
 }
 
 export interface PropToDbInterface {

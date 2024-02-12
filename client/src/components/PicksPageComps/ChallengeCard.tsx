@@ -1,23 +1,7 @@
-interface Challenge {
-  challengerId: string;
-  acceptorId: string;
-  challengerName: string;
-  acceptorName: string;
-  challengerSelection: string;
-  acceptorSelection: string;
-  wagerAmount: number;
-  gameId: string;
-  propId: string;
-  dateProposed: string;
-  dateAccepted: string;
-  type: string;
-  _id: string;
-
-  voided: boolean;
-}
+import { IChallenge } from "../../types/challenges";
 
 interface ChallengeCardProps {
-  challenge: Challenge;
+  challenge: IChallenge;
 }
 
 export default function ChallengeCard({ challenge }: ChallengeCardProps) {

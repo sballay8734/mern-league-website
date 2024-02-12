@@ -1,97 +1,97 @@
 interface User {
-  _id: string
-  email: string
-  firstName: string
-  lastInitial: string
-  avatar: string
-  preferredTheme: string
-  isAdmin: boolean
-  isCommissioner: boolean
-  fullName: string
+  _id: string;
+  email: string;
+  firstName: string;
+  lastInitial: string;
+  avatar: string;
+  preferredTheme: string;
+  isAdmin: boolean;
+  isCommissioner: boolean;
+  fullName: string;
 }
 
 export interface PickCardProps {
-  item: PropToDbInterface
-  user: User
+  item: PropToDbInterface;
+  user: User;
   // triggerRefetch: boolean
   // setTriggerRefetch: (item: boolean) => void
 }
 
 export interface PropToDbInterface {
-  type: string
-  subType?: string
-  player?: string
-  gameId: string
-  expiration: string
-  uniqueId: string
-  week: number
-  nflYear: number
-  _id: string
+  type: string;
+  subType?: string;
+  player?: string;
+  gameId: string;
+  expiration: string;
+  uniqueId: string;
+  week: number;
+  nflYear: number;
+  _id: string;
 
-  overData?: { overLine: number; overPayout: number; calcOverPayout: number }
+  overData?: { overLine: number; overPayout: number; calcOverPayout: number };
   underData?: {
-    underLine: number
-    underPayout: number
-    calcUnderPayout: number
-  }
-  overSelections?: string[]
-  underSelections?: string[]
+    underLine: number;
+    underPayout: number;
+    calcUnderPayout: number;
+  };
+  overSelections?: string[];
+  underSelections?: string[];
 
-  homeTeam?: string
-  awayTeam?: string
+  homeTeam?: string;
+  awayTeam?: string;
 
   homeData?: {
-    homeTeam: string
-    homeLine: number
-    homePayout: number
-    calcHomePayout: number
-  }
+    homeTeam: string;
+    homeLine: number;
+    homePayout: number;
+    calcHomePayout: number;
+  };
   awayData?: {
-    awayTeam: string
-    awayLine: number
-    awayPayout: number
-    calcAwayPayout: number
-  }
-  homeLineSelections?: string[]
-  awayLineSelections?: string[]
+    awayTeam: string;
+    awayLine: number;
+    awayPayout: number;
+    calcAwayPayout: number;
+  };
+  homeLineSelections?: string[];
+  awayLineSelections?: string[];
 
-  awayScoreResult?: number
-  homeScoreResult?: number
+  awayScoreResult?: number;
+  homeScoreResult?: number;
 
-  result?: number
+  result?: number;
 
-  void: boolean
+  voided: boolean;
 
-  challenges: Challenge[] | []
+  challenges: PropChallenge[] | [];
 }
 
 interface User {
-  _id: string
-  email: string
-  firstName: string
-  lastInitial: string
-  avatar: string
-  preferredTheme: string
-  isAdmin: boolean
-  isCommissioner: boolean
-  fullName: string
+  _id: string;
+  email: string;
+  firstName: string;
+  lastInitial: string;
+  avatar: string;
+  preferredTheme: string;
+  isAdmin: boolean;
+  isCommissioner: boolean;
+  fullName: string;
 }
 
-export interface Challenge {
-  challengerName: string
-  acceptorName: string
-  challengerSelection: string // "over" | "under" | "away" | "home"
-  acceptorSelection: string // "over" | "under" | "away" | "home"
-  wagerAmount: number
-  _id: string
+export interface PropChallenge {
+  challengerName: string;
+  acceptorName: string;
+  challengerSelection: string; // "over" | "under" | "away" | "home"
+  acceptorSelection: string; // "over" | "under" | "away" | "home"
+  wagerAmount: number;
+  _id: string;
 
-  void: boolean
+  voided: boolean;
 }
 
 export interface ChallengeAcceptProps {
-  challenge: Challenge
-  item: PropToDbInterface
-  user: User
+  challenge: PropChallenge;
+  item: PropToDbInterface;
+  user: User;
   // triggerRefetch: boolean
   // setTriggerRefetch: (item: boolean) => void
 }
