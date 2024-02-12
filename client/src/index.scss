@@ -1,7 +1,6 @@
-// mobile 300-480
-// Tablets 481-768
-// laptops 769-1024
-// Desktop 1025 & up
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 *, *::before, *::after {
   box-sizing: border-box;

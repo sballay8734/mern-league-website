@@ -237,7 +237,7 @@ export const getProps = async (
 
     // this needs to handle what happens if people visit the page when props havne't been submitted yet or if they have expired
     if (!propsForThisWeek || propsForThisWeek.length === 0) {
-      res.status(400).json("No props found for this week")
+      res.status(404).json("No props found for this week")
       return
     }
 
