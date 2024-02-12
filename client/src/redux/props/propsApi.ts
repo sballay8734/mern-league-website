@@ -1,15 +1,15 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { WeekRanges } from "../../components/utils"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { WeekRanges } from "../../components/utils";
 
 interface Challenge {
-  challengerName: string
-  acceptorName: string
-  challengerSelection: string // "over" | "under" | "away" | "home"
-  acceptorSelection: string // "over" | "under" | "away" | "home"
-  wagerAmount: number
-  _id: string
+  challengerName: string;
+  acceptorName: string;
+  challengerSelection: string; // "over" | "under" | "away" | "home"
+  acceptorSelection: string; // "over" | "under" | "away" | "home"
+  wagerAmount: number;
+  _id: string;
 
-  void: boolean
+  void: boolean;
 }
 
 const nfl2024WeekRanges: WeekRanges = {
@@ -17,7 +17,7 @@ const nfl2024WeekRanges: WeekRanges = {
   weekOne: {
     key: "weekOne",
     start: "2024-09-03T05:00:00Z",
-    end: "2024-09-09T04:59:59Z"
+    end: "2024-09-09T04:59:59Z",
   },
   weekTwo: { key: "weekTwo", start: "", end: "" },
   weekThree: { key: "weekThree", start: "", end: "" },
@@ -38,114 +38,117 @@ const nfl2024WeekRanges: WeekRanges = {
   weekEighteen: {
     key: "weekEighteen",
     start: "2024-01-02T06:00:00Z",
-    end: "2024-01-09T06:00:00Z"
+    end: "2024-01-09T06:00:00Z",
   },
   testWeek: {
     key: "testWeek",
     start: "2024-01-29T06:00:00Z",
-    end: "2024-02-11T18:30:00Z"
-  }
-}
+    end: "2024-02-11T18:30:00Z",
+  },
+};
 
 export interface PropToDbInterface {
-  type: string
-  subType?: string
-  player?: string
-  gameId: string
-  expiration: string
-  uniqueId: string
-  week: number
-  nflYear: number
-  _id: string
+  type: string;
+  subType?: string;
+  player?: string;
+  gameId: string;
+  expiration: string;
+  uniqueId: string;
+  week: number;
+  nflYear: number;
+  _id: string;
 
-  overData?: { overLine: number; overPayout: number; calcOverPayout: number }
+  overData?: { overLine: number; overPayout: number; calcOverPayout: number };
   underData?: {
-    underLine: number
-    underPayout: number
-    calcUnderPayout: number
-  }
-  overSelections?: string[]
-  underSelections?: string[]
+    underLine: number;
+    underPayout: number;
+    calcUnderPayout: number;
+  };
+  overSelections?: string[];
+  underSelections?: string[];
 
-  homeTeam?: string
-  awayTeam?: string
+  homeTeam?: string;
+  awayTeam?: string;
 
   homeData?: {
-    homeTeam: string
-    homeLine: number
-    homePayout: number
-    calcHomePayout: number
-  }
+    homeTeam: string;
+    homeLine: number;
+    homePayout: number;
+    calcHomePayout: number;
+  };
   awayData?: {
-    awayTeam: string
-    awayLine: number
-    awayPayout: number
-    calcAwayPayout: number
-  }
-  homeLineSelections?: string[]
-  awayLineSelections?: string[]
+    awayTeam: string;
+    awayLine: number;
+    awayPayout: number;
+    calcAwayPayout: number;
+  };
+  homeLineSelections?: string[];
+  awayLineSelections?: string[];
 
-  awayScoreResult?: number
-  homeScoreResult?: number
+  awayScoreResult?: number;
+  homeScoreResult?: number;
 
-  result?: number
+  result?: number;
 
-  void: boolean
+  void: boolean;
 
-  challenges: Challenge[] | []
+  challenges: Challenge[] | [];
 }
 
 interface Challenge {
-  challengerId: string
-  acceptorId: string
-  challengerSelection: string // "over" | "under" | "away" | "home"
-  acceptorSelection: string // "over" | "under" | "away" | "home"
-  wagerAmount: number
-  gameId: string
-  propId: string
-  dateProposed: string
-  dateAccepted: string
+  challengerId: string;
+  acceptorId: string;
+  challengerName: string;
+  acceptorName: string;
+  challengerSelection: string; // "over" | "under" | "away" | "home"
+  acceptorSelection: string; // "over" | "under" | "away" | "home"
+  wagerAmount: number;
+  gameId: string;
+  propId: string;
+  dateProposed: string;
+  dateAccepted: string;
+  result: string;
 
-  voided: boolean
+  voided: boolean;
 }
 
 function getCurrentWeek() {
-  const currentDate = new Date()
-  let currentWeek = null
+  const currentDate = new Date();
+  let currentWeek = null;
 
   for (const weekKey in nfl2024WeekRanges) {
-    const week = nfl2024WeekRanges[weekKey]
+    const week = nfl2024WeekRanges[weekKey];
 
-    const startDate = new Date(week.start)
-    const endDate = new Date(week.end)
+    const startDate = new Date(week.start);
+    const endDate = new Date(week.end);
 
     if (currentDate >= startDate && currentDate <= endDate) {
-      currentWeek = week
-      break
+      currentWeek = week;
+      break;
     }
   }
 
-  return currentWeek?.key || "Not Found"
+  return currentWeek?.key || "Not Found";
 }
 
 function getCurrentYear() {
-  let currentYear = new Date().getFullYear()
-  const currentMonth = new Date().getMonth()
+  let currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
 
   if (currentMonth === 0 || currentMonth === 1) {
-    currentYear -= 1
+    currentYear -= 1;
   }
 
-  return currentYear
+  return currentYear;
 }
 
-const currentWeek = getCurrentWeek()
-const currentYear = getCurrentYear()
+const currentWeek = getCurrentWeek();
+const currentYear = getCurrentYear();
 
 const propsApi = createApi({
   reducerPath: "props",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/props"
+    baseUrl: "/api/props",
   }),
   endpoints: (builder) => ({
     fetchProps: builder.query<PropToDbInterface[], void>({
@@ -153,9 +156,9 @@ const propsApi = createApi({
         url: `/get-props/${currentWeek}/${currentYear}`,
         method: "GET",
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
+          "Content-Type": "application/json",
+        },
+      }),
     }),
     fetchChallenges: builder.query<
       Challenge[],
@@ -165,12 +168,21 @@ const propsApi = createApi({
         url: `/get-challenges/${gameId}/${uniqueId}`,
         method: "GET",
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
-    })
-  })
-})
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+    fetchChallengesToUpdate: builder.query<Challenge[], void>({
+      query: () => ({
+        url: `/get-challenges-to-update`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+  }),
+});
 
-export const { useFetchPropsQuery, useFetchChallengesQuery } = propsApi
-export { propsApi }
+export const { useFetchPropsQuery, useFetchChallengesQuery } = propsApi;
+export { propsApi };

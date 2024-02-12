@@ -6,6 +6,7 @@ import {
   createChallenge,
   createProps,
   getChallenges,
+  getChallengesToUpdate,
   getProps,
   updateProp
 } from "../controllers/propsController"
@@ -18,5 +19,6 @@ router.post("/update-prop", verifyUser, updateProp)
 router.post("/accept-challenge", verifyUser, acceptChallenge)
 router.post("/create-challenge", verifyUser, createChallenge)
 router.get("/get-challenges/:gameId/:propId", getChallenges)
+router.get("/get-challenges-to-update", getChallengesToUpdate)
 
 export default router

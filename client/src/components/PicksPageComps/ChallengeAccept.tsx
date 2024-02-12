@@ -1,35 +1,35 @@
-import { useState } from "react"
-import { PropToDbInterface } from "../BettingPropSpreads"
-import { Challenge, removeChallenge } from "../../redux/props/picksSlice"
-import { useDispatch } from "react-redux"
+import { useState } from "react";
+import { PropToDbInterface } from "../BettingPropSpreads";
+import { Challenge, removeChallenge } from "../../redux/props/picksSlice";
+import { useDispatch } from "react-redux";
 
 interface User {
-  _id: string
-  email: string
-  firstName: string
-  lastInitial: string
-  avatar: string
-  preferredTheme: string
-  isAdmin: boolean
-  isCommissioner: boolean
-  fullName: string
+  _id: string;
+  email: string;
+  firstName: string;
+  lastInitial: string;
+  avatar: string;
+  preferredTheme: string;
+  isAdmin: boolean;
+  isCommissioner: boolean;
+  fullName: string;
 }
 
 interface ChallengeAcceptProps {
-  challenge: Challenge
-  item: PropToDbInterface
-  user: User
-  handleShowChallenges: () => void
+  challenge: Challenge;
+  item: PropToDbInterface;
+  user: User;
+  handleShowChallenges: () => void;
 }
 
 export default function ChallengeAccept({
   challenge,
   item,
   user,
-  handleShowChallenges
+  handleShowChallenges,
 }: ChallengeAcceptProps) {
-  const dispatch = useDispatch()
-  const [verifyAcceptance, setVerifyAcceptance] = useState<boolean>(false)
+  const dispatch = useDispatch();
+  const [verifyAcceptance, setVerifyAcceptance] = useState<boolean>(false);
 
   function formatOwnerName(str: string) {
     return (
@@ -37,58 +37,58 @@ export default function ChallengeAccept({
       " " +
       str.split(" ")[1].charAt(0).toLocaleUpperCase() +
       "."
-    )
+    );
   }
 
   function formatTeamName(teamName: string) {
-    const splitTeam = teamName.split(" ")
-    const formattedTeam = splitTeam[splitTeam.length - 1]
+    const splitTeam = teamName.split(" ");
+    const formattedTeam = splitTeam[splitTeam.length - 1];
 
-    return formattedTeam
+    return formattedTeam;
   }
 
   async function handleAcceptChallenge(challenge: Challenge) {
-    const gameId = item.gameId
-    const uniqueId = item.uniqueId
-    const acceptorName = user.fullName
-    const challengeId = challenge._id
-    const challengerName = challenge.challengerName
+    const gameId = item.gameId;
+    const uniqueId = item.uniqueId;
+    const acceptorName = user.fullName;
+    const challengeId = challenge._id;
+    const challengerName = challenge.challengerName;
 
     if (acceptorName === challengerName) {
-      return
+      return;
     }
 
     const res = await fetch("/api/props/accept-challenge", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         gameId: gameId,
         uniqueId: uniqueId,
         acceptorName: acceptorName,
         challengeId: challengeId,
-        challengerName: challengerName
-      })
-    })
+        challengerName: challengerName,
+      }),
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (!data) {
-      console.log("ERROR")
-      return
+      console.log("ERROR");
+      return;
     }
 
     const challengeToRemove = {
       acceptorName: acceptorName,
       challengeId: challengeId,
       propId: uniqueId,
-      acceptorId: user._id
-    }
+      acceptorId: user._id,
+    };
 
-    dispatch(removeChallenge(challengeToRemove))
+    dispatch(removeChallenge(challengeToRemove));
 
-    handleShowChallenges()
+    handleShowChallenges();
 
     // Might need this?
     // refetch()
@@ -108,8 +108,8 @@ export default function ChallengeAccept({
           {item.homeData && challenge.challengerSelection === "home"
             ? formatTeamName(item.homeData.homeTeam)
             : item.awayData && challenge.challengerSelection === "away"
-            ? formatTeamName(item.awayData.awayTeam)
-            : challenge.challengerSelection}
+              ? formatTeamName(item.awayData.awayTeam)
+              : challenge.challengerSelection}
         </span>
       </p>
       <div className="accept-btn-wrapper">
@@ -124,10 +124,10 @@ export default function ChallengeAccept({
               {item.awayData && challenge.challengerSelection === "home"
                 ? formatTeamName(item.awayData?.awayTeam)
                 : item.homeData && challenge.challengerSelection === "away"
-                ? formatTeamName(item.homeData.homeTeam)
-                : challenge.challengerSelection === "under"
-                ? "over"
-                : "under"}
+                  ? formatTeamName(item.homeData.homeTeam)
+                  : challenge.challengerSelection === "under"
+                    ? "over"
+                    : "under"}
             </span>
           </button>
         ) : (
@@ -145,5 +145,23 @@ export default function ChallengeAccept({
         )}
       </div>
     </div>
-  )
+  );
 }
+
+/*
+{
+  "challengerId": "656f3ba90a4cfce43f17bf5a",
+  "acceptorId": "656f17d50a4cfce43f17bef6",
+  "challengerName": "Shawn Ballay",
+  "acceptorName": "Cody Zwier",
+  "challengerSelection": "over",
+  "acceptorSelection": "under",
+  "wagerAmount": 25,
+  "gameId": "821066e2d2f7a99b660ffc6aec1cb85f",
+  "propId": "PatrickMahomesplayer_pass_attempts",
+  "dateProposed": "2024-02-10T00:28:02.914Z",
+  "dateAccepted": "2024-02-10T00:28:05.380Z",
+  "result": "",
+  "voided": true
+}
+*/

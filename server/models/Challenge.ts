@@ -12,6 +12,7 @@ interface Challenge {
   propId: string
   dateProposed: string
   dateAccepted: string
+  result: string
 
   voided: boolean
 }
@@ -28,6 +29,7 @@ const ChallengeSchema = new Schema({
   propId: String,
   dateProposed: String,
   dateAccepted: String,
+  result: { type: String, default: "" },
 
   voided: Boolean
 })

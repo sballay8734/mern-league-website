@@ -1,24 +1,27 @@
-import { useSelector, useDispatch } from "react-redux"
-import { Link } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { setActiveButton } from "../../redux/props/picksSlice"
-import { RootState } from "../../redux/store"
-import PickCard from "./PickCard"
-import { PropToDbInterface } from "../BettingPropSpreads"
-import PickCounter from "./PickCounter"
+import { setActiveButton } from "../../redux/props/picksSlice";
+import { RootState } from "../../redux/store";
+import PickCard from "./PickCard";
+import { PropToDbInterface } from "../BettingPropSpreads";
+import PickCounter from "./PickCounter";
+import ChallengeHistory from "./ChallengeHistory";
 
 interface PicksProps {
-  propData: PropToDbInterface[] | undefined
+  propData: PropToDbInterface[] | undefined;
 }
 
 export default function Picks({ propData }: PicksProps): JSX.Element {
-  const dispatch = useDispatch()
-  const user = useSelector((state: RootState) => state.user.user)
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.user);
   const activeButton = useSelector(
-    (state: RootState) => state.picksSlice.activeButton
-  )
+    (state: RootState) => state.picksSlice.activeButton,
+  );
 
-  console.log("Rendering Parent WHYYYY...")
+  console.log("Rendering Parent WHYYYY...");
+
+  // IF THERE ARE NO PICKS TO MAKE (The week has started, MAKE PICKS SHOULD SHOW STANDINGS)
 
   return (
     <>
@@ -34,17 +37,15 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
               <nav className="tab">
                 <ul>
                   <li
-                    className={`${
-                      activeButton === "standings" ? "active" : ""
-                    }`}
+                    className={`${activeButton === "history" ? "active" : ""}`}
                   >
                     <button
                       className={`${
-                        activeButton === "standings" ? "active" : ""
+                        activeButton === "history" ? "active" : ""
                       }`}
-                      onClick={() => dispatch(setActiveButton("standings"))}
+                      onClick={() => dispatch(setActiveButton("history"))}
                     >
-                      Standings
+                      History
                     </button>
                   </li>
                   <li className="spacer"></li>
@@ -64,15 +65,15 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                   </li>
                   <li className="spacer"></li>
                   <li
-                    className={`${activeButton === "history" ? "active" : ""}`}
+                    className={`${activeButton === "challenges" ? "active" : ""}`}
                   >
                     <button
                       className={`${
-                        activeButton === "history" ? "active" : ""
+                        activeButton === "challenges" ? "active" : ""
                       }`}
-                      onClick={() => dispatch(setActiveButton("history"))}
+                      onClick={() => dispatch(setActiveButton("challenges"))}
                     >
-                      History
+                      Challenges
                     </button>
                   </li>
                 </ul>
@@ -85,7 +86,9 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                 <div className="picks-wrapper disable-scrollbars">
                   {propData ? (
                     propData.map((prop) => {
-                      return <PickCard key={prop._id} user={user} item={prop} />
+                      return (
+                        <PickCard key={prop._id} user={user} item={prop} />
+                      );
                     })
                   ) : (
                     <div className="picks no-picks">No picks available</div>
@@ -93,10 +96,12 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                 </div>
                 <PickCounter propData={propData} />
               </>
-            ) : activeButton === "standings" ? (
+            ) : activeButton === "history" ? (
               <div className="standings">Coming Soon</div>
             ) : (
-              <div className="history">Coming Soon</div>
+              <div className="challenges">
+                <ChallengeHistory />
+              </div>
             )}
           </div>
         </div>
@@ -107,5 +112,5 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
         </div>
       )}
     </>
-  )
+  );
 }

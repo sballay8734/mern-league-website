@@ -1,32 +1,32 @@
-import { useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
-import { MdAdminPanelSettings } from "react-icons/md"
-import { RootState } from "../../redux/store"
-import { useFetchOwnersQuery } from "../../redux/owners/ownersApi"
-import { staticDataInit } from "./utils/staticDataFunction"
-import "./AdminPage.scss"
-import { recordsDataInit } from "./utils/recordFunctions"
-import { KOTHInit } from "./utils/kothFunctions"
-import { PropToDbInterface } from "../../components/BettingPropSpreads"
+import { MdAdminPanelSettings } from "react-icons/md";
+import { RootState } from "../../redux/store";
+import { useFetchOwnersQuery } from "../../redux/owners/ownersApi";
+import { staticDataInit } from "./utils/staticDataFunction";
+import "./AdminPage.scss";
+import { recordsDataInit } from "./utils/recordFunctions";
+import { KOTHInit } from "./utils/kothFunctions";
+import { PropToDbInterface } from "../../components/BettingPropSpreads";
 
 import {
   WeekRanges,
   BettingProp,
   FullMatchupProps,
-  BASE_URL
+  BASE_URL,
   // TEST_BASE_URL
-} from "../../components/utils"
-import GameWrapper from "../../components/GameWrapper/GameWrapper"
+} from "../../components/utils";
+import GameWrapper from "../../components/GameWrapper/GameWrapper";
 
-const picksToMake = 12
+const picksToMake = 12;
 
 const nfl2024WeekRanges: WeekRanges = {
   // Tuesday Morning (12:00am) ---> Monday Night (11:59pm)
   weekOne: {
     key: "weekOne",
     start: "2024-09-03T05:00:00Z",
-    end: "2024-09-09T04:59:59Z"
+    end: "2024-09-09T04:59:59Z",
   },
   weekTwo: { key: "weekTwo", start: "", end: "" },
   weekThree: { key: "weekThree", start: "", end: "" },
@@ -47,181 +47,197 @@ const nfl2024WeekRanges: WeekRanges = {
   weekEighteen: {
     key: "weekEighteen",
     start: "2024-01-02T06:00:00Z",
-    end: "2024-01-09T06:00:00Z"
+    end: "2024-01-09T06:00:00Z",
   },
   testWeek: {
     key: "testWeek",
     start: "2024-01-29T06:00:00Z",
-    end: "2024-02-11T18:30:00Z"
-  }
-}
+    end: "2024-02-11T18:30:00Z",
+  },
+};
 
 export default function AdminPage() {
-  const { user } = useSelector((state: RootState) => state.user)
-  const { data } = useFetchOwnersQuery()
-  const [activeButton, setActiveButton] = useState<string>("tempAdmins")
-  const [updateInProgress, setUpdateInProgress] = useState<boolean>(false)
-  const [bettingData, setBettingData] = useState<BettingProp[] | null>(null)
-  const [numPropsSelected, setNumPropsSelected] = useState<string[]>([])
-  const [gameIdsFetched, setGameIdsFetched] = useState<string[]>([])
+  const { user } = useSelector((state: RootState) => state.user);
+  const { data } = useFetchOwnersQuery();
+  const [activeButton, setActiveButton] = useState<string>("tempAdmins");
+  const [updateInProgress, setUpdateInProgress] = useState<boolean>(false);
+  const [bettingData, setBettingData] = useState<BettingProp[] | null>(null);
+  const [numPropsSelected, setNumPropsSelected] = useState<string[]>([]);
+  const [gameIdsFetched, setGameIdsFetched] = useState<string[]>([]);
   const [globalPropsToRender, setGlobalPropsToRender] =
-    useState<FullMatchupProps>({})
-  const [propsSelected, setPropsSelected] = useState<PropToDbInterface[]>([])
-  const [currentWeek, setCurrentWeek] = useState<string>("")
-  const [currentYear, setCurrentYear] = useState<number>(0)
+    useState<FullMatchupProps>({});
+  const [propsSelected, setPropsSelected] = useState<PropToDbInterface[]>([]);
+  const [currentWeek, setCurrentWeek] = useState<string>("");
+  const [currentYear, setCurrentYear] = useState<number>(0);
 
   async function runStaticDataUpdate() {
-    if (user && user.isAdmin === false) return
+    if (user && user.isAdmin === false) return;
 
-    setUpdateInProgress(true)
+    setUpdateInProgress(true);
 
-    if (!data) return
+    if (!data) return;
 
     try {
       // run all update functions
-      const successData = await staticDataInit(data)
-      console.log(successData)
+      const successData = await staticDataInit(data);
+      console.log(successData);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
 
-    setUpdateInProgress(false)
+    setUpdateInProgress(false);
   }
 
   async function runRecordsDataUpdate() {
-    if (user && user.isAdmin === false) return
-    setUpdateInProgress(true)
+    if (user && user.isAdmin === false) return;
+    setUpdateInProgress(true);
 
-    if (!data) return
+    if (!data) return;
 
     try {
       // run all update functions
-      const successData = await recordsDataInit(data)
-      console.log(successData)
+      const successData = await recordsDataInit(data);
+      console.log(successData);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
 
-    setUpdateInProgress(false)
+    setUpdateInProgress(false);
   }
 
   async function runKOTHDataUpdate() {
-    if (user && user.isAdmin === false) return
-    setUpdateInProgress(true)
-    if (!data) return
+    if (user && user.isAdmin === false) return;
+    setUpdateInProgress(true);
+    if (!data) return;
 
     try {
       // run all update functions
-      const successData = await KOTHInit(data)
-      console.log(successData)
+      const successData = await KOTHInit(data);
+      console.log(successData);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
 
-    setUpdateInProgress(false)
+    setUpdateInProgress(false);
   }
 
   async function fetchProps() {
-    if (user && user.isAdmin === false) return
+    if (user && user.isAdmin === false) return;
     // fetch this optionally. Button says "Fetch player props for this game"
-    console.log("FETCHING...")
+    console.log("FETCHING...");
     // const res = await fetch(TEST_BASE_URL)
-    const res = await fetch(BASE_URL)
-    const data = await res.json()
+    const res = await fetch(BASE_URL);
+    const data = await res.json();
     if (!data) {
-      console.log("ERROR")
-      return
+      console.log("ERROR");
+      return;
     }
 
-    console.log(data)
-    setBettingData(data)
+    console.log(data);
+    setBettingData(data);
   }
 
   function handlePropCounter(propId: string) {
     if (numPropsSelected.includes(propId)) {
-      const filteredProps = numPropsSelected.filter((item) => item !== propId)
+      const filteredProps = numPropsSelected.filter((item) => item !== propId);
 
-      setNumPropsSelected(filteredProps)
+      setNumPropsSelected(filteredProps);
     } else {
-      setNumPropsSelected([...numPropsSelected, propId])
+      setNumPropsSelected([...numPropsSelected, propId]);
     }
   }
 
   function getCurrentWeek() {
-    const currentDate = new Date()
-    let currentWeek = null
+    const currentDate = new Date();
+    let currentWeek = null;
 
     for (const weekKey in nfl2024WeekRanges) {
-      const week = nfl2024WeekRanges[weekKey]
+      const week = nfl2024WeekRanges[weekKey];
 
-      const startDate = new Date(week.start)
-      const endDate = new Date(week.end)
+      const startDate = new Date(week.start);
+      const endDate = new Date(week.end);
 
       if (currentDate >= startDate && currentDate <= endDate) {
-        currentWeek = week
-        break
+        currentWeek = week;
+        break;
       }
     }
 
-    return currentWeek?.key || "Not Found"
+    return currentWeek?.key || "Not Found";
   }
 
   function getCurrentYear() {
-    let currentYear = new Date().getFullYear()
-    const currentMonth = new Date().getMonth()
+    let currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
 
     if (currentMonth === 0 || currentMonth === 1) {
-      currentYear -= 1
+      currentYear -= 1;
     }
 
-    return currentYear
+    return currentYear;
   }
 
   async function handlePropSubmission() {
     if (propsSelected.length !== picksToMake) {
-      console.log("NOT ENOUGH PICKS!")
-      return
+      console.log("NOT ENOUGH PICKS!");
+      return;
     } else {
       try {
         const res = await fetch("/api/props/create-props", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             props: propsSelected,
-            weekYear: `${currentWeek}${currentYear}`
-          })
-        })
+            weekYear: `${currentWeek}${currentYear}`,
+          }),
+        });
 
-        const data = await res.json()
+        const data = await res.json();
 
         if (!data) {
-          console.log("Something went wrong")
-          return
+          console.log("Something went wrong");
+          return;
         }
-        console.log(data)
+        console.log(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
   }
 
   function handleAdminNav() {
     if (user && user.isAdmin === true) {
-      setActiveButton("shawn")
+      setActiveButton("shawn");
     } else {
-      alert("Only guys with unalive girlfriends can go there!")
+      alert("Only guys with unalive girlfriends can go there!");
     }
   }
 
-  useEffect(() => {
-    const week = getCurrentWeek()
-    const nflYear = getCurrentYear()
+  async function updateChallenges() {
+    console.log("Updating Challenges...");
+    // grab challenges whose result === ""
+    const res = await fetch("/api/props/get-challenges-to-update", {
+      method: "GET",
+    });
 
-    setCurrentWeek(week)
-    setCurrentYear(nflYear)
-  }, [])
+    const data = await res.json();
+
+    console.log(data);
+
+    // fetch results from API
+    // update challenges with API data
+    // send challenges back to db with result field
+  }
+
+  useEffect(() => {
+    const week = getCurrentWeek();
+    const nflYear = getCurrentYear();
+
+    setCurrentWeek(week);
+    setCurrentYear(nflYear);
+  }, []);
 
   return (
     <div className="page admin-page">
@@ -287,6 +303,14 @@ export default function AdminPage() {
                         Update KOTH
                       </button>
                     </li>
+                    <li>
+                      <button
+                        onClick={updateChallenges}
+                        disabled={updateInProgress}
+                      >
+                        Update Challenges
+                      </button>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -306,8 +330,8 @@ export default function AdminPage() {
                 <div className="props">
                   {bettingData &&
                     bettingData.map((prop: BettingProp) => {
-                      if (prop.bookmakers.length === 0) return null
-                      if (prop.bookmakers.length > 1) return "Too Many BMs"
+                      if (prop.bookmakers.length === 0) return null;
+                      if (prop.bookmakers.length > 1) return "Too Many BMs";
 
                       return (
                         <GameWrapper
@@ -326,7 +350,7 @@ export default function AdminPage() {
                           currentWeek={currentWeek}
                           currentYear={currentYear}
                         />
-                      )
+                      );
                     })}
                 </div>
               </div>
@@ -341,8 +365,8 @@ export default function AdminPage() {
           propsSelected.length === picksToMake
             ? "done"
             : propsSelected.length > picksToMake
-            ? "tooMany"
-            : ""
+              ? "tooMany"
+              : ""
         }`}
       >
         {propsSelected.length === picksToMake ? (
@@ -356,5 +380,5 @@ export default function AdminPage() {
         )}
       </span>
     </div>
-  )
+  );
 }
