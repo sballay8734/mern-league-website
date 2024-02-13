@@ -5,8 +5,8 @@ export interface IChallenge {
   acceptorId: string
   challengerName: string
   acceptorName: string
-  challengerSelection: string // "over" | "under" | "away" | "home"
-  acceptorSelection: string // "over" | "under" | "away" | "home"
+  challengerSelection: string
+  acceptorSelection: string
   wagerAmount: number
   gameId: string
   propId: string
@@ -14,6 +14,26 @@ export interface IChallenge {
   dateAccepted: string
   type: string
   result: string
+  line: number
+  propTitle: string // this is where you put player name or matchup
+  homeData?: {
+    homeTeam: string
+    homePayout: number
+    calcHomePayout: number
+  } | null
+  awayData?: {
+    awayTeam: string
+    awayPayout: number
+    calcAwayPayout: number
+  } | null
+  overData?: {
+    overPayout: number
+    calcOverPayout: number
+  } | null
+  underData?: {
+    underPayout: number
+    calcUnderPayout: number
+  } | null
   _id: string
 
   voided: boolean

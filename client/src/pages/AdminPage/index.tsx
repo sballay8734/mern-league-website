@@ -9,13 +9,13 @@ import "./AdminPage.scss";
 import { recordsDataInit } from "./utils/recordFunctions";
 import { KOTHInit } from "./utils/kothFunctions";
 import { PropToDbInterface } from "../../components/BettingPropSpreads";
+import { handleFetchParams } from "../../utils/LeagueInitializations";
+import normalizeProps from "../../utils/propNormalization";
 
 import {
   WeekRanges,
   BettingProp,
   FullMatchupProps,
-  BASE_URL,
-  // TEST_BASE_URL
 } from "../../components/utils";
 import GameWrapper from "../../components/GameWrapper/GameWrapper";
 
@@ -49,10 +49,10 @@ const nfl2024WeekRanges: WeekRanges = {
     start: "2024-01-02T06:00:00Z",
     end: "2024-01-09T06:00:00Z",
   },
-  testWeek: {
-    key: "testWeek",
-    start: "2024-01-29T06:00:00Z",
-    end: "2024-02-11T18:30:00Z",
+  testWeek2: {
+    key: "testWeek2",
+    start: "2024-02-12T06:00:00Z",
+    end: "2024-02-20T18:30:00Z",
   },
 };
 
@@ -69,6 +69,8 @@ export default function AdminPage() {
   const [propsSelected, setPropsSelected] = useState<PropToDbInterface[]>([]);
   const [currentWeek, setCurrentWeek] = useState<string>("");
   const [currentYear, setCurrentYear] = useState<number>(0);
+  const [league, setLeague] = useState<string>("nfl");
+  const [playerPropUrl, setPlayerPropUrl] = useState<string>("");
 
   async function runStaticDataUpdate() {
     if (user && user.isAdmin === false) return;
@@ -121,12 +123,18 @@ export default function AdminPage() {
     setUpdateInProgress(false);
   }
 
-  async function fetchProps() {
+  async function fetchProps(league: string) {
     if (user && user.isAdmin === false) return;
     // fetch this optionally. Button says "Fetch player props for this game"
-    console.log("FETCHING...");
-    // const res = await fetch(TEST_BASE_URL)
-    const res = await fetch(BASE_URL);
+
+    const fetchParams = handleFetchParams(league);
+
+    if (!fetchParams || fetchParams === null) return;
+
+    setPlayerPropUrl(fetchParams.playerPropUrl);
+
+    const res = await fetch(fetchParams.baseUrl);
+
     const data = await res.json();
     if (!data) {
       console.log("ERROR");
@@ -134,6 +142,15 @@ export default function AdminPage() {
     }
 
     console.log(data);
+    return;
+
+    const props = normalizeProps(data);
+    // ****************************************************************
+    // ****************************************************************
+    // NEED TO NORMALIZE DATA HERE BEFORE PUSHING TO STATE
+    // ****************************************************************
+    // ****************************************************************
+
     setBettingData(data);
   }
 
@@ -317,9 +334,31 @@ export default function AdminPage() {
             ) : (
               <div className="placeholder">
                 <div className="actions tempAdmin-actions">
+                  <div className="flex items-center justify-center gap-2 pb-2">
+                    <button
+                      className={`${league === "nfl" ? "font-bold text-red-500" : ""}`}
+                      onClick={() => setLeague("nfl")}
+                    >
+                      NFL
+                    </button>
+                    <button
+                      className={`${league === "nhl" ? "font-bold text-red-500" : ""}`}
+                      onClick={() => setLeague("nhl")}
+                    >
+                      NHL
+                    </button>
+                    <button
+                      className={`${league === "nba" ? "font-bold text-red-500" : ""}`}
+                      onClick={() => setLeague("nba")}
+                    >
+                      NBA
+                    </button>
+                  </div>
                   <ul>
                     <li>
-                      <button onClick={fetchProps}>Fetch Props</button>
+                      <button onClick={() => fetchProps(league)}>
+                        Fetch Props
+                      </button>
                     </li>
                   </ul>
                   <span className="instructions">
@@ -349,6 +388,7 @@ export default function AdminPage() {
                           setPropsSelected={setPropsSelected}
                           currentWeek={currentWeek}
                           currentYear={currentYear}
+                          playerPropUrl={playerPropUrl}
                         />
                       );
                     })}

@@ -34,7 +34,7 @@ export default function ChallengeHistory() {
 
   return (
     <>
-      <nav className="flex w-full items-start justify-center p-4">
+      <nav className="flex w-full items-start justify-center pb-4 pt-2">
         <ul className="flex gap-6">
           <li
             className={`font-bold ${activeFilter === "active" ? "text-red-500 transition-colors duration-300" : "text-blue-500 transition-colors duration-300"}`}
@@ -55,7 +55,7 @@ export default function ChallengeHistory() {
           </li>
         </ul>
       </nav>
-      <section className="h-full text-white">
+      <section className="h-full w-full text-white">
         {activeFilter === "active" ? (
           <ActiveChallenges activeChallenges={activeChallenges} />
         ) : activeFilter === "completed" ? (

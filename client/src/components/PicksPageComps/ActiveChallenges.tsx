@@ -9,7 +9,7 @@ export default function ActiveChallenges({
   activeChallenges,
 }: ActiveChallengesProps) {
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {activeChallenges &&
         activeChallenges.map((challenge) => {
           return <ChallengeCard key={challenge._id} challenge={challenge} />;

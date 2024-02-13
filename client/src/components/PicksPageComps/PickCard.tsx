@@ -297,6 +297,16 @@ function PickCard({ item, user }: PickCardProps) {
     setShowCreate(false);
   }
 
+  function createPropTitle() {
+    if (item.type === "playerProp") {
+      return `${item.player} ${item.subType && propKeyConversion[item.subType]}`;
+    } else if (item.type === "teamTotals") {
+      return `${item.awayTeam} & ${item.homeTeam} ${propKeyConversion[item.type]}`;
+    } else {
+      return `${item.awayTeam}(${item.awayData?.awayLine}) @ ${item.homeTeam}(${item.homeData?.homeLine})`;
+    }
+  }
+
   async function submitChallenge() {
     let challenge = {};
     if (item.type === "playerProp" || item.type === "teamTotals") {
@@ -307,7 +317,14 @@ function PickCard({ item, user }: PickCardProps) {
         acceptorName: "",
         acceptorSelection: challengeSelection === "under" ? "over" : "under",
         wagerAmount: Number(wager),
-        void: false,
+        result: "",
+        line: item.underData?.underLine,
+        propTitle: createPropTitle(),
+        // homeData: null,
+        // awayData: null,
+        // overData: null,
+        // underData: null,
+        voided: false,
       };
     } else {
       challenge = {
@@ -317,7 +334,14 @@ function PickCard({ item, user }: PickCardProps) {
         acceptorName: "",
         acceptorSelection: challengeSelection === "away" ? "home" : "away",
         wagerAmount: Number(wager),
-        void: false,
+        result: "",
+        line: item.homeData?.homeLine,
+        propTitle: createPropTitle(),
+        homeData: null,
+        awayData: null,
+        overData: null,
+        underData: null,
+        voided: false,
       };
     }
 
@@ -357,6 +381,12 @@ function PickCard({ item, user }: PickCardProps) {
       dateAccepted: data.dateAccepted,
       type: data.type,
       result: "",
+      line: 0,
+      propTitle: "",
+      homeData: null,
+      awayData: null,
+      overData: null,
+      underData: null,
       _id: data._id,
 
       voided: data.voided,

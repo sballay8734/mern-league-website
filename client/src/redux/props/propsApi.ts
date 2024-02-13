@@ -30,10 +30,10 @@ const nfl2024WeekRanges: WeekRanges = {
     start: "2024-01-02T06:00:00Z",
     end: "2024-01-09T06:00:00Z",
   },
-  testWeek: {
-    key: "testWeek",
-    start: "2024-01-29T06:00:00Z",
-    end: "2024-02-11T18:30:00Z",
+  testWeek2: {
+    key: "testWeek2",
+    start: "2024-02-11T06:00:00Z",
+    end: "2024-02-20T18:30:00Z",
   },
 };
 
@@ -117,6 +117,8 @@ function getCurrentYear() {
 
 const currentWeek = getCurrentWeek();
 const currentYear = getCurrentYear();
+
+console.log(currentWeek, currentYear);
 
 const propsApi = createApi({
   reducerPath: "props",

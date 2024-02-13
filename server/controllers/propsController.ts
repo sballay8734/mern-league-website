@@ -34,7 +34,7 @@ const weekToNumConversion: WeekToNum = {
   weekTwentyOne: 21,
   weekTwentyTwo: 22,
   weekTwentyThree: 23,
-  testWeek: 53
+  testWeek2: 54
 }
 
 export const createProps = async (
@@ -45,6 +45,8 @@ export const createProps = async (
   const props = req.body.props
   const weekYear = req.body.weekYear
   const user = req.user
+
+  console.log(props)
 
   if (!user) return next(errorHandler(400, "Unauthorized"))
 
@@ -284,6 +286,7 @@ export const createChallenge = async (
     dateProposed: new Date().toISOString(),
     dateAccepted: "",
     type: challenge.type,
+    result: "",
     voided: false
   }
 

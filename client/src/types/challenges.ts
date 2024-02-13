@@ -12,8 +12,27 @@ export interface IChallenge {
   dateAccepted: string;
   type: string;
   result: string;
+  line: number;
+  propTitle: string; // this is where you put player name or matchup
+  homeData?: {
+    homeTeam: string;
+    homePayout: number;
+    calcHomePayout: number;
+  } | null;
+  awayData?: {
+    awayTeam: string;
+    awayPayout: number;
+    calcAwayPayout: number;
+  } | null;
+  overData?: {
+    overPayout: number;
+    calcOverPayout: number;
+  } | null;
+  underData?: {
+    underPayout: number;
+    calcUnderPayout: number;
+  } | null;
   _id: string;
-  // Still need playerName?, homeTeam, awayTeam, line, payout(MAYBE?)
 
   voided: boolean;
 }
