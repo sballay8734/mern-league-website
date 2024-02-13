@@ -31,11 +31,10 @@ const propListToString = PROP_DATA.join(",");
 
 const BASE_URL = `https://api.the-odds-api.com/v4/sports/${sport}/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`;
 
-const PLAYER_PROPS_URL = `https://api.the-odds-api.com/v4/sports/${sport}/events/61dcc385d9c0927b9392d04c3b944198/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=${propListToString}&oddsFormat=american`;
+export function getNFLPlayerProps(gameId: string) {
+  return `https://api.the-odds-api.com/v4/sports/${sport}/events/${gameId}/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=${propListToString}&oddsFormat=american`;
+}
 
 export function getNFLFetchParams() {
-  return {
-    baseUrl: BASE_URL,
-    playerPropUrl: PLAYER_PROPS_URL,
-  };
+  return BASE_URL;
 }

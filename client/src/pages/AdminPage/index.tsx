@@ -10,7 +10,6 @@ import { recordsDataInit } from "./utils/recordFunctions";
 import { KOTHInit } from "./utils/kothFunctions";
 import { PropToDbInterface } from "../../components/BettingPropSpreads";
 import { handleFetchParams } from "../../utils/LeagueInitializations";
-import normalizeProps from "../../utils/propNormalization";
 
 import {
   WeekRanges,
@@ -69,8 +68,7 @@ export default function AdminPage() {
   const [propsSelected, setPropsSelected] = useState<PropToDbInterface[]>([]);
   const [currentWeek, setCurrentWeek] = useState<string>("");
   const [currentYear, setCurrentYear] = useState<number>(0);
-  const [league, setLeague] = useState<string>("nfl");
-  const [playerPropUrl, setPlayerPropUrl] = useState<string>("");
+  const [sport, setSport] = useState<string>("nfl");
 
   async function runStaticDataUpdate() {
     if (user && user.isAdmin === false) return;
@@ -123,17 +121,15 @@ export default function AdminPage() {
     setUpdateInProgress(false);
   }
 
-  async function fetchProps(league: string) {
+  async function fetchProps(sport: string) {
     if (user && user.isAdmin === false) return;
     // fetch this optionally. Button says "Fetch player props for this game"
 
-    const fetchParams = handleFetchParams(league);
+    const fetchURL = handleFetchParams(sport);
 
-    if (!fetchParams || fetchParams === null) return;
+    if (!fetchURL || fetchURL === null) return;
 
-    setPlayerPropUrl(fetchParams.playerPropUrl);
-
-    const res = await fetch(fetchParams.baseUrl);
+    const res = await fetch(fetchURL);
 
     const data = await res.json();
     if (!data) {
@@ -141,10 +137,7 @@ export default function AdminPage() {
       return;
     }
 
-    console.log(data);
-    return;
-
-    const props = normalizeProps(data);
+    // const props = normalizeProps(data);
     // ****************************************************************
     // ****************************************************************
     // NEED TO NORMALIZE DATA HERE BEFORE PUSHING TO STATE
@@ -336,27 +329,27 @@ export default function AdminPage() {
                 <div className="actions tempAdmin-actions">
                   <div className="flex items-center justify-center gap-2 pb-2">
                     <button
-                      className={`${league === "nfl" ? "font-bold text-red-500" : ""}`}
-                      onClick={() => setLeague("nfl")}
+                      className={`${sport === "nfl" ? "font-bold text-red-500" : ""}`}
+                      onClick={() => setSport("nfl")}
                     >
                       NFL
                     </button>
                     <button
-                      className={`${league === "nhl" ? "font-bold text-red-500" : ""}`}
-                      onClick={() => setLeague("nhl")}
+                      className={`${sport === "nhl" ? "font-bold text-red-500" : ""}`}
+                      onClick={() => setSport("nhl")}
                     >
                       NHL
                     </button>
                     <button
-                      className={`${league === "nba" ? "font-bold text-red-500" : ""}`}
-                      onClick={() => setLeague("nba")}
+                      className={`${sport === "nba" ? "font-bold text-red-500" : ""}`}
+                      onClick={() => setSport("nba")}
                     >
                       NBA
                     </button>
                   </div>
                   <ul>
                     <li>
-                      <button onClick={() => fetchProps(league)}>
+                      <button onClick={() => fetchProps(sport)}>
                         Fetch Props
                       </button>
                     </li>
@@ -388,7 +381,7 @@ export default function AdminPage() {
                           setPropsSelected={setPropsSelected}
                           currentWeek={currentWeek}
                           currentYear={currentYear}
-                          playerPropUrl={playerPropUrl}
+                          sport={sport}
                         />
                       );
                     })}

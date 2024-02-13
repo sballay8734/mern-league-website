@@ -7,20 +7,10 @@ import PlayerProp from "../PlayerProp";
 import { useState } from "react";
 import { Markets, CombinedProp } from "../utils";
 import TestCountdownTimer from "../TestCountDown/TestCountDown";
-import { propKeyConversion } from "../utils";
 import PlayerPropFilterBtn from "../PlayerPropFilterBtn";
 import { ImSpinner10 } from "react-icons/im";
-import normalizeProps from "../../utils/propNormalization";
-
-// **********************************************************************
-// **********************************************************************
-// **********************************************************************
-// **********************************************************************
-// BEFORE DOING ANYTHING ELSE YOU NEED TO CHECK HOW IT WORKS WITH MULTIPLE GAMES
-// **********************************************************************
-// **********************************************************************
-// **********************************************************************
-// **********************************************************************
+import { generatePlayerPropURL } from "../../utils/LeagueInitializations";
+import { handleKeyConversion } from "../../utils/keyConversion";
 
 export default function GameWrapper({
   handlePropCounter,
@@ -34,7 +24,7 @@ export default function GameWrapper({
   setPropsSelected,
   currentWeek,
   currentYear,
-  playerPropUrl,
+  sport,
 }: {
   time: string;
   homeTeam: string;
@@ -49,16 +39,17 @@ export default function GameWrapper({
   setPropsSelected: (obj: PropToDbInterface[]) => void;
   currentWeek: string;
   currentYear: number;
-  playerPropUrl: string;
+  sport: string;
 }) {
   const [showPlayerProps, setShowPlayerProps] = useState<boolean>(false);
   const [filteredButtons, setFilteredButtons] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [activeFilter, setActiveFilter] = useState<string>("");
 
-  async function handleFetchPlayerProps(propId: string) {
+  async function handleFetchPlayerProps(gameId: string, sport: string) {
     setShowPlayerProps(true);
     setLoading(true);
-    if (globalPropsToRender[propId]) {
+    if (globalPropsToRender[gameId]) {
       console.log("Data exists");
       setShowPlayerProps(!showPlayerProps);
       setLoading(false);
@@ -68,23 +59,22 @@ export default function GameWrapper({
     let finalPlayerProps: PlayerPropInterface[] = [];
     let playerProps = [];
 
-    const res = await fetch(playerPropUrl);
+    const URL = generatePlayerPropURL(gameId, sport);
+    setLoading(false);
+
+    const res = await fetch(URL);
     const data = await res.json();
     if (!data) {
       console.log("ERROR");
+      setLoading(false);
       return;
     }
 
-    const props = normalizeProps(data);
-    // ****************************************************************
-    // ****************************************************************
-    // FIRST YOU NEED TO SEE WHAT THE PLAYER PROPS LOOK LIKE FOR EACH LEAGUE
-    // NEED TO NORMALIZE DATA SOMEWHERE AROUND HERE!!
-    // ****************************************************************
-    // ****************************************************************
+    console.log(data);
+    setLoading(false);
 
     playerProps.push(data);
-    setGameIdsFetched([...gameIdsFetched, propId]);
+    setGameIdsFetched([...gameIdsFetched, gameId]);
 
     if (playerProps.length === 1) {
       const markets = playerProps[0].bookmakers[0].markets;
@@ -139,7 +129,7 @@ export default function GameWrapper({
             // removed item
             finalPlayerProps.push({
               uniquePropKey: uniqueKey,
-              gameId: propId,
+              gameId: gameId,
               item,
               player,
               overStats,
@@ -149,32 +139,27 @@ export default function GameWrapper({
         }
       });
       console.log(finalPlayerProps);
-      setGlobalPropsToRender({ [propId]: finalPlayerProps });
+      setGlobalPropsToRender({ [gameId]: finalPlayerProps });
     }
 
     setLoading(false);
   }
 
   function handleFilterBtns(filter: string) {
-    if (filteredButtons.includes(filter)) {
-      setFilteredButtons(
-        filteredButtons.filter((item) => {
-          return item !== filter;
-        }),
-      );
-    } else {
-      setFilteredButtons((prevFilters) => [...prevFilters, filter]);
-    }
+    setActiveFilter(filter);
   }
 
   function renderButtons() {
     const buttonKeys = [];
-    for (const key in propKeyConversion) {
+    const keyMap = handleKeyConversion(sport);
+    for (const key in keyMap) {
       buttonKeys.push(
         <PlayerPropFilterBtn
           key={key}
           handleFilterBtns={handleFilterBtns}
-          type={key}
+          type={keyMap[key]}
+          filterKey={key}
+          activeFilter={activeFilter}
         />,
       );
     }
@@ -185,10 +170,10 @@ export default function GameWrapper({
   const markets = prop.bookmakers[0].markets;
 
   const filteredPlayerProps =
-    filteredButtons.length === 0
+    activeFilter === ""
       ? globalPropsToRender[prop.id]
-      : globalPropsToRender[prop.id].filter((item) => {
-          return filteredButtons.includes(item.item.key);
+      : globalPropsToRender[prop.id].filter((prop) => {
+          return activeFilter === prop.item.key;
         });
 
   return (
@@ -248,7 +233,7 @@ export default function GameWrapper({
           }
         })}
         <button
-          onClick={() => handleFetchPlayerProps(prop.id)}
+          onClick={() => handleFetchPlayerProps(prop.id, sport)}
           className="loadPlayerProps"
         >
           Load Player Props For This Matchup{" "}

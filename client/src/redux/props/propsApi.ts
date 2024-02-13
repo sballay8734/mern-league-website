@@ -118,8 +118,6 @@ function getCurrentYear() {
 const currentWeek = getCurrentWeek();
 const currentYear = getCurrentYear();
 
-console.log(currentWeek, currentYear);
-
 const propsApi = createApi({
   reducerPath: "props",
   baseQuery: fetchBaseQuery({
