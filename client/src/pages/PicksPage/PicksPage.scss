@@ -778,7 +778,11 @@
   width: 100%;
   overflow: hidden;
   .challenge-btn-wrapper {
+    width: 100%;
     display: flex;
+    &.hide {
+      display: none;
+    }
   }
   .expand-challenges-btn {
     width: 100%;
@@ -838,6 +842,7 @@
       overflow: auto;
       border-bottom-left-radius: 0px;
       border-bottom-right-radius: 0px;
+      width: 100%;
       // padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     }
     .create-challenge {

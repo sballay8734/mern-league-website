@@ -6,9 +6,9 @@ import "./PicksPage.scss";
 export default function PicksPage() {
   const { data: propData } = useFetchPropsQuery();
 
-  console.log(propData);
+  // console.log(propData);
 
-  return;
+  // return;
 
   // console.log("Rendering Parent 1...", propData)
 

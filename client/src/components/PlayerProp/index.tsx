@@ -1,12 +1,10 @@
-import { FaCaretLeft, FaCaretRight } from "react-icons/fa6"
-import {
-  propKeyConversion,
-  calculatePayout,
-  Markets,
-  BettingProp
-} from "../utils"
-import { PropToDbInterface } from "../BettingPropSpreads"
-import { weekToNumConversion } from "../utils"
+import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
+import { calculatePayout, Markets, BettingProp } from "../utils";
+import { PropToDbInterface } from "../BettingPropSpreads";
+import { weekToNumConversion } from "../utils";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { handleKeyConversion } from "../../utils/keyConversion";
 
 export default function PlayerProp({
   item,
@@ -19,75 +17,81 @@ export default function PlayerProp({
   propsSelected,
   setPropsSelected,
   currentWeek,
-  currentYear
+  currentYear,
 }: {
-  item: Markets
-  player: string
+  item: Markets;
+  player: string;
   overStats: {
-    name: string
-    description?: string
-    price: number
-    point: number
-  }
+    name: string;
+    description?: string;
+    price: number;
+    point: number;
+  };
   underStats: {
-    name: string
-    description?: string
-    price: number
-    point: number
-  }
-  uniquePropKey: string
-  prop: BettingProp
-  handlePropCounter: (propId: string) => void
-  propsSelected: PropToDbInterface[]
-  setPropsSelected: (obj: PropToDbInterface[]) => void
-  currentWeek: string
-  currentYear: number
+    name: string;
+    description?: string;
+    price: number;
+    point: number;
+  };
+  uniquePropKey: string;
+  prop: BettingProp;
+  handlePropCounter: (propId: string) => void;
+  propsSelected: PropToDbInterface[];
+  setPropsSelected: (obj: PropToDbInterface[]) => void;
+  currentWeek: string;
+  currentYear: number;
 }) {
+  const activeLeague = useSelector(
+    (state: RootState) => state.picksSlice.activeLeague,
+  );
+
   function handlePropSelection(key: string) {
-    const uniqueId = uniquePropKey
+    const uniqueId = uniquePropKey;
 
     // setSelected(!selected)
-    handlePropCounter(key)
+    handlePropCounter(key);
 
-    const propExists = propsSelected.find((item) => item.uniqueId === uniqueId)
+    const propExists = propsSelected.find((item) => item.uniqueId === uniqueId);
 
     if (propExists) {
       // remove prop
       const updatedProps = propsSelected.filter(
-        (item) => item.uniqueId !== uniqueId
-      )
-      setPropsSelected(updatedProps)
-      return
+        (item) => item.uniqueId !== uniqueId,
+      );
+      setPropsSelected(updatedProps);
+      return;
     }
 
-    const propToSend = formatPlayerProp()
-    setPropsSelected([...propsSelected, propToSend] as PropToDbInterface[])
+    const propToSend = formatPlayerProp();
+    setPropsSelected([...propsSelected, propToSend] as PropToDbInterface[]);
     // send Prop
   }
-
+  // need to get league in here somehow
   function formatPlayerProp() {
     return {
       type: `playerProp`,
+      league: activeLeague,
       subType: item.key,
       player: `${player}`,
-      gameId: prop.id, // you MIGHT be able to use this for automatic updates
+      gameId: prop.id,
       expiration: prop.commence_time,
-      uniqueId: uniquePropKey, // JUST for filtering
+      uniqueId: uniquePropKey,
 
       // update these right before sending to DB
       week: weekToNumConversion[currentWeek],
-      nflYear: currentYear,
+      line: overStats.point,
+      year: currentYear,
 
       // updated here
       overData: {
         overLine: overStats.point,
         overPayout: overStats.price,
-        calcOverPayout: calculatePayout(overStats.price)
+        calcOverPayout: calculatePayout(overStats.price),
       },
       underData: {
         underLine: underStats.point,
         underPayout: underStats.price,
-        calcUnderPayout: calculatePayout(underStats.price)
+        calcUnderPayout: calculatePayout(underStats.price),
       },
 
       // these are updated as users make selections
@@ -98,23 +102,24 @@ export default function PlayerProp({
       result: 0,
 
       // if voided, don't count prop
-      void: false,
+      voided: false,
 
-      challenges: [],
-      weekYear: `${currentWeek}${currentYear.toString()}`
-    }
+      weekYear: `${currentWeek}${currentYear.toString()}`,
+    };
   }
 
   const propAlreadySelected = !!propsSelected.find(
-    (item) => item.uniqueId === uniquePropKey
-  )
+    (item) => item.uniqueId === uniquePropKey,
+  );
+
+  const keyConversion = handleKeyConversion(activeLeague);
 
   return (
     <div
       onClick={() => handlePropSelection(uniquePropKey)}
       className="playerProp"
     >
-      <div className="statCategory">{propKeyConversion[item.key]}</div>
+      <div className="statCategory">{keyConversion[item.key]}</div>
       <div className="propDetails">
         <div className="underPrice priceWrapper">
           <span className="under">under</span>
@@ -145,10 +150,10 @@ export default function PlayerProp({
         <div className="playerPropOverlay">
           <span className="selected">Selected</span>
           <span className="details">
-            {player} OU {overStats.point} {propKeyConversion[item.key]}
+            {player} OU {overStats.point} {keyConversion[item.key]}
           </span>
         </div>
       )}
     </div>
-  )
+  );
 }

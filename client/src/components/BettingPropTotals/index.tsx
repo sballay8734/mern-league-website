@@ -4,13 +4,9 @@ import { MdCompareArrows } from "react-icons/md";
 import { PropToDbInterface } from "../BettingPropSpreads";
 import { weekToNumConversion } from "../utils";
 
-import {
-  Outcomes,
-  Markets,
-  BettingProp,
-  FullMatchupProps,
-  calculatePayout,
-} from "../utils";
+import { Outcomes, Markets, BettingProp, calculatePayout } from "../utils";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 export default function BettingPropTotals({
   outcomes,
@@ -39,6 +35,9 @@ export default function BettingPropTotals({
   currentYear: number;
 }) {
   const [selected, setSelected] = useState<boolean>(false);
+  const activeLeague = useSelector(
+    (state: RootState) => state.picksSlice.activeLeague,
+  );
 
   const gameLine = outcomes[0].point;
   const overData = outcomes.find((item) => item.name === "Over");
@@ -71,13 +70,15 @@ export default function BettingPropTotals({
         type: `team${
           type.key.charAt(0).toLocaleUpperCase() + type.key.slice(1)
         }`,
-        gameId: prop.id, // you MIGHT be able to use this for automatic updates
+        league: activeLeague,
+        gameId: prop.id,
         expiration: prop.commence_time,
         uniqueId,
 
         // update these right before sending to DB
         week: weekToNumConversion[currentWeek],
-        nflYear: currentYear,
+        line: overData.point,
+        year: currentYear,
 
         // updated here
         homeTeam: prop.home_team,
@@ -102,9 +103,7 @@ export default function BettingPropTotals({
         result: 0,
 
         // if voided, don't count prop
-        void: false,
-
-        challenges: [],
+        voided: false,
 
         weekYear: `${currentWeek}${currentYear.toString()}`,
       };

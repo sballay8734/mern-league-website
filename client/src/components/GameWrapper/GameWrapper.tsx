@@ -13,6 +13,8 @@ import { ImSpinner10 } from "react-icons/im";
 import { generatePlayerPropURL } from "../../utils/LeagueInitializations";
 import { handleKeyConversion } from "../../utils/keyConversion";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 export default function GameWrapper({
   handlePropCounter,
@@ -24,7 +26,6 @@ export default function GameWrapper({
   setPropsSelected,
   currentWeek,
   currentYear,
-  sport,
 }: {
   time: string;
   homeTeam: string;
@@ -37,8 +38,10 @@ export default function GameWrapper({
   setPropsSelected: (obj: PropToDbInterface[]) => void;
   currentWeek: string;
   currentYear: number;
-  sport: string;
 }) {
+  const activeLeague = useSelector(
+    (state: RootState) => state.picksSlice.activeLeague,
+  );
   const [showPlayerProps, setShowPlayerProps] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [activeFilter, setActiveFilter] = useState<string>("");
@@ -46,19 +49,7 @@ export default function GameWrapper({
     {},
   );
 
-  // ********************************************************************
-  // ********************************************************************
-  // ********************************************************************
-  // IF YOU TRY TO EXPAND TWO AT A TIME and filter things RIGHT NOW YOU GET AN ERROR BECAUSE YOU HAVE CONFLICT and each card doesn't have its own state!!!
-
-  // ISSUE: Fetch props for one game & setFilter -> Then, trying to open another games player props will throw an error
-
-  // Cannot read properties of undefined (reading 'filter') LINE 182
-  // ********************************************************************
-  // ********************************************************************
-  // ********************************************************************
-
-  async function handleFetchPlayerProps(gameId: string, sport: string) {
+  async function handleFetchPlayerProps(gameId: string, activeLeague: string) {
     setShowPlayerProps(true);
     setLoading(true);
     // setActiveFilter("");
@@ -72,7 +63,7 @@ export default function GameWrapper({
     let finalPlayerProps: PlayerPropInterface[] = [];
     let playerProps = [];
 
-    const URL = generatePlayerPropURL(gameId, sport);
+    const URL = generatePlayerPropURL(gameId, activeLeague);
 
     const res = await fetch(URL);
     const data = await res.json();
@@ -168,7 +159,7 @@ export default function GameWrapper({
   // THIS LOGIC NEEDS TO BE MOVED (BUTTON KEYS CAN BE DETERMINED WHEN PROPS ARE FETCHED)
   function renderButtons() {
     const buttonKeys = [];
-    const keyMap = handleKeyConversion(sport);
+    const keyMap = handleKeyConversion(activeLeague);
     for (const key in keyMap) {
       buttonKeys.push(
         <PlayerPropFilterBtn
@@ -247,7 +238,7 @@ export default function GameWrapper({
           }
         })}
         <button
-          onClick={() => handleFetchPlayerProps(prop.id, sport)}
+          onClick={() => handleFetchPlayerProps(prop.id, activeLeague)}
           className="loadPlayerProps"
         >
           Load Player Props For This Matchup{" "}

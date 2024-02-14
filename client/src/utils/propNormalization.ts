@@ -1,8 +1,5 @@
-// accept an array of props
-
-// NEED TO DO SOME TEST REQUESTS TO SEE THE FORMAT OF PROPS FOR EACH LEAGUE
-
-export default function normalizeProps(props: any) {
+// before sending to state, and before state gets sent to db
+export default function normalizeProp(props: any) {
   console.log(props);
   return;
 }

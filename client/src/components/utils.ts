@@ -105,20 +105,6 @@ export interface CombinedProp {
   };
 }
 
-export const propKeyConversion: KeyConversion = {
-  player_pass_tds: "Pass TDs",
-  player_pass_yds: "Pass Yds",
-  player_pass_completions: "Completions",
-  player_pass_attempts: "Pass Attempts",
-  player_pass_interceptions: "Interceptions",
-  player_rush_yds: "Rush Yds",
-  player_rush_attempts: "Rush Attempts",
-  player_receptions: "Receptions",
-  player_reception_yds: "Receiving Yds",
-  teamTotals: "Total Points",
-  // player_anytime_td: "TESTING"
-};
-
 export interface PlayerPropInterface {
   uniquePropKey: string;
   item: Markets;

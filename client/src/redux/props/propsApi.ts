@@ -45,7 +45,8 @@ export interface PropToDbInterface {
   expiration: string;
   uniqueId: string;
   week: number;
-  nflYear: number;
+  year: number;
+  line: number;
   _id: string;
 
   overData?: { overLine: number; overPayout: number; calcOverPayout: number };

@@ -55,19 +55,19 @@ export const createProps = async (
   if (propsAlreadyExistForWeek) {
     res.status(400).json("Props have already been set for this week")
     return
-  } else {
-    try {
-      const newProps = await Prop.insertMany(props)
+  }
 
-      if (newProps) {
-        res.status(200).json(newProps)
-      } else {
-        next(errorHandler(500, "Whoops!"))
-        return
-      }
-    } catch (error) {
-      next(error)
+  try {
+    const newProps = await Prop.insertMany(props)
+
+    if (newProps) {
+      res.status(200).json(newProps)
+    } else {
+      next(errorHandler(500, "Whoops!"))
+      return
     }
+  } catch (error) {
+    next(error)
   }
 }
 
@@ -232,7 +232,7 @@ export const getProps = async (
   try {
     const propsForThisWeek = await Prop.find({
       week: weekToNumConversion[week],
-      nflYear: Number(year)
+      year: Number(year)
     })
 
     // this needs to handle what happens if people visit the page when props havne't been submitted yet or if they have expired

@@ -19,13 +19,15 @@ export interface PickCardProps {
 
 export interface PropToDbInterface {
   type: string;
+  league: string;
   subType?: string;
   player?: string;
   gameId: string;
   expiration: string;
   uniqueId: string;
   week: number;
-  nflYear: number;
+  year: number;
+  line: number;
   _id: string;
 
   overData?: { overLine: number; overPayout: number; calcOverPayout: number };
@@ -61,8 +63,6 @@ export interface PropToDbInterface {
   result?: number;
 
   voided: boolean;
-
-  challenges: PropChallenge[] | [];
 }
 
 interface User {

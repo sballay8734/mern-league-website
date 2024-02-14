@@ -1,24 +1,9 @@
 import { useState } from "react";
 
 import { weekToNumConversion } from "../utils";
-import {
-  Outcomes,
-  Markets,
-  BettingProp,
-  FullMatchupProps,
-  calculatePayout,
-} from "../utils";
-
-interface PropChallenge {
-  challengerName: string;
-  acceptorName: string;
-  challengerSelection: string; // "over" | "under" | "away" | "home"
-  acceptorSelection: string; // "over" | "under" | "away" | "home"
-  wagerAmount: number;
-  _id: string;
-
-  voided: boolean;
-}
+import { Outcomes, Markets, BettingProp, calculatePayout } from "../utils";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 export interface PropToDbInterface {
   type: string;
@@ -28,7 +13,8 @@ export interface PropToDbInterface {
   expiration: string;
   uniqueId: string;
   week: number;
-  nflYear: number;
+  year: number;
+  line: number;
   _id: string;
 
   overData?: { overLine: number; overPayout: number; calcOverPayout: number };
@@ -64,8 +50,6 @@ export interface PropToDbInterface {
   result?: number;
 
   voided: boolean;
-
-  challenges: PropChallenge[] | [];
 }
 
 export default function BettingPropSpreads({
@@ -95,6 +79,9 @@ export default function BettingPropSpreads({
   currentYear: number;
 }) {
   const [selected, setSelected] = useState<boolean>(false);
+  const activeLeague = useSelector(
+    (state: RootState) => state.picksSlice.activeLeague,
+  );
 
   const homeLine = outcomes.find((item) => item.name === homeTeam);
   const awayLine = outcomes.find((item) => item.name === awayTeam);
@@ -125,13 +112,15 @@ export default function BettingPropSpreads({
       console.log(prop.id, type);
       return {
         type: `team${type.charAt(0).toLocaleUpperCase() + type.slice(1)}`,
-        gameId: prop.id, // you MIGHT be able to use this for automatic updates
+        league: activeLeague,
+        gameId: prop.id,
         expiration: prop.commence_time,
-        uniqueId: `${prop.id + type}`, // JUST for filtering
+        uniqueId: `${prop.id + type}`,
 
         // update these right before sending to DB
         week: weekToNumConversion[currentWeek],
-        nflYear: currentYear,
+        line: homeLine.point,
+        year: currentYear,
 
         // updated here
         homeData: {
@@ -157,9 +146,7 @@ export default function BettingPropSpreads({
         homeScoreResult: 0,
 
         // if voided, don't count prop
-        void: false,
-
-        challenges: [],
+        voided: false,
 
         // NEED TO GENERATE THIS
         weekYear: `${currentWeek}${currentYear.toString()}`,

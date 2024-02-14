@@ -1,22 +1,18 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 
 import { MdAdminPanelSettings } from "react-icons/md";
 import { RootState } from "../../redux/store";
 import { useFetchOwnersQuery } from "../../redux/owners/ownersApi";
 import { staticDataInit } from "./utils/staticDataFunction";
-import "./AdminPage.scss";
 import { recordsDataInit } from "./utils/recordFunctions";
 import { KOTHInit } from "./utils/kothFunctions";
 import { PropToDbInterface } from "../../components/BettingPropSpreads";
 import { handleFetchParams } from "../../utils/LeagueInitializations";
-
-import {
-  WeekRanges,
-  BettingProp,
-  FullMatchupProps,
-} from "../../components/utils";
+import { setActiveLeague } from "../../redux/props/picksSlice";
+import { WeekRanges, BettingProp } from "../../components/utils";
 import GameWrapper from "../../components/GameWrapper/GameWrapper";
+import "./AdminPage.scss";
 
 const picksToMake = 12;
 
@@ -56,7 +52,11 @@ const nfl2024WeekRanges: WeekRanges = {
 };
 
 export default function AdminPage() {
+  const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.user);
+  const activeLeague = useSelector(
+    (state: RootState) => state.picksSlice.activeLeague,
+  );
   const { data } = useFetchOwnersQuery();
   const [activeButton, setActiveButton] = useState<string>("tempAdmins");
   const [updateInProgress, setUpdateInProgress] = useState<boolean>(false);
@@ -66,7 +66,7 @@ export default function AdminPage() {
   const [propsSelected, setPropsSelected] = useState<PropToDbInterface[]>([]);
   const [currentWeek, setCurrentWeek] = useState<string>("");
   const [currentYear, setCurrentYear] = useState<number>(0);
-  const [sport, setSport] = useState<string>("nfl");
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   async function runStaticDataUpdate() {
     if (user && user.isAdmin === false) return;
@@ -119,11 +119,11 @@ export default function AdminPage() {
     setUpdateInProgress(false);
   }
 
-  async function fetchProps(sport: string) {
+  async function fetchProps(league: string) {
     if (user && user.isAdmin === false) return;
     // fetch this optionally. Button says "Fetch player props for this game"
 
-    const fetchURL = handleFetchParams(sport);
+    const fetchURL = handleFetchParams(league);
 
     if (!fetchURL || fetchURL === null) return;
 
@@ -186,8 +186,10 @@ export default function AdminPage() {
   }
 
   async function handlePropSubmission() {
+    setSubmitting(true);
     if (propsSelected.length !== picksToMake) {
       console.log("NOT ENOUGH PICKS!");
+      setSubmitting(false);
       return;
     } else {
       try {
@@ -208,8 +210,11 @@ export default function AdminPage() {
           console.log("Something went wrong");
           return;
         }
+        setSubmitting(false);
         console.log(data);
+        // TODO: Clear page, navigate away, and refetch PICKS...
       } catch (error) {
+        setSubmitting(false);
         console.log(error);
       }
     }
@@ -241,10 +246,10 @@ export default function AdminPage() {
 
   useEffect(() => {
     const week = getCurrentWeek();
-    const nflYear = getCurrentYear();
+    const year = getCurrentYear();
 
     setCurrentWeek(week);
-    setCurrentYear(nflYear);
+    setCurrentYear(year);
   }, []);
 
   return (
@@ -327,27 +332,27 @@ export default function AdminPage() {
                 <div className="actions tempAdmin-actions">
                   <div className="flex items-center justify-center gap-2 pb-2">
                     <button
-                      className={`${sport === "nfl" ? "font-bold text-red-500" : ""}`}
-                      onClick={() => setSport("nfl")}
+                      className={`${activeLeague === "nfl" ? "font-bold text-red-500" : ""}`}
+                      onClick={() => dispatch(setActiveLeague("nfl"))}
                     >
                       NFL
                     </button>
                     <button
-                      className={`${sport === "nhl" ? "font-bold text-red-500" : ""}`}
-                      onClick={() => setSport("nhl")}
+                      className={`${activeLeague === "nhl" ? "font-bold text-red-500" : ""}`}
+                      onClick={() => dispatch(setActiveLeague("nhl"))}
                     >
                       NHL
                     </button>
                     <button
-                      className={`${sport === "nba" ? "font-bold text-red-500" : ""}`}
-                      onClick={() => setSport("nba")}
+                      className={`${activeLeague === "nba" ? "font-bold text-red-500" : ""}`}
+                      onClick={() => dispatch(setActiveLeague("nba"))}
                     >
                       NBA
                     </button>
                   </div>
                   <ul>
                     <li>
-                      <button onClick={() => fetchProps(sport)}>
+                      <button onClick={() => fetchProps(activeLeague)}>
                         Fetch Props
                       </button>
                     </li>
@@ -377,7 +382,6 @@ export default function AdminPage() {
                           setPropsSelected={setPropsSelected}
                           currentWeek={currentWeek}
                           currentYear={currentYear}
-                          sport={sport}
                         />
                       );
                     })}
@@ -399,8 +403,12 @@ export default function AdminPage() {
         }`}
       >
         {propsSelected.length === picksToMake ? (
-          <button className="submitProps" onClick={handlePropSubmission}>
-            Submit Props
+          <button
+            disabled={submitting}
+            className="submitProps"
+            onClick={handlePropSubmission}
+          >
+            {submitting ? "Submitting..." : "Submit Props"}
           </button>
         ) : propsSelected.length > picksToMake ? (
           `That's Too Many! Remove ${propsSelected.length - picksToMake}`

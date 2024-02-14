@@ -31,6 +31,7 @@ interface Pick {
 
 interface PicksState {
   activeButton: string;
+  activeLeague: string;
   pickIds: string[];
   picksMade: FullPicksObject;
   challenges: {
@@ -47,6 +48,7 @@ interface RemoveChallenge {
 
 const initialState: PicksState = {
   activeButton: "makePicks",
+  activeLeague: "nfl",
   pickIds: [],
   picksMade: {},
   challenges: {},
@@ -144,6 +146,9 @@ const picksSlice = createSlice({
       challengeToUpdate.acceptorName = acceptorName;
       challengeToUpdate.acceptorId = acceptorId;
     },
+    setActiveLeague: (state, action: PayloadAction<string>) => {
+      state.activeLeague = action.payload;
+    },
   },
 });
 
@@ -153,5 +158,6 @@ export const {
   setPicksMade,
   addChallenge,
   removeChallenge,
+  setActiveLeague,
 } = picksSlice.actions;
 export default picksSlice.reducer;

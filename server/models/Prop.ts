@@ -1,25 +1,16 @@
 import mongoose, { Schema } from "mongoose"
 
-interface Challenge {
-  challengerName: string
-  acceptorName: string
-  challengerSelection: string // "over" | "under" | "away" | "home"
-  acceptorSelection: string // "over" | "under" | "away" | "home"
-  wagerAmount: number
-  _id: string
-
-  voided: boolean
-}
-
 export interface PropToDbInterface {
   type: string
+  league: string
   subType?: string
   player?: string
   gameId: string
   expiration: string
   uniqueId: string
   week: number
-  nflYear: number
+  year: number
+  line: number
   _id: string
 
   overData?: { overLine: number; overPayout: number; calcOverPayout: number }
@@ -54,30 +45,19 @@ export interface PropToDbInterface {
 
   result?: number
 
-  void: boolean
-
-  challenges: Challenge[] | []
+  voided: boolean
 }
-
-const ChallengesSchema = new Schema({
-  challengerName: String,
-  acceptorName: String,
-  challengerSelection: String,
-  acceptorSelection: String,
-  wagerAmount: Number,
-
-  void: { type: Boolean, default: false }
-})
 
 const propSchema = new Schema({
   type: { type: String, required: true },
+  league: String,
   subType: String,
   player: String,
   gameId: { type: String, required: true },
   expiration: { type: String, required: true },
   uniqueId: { type: String, required: true },
   week: { type: Number, required: true },
-  nflYear: { type: Number, required: true },
+  year: { type: Number, required: true },
 
   overData: { overLine: Number, overPayout: Number, calcOverPayout: Number },
   underData: {
@@ -110,9 +90,7 @@ const propSchema = new Schema({
 
   result: Number,
 
-  void: { type: Boolean, required: true },
-
-  challenges: { type: [ChallengesSchema], default: [] },
+  voided: { type: Boolean, required: true, default: false },
 
   weekYear: { type: String, index: true, required: true }
 })

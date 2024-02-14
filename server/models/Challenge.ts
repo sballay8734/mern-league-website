@@ -49,10 +49,30 @@ const ChallengeSchema = new Schema({
   wagerAmount: Number,
   gameId: String,
   propId: String,
-  type: String,
   dateProposed: String,
   dateAccepted: String,
+  type: String,
   result: { type: String, default: "" },
+  line: Number,
+  propTitle: String,
+  homeData: {
+    homeTeam: String,
+    homePayout: Number,
+    calcHomePayout: Number
+  },
+  awayData: {
+    awayTeam: String,
+    awayPayout: Number,
+    calcAwayPayout: Number
+  },
+  overData: {
+    overPayout: Number,
+    calcOverPayout: Number
+  },
+  underData: {
+    underPayout: Number,
+    calcUnderPayout: Number
+  },
 
   voided: Boolean
 })

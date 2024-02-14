@@ -12,12 +12,12 @@ import {
 import { PropChallenge } from "./types";
 import { FaCaretDown, FaCaretUp, FaLock } from "react-icons/fa";
 import CountdownTimer from "../CountDownTimer/CountDownTimer";
-import { propKeyConversion } from "../utils";
 import ChallengeAccept from "./ChallengeAccept";
 import { RootState } from "../../redux/store";
 import { formatTeamName } from "./helpers";
 import { PickCardProps, PropToDbInterface } from "./types";
 import { IChallenge } from "../../types/challenges";
+import { handleKeyConversion } from "../../utils/keyConversion";
 
 // export at bottom
 function PickCard({ item, user }: PickCardProps) {
@@ -40,8 +40,7 @@ function PickCard({ item, user }: PickCardProps) {
     (state: RootState) => state.picksSlice.challenges[item.uniqueId],
   );
 
-  // NOTE: Even though pickIds is unused, it will STILL trigger a refresh for ALL PropCards if it is updated! Make sure to remove these from code!!
-  // const pickIds = useSelector((state: RootState) => state.picksSlice.pickIds)
+  const keyConversion = handleKeyConversion(item.league);
 
   async function handleOUClick(item: PropToDbInterface, action: string) {
     // if over is already selected or pick is locked
@@ -240,7 +239,7 @@ function PickCard({ item, user }: PickCardProps) {
   }
 
   function handleShowChallenges() {
-    if (showCreate === true) {
+    if (showCreate === true || showChallenges === true) {
       setShowCreate(false);
     }
     setShowChallenges(!showChallenges);
@@ -299,15 +298,22 @@ function PickCard({ item, user }: PickCardProps) {
 
   function createPropTitle() {
     if (item.type === "playerProp") {
-      return `${item.player} ${item.subType && propKeyConversion[item.subType]}`;
+      return `${item.player} ${item.subType && keyConversion[item.subType]}`;
     } else if (item.type === "teamTotals") {
-      return `${item.awayTeam} & ${item.homeTeam} ${propKeyConversion[item.type]}`;
+      return `${item.awayTeam} & ${item.homeTeam} ${keyConversion[item.type]}`;
     } else {
       return `${item.awayTeam}(${item.awayData?.awayLine}) @ ${item.homeTeam}(${item.homeData?.homeLine})`;
     }
   }
 
   async function submitChallenge() {
+    // ********************************************************************
+    // ********************************************************************
+    // ********************************************************************
+    // CHALLENGE IS STILL MISSING MOST OF THE DATA NEEDED? NOT SURE WHY YET DIDN'T HAVE A CHANCE TO DEBUG
+    // ********************************************************************
+    // ********************************************************************
+    // ********************************************************************
     let challenge = {};
     if (item.type === "playerProp" || item.type === "teamTotals") {
       challenge = {
@@ -318,12 +324,12 @@ function PickCard({ item, user }: PickCardProps) {
         acceptorSelection: challengeSelection === "under" ? "over" : "under",
         wagerAmount: Number(wager),
         result: "",
-        line: item.underData?.underLine,
+        line: item.line,
         propTitle: createPropTitle(),
-        // homeData: null,
-        // awayData: null,
-        // overData: null,
-        // underData: null,
+        homeData: item.homeData,
+        awayData: item.awayData,
+        overData: item.overData,
+        underData: item.underData,
         voided: false,
       };
     } else {
@@ -335,12 +341,12 @@ function PickCard({ item, user }: PickCardProps) {
         acceptorSelection: challengeSelection === "away" ? "home" : "away",
         wagerAmount: Number(wager),
         result: "",
-        line: item.homeData?.homeLine,
+        line: item.line,
         propTitle: createPropTitle(),
-        homeData: null,
-        awayData: null,
-        overData: null,
-        underData: null,
+        homeData: item.homeData,
+        awayData: item.awayData,
+        overData: item.overData,
+        underData: item.underData,
         voided: false,
       };
     }
@@ -381,12 +387,12 @@ function PickCard({ item, user }: PickCardProps) {
       dateAccepted: data.dateAccepted,
       type: data.type,
       result: "",
-      line: 0,
+      line: data.line,
       propTitle: "",
-      homeData: null,
-      awayData: null,
-      overData: null,
-      underData: null,
+      homeData: data.homeData,
+      awayData: data.awayData,
+      overData: data.overData,
+      underData: data.underData,
       _id: data._id,
 
       voided: data.voided,
@@ -401,18 +407,25 @@ function PickCard({ item, user }: PickCardProps) {
       })
     : [];
 
-  console.log("Rendering...");
-
   useEffect(() => {
-    console.log("Mounted...");
     populateState();
   }, []);
 
+  console.log(item);
+
   if (item.type === "playerProp") {
+    console.log(item);
     return (
       <div className="pick-wrapper">
         <div className="pick-header">
-          <h2 className="pick-type">OVER OR UNDER</h2>
+          <h2 className="pick-type">
+            <span
+              className={`mr-2 rounded-sm border-[1px] border-gray-600 px-1 py-0.5 ${item.league === "nhl" && "bg-blue-950 text-blue-500"} ${item.league === "nfl" && "bg-green-950 text-green-500"} ${item.league === "nba" && "bg-orange-950 text-orange-500"}`}
+            >
+              {item.league.toLocaleUpperCase()}
+            </span>
+            OVER OR UNDER
+          </h2>
         </div>
         <div className="pick ouPlayer">
           <button
@@ -441,7 +454,7 @@ function PickCard({ item, user }: PickCardProps) {
             <span className="player-name">{item.player}</span> over or under{" "}
             <span className="stat-and-line">
               {item.underData?.underLine}{" "}
-              {propKeyConversion[item.subType!].toLocaleLowerCase()}
+              {keyConversion[item.subType!].toLocaleLowerCase()}
             </span>
             ?
           </div>
@@ -470,7 +483,9 @@ function PickCard({ item, user }: PickCardProps) {
           {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
         </div>
         <div className="challenges">
-          <div className="challenge-btn-wrapper">
+          <div
+            className={`challenge-btn-wrapper ${showCreate === true || showChallenges === true ? "hide" : ""}`}
+          >
             <button
               className={`expand-challenges-btn ${
                 filteredPropChallenges.length === 0 && "disabled"
@@ -577,7 +592,14 @@ function PickCard({ item, user }: PickCardProps) {
     return (
       <div className="pick-wrapper">
         <div className="pick-header">
-          <h2 className="pick-type">OVER OR UNDER</h2>
+          <h2 className="pick-type">
+            <span
+              className={`mr-2 rounded-sm border-[1px] border-gray-600 px-1 py-0.5 ${item.league === "nhl" && "bg-blue-950 text-blue-500"} ${item.league === "nfl" && "bg-green-950 text-green-500"} ${item.league === "nba" && "bg-orange-950 text-orange-500"}`}
+            >
+              {item.league.toLocaleUpperCase()}
+            </span>
+            OVER OR UNDER
+          </h2>
         </div>
         <div className="pick ouTeam">
           <button
@@ -608,7 +630,10 @@ function PickCard({ item, user }: PickCardProps) {
             </span>{" "}
             over or under{" "}
             <span className="stat-and-line">
-              {item.overData?.overLine} total points
+              {item.overData?.overLine} total{" "}
+              {item.league === "nhl" || item.league === "epl"
+                ? "goals"
+                : "points"}
             </span>
             ?
           </div>
@@ -637,7 +662,9 @@ function PickCard({ item, user }: PickCardProps) {
           {lockPick ? <div className="locked-overlay">Pick is Locked</div> : ""}
         </div>
         <div className="challenges">
-          <div className="challenge-btn-wrapper">
+          <div
+            className={`challenge-btn-wrapper ${showCreate === true || showChallenges === true ? "hide" : ""}`}
+          >
             <button
               className={`expand-challenges-btn ${
                 filteredPropChallenges.length === 0 && "disabled"
@@ -748,7 +775,14 @@ function PickCard({ item, user }: PickCardProps) {
         {awayTeam && homeTeam && (
           <div className="pick-wrapper">
             <div className="pick-header spread">
-              <h2 className="pick-type">SPREAD</h2>
+              <h2 className="pick-type">
+                <span
+                  className={`mr-2 rounded-sm border-[1px] border-gray-600 px-1 py-0.5 ${item.league === "nhl" && "bg-blue-950 text-blue-500"} ${item.league === "nfl" && "bg-green-950 text-green-500"} ${item.league === "nba" && "bg-orange-950 text-orange-500"}`}
+                >
+                  {item.league.toLocaleUpperCase()}
+                </span>
+                SPREAD
+              </h2>
             </div>
             <div className="pick spread">
               <button
@@ -815,7 +849,9 @@ function PickCard({ item, user }: PickCardProps) {
               )}
             </div>
             <div className="challenges">
-              <div className="challenge-btn-wrapper">
+              <div
+                className={`challenge-btn-wrapper ${showCreate === true || showChallenges === true ? "hide" : ""}`}
+              >
                 <button
                   className={`expand-challenges-btn ${
                     filteredPropChallenges.length === 0 && "disabled"
