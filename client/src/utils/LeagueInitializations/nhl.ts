@@ -13,6 +13,7 @@ const sport = "icehockey_nhl";
 const region = "us";
 const format = "american";
 const teamPropMarkets = ["spreads", "totals"];
+const propMarketsString = teamPropMarkets.join(",");
 
 const PROP_DATA: string[] = [
   "player_points",
@@ -25,7 +26,7 @@ const PROP_DATA: string[] = [
 
 const propListToString = PROP_DATA.join(",");
 
-const BASE_URL = `https://api.the-odds-api.com/v4/sports/${sport}/odds/?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=totals,spreads&oddsFormat=american`;
+const BASE_URL = `https://api.the-odds-api.com/v4/sports/${sport}/odds/?apiKey=${ODDS_API_KEY}&regions=${region}&bookmakers=draftkings&markets=${propMarketsString}&oddsFormat=${format}`;
 
 export function getNHLPlayerProps(gameId: string) {
   return `https://api.the-odds-api.com/v4/sports/${sport}/events/${gameId}/odds?apiKey=${ODDS_API_KEY}&regions=us&bookmakers=draftkings&markets=${propListToString}&oddsFormat=american`;

@@ -1,16 +1,18 @@
+import { useState } from "react";
+
 import BettingPropSpreads from "../BettingPropSpreads";
 import BettingPropTotals from "../BettingPropTotals";
 import { BettingProp, FullMatchupProps } from "../utils";
 import { PropToDbInterface } from "../BettingPropSpreads";
 import { PlayerPropInterface } from "../utils";
 import PlayerProp from "../PlayerProp";
-import { useState } from "react";
 import { Markets, CombinedProp } from "../utils";
 import TestCountdownTimer from "../TestCountDown/TestCountDown";
 import PlayerPropFilterBtn from "../PlayerPropFilterBtn";
 import { ImSpinner10 } from "react-icons/im";
 import { generatePlayerPropURL } from "../../utils/LeagueInitializations";
 import { handleKeyConversion } from "../../utils/keyConversion";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 
 export default function GameWrapper({
   handlePropCounter,
@@ -42,13 +44,28 @@ export default function GameWrapper({
   sport: string;
 }) {
   const [showPlayerProps, setShowPlayerProps] = useState<boolean>(false);
-  const [filteredButtons, setFilteredButtons] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [activeFilter, setActiveFilter] = useState<string>("");
+  const [gamePropsToRender, setGamePropsToRender] = useState<FullMatchupProps>(
+    {},
+  );
+
+  // ********************************************************************
+  // ********************************************************************
+  // ********************************************************************
+  // IF YOU TRY TO EXPAND TWO AT A TIME and filter things RIGHT NOW YOU GET AN ERROR BECAUSE YOU HAVE CONFLICT and each card doesn't have its own state!!!
+
+  // ISSUE: Fetch props for one game & setFilter -> Then, trying to open another games player props will throw an error
+
+  // Cannot read properties of undefined (reading 'filter') LINE 182
+  // ********************************************************************
+  // ********************************************************************
+  // ********************************************************************
 
   async function handleFetchPlayerProps(gameId: string, sport: string) {
     setShowPlayerProps(true);
     setLoading(true);
+    setActiveFilter("");
     if (globalPropsToRender[gameId]) {
       console.log("Data exists");
       setShowPlayerProps(!showPlayerProps);
@@ -60,7 +77,6 @@ export default function GameWrapper({
     let playerProps = [];
 
     const URL = generatePlayerPropURL(gameId, sport);
-    setLoading(false);
 
     const res = await fetch(URL);
     const data = await res.json();
@@ -69,8 +85,6 @@ export default function GameWrapper({
       setLoading(false);
       return;
     }
-
-    console.log(data);
     setLoading(false);
 
     playerProps.push(data);
@@ -138,8 +152,8 @@ export default function GameWrapper({
           }
         }
       });
-      console.log(finalPlayerProps);
       setGlobalPropsToRender({ [gameId]: finalPlayerProps });
+      console.log(globalPropsToRender);
     }
 
     setLoading(false);
@@ -149,6 +163,7 @@ export default function GameWrapper({
     setActiveFilter(filter);
   }
 
+  // THIS LOGIC NEEDS TO BE MOVED (BUTTON KEYS CAN BE DETERMINED WHEN PROPS ARE FETCHED)
   function renderButtons() {
     const buttonKeys = [];
     const keyMap = handleKeyConversion(sport);
@@ -237,7 +252,7 @@ export default function GameWrapper({
           className="loadPlayerProps"
         >
           Load Player Props For This Matchup{" "}
-          <span>{showPlayerProps ? "show" : "hide"}</span>
+          <span>{showPlayerProps ? <FaCaretUp /> : <FaCaretDown />}</span>
         </button>
         <div
           className={`playerPropFilterBtnsWrapper ${
