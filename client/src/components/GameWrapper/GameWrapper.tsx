@@ -20,8 +20,6 @@ export default function GameWrapper({
   time,
   gameIdsFetched,
   setGameIdsFetched,
-  globalPropsToRender,
-  setGlobalPropsToRender,
   propsSelected,
   setPropsSelected,
   currentWeek,
@@ -35,8 +33,6 @@ export default function GameWrapper({
   prop: BettingProp;
   gameIdsFetched: string[];
   setGameIdsFetched: (str: string[]) => void;
-  globalPropsToRender: FullMatchupProps;
-  setGlobalPropsToRender: (obj: FullMatchupProps) => void;
   propsSelected: PropToDbInterface[];
   setPropsSelected: (obj: PropToDbInterface[]) => void;
   currentWeek: string;
@@ -65,8 +61,8 @@ export default function GameWrapper({
   async function handleFetchPlayerProps(gameId: string, sport: string) {
     setShowPlayerProps(true);
     setLoading(true);
-    setActiveFilter("");
-    if (globalPropsToRender[gameId]) {
+    // setActiveFilter("");
+    if (gamePropsToRender[gameId]) {
       console.log("Data exists");
       setShowPlayerProps(!showPlayerProps);
       setLoading(false);
@@ -86,6 +82,12 @@ export default function GameWrapper({
       return;
     }
     setLoading(false);
+
+    // Prevents errors if bookmaker doesn't have player props for this matchup
+    if (data.bookmakers.length === 0) {
+      console.log("Draftkings does not have player props for this matchup");
+      return;
+    }
 
     playerProps.push(data);
     setGameIdsFetched([...gameIdsFetched, gameId]);
@@ -152,8 +154,8 @@ export default function GameWrapper({
           }
         }
       });
-      setGlobalPropsToRender({ [gameId]: finalPlayerProps });
-      console.log(globalPropsToRender);
+      setGamePropsToRender({ [gameId]: finalPlayerProps });
+      console.log(gamePropsToRender);
     }
 
     setLoading(false);
@@ -184,10 +186,11 @@ export default function GameWrapper({
 
   const markets = prop.bookmakers[0].markets;
 
-  const filteredPlayerProps =
-    activeFilter === ""
-      ? globalPropsToRender[prop.id]
-      : globalPropsToRender[prop.id].filter((prop) => {
+  const filteredPlayerProps = !gamePropsToRender[prop.id]
+    ? []
+    : activeFilter === ""
+      ? gamePropsToRender[prop.id]
+      : gamePropsToRender[prop.id].filter((prop) => {
           return activeFilter === prop.item.key;
         });
 
@@ -216,8 +219,6 @@ export default function GameWrapper({
                 prop={prop}
                 gameIdsFetched={gameIdsFetched}
                 setGameIdsFetched={setGameIdsFetched}
-                globalPropsToRender={globalPropsToRender}
-                setGlobalPropsToRender={setGlobalPropsToRender}
                 propsSelected={propsSelected}
                 setPropsSelected={setPropsSelected}
                 currentWeek={currentWeek}
@@ -237,8 +238,6 @@ export default function GameWrapper({
                 prop={prop}
                 gameIdsFetched={gameIdsFetched}
                 setGameIdsFetched={setGameIdsFetched}
-                globalPropsToRender={globalPropsToRender}
-                setGlobalPropsToRender={setGlobalPropsToRender}
                 propsSelected={propsSelected}
                 setPropsSelected={setPropsSelected}
                 currentWeek={currentWeek}
@@ -274,7 +273,7 @@ export default function GameWrapper({
           }`}
         >
           {!loading &&
-            filteredPlayerProps &&
+            filteredPlayerProps.length > 0 &&
             filteredPlayerProps.map((item: PlayerPropInterface) => {
               if (item.gameId === prop.id) {
                 return (
@@ -296,6 +295,11 @@ export default function GameWrapper({
               }
             })}
         </div>
+        {!loading && showPlayerProps && filteredPlayerProps.length < 1 && (
+          <div className="flex w-full items-center justify-center bg-red-950 py-2 text-center text-red-500">
+            Draftkings has no props for this matchup
+          </div>
+        )}
       </>
     </div>
   );

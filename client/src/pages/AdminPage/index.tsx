@@ -63,8 +63,6 @@ export default function AdminPage() {
   const [bettingData, setBettingData] = useState<BettingProp[] | null>(null);
   const [numPropsSelected, setNumPropsSelected] = useState<string[]>([]);
   const [gameIdsFetched, setGameIdsFetched] = useState<string[]>([]);
-  const [globalPropsToRender, setGlobalPropsToRender] =
-    useState<FullMatchupProps>({});
   const [propsSelected, setPropsSelected] = useState<PropToDbInterface[]>([]);
   const [currentWeek, setCurrentWeek] = useState<string>("");
   const [currentYear, setCurrentYear] = useState<number>(0);
@@ -375,8 +373,6 @@ export default function AdminPage() {
                           prop={prop}
                           gameIdsFetched={gameIdsFetched}
                           setGameIdsFetched={setGameIdsFetched}
-                          globalPropsToRender={globalPropsToRender}
-                          setGlobalPropsToRender={setGlobalPropsToRender}
                           propsSelected={propsSelected}
                           setPropsSelected={setPropsSelected}
                           currentWeek={currentWeek}

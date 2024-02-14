@@ -1,16 +1,16 @@
-import { useState } from "react"
+import { useState } from "react";
 
-import { MdCompareArrows } from "react-icons/md"
-import { PropToDbInterface } from "../BettingPropSpreads"
-import { weekToNumConversion } from "../utils"
+import { MdCompareArrows } from "react-icons/md";
+import { PropToDbInterface } from "../BettingPropSpreads";
+import { weekToNumConversion } from "../utils";
 
 import {
   Outcomes,
   Markets,
   BettingProp,
   FullMatchupProps,
-  calculatePayout
-} from "../utils"
+  calculatePayout,
+} from "../utils";
 
 export default function BettingPropTotals({
   outcomes,
@@ -22,49 +22,47 @@ export default function BettingPropTotals({
   propsSelected,
   setPropsSelected,
   currentWeek,
-  currentYear
+  currentYear,
 }: {
-  outcomes: Outcomes[]
-  type: Markets
-  time: string
-  homeTeam: string
-  awayTeam: string
-  handlePropCounter: (propId: string) => void
-  prop: BettingProp
-  gameIdsFetched: string[]
-  setGameIdsFetched: (str: string[]) => void
-  globalPropsToRender: FullMatchupProps
-  setGlobalPropsToRender: (obj: FullMatchupProps) => void
-  propsSelected: PropToDbInterface[]
-  setPropsSelected: (obj: PropToDbInterface[]) => void
-  currentWeek: string
-  currentYear: number
+  outcomes: Outcomes[];
+  type: Markets;
+  time: string;
+  homeTeam: string;
+  awayTeam: string;
+  handlePropCounter: (propId: string) => void;
+  prop: BettingProp;
+  gameIdsFetched: string[];
+  setGameIdsFetched: (str: string[]) => void;
+  propsSelected: PropToDbInterface[];
+  setPropsSelected: (obj: PropToDbInterface[]) => void;
+  currentWeek: string;
+  currentYear: number;
 }) {
-  const [selected, setSelected] = useState<boolean>(false)
+  const [selected, setSelected] = useState<boolean>(false);
 
-  const gameLine = outcomes[0].point
-  const overData = outcomes.find((item) => item.name === "Over")
-  const underData = outcomes.find((item) => item.name === "Under")
+  const gameLine = outcomes[0].point;
+  const overData = outcomes.find((item) => item.name === "Over");
+  const underData = outcomes.find((item) => item.name === "Under");
 
   function handleSelectedProp(propId: string) {
-    const uniqueId = propId
+    const uniqueId = propId;
 
-    setSelected(!selected)
-    handlePropCounter(propId)
+    setSelected(!selected);
+    handlePropCounter(propId);
 
-    const propExists = propsSelected.find((item) => item.uniqueId === uniqueId)
+    const propExists = propsSelected.find((item) => item.uniqueId === uniqueId);
 
     if (propExists) {
       // remove prop
       const updatedProps = propsSelected.filter(
-        (item) => item.uniqueId !== uniqueId
-      )
-      setPropsSelected(updatedProps)
-      return
+        (item) => item.uniqueId !== uniqueId,
+      );
+      setPropsSelected(updatedProps);
+      return;
     }
 
-    const propToSend = formatTeamProp(propId)
-    setPropsSelected([...propsSelected, propToSend] as PropToDbInterface[])
+    const propToSend = formatTeamProp(propId);
+    setPropsSelected([...propsSelected, propToSend] as PropToDbInterface[]);
   }
 
   function formatTeamProp(uniqueId: string) {
@@ -88,12 +86,12 @@ export default function BettingPropTotals({
         underData: {
           underLine: underData?.point,
           underPayout: underData?.price,
-          calcUnderPayout: calculatePayout(underData?.price)
+          calcUnderPayout: calculatePayout(underData?.price),
         },
         overData: {
           overLine: overData?.point,
           overPayout: overData?.price,
-          calcOverPayout: calculatePayout(overData?.price)
+          calcOverPayout: calculatePayout(overData?.price),
         },
 
         // these are updated as users make selections
@@ -108,8 +106,8 @@ export default function BettingPropTotals({
 
         challenges: [],
 
-        weekYear: `${currentWeek}${currentYear.toString()}`
-      }
+        weekYear: `${currentWeek}${currentYear.toString()}`,
+      };
     }
   }
 
@@ -174,5 +172,5 @@ export default function BettingPropTotals({
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -46,8 +46,6 @@ export const createProps = async (
   const weekYear = req.body.weekYear
   const user = req.user
 
-  console.log(props)
-
   if (!user) return next(errorHandler(400, "Unauthorized"))
 
   if (props.length < 1 || !weekYear) return next(errorHandler(400, "ERROR!"))

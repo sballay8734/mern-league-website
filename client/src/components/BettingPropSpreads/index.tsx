@@ -89,8 +89,6 @@ export default function BettingPropSpreads({
   prop: BettingProp;
   gameIdsFetched: string[];
   setGameIdsFetched: (str: string[]) => void;
-  globalPropsToRender: FullMatchupProps;
-  setGlobalPropsToRender: (obj: FullMatchupProps) => void;
   propsSelected: PropToDbInterface[];
   setPropsSelected: (obj: PropToDbInterface[]) => void;
   currentWeek: string;
