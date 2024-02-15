@@ -1,13 +1,13 @@
 FOR TODAY---------------------
-1. Add league to challenge
 1. Add gametime to challenge
-1. Add gametime & league ICON & type to active challenge cards
+1. Add gametime & type to active challenge cards
 1. Setup tailwind style colors
 1. Challenge accept wraps onto 2nd line.
+1. Withdraw challenge button
 1. Re-usable modal for failed submission
+1. Withdraw challenge should not work if it's already been accepted
 1. Implement count for active challenges
 1. Block Challenges if game has expired
-1. Challenges should show on "Active Tab" when successfully submitted (WORKING... JUST NEEDS TO ALLOW OVERFLOW SCROLL)
 2. Style Active/Completed Challenges && Summary
 2. Implement Fetch counter for each Owner (Max per month = 25ish)
 3. REFACTOR COMBINING CHALLENGES

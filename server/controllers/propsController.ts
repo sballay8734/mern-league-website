@@ -242,7 +242,12 @@ export const getProps = async (
       return
     }
 
-    res.status(200).json(propsForThisWeek)
+    const filteredPropsForThisWeek = propsForThisWeek.filter((prop) => {
+      const expirationDate = new Date(prop.expiration)
+      return expirationDate >= new Date()
+    })
+
+    res.status(200).json(filteredPropsForThisWeek)
   } catch (error) {
     next(error)
   }

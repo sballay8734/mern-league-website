@@ -1,7 +1,7 @@
 // Need locks to appear when successful database write
 // Lock pick when timer is up
 
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -20,7 +20,7 @@ import { handleKeyConversion } from "../../utils/keyConversion";
 import { formatTeamName } from "../../utils/Formatting";
 
 // export at bottom
-function PickCard({ item, user }: PickCardProps) {
+export default function PickCard({ item, user }: PickCardProps) {
   const dispatch = useDispatch();
   const [overOrUnder, setOverOrUnder] = useState<string | null>(null);
   const [spreadPick, setSpreadPick] = useState<string | null>(null);
@@ -309,7 +309,15 @@ function PickCard({ item, user }: PickCardProps) {
     } else if (item.type === "teamTotals") {
       return `${item.awayTeam && formatTeamName(item.awayTeam)} & ${item.homeTeam && formatTeamName(item.homeTeam)} ${keyConversion[item.type]}`;
     } else {
-      return `${awayTeam && formatTeamName(awayTeam)} (${item.awayData?.awayLine}) @ ${homeTeam && formatTeamName(homeTeam)} (${item.homeData?.homeLine})`;
+      const awayLine =
+        item.awayData && item.awayData?.awayLine > 0
+          ? `+${item.awayData?.awayLine}`
+          : item.awayData?.awayLine;
+      const homeLine =
+        item.homeData && item.homeData?.homeLine > 0
+          ? `+${item.homeData?.homeLine}`
+          : item.homeData?.homeLine;
+      return `${awayTeam && formatTeamName(awayTeam)} (${awayLine}) @ ${homeTeam && formatTeamName(homeTeam)} (${homeLine})`;
     }
   }
 
@@ -977,5 +985,3 @@ function PickCard({ item, user }: PickCardProps) {
     return <div className="pick wrong">Incorrect Format</div>;
   }
 }
-
-export default memo(PickCard);

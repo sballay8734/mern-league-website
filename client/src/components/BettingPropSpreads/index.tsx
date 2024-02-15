@@ -9,6 +9,7 @@ export interface PropToDbInterface {
   type: string;
   subType?: string;
   player?: string;
+  league: string;
   gameId: string;
   expiration: string;
   uniqueId: string;

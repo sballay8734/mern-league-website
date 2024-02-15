@@ -30,7 +30,10 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
           <div className="picks-header-wrapper">
             <div className="picks-header">
               <h1>Picks and Dicks</h1>
-              <p>Week {propData ? propData[0].week : "N/A"}</p>
+              <p>
+                Week{" "}
+                {propData && propData?.length > 0 ? propData[0].week : "N/A"}
+              </p>
             </div>
             <div className="picks-nav">
               <nav className="tab">
@@ -83,7 +86,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
             {activeButton === "makePicks" ? (
               <>
                 <div className="picks-wrapper disable-scrollbars">
-                  {propData ? (
+                  {propData && propData.length > 0 ? (
                     propData.map((prop) => {
                       return (
                         <PickCard key={prop._id} user={user} item={prop} />

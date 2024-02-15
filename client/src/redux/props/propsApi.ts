@@ -45,6 +45,7 @@ export interface PropToDbInterface {
   expiration: string;
   uniqueId: string;
   week: number;
+  league: string;
   year: number;
   line: number;
   _id: string;
