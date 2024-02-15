@@ -10,6 +10,7 @@ FOR TODAY---------------------
 1. Challenges should show on "Active Tab" when successfully submitted (WORKING... JUST NEEDS TO ALLOW OVERFLOW SCROLL)
 2. Style Active/Completed Challenges && Summary
 2. Implement Fetch counter for each Owner (Max per month = 25ish)
+3. REFACTOR COMBINING CHALLENGES
 
 1. Find a better font for numbers and text separately
 3. Fix finishing places

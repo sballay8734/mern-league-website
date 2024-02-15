@@ -8,6 +8,7 @@ interface ActiveChallengesProps {
 export default function ActiveChallenges({
   activeChallenges,
 }: ActiveChallengesProps) {
+  console.log(activeChallenges);
   return (
     <div className="flex flex-col gap-2">
       {activeChallenges &&
