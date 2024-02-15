@@ -105,6 +105,9 @@ function PickCard({ item, user }: PickCardProps) {
     setSpreadPick(action);
     setLockIcon(true);
 
+    //
+    // THIS MAY BE THE CULPRIT HERE!!! ("pickMade")
+    //
     const pickMade = {
       uniqueId: item.uniqueId,
       over: null,
@@ -306,6 +309,7 @@ function PickCard({ item, user }: PickCardProps) {
     }
   }
 
+  console.log(item);
   async function submitChallenge() {
     // ********************************************************************
     // ********************************************************************
@@ -411,10 +415,7 @@ function PickCard({ item, user }: PickCardProps) {
     populateState();
   }, []);
 
-  console.log(item);
-
   if (item.type === "playerProp") {
-    console.log(item);
     return (
       <div className="pick-wrapper">
         <div className="pick-header">
