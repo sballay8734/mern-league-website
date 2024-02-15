@@ -19,8 +19,6 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
     (state: RootState) => state.picksSlice.activeButton,
   );
 
-  console.log("Rendering Parent WHYYYY...");
-
   // ADD ANOTHER ICON ABOVE NAV TOGGLE TO SHOW CURRENT YEAR STANDINGS
   //
 

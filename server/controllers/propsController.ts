@@ -4,6 +4,7 @@ import { errorHandler } from "../utils/error"
 import Prop, { PropToDbInterface } from "../models/Prop"
 import User from "../models/User"
 import Challenge from "../models/Challenge"
+import { IChallenge } from "../models/Challenge"
 
 interface WeekToNum {
   [week: string]: number
@@ -247,18 +248,6 @@ export const getProps = async (
   }
 }
 
-interface IChallenge {
-  challengerName: string
-  acceptorName: string
-  challengerSelection: string // "over" | "under" | "away" | "home"
-  acceptorSelection: string // "over" | "under" | "away" | "home"
-  wagerAmount: number
-  type: string
-  _id: string
-
-  voided: boolean
-}
-
 export const createChallenge = async (
   req: Request,
   res: Response,
@@ -270,6 +259,7 @@ export const createChallenge = async (
   const gameId: string = req.body.gameId
   const propId: string = req.body.uniqueId
   const challenge: IChallenge = req.body.challenge
+  console.log(challenge)
 
   const formattedChallenge = {
     challengerId: challengerId,
@@ -284,7 +274,15 @@ export const createChallenge = async (
     dateProposed: new Date().toISOString(),
     dateAccepted: "",
     type: challenge.type,
+    league: challenge.league,
+    gameStart: challenge.gameStart,
     result: "",
+    line: challenge.line,
+    propTitle: challenge.propTitle,
+    homeData: { ...challenge.homeData },
+    awayData: { ...challenge.awayData },
+    overData: { ...challenge.overData },
+    underData: { ...challenge.underData },
     voided: false
   }
 

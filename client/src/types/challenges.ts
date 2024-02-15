@@ -11,6 +11,8 @@ export interface IChallenge {
   dateProposed: string;
   dateAccepted: string;
   type: string;
+  league: string;
+  gameStart: string;
   result: string;
   line: number;
   propTitle: string; // this is where you put player name or matchup

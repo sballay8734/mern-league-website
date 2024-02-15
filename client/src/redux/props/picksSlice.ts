@@ -1,21 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface PropChallenge {
-  challengerId: string;
-  acceptorId: string;
-  challengerName: string;
-  acceptorName: string;
-  challengerSelection: string; // "over" | "under" | "away" | "home"
-  acceptorSelection: string; // "over" | "under" | "away" | "home"
-  wagerAmount: number;
-  gameId: string;
-  propId: string;
-  dateProposed: string;
-  dateAccepted: string;
-  _id: string;
-
-  voided: boolean;
-}
+import { IChallenge } from "../../types/challenges";
 
 interface FullPicksObject {
   [uniqueId: string]: Pick;
@@ -35,7 +19,7 @@ interface PicksState {
   pickIds: string[];
   picksMade: FullPicksObject;
   challenges: {
-    [propId: string]: PropChallenge[];
+    [propId: string]: IChallenge[];
   };
 }
 
@@ -85,7 +69,7 @@ const picksSlice = createSlice({
       state.picksMade[uniqueId].awayTeam = awayTeam;
       state.picksMade[uniqueId].homeTeam = homeTeam;
     },
-    addChallenge: (state, action: PayloadAction<PropChallenge>) => {
+    addChallenge: (state, action: PayloadAction<IChallenge>) => {
       const {
         challengerId,
         acceptorId,
@@ -96,8 +80,18 @@ const picksSlice = createSlice({
         wagerAmount,
         gameId,
         propId,
+        league,
         dateProposed,
         dateAccepted,
+        type,
+        result,
+        line,
+        gameStart,
+        propTitle,
+        homeData,
+        awayData,
+        overData,
+        underData,
         _id,
         voided,
       } = action.payload;
@@ -112,23 +106,38 @@ const picksSlice = createSlice({
         wagerAmount: wagerAmount,
         gameId: gameId,
         propId: propId,
+        league: league,
         dateProposed: dateProposed,
         dateAccepted: dateAccepted,
+        type: type,
+        result: result,
+        line: line,
+        gameStart: gameStart,
+        propTitle: propTitle,
+        homeData: homeData,
+        awayData: awayData,
+        overData: overData,
+        underData: underData,
         _id: _id,
         voided: voided,
       };
 
+      console.log("CHECKING FOR PROP ID....");
       if (!state.challenges[propId]) {
+        console.log("NOT FOUND... INITIALIZING AND SETTING...");
         state.challenges[propId] = [];
         state.challenges[propId].push(challengeToAdd);
         return;
       }
 
+      console.log("FOUND PROP ID... CHECKING IF CHALLENGE EXISTS");
       const challengeExists = state.challenges[propId].find((challenge) => {
-        return challenge._id === _id;
+        return challenge._id === _id; // WHAT IS THIS DOING?
       });
 
       if (challengeExists) return;
+
+      console.log("CHALLENGE DOES NOT EXIST.... PUSHING CHALLENGE");
 
       state.challenges[propId].push(challengeToAdd);
     },

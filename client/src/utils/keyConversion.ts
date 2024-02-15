@@ -22,6 +22,7 @@ const NBAKeyConversion: KeyConversion = {
   player_threes: "3pt Made",
   player_blocks: "Blocks",
   player_steals: "Steals",
+  teamTotals: "Total Points",
 };
 
 const NHLKeyConversion: KeyConversion = {
@@ -31,6 +32,7 @@ const NHLKeyConversion: KeyConversion = {
   player_blocked_shots: "Blocked Shots",
   player_shots_on_goal: "SOG",
   player_total_saves: "Saves",
+  teamTotals: "Total Goals",
 };
 
 export function handleKeyConversion(sport: string) {

@@ -6,6 +6,7 @@ import { useFetchChallengesByUserQuery } from "../../redux/props/propsApi";
 import ActiveChallenges from "./ActiveChallenges";
 import CompletedChallenges from "./CompletedChallenges";
 import ChallengeSummary from "./ChallengeSummary";
+import { IChallenge } from "../../types/challenges";
 
 export default function ChallengeHistory() {
   // Need to pass userId here and add separate query here:
@@ -15,22 +16,46 @@ export default function ChallengeHistory() {
   if (!user) {
     return <div>No user</div>;
   }
+  const challengesFromState = useSelector(
+    (state: RootState) => state.picksSlice.challenges,
+  );
   const { data: challenges } = useFetchChallengesByUserQuery(user._id);
 
-  const activeChallenges = challenges
-    ? challenges.filter((challenge) => {
+  const stateKeys = Object.keys(challengesFromState);
+  const stateChallenges = ([] as IChallenge[]).concat(
+    ...stateKeys.map((key) => challengesFromState[key]),
+  );
+
+  function combineChallenges() {
+    const combinedChallenges = [];
+
+    for (let item of stateChallenges) {
+      combinedChallenges.push(item);
+    }
+    for (let challenge of challenges!) {
+      if (!combinedChallenges.find((item) => challenge._id === item._id)) {
+        combinedChallenges.push(challenge);
+      }
+    }
+
+    return combinedChallenges;
+  }
+
+  const combinedChallenges = challenges && combineChallenges();
+
+  const activeChallenges = combinedChallenges
+    ? combinedChallenges.filter((challenge) => {
         return challenge.result === "";
       })
     : [];
 
-  const completedChallenges = challenges
-    ? challenges.filter((challenge) => {
+  const completedChallenges = combinedChallenges
+    ? combinedChallenges.filter((challenge) => {
         return challenge.result !== "";
       })
     : [];
 
-  console.log("ACTIVE:", activeChallenges);
-  console.log("COMPLETE:", completedChallenges);
+  // console.log(activeChallenges, completedChallenges);
 
   return (
     <>
@@ -55,7 +80,7 @@ export default function ChallengeHistory() {
           </li>
         </ul>
       </nav>
-      <section className="h-full w-full text-white">
+      <section className="h-full w-full overflow-auto text-white">
         {activeFilter === "active" ? (
           <ActiveChallenges activeChallenges={activeChallenges} />
         ) : activeFilter === "completed" ? (

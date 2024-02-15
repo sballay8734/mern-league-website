@@ -13,24 +13,30 @@ export interface IChallenge {
   dateProposed: string
   dateAccepted: string
   type: string
+  league: string
+  gameStart: string
   result: string
   line: number
-  propTitle: string // this is where you put player name or matchup
+  propTitle: string
   homeData?: {
+    homeLine: number
     homeTeam: string
     homePayout: number
     calcHomePayout: number
   } | null
   awayData?: {
+    awayLine: number
     awayTeam: string
     awayPayout: number
     calcAwayPayout: number
   } | null
   overData?: {
+    overLine: number
     overPayout: number
     calcOverPayout: number
   } | null
   underData?: {
+    underLine: number
     underPayout: number
     calcUnderPayout: number
   } | null
@@ -41,9 +47,9 @@ export interface IChallenge {
 
 const ChallengeSchema = new Schema({
   challengerId: String,
-  acceptorId: String,
+  acceptorId: { type: String, default: "" },
   challengerName: String,
-  acceptorName: String,
+  acceptorName: { type: String, default: "" },
   challengerSelection: String,
   acceptorSelection: String,
   wagerAmount: Number,
@@ -52,24 +58,30 @@ const ChallengeSchema = new Schema({
   dateProposed: String,
   dateAccepted: String,
   type: String,
+  league: String,
+  gameStart: String,
   result: { type: String, default: "" },
   line: Number,
   propTitle: String,
   homeData: {
+    homeLine: Number,
     homeTeam: String,
     homePayout: Number,
     calcHomePayout: Number
   },
   awayData: {
+    awayLine: Number,
     awayTeam: String,
     awayPayout: Number,
     calcAwayPayout: Number
   },
   overData: {
+    overLine: Number,
     overPayout: Number,
     calcOverPayout: Number
   },
   underData: {
+    underLine: Number,
     underPayout: Number,
     calcUnderPayout: Number
   },

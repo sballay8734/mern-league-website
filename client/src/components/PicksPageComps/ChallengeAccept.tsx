@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+
 import { PropToDbInterface } from "../BettingPropSpreads";
 import { removeChallenge } from "../../redux/props/picksSlice";
 import { PropChallenge } from "../../types/challenges";
-import { useDispatch } from "react-redux";
+import { formatOwnerName, formatTeamName } from "../../utils/Formatting";
 
 interface User {
   _id: string;
@@ -31,22 +33,6 @@ export default function ChallengeAccept({
 }: ChallengeAcceptProps) {
   const dispatch = useDispatch();
   const [verifyAcceptance, setVerifyAcceptance] = useState<boolean>(false);
-
-  function formatOwnerName(str: string) {
-    return (
-      str.split(" ")[0] +
-      " " +
-      str.split(" ")[1].charAt(0).toLocaleUpperCase() +
-      "."
-    );
-  }
-
-  function formatTeamName(teamName: string) {
-    const splitTeam = teamName.split(" ");
-    const formattedTeam = splitTeam[splitTeam.length - 1];
-
-    return formattedTeam;
-  }
 
   async function handleAcceptChallenge(challenge: PropChallenge) {
     const gameId = item.gameId;
@@ -95,6 +81,8 @@ export default function ChallengeAccept({
     // refetch()
   }
 
+  console.log(item.homeData?.homeTeam, challenge.challengerSelection);
+
   return (
     <div className="challenge-wrapper" key={challenge._id}>
       <p className="challenge-details">
@@ -106,9 +94,11 @@ export default function ChallengeAccept({
         <span className="challenge-word">on</span>{" "}
         <span className="challenge-word">the</span>
         <span className="challengerSelection">
-          {item.homeData && challenge.challengerSelection === "home"
+          {item.homeData &&
+          challenge.challengerSelection === item.homeData.homeTeam
             ? formatTeamName(item.homeData.homeTeam)
-            : item.awayData && challenge.challengerSelection === "away"
+            : item.awayData &&
+                challenge.challengerSelection === item.awayData.awayTeam
               ? formatTeamName(item.awayData.awayTeam)
               : challenge.challengerSelection}
         </span>

@@ -14,10 +14,10 @@ import { FaCaretDown, FaCaretUp, FaLock } from "react-icons/fa";
 import CountdownTimer from "../CountDownTimer/CountDownTimer";
 import ChallengeAccept from "./ChallengeAccept";
 import { RootState } from "../../redux/store";
-import { formatTeamName } from "./helpers";
 import { PickCardProps, PropToDbInterface } from "./types";
 import { IChallenge } from "../../types/challenges";
 import { handleKeyConversion } from "../../utils/keyConversion";
+import { formatTeamName } from "../../utils/Formatting";
 
 // export at bottom
 function PickCard({ item, user }: PickCardProps) {
@@ -81,7 +81,6 @@ function PickCard({ item, user }: PickCardProps) {
 
   async function handleSpreadPick(item: PropToDbInterface, action: string) {
     // if you already selected that team or the pick is locked
-
     if (spreadPick === action) return;
     if (lockPick) return;
 
@@ -105,9 +104,6 @@ function PickCard({ item, user }: PickCardProps) {
     setSpreadPick(action);
     setLockIcon(true);
 
-    //
-    // THIS MAY BE THE CULPRIT HERE!!! ("pickMade")
-    //
     const pickMade = {
       uniqueId: item.uniqueId,
       over: null,
@@ -249,6 +245,9 @@ function PickCard({ item, user }: PickCardProps) {
   }
 
   function handleChallengeChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const homeTeam = item.homeData?.homeTeam;
+    const awayTeam = item.awayData?.awayTeam;
+
     if (e.target.value.toString().length === 5) return;
 
     const isValidInput = /^(?!0\d*$)\d{0,5}$/.test(e.target.value);
@@ -267,7 +266,7 @@ function PickCard({ item, user }: PickCardProps) {
       setFormValid(true);
       return;
     } else if (
-      (challengeSelection === "away" || challengeSelection === "home") &&
+      (challengeSelection === awayTeam || challengeSelection === homeTeam) &&
       e.target.value.length > 0
     ) {
       setFormValid(true);
@@ -277,11 +276,13 @@ function PickCard({ item, user }: PickCardProps) {
   }
 
   function handleChallengeSelection(str: string) {
+    const homeTeam = item.homeData?.homeTeam;
+    const awayTeam = item.awayData?.awayTeam;
     setChallengeSelection(() => {
       if ((str === "over" || str === "under") && wager.toString().length > 0) {
         setFormValid(true);
       } else if (
-        (str === "away" || str === "home") &&
+        (str === awayTeam || str === homeTeam) &&
         wager.toString().length > 0
       ) {
         setFormValid(true);
@@ -300,57 +301,62 @@ function PickCard({ item, user }: PickCardProps) {
   }
 
   function createPropTitle() {
+    const awayTeam = item.awayData?.awayTeam;
+    const homeTeam = item.homeData?.homeTeam;
+
     if (item.type === "playerProp") {
       return `${item.player} ${item.subType && keyConversion[item.subType]}`;
     } else if (item.type === "teamTotals") {
-      return `${item.awayTeam} & ${item.homeTeam} ${keyConversion[item.type]}`;
+      return `${item.awayTeam && formatTeamName(item.awayTeam)} & ${item.homeTeam && formatTeamName(item.homeTeam)} ${keyConversion[item.type]}`;
     } else {
-      return `${item.awayTeam}(${item.awayData?.awayLine}) @ ${item.homeTeam}(${item.homeData?.homeLine})`;
+      return `${awayTeam && formatTeamName(awayTeam)} (${item.awayData?.awayLine}) @ ${homeTeam && formatTeamName(homeTeam)} (${item.homeData?.homeLine})`;
     }
   }
 
-  console.log(item);
   async function submitChallenge() {
-    // ********************************************************************
-    // ********************************************************************
-    // ********************************************************************
-    // CHALLENGE IS STILL MISSING MOST OF THE DATA NEEDED? NOT SURE WHY YET DIDN'T HAVE A CHANCE TO DEBUG
-    // ********************************************************************
-    // ********************************************************************
-    // ********************************************************************
+    const homeTeam = item.homeData?.homeTeam;
+    const awayTeam = item.awayData?.awayTeam;
+
     let challenge = {};
     if (item.type === "playerProp" || item.type === "teamTotals") {
       challenge = {
         type: item.type,
+        league: item.league,
         challengerName: user.fullName,
         challengerSelection: challengeSelection,
         acceptorName: "",
         acceptorSelection: challengeSelection === "under" ? "over" : "under",
         wagerAmount: Number(wager),
+        gameStart: item.expiration,
         result: "",
-        line: item.line,
+        line: item.overData?.overLine,
         propTitle: createPropTitle(),
-        homeData: item.homeData,
-        awayData: item.awayData,
-        overData: item.overData,
-        underData: item.underData,
+        homeData: { ...item.homeData },
+        awayData: { ...item.awayData },
+        overData: { ...item.overData },
+        underData: { ...item.underData },
         voided: false,
       };
     } else {
       challenge = {
         type: item.type,
+        league: item.league,
+        gameStart: item.expiration,
         challengerName: user.fullName,
-        challengerSelection: challengeSelection,
+        challengerSelection: formatTeamName(challengeSelection),
         acceptorName: "",
-        acceptorSelection: challengeSelection === "away" ? "home" : "away",
+        acceptorSelection:
+          challengeSelection === awayTeam
+            ? homeTeam && formatTeamName(homeTeam)
+            : awayTeam && formatTeamName(awayTeam),
         wagerAmount: Number(wager),
         result: "",
-        line: item.line,
+        line: item.homeData?.homeLine,
         propTitle: createPropTitle(),
-        homeData: item.homeData,
-        awayData: item.awayData,
-        overData: item.overData,
-        underData: item.underData,
+        homeData: { ...item.homeData },
+        awayData: { ...item.awayData },
+        overData: { ...item.overData },
+        underData: { ...item.underData },
         voided: false,
       };
     }
@@ -377,6 +383,8 @@ function PickCard({ item, user }: PickCardProps) {
       return;
     }
 
+    console.log(data);
+
     const reformattedForState: IChallenge = {
       challengerId: data.challengerId,
       acceptorId: data.acceptorId,
@@ -387,12 +395,14 @@ function PickCard({ item, user }: PickCardProps) {
       wagerAmount: data.wagerAmount,
       gameId: data.gameId,
       propId: data.propId,
+      league: item.league,
       dateProposed: data.dateProposed,
       dateAccepted: data.dateAccepted,
       type: data.type,
       result: "",
       line: data.line,
-      propTitle: "",
+      gameStart: data.gameStart,
+      propTitle: createPropTitle(),
       homeData: data.homeData,
       awayData: data.awayData,
       overData: data.overData,
@@ -404,6 +414,8 @@ function PickCard({ item, user }: PickCardProps) {
     dispatch(addChallenge(reformattedForState));
     handleClearChallenge();
   }
+
+  console.log(thisPropChallenges);
 
   const filteredPropChallenges = thisPropChallenges
     ? thisPropChallenges.filter((challenge) => {
@@ -881,9 +893,9 @@ function PickCard({ item, user }: PickCardProps) {
                         <span className="your-selection">Your selection</span>
                         <div className="under-selector selector">
                           <button
-                            onClick={() => handleChallengeSelection("away")}
+                            onClick={() => handleChallengeSelection(awayTeam)}
                             className={`button ${
-                              challengeSelection === "away" && "active"
+                              challengeSelection === awayTeam && "active"
                             }`}
                           >
                             {formatTeamName(awayTeam)}
@@ -891,9 +903,9 @@ function PickCard({ item, user }: PickCardProps) {
                         </div>
                         <div className="over-selector selector">
                           <button
-                            onClick={() => handleChallengeSelection("home")}
+                            onClick={() => handleChallengeSelection(homeTeam)}
                             className={`button ${
-                              challengeSelection === "home" && "active"
+                              challengeSelection === homeTeam && "active"
                             }`}
                           >
                             {formatTeamName(homeTeam)}
