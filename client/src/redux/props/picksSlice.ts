@@ -157,6 +157,32 @@ const picksSlice = createSlice({
     setNumChallenges: (state, action: PayloadAction<number>) => {
       state.numChallenges = action.payload;
     },
+    actuallyRemoveChallenge: (
+      state,
+      action: PayloadAction<{ challengeId: string; propId: string }>,
+    ) => {
+      const { challengeId, propId } = action.payload;
+
+      // search for propId
+      if (!state.challenges[propId]) return;
+
+      // search for challengeId within the propId Object
+      const challengeIndex = state.challenges[propId].findIndex((challenge) => {
+        return challenge._id === challengeId;
+      });
+
+      // if not found
+      if (challengeIndex === -1) return;
+
+      // if found
+      const filteredChallenges = state.challenges[propId].filter(
+        (challenge) => {
+          return challenge._id !== challengeId;
+        },
+      );
+
+      state.challenges[propId] = filteredChallenges;
+    },
   },
 });
 
@@ -168,5 +194,6 @@ export const {
   removeChallenge,
   setActiveLeague,
   setNumChallenges,
+  actuallyRemoveChallenge,
 } = picksSlice.actions;
 export default picksSlice.reducer;

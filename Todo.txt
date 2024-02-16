@@ -3,20 +3,22 @@ FOR TODAY---------------------
 
 1. Add gametime & type to active challenge cards
 1. Icon on Proposals Tab && Picks Tab (Seen vs. Unseen)
-1. Setup tailwind style colors
 1. Challenge accept wraps onto 2nd line.
-1. Withdraw challenge button (BACKEND)
+1. Withdraw challenge button (BACKEND)...
+1. Need to normalize currentWeek somehow because the keys are nfl only...
 1. Re-usable modal for failed submission
 1. Withdraw challenge should not work if it's already been accepted
 1. Implement count for active challenges
 1. Block Challenges if game has expired
 2. Style Active/Completed Challenges && Summary
 2. Implement Fetch counter for each Owner (Max per month = 25ish)
+1. Setup tailwind style colors
 3. REFACTOR COMBINING CHALLENGES
 
 1. Find a better font for numbers and text separately
 3. Fix finishing places
 4. Only allow props to be fetched on Friday/Saturday if not Full Admin (you)
+5. Add completed popup modal to other actions
 
 
 CURRENTLY DOING -----------------------------------------------------

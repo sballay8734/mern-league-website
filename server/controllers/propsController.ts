@@ -264,7 +264,6 @@ export const createChallenge = async (
   const gameId: string = req.body.gameId
   const propId: string = req.body.uniqueId
   const challenge: IChallenge = req.body.challenge
-  console.log(challenge)
 
   const formattedChallenge = {
     challengerId: challengerId,
@@ -339,8 +338,6 @@ export const getChallengesByUser = async (
 ) => {
   const userId = req.user.id
 
-  // console.log(req.user)
-
   if (!userId) return next(errorHandler(404, "User not found"))
 
   const challenges = await Challenge.find({
@@ -382,6 +379,95 @@ export const acceptChallenge = async (
     const updatedChallenge = await challengeToUpdate.save()
 
     return res.status(200).json(updatedChallenge)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteExpiredUnacceptedChallenges = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.user.id
+
+  const user = await User.findById({ _id: userId })
+  if (!user) return next(errorHandler(404, "User not found"))
+
+  if (user.isAdmin !== true) return next(errorHandler(400, "Unauthorized"))
+
+  const date = new Date()
+
+  const conditions = {
+    gameStart: { $lt: date },
+    acceptorName: ""
+  }
+
+  try {
+    const deletedChallenges = await Challenge.deleteMany(conditions)
+
+    if (!deletedChallenges) return next(errorHandler(404, "None found"))
+    res.status(200).json({ deletedChallenges })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const withdrawChallenge = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const user = req.user
+  const challengeId = req.params.challengeId
+
+  const foundUser = await User.findById({ _id: user.id })
+
+  if (!user) return next(errorHandler(404, "User not found"))
+
+  try {
+    // find challenge
+    const challengeToRemove = await Challenge.findById({ _id: challengeId })
+
+    // if no challenge, throw error
+    if (!challengeToRemove)
+      return res
+        .status(404)
+        .json({ result: "fail", message: "Challenge not found!" })
+
+    // if user making request isn't the challenger, deny request
+    if (foundUser?.fullName !== challengeToRemove.challengerName) {
+      return res.status(400).json({
+        result: "fail",
+        message: "Only the challenger can withdraw the challenge!"
+      })
+    }
+    // if challenge has been accepted, deny request to withdraw
+    if (challengeToRemove.acceptorName !== "") {
+      return res.status(400).json({
+        result: "fail",
+        message: "You cannot withdraw an accepted challenge!"
+      })
+    }
+    // if game has started already, deny request to withdraw
+    if (new Date(challengeToRemove.gameStart) <= new Date()) {
+      return res.status(400).json({
+        result: "fail",
+        message: "You cannot withdraw a challenge once the game has started!"
+      })
+    }
+
+    const removedChallenge = await Challenge.deleteOne({ _id: challengeId })
+    if (!removedChallenge) {
+      return res.status(500).json({
+        result: "fail",
+        message: "Something went wrong removing your challenge"
+      })
+    }
+
+    res
+      .status(200)
+      .json({ result: "success", message: "Successfully removed challenge!" })
   } catch (error) {
     next(error)
   }

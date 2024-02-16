@@ -1,20 +1,27 @@
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { IChallenge } from "../../types/challenges";
 import { RootState } from "../../redux/store";
 import { formatTeamName, formatOwnerName } from "../../utils/Formatting";
 import CountdownTimerNoLock from "../CountDownTimer/CountDownTimerNoLock";
+import { setRequest } from "../../redux/requests/requestSlice";
+import { actuallyRemoveChallenge } from "../../redux/props/picksSlice";
 
 interface ChallengeCardProps {
   challenge: IChallenge;
   index: number;
+  refetch: () => void;
 }
 
 export default function ChallengeCard({
   challenge,
   index,
+  refetch,
 }: ChallengeCardProps) {
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
+  const [loading, setLoading] = useState<boolean>(false);
 
   function handleOpponentName() {
     if (challenge.acceptorName === "") {
@@ -29,6 +36,7 @@ export default function ChallengeCard({
       return challenge.acceptorName;
     }
   }
+
   function handlePropSelection() {
     if (user && challenge.acceptorName === user.fullName) {
       return challenge.acceptorSelection;
@@ -37,6 +45,44 @@ export default function ChallengeCard({
     if (user && challenge.challengerName === user.fullName) {
       return challenge.challengerSelection;
     }
+  }
+
+  async function handleChallengeWithdraw() {
+    setLoading(true);
+    const res = await fetch(`/api/props/delete-challenge/${challenge._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+
+    if (!data) {
+      setLoading(false);
+      throw new Error("Something went wrong");
+    }
+
+    const { message, result } = data;
+    // dispatch to SHOW request card
+    dispatch(
+      setRequest({ message: message, result: result, showStatus: true }),
+    );
+    setLoading(false);
+
+    // NEED TO ALSO REMOVE FROM STATE!!
+    refetch();
+    dispatch(
+      actuallyRemoveChallenge({
+        challengeId: challenge._id,
+        propId: challenge.propId,
+      }),
+    );
+
+    // dispatch to REMOVE request card
+    setTimeout(() => {
+      dispatch(setRequest({ message: message, result: "", showStatus: false }));
+    }, 2000);
   }
 
   const unacceptedChallengeExpired =
@@ -50,7 +96,7 @@ export default function ChallengeCard({
     // if (challenge.type === "playerProp" || challenge.type === "teamTotals")
 
     <article
-      className={`w-full ${challenge.acceptorName === "" ? "rounded-sm border-[1px] border-[#2a2a2a]" : "rounded-sm border-[1px] border-[#b1b1b1]"} ${unacceptedChallengeExpired ? "hidden" : ""}`}
+      className={`relative w-full ${challenge.acceptorName === "" ? "rounded-sm border-[1px] border-[#2a2a2a]" : "rounded-sm border-[1px] border-[#b1b1b1]"} ${unacceptedChallengeExpired ? "hidden" : ""}`}
     >
       <div
         className={`flex w-full flex-col items-center ${challenge.acceptorName === "" ? "opacity-40" : ""}`}
@@ -105,10 +151,13 @@ export default function ChallengeCard({
         </div>
       </div>
       <button
-        className={`relative flex w-full items-center justify-center py-2 text-center ${challengeWithdrawable ? "bg-[#1f1010] text-red-500" : "bg-[#0e0e0e] text-gray-700"}`}
+        onClick={handleChallengeWithdraw}
+        className={`relative flex w-full items-center justify-center py-2 text-center active:opacity-90 ${challengeWithdrawable ? "bg-[#1f1010] text-red-500" : "bg-[#0e0e0e] text-gray-700"}`}
       >
         {challengeWithdrawable ? (
-          <span className="font-semibold">Withdraw</span>
+          <span className="font-semibold">
+            {!loading ? "Withdraw" : "fetching..."}
+          </span>
         ) : (
           ""
         )}

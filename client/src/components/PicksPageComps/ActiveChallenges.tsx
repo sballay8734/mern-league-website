@@ -3,10 +3,12 @@ import { IChallenge } from "../../types/challenges";
 
 interface ActiveChallengesProps {
   activeChallenges: IChallenge[];
+  refetch: () => void;
 }
 
 export default function ActiveChallenges({
   activeChallenges,
+  refetch,
 }: ActiveChallengesProps) {
   const sortedChallenges = activeChallenges.sort((a, b) => {
     // Compare the acceptor names
@@ -33,6 +35,7 @@ export default function ActiveChallenges({
               key={challenge._id}
               challenge={challenge}
               index={index}
+              refetch={refetch}
             />
           );
         })}

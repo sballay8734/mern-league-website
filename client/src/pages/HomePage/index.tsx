@@ -1,17 +1,28 @@
-import "./HomePage.scss"
-import { Link } from "react-router-dom"
-import { useSelector } from "react-redux"
-import { RootState } from "../../redux/store"
-import { useFetchUserImagesQuery } from "../../redux/owners/ownersApi"
-import { useEffect } from "react"
+import "./HomePage.scss";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useFetchUserImagesQuery } from "../../redux/owners/ownersApi";
+import { useEffect } from "react";
 
 export default function HomePage() {
-  const { user } = useSelector((state: RootState) => state.user)
-  const { refetch, data } = useFetchUserImagesQuery()
+  const { user } = useSelector((state: RootState) => state.user);
+  const { refetch, data } = useFetchUserImagesQuery();
 
   useEffect(() => {
-    refetch()
-  }, [user])
+    refetch();
+  }, [user]);
+
+  // ***************************************************************************
+  // ***************************************************************************
+  // ***************************************************************************
+  // ***************************************************************************
+  // NEED TO LOAD CHALLENGES AND PROPOSALS HERE SOMEHOW TO DISPLAY WIDGETS
+  // THEN REMOVE ONCE THEY'VE BEEN SEEN
+  // ***************************************************************************
+  // ***************************************************************************
+  // ***************************************************************************
+  // ***************************************************************************
 
   return (
     <div className="page hero__image">
@@ -58,5 +69,5 @@ export default function HomePage() {
         </div>
       )}
     </div>
-  )
+  );
 }

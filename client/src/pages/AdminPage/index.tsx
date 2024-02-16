@@ -244,6 +244,25 @@ export default function AdminPage() {
     // send challenges back to db with result field
   }
 
+  async function deletedUnusedChallenges() {
+    try {
+      const res = await fetch("/api/props/delete-challenges", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      if (!data) throw new Error("No challenges found");
+
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     const week = getCurrentWeek();
     const year = getCurrentYear();
@@ -322,6 +341,14 @@ export default function AdminPage() {
                         disabled={updateInProgress}
                       >
                         Update Challenges
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        onClick={deletedUnusedChallenges}
+                        disabled={updateInProgress}
+                      >
+                        Delete Unused Challenges
                       </button>
                     </li>
                   </ul>

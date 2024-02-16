@@ -423,8 +423,6 @@ export default function PickCard({ item, user }: PickCardProps) {
     handleClearChallenge();
   }
 
-  console.log(thisPropChallenges);
-
   const filteredPropChallenges = thisPropChallenges
     ? thisPropChallenges.filter((challenge) => {
         return challenge.acceptorId === "";

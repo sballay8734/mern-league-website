@@ -19,7 +19,7 @@ export default function ChallengeHistory() {
   const challengesFromState = useSelector(
     (state: RootState) => state.picksSlice.challenges,
   );
-  const { data: challenges } = useFetchChallengesByUserQuery(user._id);
+  const { data: challenges, refetch } = useFetchChallengesByUserQuery(user._id);
 
   const stateKeys = Object.keys(challengesFromState);
   const stateChallenges = ([] as IChallenge[]).concat(
@@ -64,8 +64,6 @@ export default function ChallengeHistory() {
     );
   });
 
-  console.log(challengeCount);
-
   return (
     <>
       <nav className="flex w-full items-start justify-center pb-4 pt-2">
@@ -91,7 +89,10 @@ export default function ChallengeHistory() {
       </nav>
       <section className="h-full w-full overflow-auto text-white">
         {activeFilter === "active" ? (
-          <ActiveChallenges activeChallenges={activeChallenges} />
+          <ActiveChallenges
+            activeChallenges={activeChallenges}
+            refetch={refetch}
+          />
         ) : activeFilter === "completed" ? (
           <CompletedChallenges completedChallenges={completedChallenges} />
         ) : (

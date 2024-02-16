@@ -1,11 +1,7 @@
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import {
-  setActiveButton,
-  setNumChallenges,
-} from "../../redux/props/picksSlice";
+import { setActiveButton } from "../../redux/props/picksSlice";
 import { RootState } from "../../redux/store";
 import PickCard from "./PickCard";
 import { PropToDbInterface } from "../BettingPropSpreads";
