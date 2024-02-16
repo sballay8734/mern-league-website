@@ -21,6 +21,7 @@ interface PicksState {
   challenges: {
     [propId: string]: IChallenge[];
   };
+  numChallenges: number;
 }
 
 interface RemoveChallenge {
@@ -36,6 +37,7 @@ const initialState: PicksState = {
   pickIds: [],
   picksMade: {},
   challenges: {},
+  numChallenges: 0,
 };
 
 const picksSlice = createSlice({
@@ -121,23 +123,17 @@ const picksSlice = createSlice({
         _id: _id,
         voided: voided,
       };
-
-      console.log("CHECKING FOR PROP ID....");
       if (!state.challenges[propId]) {
-        console.log("NOT FOUND... INITIALIZING AND SETTING...");
         state.challenges[propId] = [];
         state.challenges[propId].push(challengeToAdd);
         return;
       }
 
-      console.log("FOUND PROP ID... CHECKING IF CHALLENGE EXISTS");
       const challengeExists = state.challenges[propId].find((challenge) => {
         return challenge._id === _id; // WHAT IS THIS DOING?
       });
 
       if (challengeExists) return;
-
-      console.log("CHALLENGE DOES NOT EXIST.... PUSHING CHALLENGE");
 
       state.challenges[propId].push(challengeToAdd);
     },
@@ -158,6 +154,9 @@ const picksSlice = createSlice({
     setActiveLeague: (state, action: PayloadAction<string>) => {
       state.activeLeague = action.payload;
     },
+    setNumChallenges: (state, action: PayloadAction<number>) => {
+      state.numChallenges = action.payload;
+    },
   },
 });
 
@@ -168,5 +167,6 @@ export const {
   addChallenge,
   removeChallenge,
   setActiveLeague,
+  setNumChallenges,
 } = picksSlice.actions;
 export default picksSlice.reducer;

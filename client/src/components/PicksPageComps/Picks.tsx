@@ -1,7 +1,11 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { setActiveButton } from "../../redux/props/picksSlice";
+import {
+  setActiveButton,
+  setNumChallenges,
+} from "../../redux/props/picksSlice";
 import { RootState } from "../../redux/store";
 import PickCard from "./PickCard";
 import { PropToDbInterface } from "../BettingPropSpreads";
@@ -14,13 +18,13 @@ interface PicksProps {
 
 export default function Picks({ propData }: PicksProps): JSX.Element {
   const dispatch = useDispatch();
+  const numChallenges = useSelector(
+    (state: RootState) => state.picksSlice.numChallenges,
+  );
   const user = useSelector((state: RootState) => state.user.user);
   const activeButton = useSelector(
     (state: RootState) => state.picksSlice.activeButton,
   );
-
-  // ADD ANOTHER ICON ABOVE NAV TOGGLE TO SHOW CURRENT YEAR STANDINGS
-  //
 
   return (
     <>
@@ -75,7 +79,15 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                       }`}
                       onClick={() => dispatch(setActiveButton("challenges"))}
                     >
+                      {/* ACCEPTED CHALLENGES - SHOULDN'T SHOW IF NONE EXIST */}
+                      <span className="w-4 rounded-full border bg-[#28f235] text-[10px] font-bold text-green-950">
+                        1
+                      </span>
                       Challenges
+                      {/* UNACCEPTED CHALLENGES */}
+                      <span className="w-4 rounded-full border bg-[#fb2c2c] text-[10px] font-bold text-red-950">
+                        {numChallenges}
+                      </span>
                     </button>
                   </li>
                 </ul>

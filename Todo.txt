@@ -1,9 +1,11 @@
 FOR TODAY---------------------
-1. Add gametime to challenge
+1. FIRST: Figure out how to calc challenges WAYYY Sooner so that you can display it on the tab and nav (THIS FEATURE STILL NEEDS ALOT OF TESTING. MIGHT NOT BE DISPLAYING THE RIGHT NUMBER)
+
 1. Add gametime & type to active challenge cards
+1. Icon on Proposals Tab && Picks Tab (Seen vs. Unseen)
 1. Setup tailwind style colors
 1. Challenge accept wraps onto 2nd line.
-1. Withdraw challenge button
+1. Withdraw challenge button (BACKEND)
 1. Re-usable modal for failed submission
 1. Withdraw challenge should not work if it's already been accepted
 1. Implement count for active challenges

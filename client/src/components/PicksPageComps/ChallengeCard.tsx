@@ -46,8 +46,6 @@ export default function ChallengeCard({
   const opponentName = handleOpponentName();
   const yourSelection = handlePropSelection();
 
-  console.log(challengeWithdrawable, challenge.gameStart);
-
   return (
     // if (challenge.type === "playerProp" || challenge.type === "teamTotals")
 
@@ -107,7 +105,7 @@ export default function ChallengeCard({
         </div>
       </div>
       <button
-        className={`relative flex w-full items-center justify-center bg-[#1f1010] py-2 text-center text-red-500`}
+        className={`relative flex w-full items-center justify-center py-2 text-center ${challengeWithdrawable ? "bg-[#1f1010] text-red-500" : "bg-[#0e0e0e] text-gray-700"}`}
       >
         {challengeWithdrawable ? (
           <span className="font-semibold">Withdraw</span>
