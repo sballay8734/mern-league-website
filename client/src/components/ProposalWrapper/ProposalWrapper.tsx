@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import {
   addIdToSeen,
-  reduceUnseenCount,
+  setProposalUnseenCount,
 } from "../../redux/proposalsApi/proposalsSlice";
 
 interface User {
@@ -40,20 +40,10 @@ export default function ProposalWrapper({
   );
 
   function handleSetSeenTrue() {
-    // need to update state && send DB request
+    // fetch proposal and add name to list
 
-    // *********************************************************
-    // *********************************************************
-    // *********************************************************
-    // *********************************************************
-    // update State (THIS IS NOT QUITE RIGHT - IT IS DOING THIS ON EVERY CLICK WHEN IT SHOULD REALLY ONLY DO IT ONCE!!!)
-    // *********************************************************
-    // *********************************************************
-    // *********************************************************
-    // *********************************************************
-
-    dispatch(addIdToSeen({ proposalId: item._id, seen: true }));
-    dispatch(reduceUnseenCount());
+    // if it is successful, THEN dispatch below
+    dispatch(setProposalUnseenCount(item._id));
   }
 
   return (

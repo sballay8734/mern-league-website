@@ -9,7 +9,7 @@ import { IChallenge } from "../../types/challenges";
 import { useFetchProposalsQuery } from "../../redux/proposalsApi/proposalsApi";
 import {
   addIdToSeen,
-  setProposalUnseenCount,
+  setInitialUnseenCount,
 } from "../../redux/proposalsApi/proposalsSlice";
 import "./HomePage.scss";
 
@@ -46,7 +46,7 @@ export default function HomePage() {
             return count;
           }, 0)
         : 0;
-    dispatch(setProposalUnseenCount(proposalsUnseenCount));
+    dispatch(setInitialUnseenCount(proposalsUnseenCount));
   }, [dispatch, proposals, user]);
 
   useEffect(() => {
