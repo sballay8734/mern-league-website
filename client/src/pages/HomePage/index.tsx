@@ -1,17 +1,59 @@
-import "./HomePage.scss";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useMemo } from "react";
+
 import { RootState } from "../../redux/store";
 import { useFetchUserImagesQuery } from "../../redux/owners/ownersApi";
-import { useEffect } from "react";
+import { useFetchChallengesByUserQuery } from "../../redux/props/propsApi";
+import { IChallenge } from "../../types/challenges";
+import { useFetchProposalsQuery } from "../../redux/proposalsApi/proposalsApi";
+import {
+  addIdToSeen,
+  setProposalUnseenCount,
+} from "../../redux/proposalsApi/proposalsSlice";
+import "./HomePage.scss";
+
+interface UseFetchChallengesResult {
+  data: IChallenge[];
+  refetch: () => void;
+}
 
 export default function HomePage() {
+  const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.user);
-  const { refetch, data } = useFetchUserImagesQuery();
+  const { unseenCount, seenIds } = useSelector(
+    (state: RootState) => state.proposlasSlice,
+  );
+
+  const { data, refetch } = useFetchUserImagesQuery();
+
+  const { data: challenges, refetch: fetchChallenges } =
+    useFetchChallengesByUserQuery(user?._id ?? "");
+
+  const { data: proposals, refetch: fetchProposals } = useFetchProposalsQuery();
+
+  useEffect(() => {
+    const proposalsUnseenCount =
+      proposals && user
+        ? proposals.reduce((count, proposal) => {
+            if (
+              proposal.status === "pending" &&
+              !proposal.seen.includes(user?._id ?? "")
+            ) {
+              dispatch(addIdToSeen({ proposalId: proposal._id, seen: false }));
+              return count + 1;
+            }
+            return count;
+          }, 0)
+        : 0;
+    dispatch(setProposalUnseenCount(proposalsUnseenCount));
+  }, [dispatch, proposals, user]);
 
   useEffect(() => {
     refetch();
-  }, [user]);
+  }, [user, dispatch]);
+
+  console.log(unseenCount, seenIds);
 
   // ***************************************************************************
   // ***************************************************************************

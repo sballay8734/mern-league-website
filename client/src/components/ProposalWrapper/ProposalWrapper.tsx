@@ -1,35 +1,67 @@
-import { useState } from "react"
+import { useState } from "react";
 
-import { FaAngleDoubleRight } from "react-icons/fa"
-import { FaAngleDoubleDown } from "react-icons/fa"
-import { IProposal } from "../../redux/proposalsApi/proposalsApi"
+import { FaAngleDoubleRight } from "react-icons/fa";
+import { FaAngleDoubleDown } from "react-icons/fa";
+import { IProposal } from "../../redux/proposalsApi/proposalsApi";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import {
+  addIdToSeen,
+  reduceUnseenCount,
+} from "../../redux/proposalsApi/proposalsSlice";
 
 interface User {
-  _id: string
-  email: string
-  firstName: string
-  lastInitial: string
-  avatar: string
-  preferredTheme: string
-  isAdmin: boolean
-  isCommissioner: boolean
+  _id: string;
+  email: string;
+  firstName: string;
+  lastInitial: string;
+  avatar: string;
+  preferredTheme: string;
+  isAdmin: boolean;
+  isCommissioner: boolean;
 }
 
 interface ProposalWrapperProps {
-  item: IProposal
-  user: User
-  handleProposalClick: (item: IProposal) => void
+  item: IProposal;
+  user: User;
+  handleProposalClick: (item: IProposal) => void;
 }
 
 export default function ProposalWrapper({
   item,
   user,
-  handleProposalClick
+  handleProposalClick,
 }: ProposalWrapperProps) {
-  const [expandProposal, setExpandProposal] = useState<boolean>(false)
+  const dispatch = useDispatch();
+  const [expandProposal, setExpandProposal] = useState<boolean>(false);
+
+  const thisProposalSeenStatus = useSelector(
+    (state: RootState) => state.proposlasSlice.seenIds[item._id],
+  );
+
+  function handleSetSeenTrue() {
+    // need to update state && send DB request
+
+    // *********************************************************
+    // *********************************************************
+    // *********************************************************
+    // *********************************************************
+    // update State (THIS IS NOT QUITE RIGHT - IT IS DOING THIS ON EVERY CLICK WHEN IT SHOULD REALLY ONLY DO IT ONCE!!!)
+    // *********************************************************
+    // *********************************************************
+    // *********************************************************
+    // *********************************************************
+
+    dispatch(addIdToSeen({ proposalId: item._id, seen: true }));
+    dispatch(reduceUnseenCount());
+  }
 
   return (
-    <div className="proposal-wrapper" key={item._id}>
+    <div
+      onClick={handleSetSeenTrue}
+      className="proposal-wrapper relative"
+      key={item._id}
+    >
       <div
         onClick={() => setExpandProposal(!expandProposal)}
         className="proposal-header"
@@ -76,6 +108,9 @@ export default function ProposalWrapper({
           </h2>
         </div>
       </div>
+      {thisProposalSeenStatus === false && (
+        <div className="absolute right-1 top-1 h-1 w-1 rounded-full bg-red-500 text-red-500"></div>
+      )}
     </div>
-  )
+  );
 }

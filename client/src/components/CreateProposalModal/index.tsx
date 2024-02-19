@@ -1,64 +1,64 @@
-import { createPortal } from "react-dom"
-import { useSelector } from "react-redux"
-import { useState } from "react"
+import { createPortal } from "react-dom";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
-import { RootState } from "../../redux/store"
-import "./CreateProposalModal.scss"
+import { RootState } from "../../redux/store";
+import "./CreateProposalModal.scss";
 
 interface CreateProposalModalProps {
-  closeModal: () => void
-  refetch: () => void
+  closeModal: () => void;
+  refetch: () => void;
 }
 
 export default function CreateProposalModal({
   closeModal,
-  refetch
+  refetch,
 }: CreateProposalModalProps) {
   // NEED TO ADD LOADING AND STUFF ALSO
-  const { user } = useSelector((state: RootState) => state.user)
-  const [formData, setFormData] = useState({ title: "", content: "" })
-  const [error, setError] = useState<boolean | string>(false)
+  const { user } = useSelector((state: RootState) => state.user);
+  const [formData, setFormData] = useState({ title: "", content: "" });
+  const [error, setError] = useState<boolean | string>(false);
 
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value
-    })
+      [e.target.id]: e.target.value,
+    });
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+    e.preventDefault();
 
     if (formData.content.length < 10) {
-      setError("Please write a long description")
-      return
+      setError("Please write a longer description");
+      return;
     }
 
     try {
       const res = await fetch("/api/posts/proposals", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
-      })
+        body: JSON.stringify(formData),
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (data.success === false) {
-        setError(data.message)
-        return
+        setError(data.message);
+        return;
       }
 
-      closeModal()
-      refetch()
+      closeModal();
+      refetch();
     } catch (error) {
       if (error instanceof Error) {
-        setError(error.message)
+        setError(error.message);
       } else {
-        console.log(error)
+        console.log(error);
       }
     }
   }
@@ -115,8 +115,8 @@ export default function CreateProposalModal({
       </div>
       <div onClick={closeModal} className="modal-background"></div>
     </div>
-  )
-  const portalRoot = document.getElementById("modal-container")!
+  );
+  const portalRoot = document.getElementById("modal-container")!;
 
-  return createPortal(children, portalRoot)
+  return createPortal(children, portalRoot);
 }

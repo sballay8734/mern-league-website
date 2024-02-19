@@ -19,7 +19,8 @@ export const createProposal = async (
       ...req.body,
       userId: userId,
       userName: userName,
-      upVoters: [userId]
+      upVoters: [userId],
+      seen: [userId]
     }
     try {
       const proposal = await Proposal.create(proposalData)
