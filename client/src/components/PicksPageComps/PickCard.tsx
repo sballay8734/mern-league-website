@@ -47,6 +47,8 @@ export default function PickCard({ item, user }: PickCardProps) {
   async function handleOUClick(item: PropToDbInterface, action: string) {
     // TODO: All of this state management with slices is now redundant because you are handling refetching and cache with createApi
 
+    console.log(item, action);
+
     // if over is already selected or pick is locked
     if (overOrUnder === action || lockPick) return;
 
@@ -77,6 +79,8 @@ export default function PickCard({ item, user }: PickCardProps) {
 
   async function handleSpreadPick(item: PropToDbInterface, action: string) {
     // if you already selected that team or the pick is locked
+    console.log(item, action);
+
     if (spreadPick === action) return;
     if (lockPick) return;
 
@@ -133,7 +137,7 @@ export default function PickCard({ item, user }: PickCardProps) {
 
     // if there is NOT persisted state for this prop, use the fetched data
     if (item.type === "playerProp" || item.type === "teamTotals") {
-      if (item.overSelections?.includes(user.fullName)) {
+      if (item.overSelections?.includes(user._id)) {
         setPicksMade({
           uniqueId: item.uniqueId,
           over: "over",
@@ -146,7 +150,7 @@ export default function PickCard({ item, user }: PickCardProps) {
         setLockIcon(true);
         populateChallenges();
         return;
-      } else if (item.underSelections?.includes(user.fullName)) {
+      } else if (item.underSelections?.includes(user._id)) {
         setPicksMade({
           uniqueId: item.uniqueId,
           over: null,
@@ -163,7 +167,7 @@ export default function PickCard({ item, user }: PickCardProps) {
     } else if (item.type === "teamSpreads") {
       if (!item.homeData?.homeTeam || !item.awayData?.awayTeam) return;
 
-      if (item.homeLineSelections?.includes(user.fullName)) {
+      if (item.homeLineSelections?.includes(user._id)) {
         setPicksMade({
           uniqueId: item.uniqueId,
           over: null,
@@ -176,7 +180,7 @@ export default function PickCard({ item, user }: PickCardProps) {
         populateChallenges();
         setLockIcon(true);
         return;
-      } else if (item.awayLineSelections?.includes(user.fullName)) {
+      } else if (item.awayLineSelections?.includes(user._id)) {
         setPicksMade({
           uniqueId: item.uniqueId,
           over: null,
@@ -318,7 +322,7 @@ export default function PickCard({ item, user }: PickCardProps) {
       challenge = {
         type: item.type,
         league: item.league,
-        challengerName: user.fullName,
+        challengerName: user._id,
         challengerSelection: challengeSelection,
         acceptorName: "",
         acceptorSelection: challengeSelection === "under" ? "over" : "under",
@@ -338,7 +342,7 @@ export default function PickCard({ item, user }: PickCardProps) {
         type: item.type,
         league: item.league,
         gameStart: item.expiration,
-        challengerName: user.fullName,
+        challengerName: user._id,
         challengerSelection: formatTeamName(challengeSelection),
         acceptorName: "",
         acceptorSelection:

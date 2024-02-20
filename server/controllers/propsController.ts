@@ -84,7 +84,6 @@ export const updateProp = async (
   // get users name
   const currentUser = await User.findById(userId)
   if (!currentUser) return next(errorHandler(400, "Unauthorized"))
-  const userObject = currentUser.toObject()
 
   // get prop
   const propExists = await Prop.findOne({
@@ -224,6 +223,7 @@ export const getProps = async (
   res: Response,
   next: NextFunction
 ) => {
+  console.log("GETTING PROPS...")
   const week = req.params.week
   const year = req.params.year
 
@@ -508,6 +508,7 @@ export const getUnsubmittedPropCount = async (
       return res.status(200).json(0)
     }
 
+    console.log("UPDATED COUNT")
     return res.status(200).json(filteredPropsForThisWeek.length)
   } catch (error) {
     next(error)
