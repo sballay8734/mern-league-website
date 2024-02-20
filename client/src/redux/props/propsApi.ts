@@ -1,6 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { WeekRanges } from "../../components/utils";
 import { IChallenge, PropChallenge } from "../../types/challenges";
+import {
+  PickCardProps,
+  UpdateProp,
+} from "../../components/PicksPageComps/types";
 
 const nfl2024WeekRanges: WeekRanges = {
   // Tuesday Morning (12:00am) ---> Monday Night (11:59pm)
@@ -125,16 +129,44 @@ const propsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "/api/props",
   }),
+  tagTypes: ["Prop"],
   endpoints: (builder) => ({
     fetchProps: builder.query<PropToDbInterface[], void>({
       query: () => ({
         url: `/get-props/${currentWeek}/${currentYear}`,
+        providesTags: (result: PropToDbInterface[] | undefined) =>
+          result
+            ? [
+                ...result.map(({ _id }: { _id: string }) => ({
+                  type: "Prop" as const,
+                  _id,
+                })),
+                "Prop",
+              ]
+            : ["Prop"],
+      }),
+    }),
+    fetchUnsubmittedPropCount: builder.query<number, void>({
+      query: () => ({
+        url: `/get-prop-count/${currentWeek}/${currentYear}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       }),
+      providesTags: ["Prop"],
     }),
+    // TODO: invalidates tags needs to be more specific when updating because the array does not change. Therefore, no need to invalidate the entire array. This should only be done if adding or removing from an array.
+    updateProp: builder.mutation<PropToDbInterface, UpdateProp>({
+      query: (body) => ({
+        url: "/update-prop",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Prop"],
+    }),
+
+    // CHALLENGES STUFF (TODO: MOVE TO OWN API) *******************************
     fetchChallenges: builder.query<
       IChallenge[],
       { gameId: string; uniqueId: string }
@@ -156,7 +188,6 @@ const propsApi = createApi({
         },
       }),
     }),
-
     // CAN be used to get BOTH active challenges and history (just filter on FE)
     fetchChallengesByUser: builder.query<IChallenge[], string>({
       query: (userId) => ({
@@ -175,5 +206,7 @@ export const {
   useFetchChallengesQuery,
   useFetchChallengesToUpdateQuery,
   useFetchChallengesByUserQuery,
+  useFetchUnsubmittedPropCountQuery,
+  useUpdatePropMutation,
 } = propsApi;
 export { propsApi };

@@ -4,7 +4,10 @@ import { useEffect, useMemo } from "react";
 
 import { RootState } from "../../redux/store";
 import { useFetchUserImagesQuery } from "../../redux/owners/ownersApi";
-import { useFetchChallengesByUserQuery } from "../../redux/props/propsApi";
+import {
+  useFetchChallengesByUserQuery,
+  useFetchUnsubmittedPropCountQuery,
+} from "../../redux/props/propsApi";
 import { IChallenge } from "../../types/challenges";
 import { useFetchProposalsQuery } from "../../redux/proposalsApi/proposalsApi";
 import {
@@ -21,21 +24,23 @@ interface UseFetchChallengesResult {
 export default function HomePage() {
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.user);
-  const { unseenCount, seenIds } = useSelector(
-    (state: RootState) => state.proposlasSlice,
-  );
 
-  const { data, refetch } = useFetchUserImagesQuery();
-
+  const { data, refetch: refetchImages } = useFetchUserImagesQuery();
   const { data: challenges, refetch: fetchChallenges } =
     useFetchChallengesByUserQuery(user?._id ?? "");
-
   const { data: proposals, refetch: fetchProposals } = useFetchProposalsQuery();
+  const { data: propCount, refetch: refetchPropCount } =
+    useFetchUnsubmittedPropCountQuery();
 
+  // just removing error
+  console.log(challenges, propCount);
+
+  // handle intitialization of push notifications for proposals
   useEffect(() => {
     const proposalsUnseenCount =
       proposals && user
         ? proposals.reduce((count, proposal) => {
+            // if status is pending && user has not seen proposal
             if (
               proposal.status === "pending" &&
               !proposal.seen.includes(user?._id ?? "")
@@ -49,21 +54,15 @@ export default function HomePage() {
     dispatch(setInitialUnseenCount(proposalsUnseenCount));
   }, [dispatch, proposals, user]);
 
+  // handle initialization of push notifications for props
   useEffect(() => {
-    refetch();
+    refetchPropCount();
+  }, [propCount]);
+
+  useEffect(() => {
+    refetchImages();
   }, [user, dispatch]);
 
-  console.log(unseenCount, seenIds);
-
-  // ***************************************************************************
-  // ***************************************************************************
-  // ***************************************************************************
-  // ***************************************************************************
-  // NEED TO LOAD CHALLENGES AND PROPOSALS HERE SOMEHOW TO DISPLAY WIDGETS
-  // THEN REMOVE ONCE THEY'VE BEEN SEEN
-  // ***************************************************************************
-  // ***************************************************************************
-  // ***************************************************************************
   // ***************************************************************************
 
   return (

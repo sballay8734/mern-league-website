@@ -10,6 +10,7 @@ import {
   getChallengesByUser,
   getChallengesToUpdate,
   getProps,
+  getUnsubmittedPropCount,
   updateProp,
   withdrawChallenge
 } from "../controllers/propsController"
@@ -18,6 +19,7 @@ const router = express.Router()
 
 router.post("/create-props", verifyUser, createProps)
 router.get("/get-props/:week/:year", getProps)
+router.get("/get-prop-count/:week/:year", verifyUser, getUnsubmittedPropCount)
 router.post("/update-prop", verifyUser, updateProp)
 router.post("/accept-challenge", verifyUser, acceptChallenge)
 router.post("/create-challenge", verifyUser, createChallenge)

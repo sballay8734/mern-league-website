@@ -7,6 +7,7 @@ import PickCard from "./PickCard";
 import { PropToDbInterface } from "../BettingPropSpreads";
 import PickCounter from "./PickCounter";
 import ChallengeHistory from "./ChallengeHistory";
+import UnseenProps from "../NotificationCounters/UnseenProps";
 
 interface PicksProps {
   propData: PropToDbInterface[] | undefined;
@@ -52,7 +53,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                   </li>
                   <li className="spacer"></li>
                   <li
-                    className={`${
+                    className={`relative ${
                       activeButton === "makePicks" ? "active" : ""
                     }`}
                   >
@@ -64,6 +65,11 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                     >
                       Make Picks <img src="/picks.png" alt="picks" />
                     </button>
+                    <UnseenProps
+                      classes={
+                        "absolute right-1 top-1 flex h-3 w-3 items-center justify-center rounded-full border-[1px] border-red-600 bg-red-800 text-center text-[10px] text-red-200"
+                      }
+                    />
                   </li>
                   <li className="spacer"></li>
                   <li

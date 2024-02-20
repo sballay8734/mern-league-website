@@ -38,11 +38,6 @@ export const createProposal = async (
   }
 }
 
-// you could make a separate route to allow the creator to update the actual text and content. But for now, just stick with voting
-
-// proposalId = 656f5932d2cf9d68ebe072cd
-// userId = 656cda768f1c1f8685b2aa54
-// action = "upvote"
 export const voteOnProposal = async (
   req: Request,
   res: Response,
@@ -109,9 +104,6 @@ export const voteOnProposal = async (
   }
 }
 
-// proposalId = 656f5932d2cf9d68ebe072cd
-// userId = 656cda768f1c1f8685b2aa54
-// content = "lakjsdflkajsdlkfjas"
 export const commentOnProposal = async (
   req: Request,
   res: Response,
@@ -318,6 +310,54 @@ export const editProposal = async (
 
     const proposalObject = updatedProposal.toObject()
     res.status(200).json(proposalObject)
+  } catch (error) {
+    next(error)
+  }
+}
+
+// could also pass an action to this function to mark a proposal as "unread" as well.
+export const markAsSeen = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.user.id
+  const proposalId = req.params.proposalId
+
+  console.log("ON SERVER...")
+
+  const user = await User.findById(userId)
+  if (!user)
+    return res.status(403).json({ result: "fail", message: "User not found!" })
+
+  const proposal = await Proposal.findById(proposalId)
+  if (!proposal)
+    return res
+      .status(403)
+      .json({ result: "fail", message: "Proposal not found!" })
+
+  //TODO: Temporary fix (see ProposalWrapper)
+  if (proposal.seen.includes(userId))
+    return res.status(200).json({
+      result: "temp",
+      message: "User already maked as having seen this"
+    })
+
+  try {
+    proposal.set({
+      seen: [...proposal.seen, userId]
+    })
+
+    const newProposal = await proposal.save()
+    if (!newProposal)
+      return res
+        .status(403)
+        .json({ result: "fail", message: "Error updating proposal!" })
+
+    return res.status(200).json({
+      result: "success",
+      message: 'Successfully marked proposal as "seen"!'
+    })
   } catch (error) {
     next(error)
   }

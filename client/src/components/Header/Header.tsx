@@ -9,7 +9,8 @@ import { LuCrown } from "react-icons/lu";
 import { MdCompareArrows } from "react-icons/md";
 import { FaAward } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
-import NotificationCounter from "../NotificationCounter/NotificationCounter";
+import UnseenProposals from "../NotificationCounters/UnseenProposals";
+import UnseenProps from "../NotificationCounters/UnseenProps";
 
 import "./Header.scss";
 
@@ -76,6 +77,13 @@ export default function Header() {
             <Link to="/picks">
               <span>Picks</span>
               <img className="picks-img" src="/picks.png" alt="Picks" />
+              {user && (
+                <UnseenProps
+                  classes={
+                    "absolute right-0 mr-7 flex h-6 w-6 items-center justify-center rounded-full border-[1px] border-red-600 bg-red-800 p-1 text-sm text-red-200"
+                  }
+                />
+              )}
             </Link>
             <Link to="/suggestions" className="relative">
               <span>Proposals</span>
@@ -84,7 +92,7 @@ export default function Header() {
                 src="/proposals.png"
                 alt="Proposals"
               />
-              {user && <NotificationCounter />}
+              {user && <UnseenProposals />}
             </Link>
             <Link to="/profile">
               {user ? (

@@ -85,7 +85,6 @@ export const updateProp = async (
   const currentUser = await User.findById(userId)
   if (!currentUser) return next(errorHandler(400, "Unauthorized"))
   const userObject = currentUser.toObject()
-  const userName = userObject.fullName
 
   // get prop
   const propExists = await Prop.findOne({
@@ -102,26 +101,26 @@ export const updateProp = async (
           return res.status(400).json("One of them doesn't exist!")
         }
 
-        if (propExists.underSelections?.includes(userName)) {
+        if (propExists.underSelections?.includes(userId)) {
           return res.status(400).json("You already voted the under!")
         }
 
-        if (propExists.overSelections?.includes(userName)) {
+        if (propExists.overSelections?.includes(userId)) {
           // remove from overSelections and add to underSelections
-          const index = propExists.overSelections.indexOf(userName)
+          const index = propExists.overSelections.indexOf(userId)
           propExists.overSelections.splice(index, 1)
 
           if (!propExists.underSelections) return next(errorHandler(400, "NUS"))
 
           propExists.set({
-            underSelections: [...propExists.underSelections, userName]
+            underSelections: [...propExists.underSelections, userId]
           })
           propExists.save()
           return res.status(200).json("You have been SWITCHED to the under!")
         }
 
         propExists.set({
-          underSelections: [...propExists.underSelections, userName]
+          underSelections: [...propExists.underSelections, userId]
         })
         propExists.save()
 
@@ -131,25 +130,25 @@ export const updateProp = async (
           return res.status(400).json("One of them doesn't exist!")
         }
 
-        if (propExists.overSelections?.includes(userName)) {
+        if (propExists.overSelections?.includes(userId)) {
           return res.status(400).json("You already voted the over!")
         }
-        if (propExists.underSelections?.includes(userName)) {
+        if (propExists.underSelections?.includes(userId)) {
           // remove from underSelections and add to overSelections
-          const index = propExists.underSelections.indexOf(userName)
+          const index = propExists.underSelections.indexOf(userId)
           propExists.underSelections.splice(index, 1)
 
           if (!propExists.overSelections) return next(errorHandler(400, "NUS"))
 
           propExists.set({
-            overSelections: [...propExists.overSelections, userName]
+            overSelections: [...propExists.overSelections, userId]
           })
           propExists.save()
           return res.status(200).json("You have been SWITCHED to the over!")
           //
         }
         propExists.set({
-          overSelections: [...propExists.overSelections, userName]
+          overSelections: [...propExists.overSelections, userId]
         })
         propExists.save()
         res.status(200).json("You have been ADDED to the over!")
@@ -161,13 +160,13 @@ export const updateProp = async (
 
       if (action === prop.homeData?.homeTeam) {
         // if they voted for home, but were already in the home list
-        if (propExists.homeLineSelections?.includes(userName)) {
+        if (propExists.homeLineSelections?.includes(userId)) {
           return res.status(400).json("You already bet on the HomeTeam!")
         }
         // if they voted for home but were in the away list
-        if (propExists.awayLineSelections.includes(userName)) {
+        if (propExists.awayLineSelections.includes(userId)) {
           // remove them from the away list
-          const index = propExists.awayLineSelections.indexOf(userName)
+          const index = propExists.awayLineSelections.indexOf(userId)
           propExists.awayLineSelections.splice(index, 1)
 
           if (!propExists.awayLineSelections)
@@ -175,39 +174,39 @@ export const updateProp = async (
 
           // add them to the home list
           propExists.set({
-            homeLineSelections: [...propExists.homeLineSelections, userName]
+            homeLineSelections: [...propExists.homeLineSelections, userId]
           })
           propExists.save()
           return res.status(200).json("You have been SWITCHED to the HomeTeam!")
         }
         // add if name wasn't found in either list
         propExists.set({
-          homeLineSelections: [...propExists.homeLineSelections, userName]
+          homeLineSelections: [...propExists.homeLineSelections, userId]
         })
         propExists.save()
         return res.status(200).json("You have been ADDED to the AwayTeam!")
       } else if (action === prop.awayData?.awayTeam) {
         // if they voted for away, but were already in the away list
-        if (propExists.awayLineSelections?.includes(userName)) {
+        if (propExists.awayLineSelections?.includes(userId)) {
           return res.status(400).json("You already bet on the AwayTeam!")
         }
 
-        if (propExists.homeLineSelections.includes(userName)) {
-          const index = propExists.homeLineSelections.indexOf(userName)
+        if (propExists.homeLineSelections.includes(userId)) {
+          const index = propExists.homeLineSelections.indexOf(userId)
           propExists.homeLineSelections.splice(index, 1)
 
           if (!propExists.homeLineSelections)
             return next(errorHandler(400, "NUS"))
 
           propExists.set({
-            awayLineSelections: [...propExists.awayLineSelections, userName]
+            awayLineSelections: [...propExists.awayLineSelections, userId]
           })
           propExists.save()
           return res.status(200).json("You have been SWITCHED to the AwayTeam!")
         }
 
         propExists.set({
-          awayLineSelections: [...propExists.awayLineSelections, userName]
+          awayLineSelections: [...propExists.awayLineSelections, userId]
         })
         propExists.save()
         return res.status(200).json("You have been ADDED to the AwayTeam!")
@@ -468,6 +467,48 @@ export const withdrawChallenge = async (
     res
       .status(200)
       .json({ result: "success", message: "Successfully removed challenge!" })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getUnsubmittedPropCount = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const week = req.params.week
+  const year = req.params.year
+  const userId = req.user.id
+
+  try {
+    const propsForThisWeek = await Prop.find({
+      week: weekToNumConversion[week],
+      year: Number(year)
+    })
+
+    if (!propsForThisWeek || propsForThisWeek.length === 0) {
+      return res.status(200).json(0)
+    }
+
+    // TODO: Add a field called "voted" to each prop to more easily check if a user has already made a selction. Checking 4 different fields is NOT efficient
+    const filteredPropsForThisWeek = propsForThisWeek.filter((prop) => {
+      const expirationDate = new Date(prop.expiration)
+      return (
+        expirationDate >= new Date() &&
+        // THIS HERE IS BAD
+        !prop.homeLineSelections?.includes(userId) &&
+        !prop.awayLineSelections?.includes(userId) &&
+        !prop.overSelections?.includes(userId) &&
+        !prop.underSelections?.includes(userId)
+      )
+    })
+
+    if (!filteredPropsForThisWeek || filteredPropsForThisWeek.length === 0) {
+      return res.status(200).json(0)
+    }
+
+    return res.status(200).json(filteredPropsForThisWeek.length)
   } catch (error) {
     next(error)
   }

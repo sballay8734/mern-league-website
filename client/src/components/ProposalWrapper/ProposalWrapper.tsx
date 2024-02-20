@@ -9,6 +9,7 @@ import {
   addIdToSeen,
   setProposalUnseenCount,
 } from "../../redux/proposalsApi/proposalsSlice";
+import { setRequest } from "../../redux/requests/requestSlice";
 
 interface User {
   _id: string;
@@ -39,7 +40,41 @@ export default function ProposalWrapper({
     (state: RootState) => state.proposlasSlice.seenIds[item._id],
   );
 
-  function handleSetSeenTrue() {
+  async function handleSetSeenTrue() {
+    if (thisProposalSeenStatus === true) return;
+
+    try {
+      const res = await fetch(`/api/posts/proposals/${item._id}/seen`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      if (!data) {
+        throw new Error("No data in response!");
+      }
+
+      const { message, result } = data;
+
+      //TODO: Temporary fix (see postsController)
+      if (result === "temp") return;
+
+      dispatch(
+        setRequest({ message: message, result: result, showStatus: true }),
+      );
+
+      setTimeout(() => {
+        dispatch(
+          setRequest({ message: message, result: "", showStatus: false }),
+        );
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
+    // IF userID is already in seen list, DO NOT FETCH
     // fetch proposal and add name to list
 
     // if it is successful, THEN dispatch below

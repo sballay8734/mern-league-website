@@ -10,6 +10,11 @@ interface User {
   fullName: string;
 }
 
+export interface UpdateProp {
+  prop: PropToDbInterface;
+  action: string;
+}
+
 export interface PickCardProps {
   item: PropToDbInterface;
   user: User;

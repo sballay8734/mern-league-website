@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
-export default function NotificationCounter() {
+export default function UnseenProposals() {
   const unseenProposalCount = useSelector(
     (state: RootState) => state.proposlasSlice.unseenCount,
   );

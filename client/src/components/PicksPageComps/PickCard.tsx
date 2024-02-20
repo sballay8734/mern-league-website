@@ -18,10 +18,12 @@ import { PickCardProps, PropToDbInterface } from "./types";
 import { IChallenge } from "../../types/challenges";
 import { handleKeyConversion } from "../../utils/keyConversion";
 import { formatTeamName } from "../../utils/Formatting";
+import { useUpdatePropMutation } from "../../redux/props/propsApi";
 
 // export at bottom
 export default function PickCard({ item, user }: PickCardProps) {
   const dispatch = useDispatch();
+  const [updateProp, { isLoading: isUpdating }] = useUpdatePropMutation();
   const [overOrUnder, setOverOrUnder] = useState<string | null>(null);
   const [spreadPick, setSpreadPick] = useState<string | null>(null);
   const [lockIcon, setLockIcon] = useState<boolean>(false);
@@ -43,21 +45,15 @@ export default function PickCard({ item, user }: PickCardProps) {
   const keyConversion = handleKeyConversion(item.league);
 
   async function handleOUClick(item: PropToDbInterface, action: string) {
+    // TODO: All of this state management with slices is now redundant because you are handling refetching and cache with createApi
+
     // if over is already selected or pick is locked
     if (overOrUnder === action || lockPick) return;
 
     // remove lock icon in case update fails
     setLockIcon(false);
 
-    const res = await fetch("/api/props/update-prop", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prop: item, action: action }),
-    });
-
-    const data = await res.json();
+    const data = await updateProp({ prop: item, action: action });
 
     if (!data) {
       console.log("no data");
@@ -86,15 +82,7 @@ export default function PickCard({ item, user }: PickCardProps) {
 
     setLockIcon(false);
 
-    const res = await fetch("/api/props/update-prop", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prop: item, action: action }),
-    });
-
-    const data = await res.json();
+    const data = await updateProp({ prop: item, action: action });
 
     if (!data) {
       console.log("no data");
