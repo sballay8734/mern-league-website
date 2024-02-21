@@ -55,15 +55,6 @@ export default function ChallengeHistory() {
       })
     : [];
 
-  // THIS GIVE THE RIGHT COUNT BUT YOU NEED TO SOMEHOW DO THIS WAY EARLIER. LIKE ON INITAL LOAD SO THAT YOU CAN SET THE WIDGET COUNT
-  const challengeCount = activeChallenges.filter((challenge) => {
-    return (
-      new Date(challenge.gameStart) >= new Date() ||
-      (new Date(challenge.gameStart) <= new Date() &&
-        challenge.acceptorName !== "")
-    );
-  });
-
   return (
     <>
       <nav className="flex w-full items-start justify-center pb-4 pt-2">

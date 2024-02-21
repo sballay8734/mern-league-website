@@ -8,6 +8,8 @@ import { PropToDbInterface } from "../BettingPropSpreads";
 import PickCounter from "./PickCounter";
 import ChallengeHistory from "./ChallengeHistory";
 import UnseenProps from "../NotificationCounters/UnseenProps";
+import UnseenChallenges from "../NotificationCounters/UnseenChallenges";
+import { IoMdFlame } from "react-icons/io";
 
 interface PicksProps {
   propData: PropToDbInterface[] | undefined;
@@ -15,9 +17,6 @@ interface PicksProps {
 
 export default function Picks({ propData }: PicksProps): JSX.Element {
   const dispatch = useDispatch();
-  const numChallenges = useSelector(
-    (state: RootState) => state.picksSlice.numChallenges,
-  );
   const user = useSelector((state: RootState) => state.user.user);
   const activeButton = useSelector(
     (state: RootState) => state.picksSlice.activeButton,
@@ -78,18 +77,24 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                     <button
                       className={`${
                         activeButton === "challenges" ? "active" : ""
-                      }`}
+                      } relative`}
                       onClick={() => dispatch(setActiveButton("challenges"))}
                     >
-                      {/* ACCEPTED CHALLENGES - SHOULDN'T SHOW IF NONE EXIST */}
-                      <span className="w-4 rounded-full border bg-[#28f235] text-[10px] font-bold text-green-950">
-                        1
-                      </span>
+                      {/* Unaccepted CHALLENGES */}
+                      <UnseenChallenges
+                        classes={
+                          "absolute right-5 top-[1px] flex h-5 w-5 items-center justify-center rounded-full text-center text-[10px] text-red-200"
+                        }
+                        action="unaccepted"
+                      />
                       Challenges
-                      {/* UNACCEPTED CHALLENGES */}
-                      <span className="w-4 rounded-full border bg-[#fb2c2c] text-[10px] font-bold text-red-950">
-                        {numChallenges}
-                      </span>
+                      {/* accepted CHALLENGES */}
+                      <UnseenChallenges
+                        classes={
+                          "absolute right-1 top-[1px] flex h-5 w-5 items-center justify-center rounded-full text-center text-[10px] text-green-200"
+                        }
+                        action="accepted"
+                      />
                     </button>
                   </li>
                 </ul>

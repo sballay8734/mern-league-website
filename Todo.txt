@@ -1,4 +1,8 @@
 FOR TODAY---------------------
+1. BIG BUG, UNselected pick counter is not updating correctly. You think the culprit is mongoDB data not being available right away. It might be better to update the prop then handle the filtering on the front end
+  - FOR SOME REASON IT STARTED WORKING AFTER ADDING onQueryStarted()
+  - See this page for implementing fullfilled logic (https://redux-toolkit.js.org/rtk-query/api/createApi#onquerystarted)
+
 1. FIRST: Figure out how to calc challenges WAYYY Sooner so that you can display it on the tab and nav (THIS FEATURE STILL NEEDS ALOT OF TESTING. MIGHT NOT BE DISPLAYING THE RIGHT NUMBER)
 
 1. ALSO ADD Number of notifications to nav toggle circle in bottom right

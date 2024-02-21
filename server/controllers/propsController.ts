@@ -97,15 +97,18 @@ export const updateProp = async (
       if (action === "under") {
         // Might need to reword the line below
         if (!propExists.underSelections || !propExists.overSelections) {
+          console.log("1")
           return res.status(400).json("One of them doesn't exist!")
         }
 
         if (propExists.underSelections?.includes(userId)) {
+          console.log("2")
           return res.status(400).json("You already voted the under!")
         }
 
         if (propExists.overSelections?.includes(userId)) {
           // remove from overSelections and add to underSelections
+          console.log("3")
           const index = propExists.overSelections.indexOf(userId)
           propExists.overSelections.splice(index, 1)
 
@@ -115,6 +118,7 @@ export const updateProp = async (
             underSelections: [...propExists.underSelections, userId]
           })
           propExists.save()
+          console.log("4")
           return res.status(200).json("You have been SWITCHED to the under!")
         }
 
@@ -122,17 +126,21 @@ export const updateProp = async (
           underSelections: [...propExists.underSelections, userId]
         })
         propExists.save()
+        console.log("5")
 
         return res.status(200).json("You have been ADDED to under!")
       } else if (action === "over") {
         if (!propExists.underSelections || !propExists.overSelections) {
+          console.log("6")
           return res.status(400).json("One of them doesn't exist!")
         }
 
         if (propExists.overSelections?.includes(userId)) {
+          console.log("7")
           return res.status(400).json("You already voted the over!")
         }
         if (propExists.underSelections?.includes(userId)) {
+          console.log("8")
           // remove from underSelections and add to overSelections
           const index = propExists.underSelections.indexOf(userId)
           propExists.underSelections.splice(index, 1)
@@ -143,6 +151,7 @@ export const updateProp = async (
             overSelections: [...propExists.overSelections, userId]
           })
           propExists.save()
+          console.log("9")
           return res.status(200).json("You have been SWITCHED to the over!")
           //
         }
@@ -150,32 +159,39 @@ export const updateProp = async (
           overSelections: [...propExists.overSelections, userId]
         })
         propExists.save()
-        res.status(200).json("You have been ADDED to the over!")
+        console.log("10")
+        return res.status(200).json("You have been ADDED to the over!")
       }
     } else if (prop.type === "teamSpreads") {
       if (!propExists.homeLineSelections || !propExists.awayLineSelections) {
+        console.log("11")
         return res.status(400).json("One of them doesn't exist!")
       }
 
       if (action === prop.homeData?.homeTeam) {
         // if they voted for home, but were already in the home list
         if (propExists.homeLineSelections?.includes(userId)) {
+          console.log("12")
           return res.status(400).json("You already bet on the HomeTeam!")
         }
         // if they voted for home but were in the away list
         if (propExists.awayLineSelections.includes(userId)) {
           // remove them from the away list
+          console.log("13")
           const index = propExists.awayLineSelections.indexOf(userId)
           propExists.awayLineSelections.splice(index, 1)
 
-          if (!propExists.awayLineSelections)
+          if (!propExists.awayLineSelections) {
+            console.log("14")
             return next(errorHandler(400, "NUS"))
+          }
 
           // add them to the home list
           propExists.set({
             homeLineSelections: [...propExists.homeLineSelections, userId]
           })
           propExists.save()
+          console.log("15")
           return res.status(200).json("You have been SWITCHED to the HomeTeam!")
         }
         // add if name wasn't found in either list
@@ -183,24 +199,30 @@ export const updateProp = async (
           homeLineSelections: [...propExists.homeLineSelections, userId]
         })
         propExists.save()
-        return res.status(200).json("You have been ADDED to the AwayTeam!")
+        console.log("16")
+        return res.status(200).json("You have been ADDED to the HomeTeam!")
       } else if (action === prop.awayData?.awayTeam) {
         // if they voted for away, but were already in the away list
         if (propExists.awayLineSelections?.includes(userId)) {
+          console.log("17")
           return res.status(400).json("You already bet on the AwayTeam!")
         }
 
         if (propExists.homeLineSelections.includes(userId)) {
+          console.log("18")
           const index = propExists.homeLineSelections.indexOf(userId)
           propExists.homeLineSelections.splice(index, 1)
 
-          if (!propExists.homeLineSelections)
+          if (!propExists.homeLineSelections) {
+            console.log("19")
             return next(errorHandler(400, "NUS"))
+          }
 
           propExists.set({
             awayLineSelections: [...propExists.awayLineSelections, userId]
           })
           propExists.save()
+          console.log("20")
           return res.status(200).json("You have been SWITCHED to the AwayTeam!")
         }
 
@@ -208,6 +230,7 @@ export const updateProp = async (
           awayLineSelections: [...propExists.awayLineSelections, userId]
         })
         propExists.save()
+        console.log("21")
         return res.status(200).json("You have been ADDED to the AwayTeam!")
       }
     } else {
@@ -223,7 +246,6 @@ export const getProps = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("GETTING PROPS...")
   const week = req.params.week
   const year = req.params.year
 
@@ -477,6 +499,10 @@ export const getUnsubmittedPropCount = async (
   res: Response,
   next: NextFunction
 ) => {
+  // setTimeout(() => {
+  //   console.log("RUNNING DELAY...")
+  // }, 3000)
+
   const week = req.params.week
   const year = req.params.year
   const userId = req.user.id
@@ -508,7 +534,6 @@ export const getUnsubmittedPropCount = async (
       return res.status(200).json(0)
     }
 
-    console.log("UPDATED COUNT")
     return res.status(200).json(filteredPropsForThisWeek.length)
   } catch (error) {
     next(error)

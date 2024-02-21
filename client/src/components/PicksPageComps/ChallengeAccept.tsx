@@ -5,6 +5,7 @@ import { PropToDbInterface } from "../BettingPropSpreads";
 import { removeChallenge } from "../../redux/props/picksSlice";
 import { PropChallenge } from "../../types/challenges";
 import { formatOwnerName, formatTeamName } from "../../utils/Formatting";
+import { setRequest } from "../../redux/requests/requestSlice";
 
 interface User {
   _id: string;
@@ -42,6 +43,22 @@ export default function ChallengeAccept({
     const challengerName = challenge.challengerName;
 
     if (acceptorName === challengerName) {
+      dispatch(
+        setRequest({
+          result: "fail",
+          message: "You cannot accept your own challenge",
+          showStatus: true,
+        }),
+      );
+      setTimeout(() => {
+        dispatch(
+          setRequest({
+            message: "You cannot accept your own challenge",
+            result: "fail",
+            showStatus: false,
+          }),
+        );
+      }, 2000);
       return;
     }
 
@@ -84,57 +101,67 @@ export default function ChallengeAccept({
   console.log(item.homeData?.homeTeam, challenge.challengerSelection);
 
   return (
-    <div className="challenge-wrapper" key={challenge._id}>
-      <p className="challenge-details">
-        <span className="challengerName">
-          {formatOwnerName(challenge.challengerName)}
-        </span>{" "}
-        <span className="challenge-word">bet</span>
-        <span className="challengerWager">${challenge.wagerAmount}</span>
-        <span className="challenge-word">on</span>{" "}
-        <span className="challenge-word">the</span>
-        <span className="challengerSelection">
-          {item.homeData &&
-          challenge.challengerSelection === item.homeData.homeTeam
-            ? formatTeamName(item.homeData.homeTeam)
-            : item.awayData &&
-                challenge.challengerSelection === item.awayData.awayTeam
-              ? formatTeamName(item.awayData.awayTeam)
-              : challenge.challengerSelection}
-        </span>
-      </p>
-      <div className="accept-btn-wrapper">
-        {!verifyAcceptance ? (
-          <button
-            onClick={() => setVerifyAcceptance(true)}
-            className="accept-challenge-btn"
-          >
-            Accept wager and{" "}
-            <span className="acceptSelection">
-              take the{" "}
-              {item.awayData && challenge.challengerSelection === "home"
-                ? formatTeamName(item.awayData?.awayTeam)
-                : item.homeData && challenge.challengerSelection === "away"
-                  ? formatTeamName(item.homeData.homeTeam)
-                  : challenge.challengerSelection === "under"
-                    ? "over"
-                    : "under"}
-            </span>
-          </button>
-        ) : (
-          <div className="confirm-buttons">
+    <>
+      <div className="challenge-wrapper" key={challenge._id}>
+        <p className="challenge-details">
+          <span className="challengerName">
+            {formatOwnerName(challenge.challengerName)}
+          </span>{" "}
+          <span className="challenge-word">bet</span>
+          <span className="challengerWager">${challenge.wagerAmount}</span>
+          <span className="challenge-word">on</span>{" "}
+          <span className="challenge-word">the</span>
+          <span className="challengerSelection">
+            {item.homeData &&
+            challenge.challengerSelection === item.homeData.homeTeam
+              ? formatTeamName(item.homeData.homeTeam)
+              : item.awayData &&
+                  challenge.challengerSelection === item.awayData.awayTeam
+                ? formatTeamName(item.awayData.awayTeam)
+                : challenge.challengerSelection}
+          </span>
+        </p>
+        <div className="accept-btn-wrapper">
+          {!verifyAcceptance ? (
             <button
-              className="confirm"
-              onClick={() => handleAcceptChallenge(challenge)}
+              onClick={() => setVerifyAcceptance(true)}
+              className="accept-challenge-btn"
             >
-              Yes I'm Sure
+              Accept wager and{" "}
+              <span className="acceptSelection">
+                take the{" "}
+                {item.awayData && challenge.challengerSelection === "home"
+                  ? formatTeamName(item.awayData?.awayTeam)
+                  : item.homeData && challenge.challengerSelection === "away"
+                    ? formatTeamName(item.homeData.homeTeam)
+                    : challenge.challengerSelection === "under"
+                      ? "over"
+                      : "under"}
+              </span>
             </button>
-            <button className="deny" onClick={() => setVerifyAcceptance(false)}>
-              Just Kidding
-            </button>
-          </div>
-        )}
+          ) : (
+            <div className="confirm-buttons">
+              <button
+                className="confirm"
+                onClick={() => handleAcceptChallenge(challenge)}
+              >
+                Yes I'm Sure
+              </button>
+              <button
+                className="deny"
+                onClick={() => setVerifyAcceptance(false)}
+              >
+                Just Kidding
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+      <div className="challenge-action">
+        <button onClick={handleShowChallenges} className="cancel-challenge">
+          Cancel
+        </button>
+      </div>
+    </>
   );
 }

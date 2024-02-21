@@ -47,8 +47,6 @@ export default function PickCard({ item, user }: PickCardProps) {
   async function handleOUClick(item: PropToDbInterface, action: string) {
     // TODO: All of this state management with slices is now redundant because you are handling refetching and cache with createApi
 
-    console.log(item, action);
-
     // if over is already selected or pick is locked
     if (overOrUnder === action || lockPick) return;
 
@@ -61,6 +59,8 @@ export default function PickCard({ item, user }: PickCardProps) {
       console.log("no data");
       return;
     }
+
+    console.log(data);
 
     setOverOrUnder(action);
     setLockIcon(true);
@@ -79,7 +79,6 @@ export default function PickCard({ item, user }: PickCardProps) {
 
   async function handleSpreadPick(item: PropToDbInterface, action: string) {
     // if you already selected that team or the pick is locked
-    console.log(item, action);
 
     if (spreadPick === action) return;
     if (lockPick) return;
@@ -92,6 +91,8 @@ export default function PickCard({ item, user }: PickCardProps) {
       console.log("no data");
       return;
     }
+
+    console.log(data);
 
     setSpreadPick(action);
     setLockIcon(true);
@@ -322,7 +323,8 @@ export default function PickCard({ item, user }: PickCardProps) {
       challenge = {
         type: item.type,
         league: item.league,
-        challengerName: user._id,
+        challengerId: user._id,
+        challengerName: user.fullName,
         challengerSelection: challengeSelection,
         acceptorName: "",
         acceptorSelection: challengeSelection === "under" ? "over" : "under",
@@ -342,7 +344,8 @@ export default function PickCard({ item, user }: PickCardProps) {
         type: item.type,
         league: item.league,
         gameStart: item.expiration,
-        challengerName: user._id,
+        challengerId: user._id,
+        challengerName: user.fullName,
         challengerSelection: formatTeamName(challengeSelection),
         acceptorName: "",
         acceptorSelection:

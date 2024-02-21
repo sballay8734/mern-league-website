@@ -92,14 +92,16 @@ export default function ChallengeCard({
   const opponentName = handleOpponentName();
   const yourSelection = handlePropSelection();
 
+  console.log(challenge);
+
   return (
     // if (challenge.type === "playerProp" || challenge.type === "teamTotals")
 
     <article
-      className={`relative w-full ${challenge.acceptorName === "" ? "rounded-sm border-[1px] border-[#2a2a2a]" : "rounded-sm border-[1px] border-[#b1b1b1]"} ${unacceptedChallengeExpired ? "hidden" : ""}`}
+      className={`relative w-full ${challenge.acceptorId === "" ? "rounded-sm border-[1px] border-[#2a2a2a]" : "rounded-sm border-[1px] border-[#b1b1b1]"} ${unacceptedChallengeExpired ? "hidden" : ""}`}
     >
       <div
-        className={`flex w-full flex-col items-center ${challenge.acceptorName === "" ? "opacity-40" : ""}`}
+        className={`flex w-full flex-col items-center ${challenge.acceptorId === "" ? "opacity-40" : ""}`}
       >
         <h2 className="flex w-full items-center justify-between bg-[#0b0b0b] px-[5px] py-[5px] text-xs font-semibold text-[#f03ff9]">
           <span className="ml-1 text-slate-600">{index + 1}</span>

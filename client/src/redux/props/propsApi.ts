@@ -1,10 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { WeekRanges } from "../../components/utils";
 import { IChallenge, PropChallenge } from "../../types/challenges";
-import {
-  PickCardProps,
-  UpdateProp,
-} from "../../components/PicksPageComps/types";
+import { UpdateProp } from "../../components/PicksPageComps/types";
 
 const nfl2024WeekRanges: WeekRanges = {
   // Tuesday Morning (12:00am) ---> Monday Night (11:59pm)
@@ -37,7 +34,7 @@ const nfl2024WeekRanges: WeekRanges = {
   testWeek2: {
     key: "testWeek2",
     start: "2024-02-11T06:00:00Z",
-    end: "2024-02-20T18:30:00Z",
+    end: "2024-02-30T18:30:00Z",
   },
 };
 
@@ -155,6 +152,9 @@ const propsApi = createApi({
         },
       }),
       providesTags: ["Prop"],
+      onQueryStarted: () => {
+        console.log("FetchCount query started...", new Date());
+      },
     }),
     // TODO: invalidates tags needs to be more specific when updating because the array does not change. Therefore, no need to invalidate the entire array. This should only be done if adding or removing from an array.
     updateProp: builder.mutation<PropToDbInterface, UpdateProp>({
@@ -164,6 +164,9 @@ const propsApi = createApi({
         body,
       }),
       invalidatesTags: ["Prop"],
+      onQueryStarted: () => {
+        console.log("Update query started...", new Date());
+      },
     }),
 
     // CHALLENGES STUFF (TODO: MOVE TO OWN API) *******************************

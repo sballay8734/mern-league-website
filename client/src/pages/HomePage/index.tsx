@@ -33,7 +33,7 @@ export default function HomePage() {
     useFetchUnsubmittedPropCountQuery();
 
   // just removing error
-  console.log(challenges, propCount);
+  console.log("PropCount", propCount);
 
   // handle intitialization of push notifications for proposals
   useEffect(() => {

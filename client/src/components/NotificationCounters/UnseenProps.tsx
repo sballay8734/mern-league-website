@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useFetchUnsubmittedPropCountQuery } from "../../redux/props/propsApi";
 
 interface UnseenPropsProps {
@@ -7,6 +8,10 @@ interface UnseenPropsProps {
 export default function UnseenProps({ classes }: UnseenPropsProps) {
   const { data: unseenPropCount, refetch: refetchPropCount } =
     useFetchUnsubmittedPropCountQuery();
+
+  useEffect(() => {
+    refetchPropCount();
+  }, []);
 
   if (unseenPropCount && unseenPropCount > 0) {
     return (

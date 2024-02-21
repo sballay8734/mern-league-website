@@ -124,6 +124,9 @@ export default function BettingPropSpreads({
         year: currentYear,
 
         // updated here
+        homeTeam: prop.home_team,
+        awayTeam: prop.away_team,
+
         homeData: {
           homeTeam: homeLine.name,
           homeLine: homeLine.point,

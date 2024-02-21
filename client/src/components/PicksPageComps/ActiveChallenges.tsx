@@ -10,20 +10,21 @@ export default function ActiveChallenges({
   activeChallenges,
   refetch,
 }: ActiveChallengesProps) {
+  // TODO: Needs to be refactored to use IDs and NOT names
   const sortedChallenges = activeChallenges.sort((a, b) => {
     // Compare the acceptor names
-    const acceptorNameA = a.acceptorName.toLowerCase();
-    const acceptorNameB = b.acceptorName.toLowerCase();
+    const acceptorAId = a.acceptorId;
+    const acceptorBId = b.acceptorId;
 
     // Non-empty acceptor names should come first
-    if (acceptorNameA !== "" && acceptorNameB === "") {
+    if (acceptorAId !== "" && acceptorBId === "") {
       return -1;
-    } else if (acceptorNameA === "" && acceptorNameB !== "") {
+    } else if (acceptorAId === "" && acceptorBId !== "") {
       return 1;
     }
 
     // If both acceptor names are empty or non-empty, use default sorting
-    return acceptorNameA.localeCompare(acceptorNameB);
+    return acceptorAId.localeCompare(acceptorBId);
   });
 
   return (
