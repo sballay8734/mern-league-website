@@ -13,11 +13,20 @@ import UnseenProposals from "../NotificationCounters/UnseenProposals";
 import UnseenProps from "../NotificationCounters/UnseenProps";
 
 import "./Header.scss";
+import { useFetchUnsubmittedPropCountQuery } from "../../redux/props/propsApi";
 
 export default function Header() {
   const { user } = useSelector((state: RootState) => state.user);
   const [navIsShown, setNavIsShown] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  // These set notification icon
+  const proposalCount = useSelector(
+    (state: RootState) => state.proposlasSlice.unseenCount,
+  );
+  const { data: propCount } = useFetchUnsubmittedPropCountQuery() || 0;
+
+  console.log(propCount, proposalCount);
 
   function handleNavToggle() {
     setNavIsShown(!navIsShown);
@@ -111,6 +120,10 @@ export default function Header() {
             </Link>
           </div>
         </div>
+        {/* TODO: if propCount is undefined and proposals exist, there will be no icon. This is not what you want. */}
+        {propCount && propCount + proposalCount > 0 && (
+          <div className="absolute right-[6px] top-2 z-[3] h-2 w-2 rounded-full bg-red-500 text-red-500"></div>
+        )}
       </div>
     </>
   );

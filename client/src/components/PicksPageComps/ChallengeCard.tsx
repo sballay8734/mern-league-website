@@ -92,8 +92,6 @@ export default function ChallengeCard({
   const opponentName = handleOpponentName();
   const yourSelection = handlePropSelection();
 
-  console.log(challenge);
-
   return (
     // if (challenge.type === "playerProp" || challenge.type === "teamTotals")
 

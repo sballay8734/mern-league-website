@@ -39,6 +39,8 @@ function App() {
     };
   }, []);
 
+  console.log(showStatus);
+
   if (isMobile) {
     return (
       <main className={`${user?.preferredTheme || "eagles"}`}>

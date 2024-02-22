@@ -54,11 +54,11 @@ export default function UnseenChallenges({
     return (
       <div className={classes}>
         {action === "accepted" ? (
-          <IoMdFlame className={"absolute text-lg text-orange-500"} />
+          <IoMdFlame className={"absolute text-lg text-orange-600"} />
         ) : (
           ""
         )}
-        <span className="z-2 absolute top-[3px] text-center align-middle font-bold text-red-700">
+        <span className="z-2 absolute top-[4px] text-center align-middle font-bold text-blue-950">
           {filteredChallenges.length}
         </span>
       </div>

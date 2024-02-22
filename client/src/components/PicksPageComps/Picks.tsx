@@ -66,7 +66,7 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                     </button>
                     <UnseenProps
                       classes={
-                        "absolute right-1 top-1 flex h-3 w-3 items-center justify-center rounded-full border-[1px] border-red-600 bg-red-800 text-center text-[10px] text-red-200"
+                        "absolute right-[4px] top-[4px] flex h-[15px] w-[15px] items-center justify-center rounded-full border-[1px] border-red-600 bg-red-800 text-center text-[10px] text-red-200"
                       }
                     />
                   </li>
@@ -81,17 +81,18 @@ export default function Picks({ propData }: PicksProps): JSX.Element {
                       onClick={() => dispatch(setActiveButton("challenges"))}
                     >
                       {/* Unaccepted CHALLENGES */}
-                      <UnseenChallenges
+                      {/* MAYBE USE ICE SYMBOL */}
+                      {/* <UnseenChallenges
                         classes={
-                          "absolute right-5 top-[1px] flex h-5 w-5 items-center justify-center rounded-full text-center text-[10px] text-red-200"
+                          "absolute right-5 top-[4px] flex h-5 w-5 items-center justify-center rounded-full text-center text-[10px] text-red-200 bg-gray-400"
                         }
                         action="unaccepted"
-                      />
+                      /> */}
                       Challenges
                       {/* accepted CHALLENGES */}
                       <UnseenChallenges
                         classes={
-                          "absolute right-1 top-[1px] flex h-5 w-5 items-center justify-center rounded-full text-center text-[10px] text-green-200"
+                          "absolute right-1 top-[4px] flex h-5 w-5 items-center justify-center rounded-full text-center text-[10px]"
                         }
                         action="accepted"
                       />
