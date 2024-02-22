@@ -54,7 +54,7 @@ export default function ChallengeAccept({
         dispatch(
           setRequest({
             message: "You cannot accept your own challenge",
-            result: "fail",
+            result: "",
             showStatus: false,
           }),
         );
