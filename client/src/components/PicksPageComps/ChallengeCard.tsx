@@ -5,8 +5,9 @@ import { IChallenge } from "../../types/challenges";
 import { RootState } from "../../redux/store";
 import { formatTeamName, formatOwnerName } from "../../utils/Formatting";
 import CountdownTimerNoLock from "../CountDownTimer/CountDownTimerNoLock";
-import { setRequest } from "../../redux/requests/requestSlice";
+import { setRequestResponse } from "../../redux/requests/requestSlice";
 import { actuallyRemoveChallenge } from "../../redux/props/picksSlice";
+import { setShowModal } from "../../redux/confirmRequest/confirmRequest";
 
 interface ChallengeCardProps {
   challenge: IChallenge;
@@ -47,42 +48,15 @@ export default function ChallengeCard({
     }
   }
 
-  async function handleChallengeWithdraw() {
-    setLoading(true);
-    const res = await fetch(`/api/props/delete-challenge/${challenge._id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await res.json();
-
-    if (!data) {
-      setLoading(false);
-      throw new Error("Something went wrong");
-    }
-
-    const { message, result } = data;
-    // dispatch to SHOW request card
+  function handleWithdrawClick() {
     dispatch(
-      setRequest({ message: message, result: result, showStatus: true }),
-    );
-    setLoading(false);
-
-    // NEED TO ALSO REMOVE FROM STATE!!
-    refetch();
-    dispatch(
-      actuallyRemoveChallenge({
-        challengeId: challenge._id,
+      setShowModal({
+        modalAction: "show",
+        message: "Are you sure you want to withdraw this challenge?",
+        itemId: challenge._id,
         propId: challenge.propId,
       }),
     );
-
-    // dispatch to REMOVE request card
-    setTimeout(() => {
-      dispatch(setRequest({ message: message, result: "", showStatus: false }));
-    }, 2000);
   }
 
   const unacceptedChallengeExpired =
@@ -134,7 +108,14 @@ export default function ChallengeCard({
           <div className="flex w-full max-w-14 flex-col">
             <h2 className="bg-slate-800 py-1 text-center text-xs">Line</h2>
             <p className="justify-center bg-[#1b1c05] py-2 text-center text-xs font-semibold text-yellow-500">
-              {challenge.line}
+              {challenge.type === "teamSpreads" ? (
+                <>
+                  <span className="text-[8px]">±</span>
+                  <span>{Math.abs(challenge.line)}</span>
+                </>
+              ) : (
+                challenge.line
+              )}
             </p>
           </div>
           <div className="flex w-full flex-col">
@@ -151,7 +132,8 @@ export default function ChallengeCard({
         </div>
       </div>
       <button
-        onClick={handleChallengeWithdraw}
+        onClick={handleWithdrawClick}
+        // onClick={handleChallengeWithdraw}
         className={`relative flex w-full items-center justify-center py-2 text-center active:opacity-90 ${challengeWithdrawable ? "bg-[#1f1010] text-red-500" : "bg-[#0e0e0e] text-gray-700"}`}
       >
         {challengeWithdrawable ? (

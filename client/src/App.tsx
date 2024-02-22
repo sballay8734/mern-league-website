@@ -16,6 +16,7 @@ import ProfilePage from "./pages/ProfilePage";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import RequestStatusModal from "./components/RequestStatusModal/RequestStatusModal";
+import ConfirmModal from "./components/ConfirmModal/ConfirmModal";
 
 function App() {
   const { user } = useSelector((state: RootState) => state.user);
@@ -39,17 +40,18 @@ function App() {
     };
   }, []);
 
-  console.log(showStatus);
-
   if (isMobile) {
     return (
       <main className={`${user?.preferredTheme || "eagles"}`}>
         <BrowserRouter>
+          {/* MAYBE THESE SHOULD NOT BE HERE. ARE THEY CAUSE RE-RENDER OF EVERYTHING? */}
           <RequestStatusModal
             showStatus={showStatus}
             result={result}
             message={message}
           />
+          {/* MAYBE THESE SHOULD NOT BE HERE. ARE THEY CAUSE RE-RENDER OF EVERYTHING? */}
+          <ConfirmModal />
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />}></Route>

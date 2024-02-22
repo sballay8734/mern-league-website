@@ -26,8 +26,6 @@ export default function Header() {
   );
   const { data: propCount } = useFetchUnsubmittedPropCountQuery() || 0;
 
-  console.log(propCount, proposalCount);
-
   function handleNavToggle() {
     setNavIsShown(!navIsShown);
   }

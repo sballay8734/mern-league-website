@@ -5,7 +5,7 @@ import { PropToDbInterface } from "../BettingPropSpreads";
 import { removeChallenge } from "../../redux/props/picksSlice";
 import { PropChallenge } from "../../types/challenges";
 import { formatOwnerName, formatTeamName } from "../../utils/Formatting";
-import { setRequest } from "../../redux/requests/requestSlice";
+import { setRequestResponse } from "../../redux/requests/requestSlice";
 
 interface User {
   _id: string;
@@ -44,7 +44,7 @@ export default function ChallengeAccept({
 
     if (acceptorName === challengerName) {
       dispatch(
-        setRequest({
+        setRequestResponse({
           result: "fail",
           message: "You cannot accept your own challenge",
           showStatus: true,
@@ -52,7 +52,7 @@ export default function ChallengeAccept({
       );
       setTimeout(() => {
         dispatch(
-          setRequest({
+          setRequestResponse({
             message: "You cannot accept your own challenge",
             result: "",
             showStatus: false,

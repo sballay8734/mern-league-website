@@ -5,11 +5,8 @@ import { FaAngleDoubleDown } from "react-icons/fa";
 import { IProposal } from "../../redux/proposalsApi/proposalsApi";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import {
-  addIdToSeen,
-  setProposalUnseenCount,
-} from "../../redux/proposalsApi/proposalsSlice";
-import { setRequest } from "../../redux/requests/requestSlice";
+import { setProposalUnseenCount } from "../../redux/proposalsApi/proposalsSlice";
+import { setRequestResponse } from "../../redux/requests/requestSlice";
 
 interface User {
   _id: string;
@@ -63,12 +60,20 @@ export default function ProposalWrapper({
       if (result === "temp") return;
 
       dispatch(
-        setRequest({ message: message, result: result, showStatus: true }),
+        setRequestResponse({
+          message: message,
+          result: result,
+          showStatus: true,
+        }),
       );
 
       setTimeout(() => {
         dispatch(
-          setRequest({ message: message, result: "", showStatus: false }),
+          setRequestResponse({
+            message: message,
+            result: "",
+            showStatus: false,
+          }),
         );
       }, 2000);
     } catch (error) {

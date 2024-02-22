@@ -3,11 +3,8 @@ FOR TODAY---------------------
   - FOR SOME REASON IT STARTED WORKING AFTER ADDING onQueryStarted()
   - See this page for implementing fullfilled logic (https://redux-toolkit.js.org/rtk-query/api/createApi#onquerystarted)
 
-1. FIRST: Figure out how to calc challenges WAYYY Sooner so that you can display it on the tab and nav (THIS FEATURE STILL NEEDS ALOT OF TESTING. MIGHT NOT BE DISPLAYING THE RIGHT NUMBER)
-
 1. Handle the loading on homepage better (you're doing alot on initial load now so it needs to be handled)
 1. Add type to active challenge cards
-1. Withdraw challenge confirm
 1. Need to normalize currentWeek somehow because the keys are nfl only...
 1. Re-usable modal for failed submission
 1. Withdraw challenge should not work if it's already been accepted

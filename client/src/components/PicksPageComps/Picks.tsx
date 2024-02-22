@@ -9,7 +9,6 @@ import PickCounter from "./PickCounter";
 import ChallengeHistory from "./ChallengeHistory";
 import UnseenProps from "../NotificationCounters/UnseenProps";
 import UnseenChallenges from "../NotificationCounters/UnseenChallenges";
-import { IoMdFlame } from "react-icons/io";
 
 interface PicksProps {
   propData: PropToDbInterface[] | undefined;

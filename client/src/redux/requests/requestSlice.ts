@@ -16,7 +16,7 @@ const requestSlice = createSlice({
   name: "request",
   initialState,
   reducers: {
-    setRequest: (state, action: PayloadAction<RequestState>) => {
+    setRequestResponse: (state, action: PayloadAction<RequestState>) => {
       const { result, message, showStatus } = action.payload;
 
       state.result = result;
@@ -28,5 +28,5 @@ const requestSlice = createSlice({
   },
 });
 
-export const { setRequest } = requestSlice.actions;
+export const { setRequestResponse } = requestSlice.actions;
 export default requestSlice.reducer;
