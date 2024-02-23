@@ -119,7 +119,7 @@ export default function Header() {
           </div>
         </div>
         {/* TODO: if propCount is undefined and proposals exist, there will be no icon. This is not what you want. */}
-        {propCount && propCount + proposalCount > 0 && (
+        {user && propCount && propCount + proposalCount > 0 && (
           <div className="absolute right-[6px] top-2 z-[3] h-2 w-2 rounded-full bg-red-500 text-red-500"></div>
         )}
       </div>

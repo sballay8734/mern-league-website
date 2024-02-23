@@ -1,50 +1,51 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface User {
-  _id: string
-  email: string
-  firstName: string
-  lastInitial: string
-  avatar: string
-  preferredTheme: string
-  isAdmin: boolean
-  isCommissioner: boolean
-  fullName: string
-  isTempAdmin: boolean
+  _id: string;
+  email: string;
+  firstName: string;
+  lastInitial: string;
+  avatar: string;
+  preferredTheme: string;
+  isAdmin: boolean;
+  isCommissioner: boolean;
+  fullName: string;
+  isTempAdmin: boolean;
+  requestsRemaining: number;
 }
 
 interface UserState {
-  user: null | User
-  error: null | string
+  user: null | User;
+  error: null | string;
 }
 
 const initialState: UserState = {
   user: null,
-  error: null
-}
+  error: null,
+};
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
-      state.user = action.payload
+      state.user = action.payload;
     },
     setOAuthError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload
+      state.error = action.payload;
     },
     setUserTheme: (state, action: PayloadAction<string>) => {
       if (state.user) {
-        state.user.preferredTheme = action.payload
+        state.user.preferredTheme = action.payload;
       }
     },
     signOutUser: (state) => {
-      state.user = null
-    }
-  }
-})
+      state.user = null;
+    },
+  },
+});
 
 export const { setUser, setOAuthError, setUserTheme, signOutUser } =
-  userSlice.actions
+  userSlice.actions;
 
-export default userSlice.reducer
+export default userSlice.reducer;

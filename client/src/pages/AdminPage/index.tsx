@@ -10,7 +10,13 @@ import { KOTHInit } from "./utils/kothFunctions";
 import { PropToDbInterface } from "../../components/BettingPropSpreads";
 import { handleFetchParams } from "../../utils/LeagueInitializations";
 import { setActiveLeague } from "../../redux/props/picksSlice";
-import { WeekRanges, BettingProp } from "../../components/utils";
+import { ImSpinner2 } from "react-icons/im";
+
+import {
+  WeekRanges,
+  BettingProp,
+  handleShowRequestModal,
+} from "../../components/utils";
 import GameWrapper from "../../components/GameWrapper/GameWrapper";
 import "./AdminPage.scss";
 
@@ -47,7 +53,7 @@ const nfl2024WeekRanges: WeekRanges = {
   testWeek2: {
     key: "testWeek2",
     start: "2024-02-12T06:00:00Z",
-    end: "2024-02-20T18:30:00Z",
+    end: "2024-02-29T18:30:00Z",
   },
 };
 
@@ -60,6 +66,7 @@ export default function AdminPage() {
   const { data } = useFetchOwnersQuery();
   const [activeButton, setActiveButton] = useState<string>("tempAdmins");
   const [updateInProgress, setUpdateInProgress] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [bettingData, setBettingData] = useState<BettingProp[] | null>(null);
   const [numPropsSelected, setNumPropsSelected] = useState<string[]>([]);
   const [gameIdsFetched, setGameIdsFetched] = useState<string[]>([]);
@@ -121,28 +128,59 @@ export default function AdminPage() {
 
   async function fetchProps(league: string) {
     if (user && user.isAdmin === false) return;
-    // fetch this optionally. Button says "Fetch player props for this game"
+    if (user && user.requestsRemaining === 0) {
+      handleShowRequestModal(dispatch, {
+        result: "fail",
+        message: "You have no requests remaining",
+        showStatus: true,
+      });
 
+      return;
+    }
+
+    // EACH FETCH TAKES 2 CREDITS (spreads & totals)
     const fetchURL = handleFetchParams(league);
 
     if (!fetchURL || fetchURL === null) return;
+
+    setLoading(true);
 
     const res = await fetch(fetchURL);
 
     const data = await res.json();
     if (!data) {
       console.log("ERROR");
+      setLoading(false);
       return;
     }
 
-    // const props = normalizeProps(data);
-    // ****************************************************************
-    // ****************************************************************
-    // NEED TO NORMALIZE DATA HERE BEFORE PUSHING TO STATE
-    // ****************************************************************
-    // ****************************************************************
+    if (data.length < 1) {
+      handleShowRequestModal(dispatch, {
+        result: "fail",
+        message: "No props found",
+        showStatus: true,
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (data.length > 0) {
+      const res = await fetch("/api/auth/reduce", {
+        method: "POST",
+      });
+
+      const data = await res.json();
+
+      if (!data) {
+        console.log("ERROR");
+        return;
+      }
+
+      console.log(data);
+    }
 
     setBettingData(data);
+    setLoading(false);
   }
 
   function handlePropCounter(propId: string) {
@@ -193,6 +231,7 @@ export default function AdminPage() {
       return;
     } else {
       try {
+        console.log(currentWeek, currentYear);
         const res = await fetch("/api/props/create-props", {
           method: "POST",
           headers: {
@@ -377,10 +416,27 @@ export default function AdminPage() {
                       NBA
                     </button>
                   </div>
-                  <ul>
+                  <ul className="flex flex-col gap-2">
                     <li>
-                      <button onClick={() => fetchProps(activeLeague)}>
-                        Fetch Props
+                      <div className="flex w-full items-center justify-center gap-1">
+                        Requests Remaining:{" "}
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full border-[1px] border-red-500 bg-red-950 p-1 text-xs">
+                          {user.requestsRemaining}
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <button
+                        className="flex h-16 items-center justify-center"
+                        onClick={() => fetchProps(activeLeague)}
+                      >
+                        {loading ? (
+                          <span className="animate-spin">
+                            <ImSpinner2 className={"text-sm"} />
+                          </span>
+                        ) : (
+                          "Fetch Props"
+                        )}
                       </button>
                     </li>
                   </ul>

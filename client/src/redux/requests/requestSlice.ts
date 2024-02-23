@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface RequestState {
+export interface RequestState {
   result: "success" | "fail" | "";
   message: string;
   showStatus: boolean;

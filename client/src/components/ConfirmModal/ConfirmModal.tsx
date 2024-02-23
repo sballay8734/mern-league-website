@@ -9,6 +9,7 @@ import { setRequestResponse } from "../../redux/requests/requestSlice";
 import { actuallyRemoveChallenge } from "../../redux/props/picksSlice";
 import { useFetchChallengesByUserQuery } from "../../redux/props/propsApi";
 import { ImSpinner2 } from "react-icons/im";
+import { handleShowRequestModal } from "../utils";
 
 export default function ConfirmModal() {
   const dispatch = useDispatch();
@@ -48,15 +49,9 @@ export default function ConfirmModal() {
       }),
     );
 
-    const { message, result } = data;
     // dispatch to SHOW request card
-    dispatch(
-      setRequestResponse({
-        message: message,
-        result: result,
-        showStatus: true,
-      }),
-    );
+    handleShowRequestModal(dispatch, data);
+
     setLoading(false);
 
     // NEED TO ALSO REMOVE FROM STATE!! (Hopefull you can remove this soon)
@@ -67,13 +62,6 @@ export default function ConfirmModal() {
         propId: propId,
       }),
     );
-
-    // dispatch to REMOVE request card
-    setTimeout(() => {
-      dispatch(
-        setRequestResponse({ message: message, result: "", showStatus: false }),
-      );
-    }, 2000);
   }
 
   const children = (

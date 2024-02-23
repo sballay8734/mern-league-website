@@ -1,4 +1,7 @@
 FOR TODAY---------------------
+1. Implement Fetch counter for each Owner (Max per month = 25ish)
+2. Delete old props route
+3. You already have an error handler (refactor everything to accomodate the original)
 1. BIG BUG, Unselected pick counter is not updating correctly. You think the culprit is mongoDB data not being available right away. It might be better to update the prop then handle the filtering on the front end
   - FOR SOME REASON IT STARTED WORKING AFTER ADDING onQueryStarted()
   - See this page for implementing fullfilled logic (https://redux-toolkit.js.org/rtk-query/api/createApi#onquerystarted)
@@ -6,11 +9,8 @@ FOR TODAY---------------------
 1. Handle the loading on homepage better (you're doing alot on initial load now so it needs to be handled)
 1. Add type to active challenge cards
 1. Need to normalize currentWeek somehow because the keys are nfl only...
-1. Re-usable modal for failed submission
-1. Withdraw challenge should not work if it's already been accepted
-1. Block Challenges if game has expired
+
 2. Style Active/Completed Challenges && Summary
-2. Implement Fetch counter for each Owner (Max per month = 25ish)
 1. Setup tailwind style colors
 3. REFACTOR COMBINING CHALLENGES
 

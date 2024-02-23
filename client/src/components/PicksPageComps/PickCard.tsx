@@ -19,6 +19,10 @@ import { IChallenge } from "../../types/challenges";
 import { handleKeyConversion } from "../../utils/keyConversion";
 import { formatTeamName } from "../../utils/Formatting";
 import { useUpdatePropMutation } from "../../redux/props/propsApi";
+import {
+  RequestState,
+  setRequestResponse,
+} from "../../redux/requests/requestSlice";
 
 // export at bottom
 export default function PickCard({ item, user }: PickCardProps) {
@@ -379,14 +383,35 @@ export default function PickCard({ item, user }: PickCardProps) {
       }),
     });
 
+    if (!res.ok) {
+      const data: RequestState = await res.json();
+      const { result, message } = data;
+      dispatch(
+        setRequestResponse({
+          result,
+          message,
+          showStatus: true,
+        }),
+      );
+      setTimeout(() => {
+        dispatch(
+          setRequestResponse({
+            message: message,
+            result: "",
+            showStatus: false,
+          }),
+        );
+      }, 2000);
+
+      return;
+    }
+
     const data: IChallenge = await res.json();
 
     if (!data) {
       console.log("ERROR");
       return;
     }
-
-    console.log(data);
 
     const reformattedForState: IChallenge = {
       challengerId: data.challengerId,
@@ -414,6 +439,7 @@ export default function PickCard({ item, user }: PickCardProps) {
 
       voided: data.voided,
     };
+
     dispatch(addChallenge(reformattedForState));
     handleClearChallenge();
   }

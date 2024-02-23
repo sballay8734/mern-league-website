@@ -1,3 +1,8 @@
+import {
+  RequestState,
+  setRequestResponse,
+} from "../redux/requests/requestSlice";
+
 // export const ODDS_API_KEY = "2eed7073c0bc886d436863fc3a1844db"; // shawnyahoo
 export const ODDS_API_KEY = "7149a4ecd5269194832435e5755990ea"; // baileeshaw
 // export const ODDS_API_KEY = "0f397ef8e40fda92307241c433993cd7"; // shawnballay1
@@ -186,4 +191,23 @@ export interface OUStats {
 export interface gameIdObjects {
   id: string;
   type: string;
+}
+
+export function handleShowRequestModal(dispatch: any, data: RequestState) {
+  dispatch(
+    setRequestResponse({
+      result: data.result,
+      message: data.message,
+      showStatus: true,
+    }),
+  );
+  setTimeout(() => {
+    dispatch(
+      setRequestResponse({
+        result: "",
+        message: data.message,
+        showStatus: false,
+      }),
+    );
+  }, 2000);
 }

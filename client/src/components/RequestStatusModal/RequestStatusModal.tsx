@@ -20,7 +20,13 @@ export default function RequestStatusModal({
       <p className="flex items-center gap-2">
         <span className="flex items-center gap-1">
           <span>
-            {result === "fail" ? <IoIosCloseCircle /> : <FaCheckCircle />}
+            {result === "fail" ? (
+              <IoIosCloseCircle />
+            ) : result === "success" ? (
+              <FaCheckCircle />
+            ) : (
+              ""
+            )}
           </span>
           {message}
         </span>

@@ -6,6 +6,7 @@ import { removeChallenge } from "../../redux/props/picksSlice";
 import { PropChallenge } from "../../types/challenges";
 import { formatOwnerName, formatTeamName } from "../../utils/Formatting";
 import { setRequestResponse } from "../../redux/requests/requestSlice";
+import { handleShowRequestModal } from "../utils";
 
 interface User {
   _id: string;
@@ -43,22 +44,11 @@ export default function ChallengeAccept({
     const challengerName = challenge.challengerName;
 
     if (acceptorName === challengerName) {
-      dispatch(
-        setRequestResponse({
-          result: "fail",
-          message: "You cannot accept your own challenge",
-          showStatus: true,
-        }),
-      );
-      setTimeout(() => {
-        dispatch(
-          setRequestResponse({
-            message: "You cannot accept your own challenge",
-            result: "",
-            showStatus: false,
-          }),
-        );
-      }, 2000);
+      handleShowRequestModal(dispatch, {
+        result: "fail",
+        message: "You cannot accept your own challenge.",
+        showStatus: true,
+      });
       return;
     }
 
@@ -75,6 +65,12 @@ export default function ChallengeAccept({
         challengerName: challengerName,
       }),
     });
+
+    if (!res.ok) {
+      const data = await res.json();
+      const { result, message } = data;
+      dispatch(setRequestResponse({ result, message, showStatus: true }));
+    }
 
     const data = await res.json();
 

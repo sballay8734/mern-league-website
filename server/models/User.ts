@@ -11,6 +11,7 @@ interface IUser extends Document {
   isCommissioner: boolean
   isTempAdmin: boolean
   fullName: string
+  requestsRemaining: number
 }
 
 const userSchema = new Schema({
@@ -27,7 +28,9 @@ const userSchema = new Schema({
   isAdmin: { type: Boolean, default: false },
   isCommissioner: { type: Boolean, default: false },
   isTempAdmin: { type: Boolean, default: true },
-  fullName: { type: String, default: "" }
+  fullName: { type: String, default: "" },
+  fetchCount: { type: Number, default: 0 },
+  requestsRemaining: { type: Number }
 })
 
 const User = mongoose.model<IUser>("User", userSchema)

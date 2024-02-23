@@ -49,10 +49,11 @@ export default function GameWrapper({
     {},
   );
 
+  // NHL===6, NBA===6, NFL===10,
   async function handleFetchPlayerProps(gameId: string, activeLeague: string) {
     setShowPlayerProps(true);
     setLoading(true);
-    // setActiveFilter("");
+
     if (gamePropsToRender[gameId]) {
       console.log("Data exists");
       setShowPlayerProps(!showPlayerProps);

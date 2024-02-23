@@ -150,3 +150,31 @@ export const signout = async (
     next(error)
   }
 }
+
+export const reduceRequestTotal = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const user = req.user
+
+  const updatedUser = await User.findById(user.id)
+
+  if (!updatedUser) return next(errorHandler(400, "User not found"))
+
+  const userObject = updatedUser.toObject()
+  const requestsRemaining = userObject.requestsRemaining
+  const newRequestsRemaining = requestsRemaining - 1
+
+  try {
+    updatedUser.requestsRemaining = newRequestsRemaining
+
+    const finalUser = await updatedUser.save()
+
+    console.log(finalUser)
+
+    return res.status(200).json(finalUser)
+  } catch (error) {
+    console.log(error)
+  }
+}

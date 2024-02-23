@@ -285,6 +285,13 @@ export const createChallenge = async (
   const gameId: string = req.body.gameId
   const propId: string = req.body.uniqueId
   const challenge: IChallenge = req.body.challenge
+  const date = new Date()
+  const gameDate = new Date(challenge.gameStart)
+
+  if (gameDate < date)
+    return res
+      .status(400)
+      .json({ result: "fail", message: "That game has already started!" })
 
   const formattedChallenge = {
     challengerId: challengerId,
@@ -388,6 +395,12 @@ export const acceptChallenge = async (
     const challengeToUpdate = await Challenge.findById(challengeId)
 
     if (!challengeToUpdate) return next(errorHandler(404, "Prop not found!"))
+
+    if (challengeToUpdate.gameStart < dateAccepted)
+      return res
+        .status(400)
+        .json({ result: "fail", message: "That game has already started!" })
+
     if (challengeToUpdate.acceptorName !== "")
       return next(errorHandler(400, "Someone already accepted this!"))
 
