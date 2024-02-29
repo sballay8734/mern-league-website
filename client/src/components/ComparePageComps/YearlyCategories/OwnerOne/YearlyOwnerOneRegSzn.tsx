@@ -214,60 +214,58 @@ export default function YearlyOwnerOneRegSzn() {
           {ownerOne &&
             ownerTwo &&
             ownerOne.yearly[activeYear].participated === true &&
-            ownerTwo.yearly[activeYear].participated ===
-              true && (
-                <>
-                  {ownerOne.yearly[activeYear].everyTeamEveryWeekStats
+            ownerTwo.yearly[activeYear].participated === true && (
+              <>
+                {ownerOne.yearly[activeYear].everyTeamEveryWeekStats
+                  .ETEWWinPct >
+                  ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
+                    .ETEWWinPct &&
+                ownerOne.yearly[activeYear].everyTeamEveryWeekStats.ETEWWinPct -
+                  ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
                     .ETEWWinPct >
+                  0.1 ? (
+                  <>
+                    <span className="plus-minus green">
+                      {(
+                        ownerOne.yearly[activeYear].everyTeamEveryWeekStats
+                          .ETEWWinPct -
+                        ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
+                          .ETEWWinPct
+                      ).toFixed(1)}
+                      %
+                    </span>
+                    <span className="arrow-icon green">
+                      <FaCaretUp />
+                    </span>
+                  </>
+                ) : ownerOne.yearly[activeYear].everyTeamEveryWeekStats
+                    .ETEWWinPct <
                     ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
                       .ETEWWinPct &&
                   ownerOne.yearly[activeYear].everyTeamEveryWeekStats
                     .ETEWWinPct -
                     ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
                       .ETEWWinPct >
-                    0.1 ? (
-                    <>
-                      <span className="plus-minus green">
-                        {(
-                          ownerOne.yearly[activeYear].everyTeamEveryWeekStats
-                            .ETEWWinPct -
-                          ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
-                            .ETEWWinPct
-                        ).toFixed(1)}
-                        %
-                      </span>
-                      <span className="arrow-icon green">
-                        <FaCaretUp />
-                      </span>
-                    </>
-                  ) : ownerOne.yearly[activeYear].everyTeamEveryWeekStats
-                      .ETEWWinPct <
-                      ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
-                        .ETEWWinPct &&
-                    ownerOne.yearly[activeYear].everyTeamEveryWeekStats
-                      .ETEWWinPct -
-                      ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
-                        .ETEWWinPct >
-                      0 ? (
-                    <>
-                      <span className="plus-minus red">
-                        {(
-                          ownerOne.yearly[activeYear].everyTeamEveryWeekStats
-                            .ETEWWinPct -
-                          ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
-                            .ETEWWinPct
-                        ).toFixed(1)}
-                        %
-                      </span>
-                      <span className="arrow-icon red">
-                        <FaCaretDown />
-                      </span>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </>,
-              )}
+                    0 ? (
+                  <>
+                    <span className="plus-minus red">
+                      {(
+                        ownerOne.yearly[activeYear].everyTeamEveryWeekStats
+                          .ETEWWinPct -
+                        ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
+                          .ETEWWinPct
+                      ).toFixed(1)}
+                      %
+                    </span>
+                    <span className="arrow-icon red">
+                      <FaCaretDown />
+                    </span>
+                  </>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
         </div>
       </div>
       <div className="cell avgPf">
