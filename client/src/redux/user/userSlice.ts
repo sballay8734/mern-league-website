@@ -12,6 +12,7 @@ interface User {
   fullName: string;
   isTempAdmin: boolean;
   requestsRemaining: number;
+  isGuest: boolean;
 }
 
 interface UserState {

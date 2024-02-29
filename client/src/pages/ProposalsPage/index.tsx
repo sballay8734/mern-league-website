@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useFetchProposalsQuery } from "../../redux/proposalsApi/proposalsApi";
 // import { BiUpvote, BiDownvote } from "react-icons/bi"
@@ -12,10 +12,12 @@ import { IProposal } from "../../redux/proposalsApi/proposalsApi";
 import { useEffect, useState } from "react";
 import "./ProposalsPage.scss";
 import ProposalWrapper from "../../components/ProposalWrapper/ProposalWrapper";
+import { handleShowRequestModal } from "../../components/utils";
 
 // NEED CREATE PROPOSAL MODAL &&&&& VIEW PROPOSAL MODAL
 
 export default function ProposalsPage() {
+  const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.user);
   const { refetch, data } = useFetchProposalsQuery();
   const [viewModalIsShown, setViewModalIsShown] = useState<boolean>(false);
@@ -24,8 +26,14 @@ export default function ProposalsPage() {
   const [activeButton, setActiveButton] = useState<string>("pending");
 
   useEffect(() => {
+    if (user?.isGuest) {
+      handleShowRequestModal(dispatch, {
+        result: "warning",
+        message: "Non-members have limited permissions!",
+      });
+    }
     refetch();
-  }, [refetch]);
+  }, [refetch, user]);
 
   function handleShowCreateProposal() {
     setCreateModalIsShown(true);

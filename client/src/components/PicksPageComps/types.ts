@@ -8,6 +8,7 @@ interface User {
   isAdmin: boolean;
   isCommissioner: boolean;
   fullName: string;
+  isGuest: boolean;
 }
 
 export interface UpdateProp {
@@ -80,6 +81,7 @@ interface User {
   isAdmin: boolean;
   isCommissioner: boolean;
   fullName: string;
+  isGuest: boolean;
 }
 
 export interface PropChallenge {

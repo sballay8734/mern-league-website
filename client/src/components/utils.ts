@@ -193,7 +193,15 @@ export interface gameIdObjects {
   type: string;
 }
 
-export function handleShowRequestModal(dispatch: any, data: RequestState) {
+interface ModifiedRequestState {
+  result: "success" | "fail" | "warning" | "";
+  message: string;
+}
+
+export function handleShowRequestModal(
+  dispatch: any,
+  data: ModifiedRequestState,
+) {
   dispatch(
     setRequestResponse({
       result: data.result,
@@ -205,7 +213,7 @@ export function handleShowRequestModal(dispatch: any, data: RequestState) {
     dispatch(
       setRequestResponse({
         result: "",
-        message: data.message,
+        message: "",
         showStatus: false,
       }),
     );

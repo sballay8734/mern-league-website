@@ -132,7 +132,6 @@ export default function AdminPage() {
       handleShowRequestModal(dispatch, {
         result: "fail",
         message: "You have no requests remaining",
-        showStatus: true,
       });
 
       return;
@@ -158,7 +157,6 @@ export default function AdminPage() {
       handleShowRequestModal(dispatch, {
         result: "fail",
         message: "No props found",
-        showStatus: true,
       });
       setLoading(false);
       return;
@@ -388,6 +386,11 @@ export default function AdminPage() {
                         disabled={updateInProgress}
                       >
                         Delete Unused Challenges
+                      </button>
+                    </li>
+                    <li>
+                      <button disabled={updateInProgress}>
+                        Clear Guest Users
                       </button>
                     </li>
                   </ul>

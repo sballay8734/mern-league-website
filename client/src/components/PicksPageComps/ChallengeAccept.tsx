@@ -18,6 +18,7 @@ interface User {
   isAdmin: boolean;
   isCommissioner: boolean;
   fullName: string;
+  isGuest: boolean;
 }
 
 interface ChallengeAcceptProps {

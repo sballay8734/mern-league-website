@@ -1,20 +1,22 @@
-import { useSelector } from "react-redux"
-import { FaCaretUp, FaCaretDown } from "react-icons/fa"
-import { RootState } from "../../../../redux/store"
+import { useSelector } from "react-redux";
+import { FaCaretUp, FaCaretDown } from "react-icons/fa";
+import { RootState } from "../../../../redux/store";
 
 export default function YearlyOwnerOneRegSzn() {
-  const ownerOne = useSelector((state: RootState) => state.compare.ownerOne)
-  const ownerTwo = useSelector((state: RootState) => state.compare.ownerTwo)
-  const activeYear = useSelector((state: RootState) => state.compare.activeYear)
+  const ownerOne = useSelector((state: RootState) => state.compare.ownerOne);
+  const ownerTwo = useSelector((state: RootState) => state.compare.ownerTwo);
+  const activeYear = useSelector(
+    (state: RootState) => state.compare.activeYear,
+  );
 
   return (
     <div className="owner-stats owner-one-stats">
       <div className="main-cell owner-name owner-one-name">
         {ownerOne?.ownerName &&
           (() => {
-            const [firstName, lastName] = ownerOne.ownerName.split(" ")
-            const lastInitial = lastName ? lastName.charAt(0) : ""
-            return `${firstName} ${lastInitial}.`
+            const [firstName, lastName] = ownerOne.ownerName.split(" ");
+            const lastInitial = lastName ? lastName.charAt(0) : "";
+            return `${firstName} ${lastInitial}.`;
           })()}
       </div>
       <div className="cell finished">
@@ -160,7 +162,7 @@ export default function YearlyOwnerOneRegSzn() {
                   Math.abs(
                     ownerOne.scheduleSwap[ownerTwo.ownerName].yearly[activeYear]
                       .scheduleSwapWinPct -
-                      ownerOne.yearly[activeYear].regSznStats.winningPct
+                      ownerOne.yearly[activeYear].regSznStats.winningPct,
                   ) > 0.1 ? (
                   <>
                     <span className="plus-minus red">
@@ -211,58 +213,61 @@ export default function YearlyOwnerOneRegSzn() {
         <div className="plus-minus-and-icon">
           {ownerOne &&
             ownerTwo &&
-            ownerOne.yearly[activeYear].participated === true && (
-              <>
-                {ownerOne.yearly[activeYear].everyTeamEveryWeekStats
-                  .ETEWWinPct >
-                  ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
-                    .ETEWWinPct &&
-                ownerOne.yearly[activeYear].everyTeamEveryWeekStats.ETEWWinPct -
-                  ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
+            ownerOne.yearly[activeYear].participated === true &&
+            ownerTwo.yearly[activeYear].participated ===
+              true && (
+                <>
+                  {ownerOne.yearly[activeYear].everyTeamEveryWeekStats
                     .ETEWWinPct >
-                  0.1 ? (
-                  <>
-                    <span className="plus-minus green">
-                      {(
-                        ownerOne.yearly[activeYear].everyTeamEveryWeekStats
-                          .ETEWWinPct -
-                        ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
-                          .ETEWWinPct
-                      ).toFixed(1)}
-                      %
-                    </span>
-                    <span className="arrow-icon green">
-                      <FaCaretUp />
-                    </span>
-                  </>
-                ) : ownerOne.yearly[activeYear].everyTeamEveryWeekStats
-                    .ETEWWinPct <
                     ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
                       .ETEWWinPct &&
                   ownerOne.yearly[activeYear].everyTeamEveryWeekStats
                     .ETEWWinPct -
                     ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
                       .ETEWWinPct >
-                    0 ? (
-                  <>
-                    <span className="plus-minus red">
-                      {(
-                        ownerOne.yearly[activeYear].everyTeamEveryWeekStats
-                          .ETEWWinPct -
-                        ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
-                          .ETEWWinPct
-                      ).toFixed(1)}
-                      %
-                    </span>
-                    <span className="arrow-icon red">
-                      <FaCaretDown />
-                    </span>
-                  </>
-                ) : (
-                  ""
-                )}
-              </>
-            )}
+                    0.1 ? (
+                    <>
+                      <span className="plus-minus green">
+                        {(
+                          ownerOne.yearly[activeYear].everyTeamEveryWeekStats
+                            .ETEWWinPct -
+                          ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
+                            .ETEWWinPct
+                        ).toFixed(1)}
+                        %
+                      </span>
+                      <span className="arrow-icon green">
+                        <FaCaretUp />
+                      </span>
+                    </>
+                  ) : ownerOne.yearly[activeYear].everyTeamEveryWeekStats
+                      .ETEWWinPct <
+                      ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
+                        .ETEWWinPct &&
+                    ownerOne.yearly[activeYear].everyTeamEveryWeekStats
+                      .ETEWWinPct -
+                      ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
+                        .ETEWWinPct >
+                      0 ? (
+                    <>
+                      <span className="plus-minus red">
+                        {(
+                          ownerOne.yearly[activeYear].everyTeamEveryWeekStats
+                            .ETEWWinPct -
+                          ownerTwo.yearly[activeYear].everyTeamEveryWeekStats
+                            .ETEWWinPct
+                        ).toFixed(1)}
+                        %
+                      </span>
+                      <span className="arrow-icon red">
+                        <FaCaretDown />
+                      </span>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </>,
+              )}
         </div>
       </div>
       <div className="cell avgPf">
@@ -415,7 +420,7 @@ export default function YearlyOwnerOneRegSzn() {
           {ownerOne && ownerOne.yearly[activeYear].participated === true ? (
             <div>
               {ownerOne?.yearly[activeYear].regSznStats.pointsAgainst.toFixed(
-                1
+                1,
               )}
             </div>
           ) : (
@@ -442,5 +447,5 @@ export default function YearlyOwnerOneRegSzn() {
           )}
       </div>
     </div>
-  )
+  );
 }

@@ -1,32 +1,32 @@
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import { setOAuthError, setUser } from "../../redux/user/userSlice"
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setOAuthError, setUser } from "../../redux/user/userSlice";
 
-import { useLazyStandardSignupMutation } from "../../redux/auth/authApi"
-import OAuth from "../../components/OAuth/OAuth"
-import { AiFillCheckCircle } from "react-icons/ai"
-import { FaCheck } from "react-icons/fa6"
-import { IoMdCloseCircle } from "react-icons/io"
-import "./Signup.scss"
-import { RootState } from "../../redux/store"
+import { useLazyStandardSignupMutation } from "../../redux/auth/authApi";
+import OAuth from "../../components/OAuth/OAuth";
+import { AiFillCheckCircle } from "react-icons/ai";
+import { FaCheck } from "react-icons/fa6";
+import { IoMdCloseCircle } from "react-icons/io";
+import "./Signup.scss";
+import { RootState } from "../../redux/store";
 
 interface FormData {
-  email: string
-  firstName: string
-  lastInitial: string
-  password: string
-  confirmPassword: string
-  isTempAdmin: boolean
-  fullName: string
+  email: string;
+  firstName: string;
+  lastInitial: string;
+  password: string;
+  confirmPassword: string;
+  isTempAdmin: boolean;
+  fullName: string;
 }
 
 export default function Signup() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { error } = useSelector((state: RootState) => state.user)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { error } = useSelector((state: RootState) => state.user);
   const [trigger, { isError, isLoading, isSuccess }] =
-    useLazyStandardSignupMutation()
+    useLazyStandardSignupMutation();
   const [formData, setFormData] = useState<FormData>({
     email: "",
     firstName: "",
@@ -34,51 +34,51 @@ export default function Signup() {
     password: "",
     confirmPassword: "",
     isTempAdmin: false,
-    fullName: ""
-  })
-  const [standardError, setStandardError] = useState<string | null>(null)
+    fullName: "",
+  });
+  const [standardError, setStandardError] = useState<string | null>(null);
 
   function isMatching(pass1: string, pass2: string) {
-    return pass1 === pass2
+    return pass1 === pass2;
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    dispatch(setOAuthError(null))
-    setStandardError(null)
+    dispatch(setOAuthError(null));
+    setStandardError(null);
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value
-    })
+      [e.target.id]: e.target.value,
+    });
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+    e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      setStandardError("Passwords must match")
-      return
+      setStandardError("Passwords must match");
+      return;
     }
 
     try {
-      const response = await trigger(formData)
+      const response = await trigger(formData);
 
       if ("data" in response) {
-        dispatch(setUser(response.data))
-        localStorage.setItem("initialTheme", response.data.preferredTheme)
+        dispatch(setUser(response.data));
+        localStorage.setItem("initialTheme", response.data.preferredTheme);
         setTimeout(() => {
-          navigate("/")
-        }, 300)
+          navigate("/");
+        }, 300);
       } else if ("error" in response) {
-        const errorData = response.error as { data?: unknown }
+        const errorData = response.error as { data?: unknown };
         if (errorData.data && typeof errorData.data === "object") {
-          const data = errorData.data as { message?: string }
+          const data = errorData.data as { message?: string };
           if (data.message) {
-            setStandardError(data.message)
+            setStandardError(data.message);
           }
         }
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -94,7 +94,7 @@ export default function Signup() {
             type="email"
             name="email"
             id="email"
-            placeholder="fleshlightlover@gmail.com"
+            placeholder="shawnballay@gmail.com"
             required
           />
         </div>
@@ -220,5 +220,5 @@ export default function Signup() {
         </p>
       </form>
     </div>
-  )
+  );
 }

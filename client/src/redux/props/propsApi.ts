@@ -152,9 +152,9 @@ const propsApi = createApi({
         },
       }),
       providesTags: ["Prop"],
-      onQueryStarted: () => {
-        console.log("FetchCount query started...", new Date());
-      },
+      // onQueryStarted: () => {
+      //   console.log("FetchCount query started...", new Date());
+      // },
     }),
     // TODO: invalidates tags needs to be more specific when updating because the array does not change. Therefore, no need to invalidate the entire array. This should only be done if adding or removing from an array.
     updateProp: builder.mutation<PropToDbInterface, UpdateProp>({

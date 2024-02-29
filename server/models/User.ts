@@ -10,6 +10,7 @@ interface IUser extends Document {
   isAdmin: boolean
   isCommissioner: boolean
   isTempAdmin: boolean
+  isGuest: boolean
   fullName: string
   requestsRemaining: number
 }
@@ -28,6 +29,7 @@ const userSchema = new Schema({
   isAdmin: { type: Boolean, default: false },
   isCommissioner: { type: Boolean, default: false },
   isTempAdmin: { type: Boolean, default: true },
+  isGuest: { type: Boolean, default: false },
   fullName: { type: String, default: "" },
   fetchCount: { type: Number, default: 0 },
   requestsRemaining: { type: Number }

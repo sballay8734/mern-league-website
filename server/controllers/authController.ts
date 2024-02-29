@@ -13,14 +13,33 @@ export const signup = async (
 ) => {
   const { email, password, firstName, lastInitial } = req.body
 
-  if (!whitelistedEmails.includes(email)) {
-    next(errorHandler(400, "That email has not been whitelisted"))
-    return
-  }
-
   if (!email || !password || !firstName || !lastInitial) {
     next(errorHandler(400, "All fields are required"))
     return
+  }
+
+  if (!whitelistedEmails.includes(email)) {
+    const hashedPassword = bcrypt.hashSync(password, 12)
+    const capitalizedName =
+      firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase()
+    const capitalizedInitial = lastInitial.toUpperCase()
+    try {
+      const newUser = new User({
+        email,
+        password: hashedPassword,
+        firstName: capitalizedName,
+        lastInitial: capitalizedInitial,
+        isGuest: true
+      })
+      await newUser.save()
+
+      const userObject = newUser.toObject()
+      const { password, ...rest } = userObject
+
+      res.status(200).json(rest)
+    } catch (error) {
+      next(error)
+    }
   }
 
   const hashedPassword = bcrypt.hashSync(password, 12)

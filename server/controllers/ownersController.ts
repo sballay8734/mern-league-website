@@ -25,7 +25,11 @@ export const getUsers = async (
     const users = await User.find()
     const userObjects = users.map((user) => user.toObject())
 
-    const usersWithoutPasswords = userObjects.map((user) => {
+    const filteredUserObjects = userObjects.filter((user) => {
+      return user.isGuest === false
+    })
+
+    const usersWithoutPasswords = filteredUserObjects.map((user) => {
       const { password, ...rest } = user
       return rest
     })

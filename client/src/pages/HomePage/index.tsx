@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 import { RootState } from "../../redux/store";
 import { useFetchUserImagesQuery } from "../../redux/owners/ownersApi";
@@ -15,6 +15,7 @@ import {
   setInitialUnseenCount,
 } from "../../redux/proposalsApi/proposalsSlice";
 import "./HomePage.scss";
+import RequestStatusModal from "../../components/RequestStatusModal/RequestStatusModal";
 
 interface UseFetchChallengesResult {
   data: IChallenge[];
@@ -64,7 +65,6 @@ export default function HomePage() {
 
   return (
     <div className="page hero__image">
-      {/* <div className="overlay"></div> */}
       <div className="established">EST. 2014</div>
       <div className="title-circle-wrapper">
         <div className="title-text-wrapper">

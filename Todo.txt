@@ -1,73 +1,9 @@
-TESTING BRANCH
+TEST BRANCH
 
-FOR TODAY---------------------
-1. Implement Fetch counter for each Owner (Max per month = 25ish)
-2. Delete old props route
-3. You already have an error handler (refactor everything to accomodate the original)
-1. BIG BUG, Unselected pick counter is not updating correctly. You think the culprit is mongoDB data not being available right away. It might be better to update the prop then handle the filtering on the front end
-  - FOR SOME REASON IT STARTED WORKING AFTER ADDING onQueryStarted()
-  - See this page for implementing fullfilled logic (https://redux-toolkit.js.org/rtk-query/api/createApi#onquerystarted)
-
-1. Handle the loading on homepage better (you're doing alot on initial load now so it needs to be handled)
-1. Add type to active challenge cards
-1. Need to normalize currentWeek somehow because the keys are nfl only...
-
-2. Style Active/Completed Challenges && Summary
-1. Setup tailwind style colors
-3. REFACTOR COMBINING CHALLENGES
-
-1. Find a better font for numbers and text separately
-3. Fix finishing places
-4. Only allow props to be fetched on Friday/Saturday if not Full Admin (you)
-5. Add completed popup modal to other actions
-
-
-CURRENTLY DOING -----------------------------------------------------
-NOT THAT IMPORTANT
-19. Filtering props is a bit abrupt (needs to be smooth)
-20. Need little icons or numbers to symbolize where your selected props are
-21. Add clear all props button
-24. YOU NEED TO TEST WHAT HAPPENS WHEN PICKS LOCK ON FRONT END!
-24. NEED TO ADD add arrow to button and clean things up. Refactoring made some things look weird.
-25. Filter buttons are too small on admin page
-26. Filtering causes some janky/abrubt behavior (scroll within scroll)
+- Request modal not showing properly (NOTHING YOU FUCKING DO GETS THIS MODAL TO SHOW)
 
 
 
-
-VERY IMPORTANT (START WITH KOTH AND COMPARE PAGE) ********************************************************************************
-- Break challenges UI into separate component
-- ADD BACK IN "YOU CAN'T ACCPET YOUR OWN CHALLENGE CHECK"
-- FIX PICK COUNTER AT BOTTOM OF SCREEN (NOT LOADING WITH CURRENT AMOUNT)
-- "Open Challenges" instead of history
-- Try and refactor the logic that checks if owners exist or owners participated exists in compare page....
-- NEED TO SET A TIME FRAME FOR AUTO REFETCH OF DATA INCASE SOME PEOPLE LEAVE THEIR TABS OPEN
-
-- Move things to their own component
-- State management changes
-- Optimization (useCallback, useMemo, etc...)
-- scss refactor
-
-- Flipp and Dom N. having same first name is going to cause unexpected behavior in the compare owners tab
-
--DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
-
-- [MONGODB DRIVER] Warning: Top-level use of w, wtimeout, j, and fsync is deprecated. Use writeConcern instead.
-(node:69) [MONGODB DRIVER] Warning: Current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
-
-- Wager input allowing letters on mobile (but not allowing submission which is good)
-- View Challenges and Create A Challenge need to smooth transition when opening
-- Compare page needs a lot of love LOL.
-- Probably should add calculation to show what the challenger should win and also what the acceptor will win if they accept.
-- Picks on admin page need to be locked when timer runs out
-********************************************************************************
-
-
-
-
-
-KNOWN BUGS
-1. More than 3 Championships or Skirts can cause issues with ownerSelector Body
-
-Must Do For Final Version
-1. Responsiveness for Ipads and above
+TODO:
+-Picks page
+-Proposals (Can submit, AND vote, but votes don't officially count somehow)

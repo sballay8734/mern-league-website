@@ -1,20 +1,22 @@
-import { useSelector } from "react-redux"
-import { FaCaretUp, FaCaretDown } from "react-icons/fa"
-import { RootState } from "../../../../redux/store"
+import { useSelector } from "react-redux";
+import { FaCaretUp, FaCaretDown } from "react-icons/fa";
+import { RootState } from "../../../../redux/store";
 
 export default function YearlyOwnerTwoRegSzn() {
-  const ownerOne = useSelector((state: RootState) => state.compare.ownerOne)
-  const ownerTwo = useSelector((state: RootState) => state.compare.ownerTwo)
-  const activeYear = useSelector((state: RootState) => state.compare.activeYear)
+  const ownerOne = useSelector((state: RootState) => state.compare.ownerOne);
+  const ownerTwo = useSelector((state: RootState) => state.compare.ownerTwo);
+  const activeYear = useSelector(
+    (state: RootState) => state.compare.activeYear,
+  );
 
   return (
     <div className="owner-stats owner-two-stats">
       <div className="main-cell owner-name owner-two-name">
         {ownerTwo?.ownerName &&
           (() => {
-            const [firstName, lastName] = ownerTwo.ownerName.split(" ")
-            const lastInitial = lastName ? lastName.charAt(0) : ""
-            return `${firstName} ${lastInitial}.`
+            const [firstName, lastName] = ownerTwo.ownerName.split(" ");
+            const lastInitial = lastName ? lastName.charAt(0) : "";
+            return `${firstName} ${lastInitial}.`;
           })()}
       </div>
       <div className="cell finished">
@@ -161,7 +163,7 @@ export default function YearlyOwnerTwoRegSzn() {
                   Math.abs(
                     ownerTwo.scheduleSwap[ownerOne.ownerName].yearly[activeYear]
                       .scheduleSwapWinPct -
-                      ownerTwo.yearly[activeYear].regSznStats.winningPct
+                      ownerTwo.yearly[activeYear].regSznStats.winningPct,
                   ) > 0.1 ? (
                   <>
                     <span className="arrow-icon red">
@@ -202,7 +204,7 @@ export default function YearlyOwnerTwoRegSzn() {
         <span className="stat-value">
           {ownerTwo &&
           ownerOne &&
-          ownerTwo.yearly[activeYear] &&
+          ownerTwo.yearly[activeYear].participated === true &&
           ownerOne.yearly[activeYear].participated === true ? (
             <>
               {ownerTwo.yearly[activeYear].everyTeamEveryWeekStats.ETEWWinPct}%
@@ -419,7 +421,7 @@ export default function YearlyOwnerTwoRegSzn() {
           {ownerTwo && ownerTwo.yearly[activeYear].participated === true ? (
             <div>
               {ownerTwo?.yearly[activeYear].regSznStats.pointsAgainst.toFixed(
-                1
+                1,
               )}
             </div>
           ) : (
@@ -446,5 +448,5 @@ export default function YearlyOwnerTwoRegSzn() {
           )}
       </div>
     </div>
-  )
+  );
 }

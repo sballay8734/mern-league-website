@@ -1,36 +1,38 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface User {
-  _id: string
-  email: string
-  firstName: string
-  lastInitial: string
-  avatar: string
-  preferredTheme: string
-  isAdmin: boolean
-  isCommissioner: boolean
-  isTempAdmin: boolean
-  fullName: string
+  _id: string;
+  email: string;
+  firstName: string;
+  lastInitial: string;
+  avatar: string;
+  preferredTheme: string;
+  isAdmin: boolean;
+  isCommissioner: boolean;
+  isTempAdmin: boolean;
+  fullName: string;
+  requestsRemaining: number;
+  isGuest: boolean;
 }
 
 interface signInData {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 interface FormData {
-  email: string
-  password: string
-  firstName: string
-  lastInitial: string
-  isTempAdmin: boolean
-  fullName: string
+  email: string;
+  password: string;
+  firstName: string;
+  lastInitial: string;
+  isTempAdmin: boolean;
+  fullName: string;
 }
 
 const authApi = createApi({
   reducerPath: "auth",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api"
+    baseUrl: "/api",
   }),
   endpoints: (builder) => ({
     lazyStandardSignIn: builder.mutation<User, signInData>({
@@ -39,9 +41,9 @@ const authApi = createApi({
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
+          "Content-Type": "application/json",
+        },
+      }),
     }),
     lazyStandardSignup: builder.mutation<User, FormData>({
       query: (formData) => ({
@@ -49,13 +51,13 @@ const authApi = createApi({
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
-    })
-  })
-})
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
+  }),
+});
 
 export const { useLazyStandardSignInMutation, useLazyStandardSignupMutation } =
-  authApi
-export { authApi }
+  authApi;
+export { authApi };

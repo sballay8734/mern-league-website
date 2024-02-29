@@ -17,6 +17,7 @@ interface User {
   preferredTheme: string;
   isAdmin: boolean;
   isCommissioner: boolean;
+  isGuest: boolean;
 }
 
 interface ProposalWrapperProps {
