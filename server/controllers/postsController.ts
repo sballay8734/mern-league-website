@@ -61,16 +61,20 @@ export const voteOnProposal = async (
         // remove userId from downvoters and decrement count
         const index = proposal.downVoters.indexOf(userId)
         proposal.downVoters.splice(index, 1)
-        proposal.set({
-          "voteInfo.downVotes": proposal.voteInfo.downVotes - 1,
-          "voteInfo.upVotes": proposal.voteInfo.upVotes + 1,
-          upVoters: [...proposal.upVoters, userId]
-        })
+        if (req.user.isGuest === false) {
+          proposal.set({
+            "voteInfo.downVotes": proposal.voteInfo.downVotes - 1,
+            "voteInfo.upVotes": proposal.voteInfo.upVotes + 1,
+            upVoters: [...proposal.upVoters, userId]
+          })
+        }
       } else {
-        proposal.set({
-          "voteInfo.upVotes": proposal.voteInfo.upVotes + 1,
-          upVoters: [...proposal.upVoters, userId]
-        })
+        if (req.user.isGuest === false) {
+          proposal.set({
+            "voteInfo.upVotes": proposal.voteInfo.upVotes + 1,
+            upVoters: [...proposal.upVoters, userId]
+          })
+        }
       }
     } else if (req.body.action === "downvote") {
       if (proposal.downVoters.includes(userId))
@@ -79,16 +83,20 @@ export const voteOnProposal = async (
         // remove userId from upvoters and decrement count
         const index = proposal.upVoters.indexOf(userId)
         proposal.upVoters.splice(index, 1)
-        proposal.set({
-          "voteInfo.upVotes": proposal.voteInfo.upVotes - 1,
-          "voteInfo.downVotes": proposal.voteInfo.downVotes + 1,
-          downVoters: [...proposal.downVoters, userId]
-        })
+        if (req.user.isGuest === false) {
+          proposal.set({
+            "voteInfo.upVotes": proposal.voteInfo.upVotes - 1,
+            "voteInfo.downVotes": proposal.voteInfo.downVotes + 1,
+            downVoters: [...proposal.downVoters, userId]
+          })
+        }
       } else {
-        proposal.set({
-          "voteInfo.downVotes": proposal.voteInfo.downVotes + 1,
-          downVoters: [...proposal.downVoters, userId]
-        })
+        if (req.user.isGuest === false) {
+          proposal.set({
+            "voteInfo.downVotes": proposal.voteInfo.downVotes + 1,
+            downVoters: [...proposal.downVoters, userId]
+          })
+        }
       }
     } else {
       next(errorHandler(400, "Something went wrong"))
@@ -98,7 +106,26 @@ export const voteOnProposal = async (
     const updatedProposal = await proposal.save()
 
     const proposalObject = updatedProposal.toObject()
-    res.status(200).json(proposalObject)
+
+    // console.log(proposalObject)
+
+    if (req.user.isGuest === false) {
+      res.status(200).json({
+        proposal: proposalObject,
+        reqData: {
+          result: "success",
+          message: "Successfully updated votes!"
+        }
+      })
+    }
+
+    res.status(200).json({
+      proposal: proposalObject,
+      reqData: {
+        result: "success",
+        message: "Success: But vote count will not update for guests"
+      }
+    })
   } catch (error) {
     next(error)
   }

@@ -1,6 +1,7 @@
 TEST BRANCH
 
 - Request modal not showing properly (NOTHING YOU FUCKING DO GETS THIS MODAL TO SHOW)
+- Proposal UI not updating (Number should NOT, but vote status should)
 
 
 

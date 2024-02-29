@@ -65,7 +65,7 @@ export default function CreateProposalModal({
 
   const children = (
     <div
-      className={`submit-proposal-modal-wrapper modal ${
+      className={`submit-proposal-modal-wrapper-submit modal ${
         user && user?.preferredTheme
       }`}
     >

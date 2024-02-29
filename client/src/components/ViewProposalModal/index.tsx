@@ -1,258 +1,265 @@
-import { createPortal } from "react-dom"
-import { useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import { createPortal } from "react-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
-import { IProposal } from "../../redux/proposalsApi/proposalsApi"
-import { RootState } from "../../redux/store"
-import { FaCheck } from "react-icons/fa"
-import { IoClose } from "react-icons/io5"
-import { AiOutlineCloseSquare } from "react-icons/ai"
-import { FaAngleDoubleDown } from "react-icons/fa"
-import { FaAngleDoubleUp } from "react-icons/fa"
-import { FaEdit } from "react-icons/fa"
+import { IProposal } from "../../redux/proposalsApi/proposalsApi";
+import { RootState } from "../../redux/store";
+import { FaCheck } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import { AiOutlineCloseSquare } from "react-icons/ai";
+import { FaAngleDoubleDown } from "react-icons/fa";
+import { FaAngleDoubleUp } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 
-import "./ProposalModal.scss"
+import "./ProposalModal.scss";
+import { handleShowRequestModal } from "../utils";
 
 interface ViewProposalModalProps {
-  proposal: IProposal
-  closeModal: () => void
-  refetch: () => void
+  proposal: IProposal;
+  closeModal: () => void;
+  refetch: () => void;
 }
 
 interface FormData {
-  title: string
-  content: string
+  title: string;
+  content: string;
 }
 
 export default function ViewProposalModal({
   proposal,
   closeModal,
-  refetch
+  refetch,
 }: ViewProposalModalProps) {
-  const { user } = useSelector((state: RootState) => state.user)
-  const [error, setError] = useState<null | string>(null)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [updatedProposal, setUpdatedProposal] = useState<IProposal>(proposal)
-  const [verifyVeto, setVerifyVeto] = useState<boolean>(false)
-  const [commishStatus, setCommishStatus] = useState<null | string>(null)
-  const [showActions, setShowActions] = useState<boolean>(false)
-  const [editMode, setEditMode] = useState<boolean>(false)
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.user);
+  const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [updatedProposal, setUpdatedProposal] = useState<IProposal>(proposal);
+  const [verifyVeto, setVerifyVeto] = useState<boolean>(false);
+  const [commishStatus, setCommishStatus] = useState<null | string>(null);
+  const [showActions, setShowActions] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     title: updatedProposal.title || "",
-    content: updatedProposal.content || ""
-  })
+    content: updatedProposal.content || "",
+  });
 
-  useEffect(() => {}, [updatedProposal])
+  useEffect(() => {}, [updatedProposal]);
 
   async function handleApproveClick() {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await fetch(`/api/posts/proposals/${proposal._id}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ action: "upvote" })
-      })
+        body: JSON.stringify({ action: "upvote" }),
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
-      if (data.success === false) {
-        setError("Action failed")
-        setLoading(false)
-        return
+      if (!data) {
+        setError("Action failed");
+        setLoading(false);
+        return;
       }
 
-      setUpdatedProposal(data)
+      if (data.reqData.result === "success") {
+        console.log("SHOWING");
+        handleShowRequestModal(dispatch, data.reqData);
+      }
+
+      setUpdatedProposal(data.proposal);
       // show success
-      // close modal
-      setLoading(false)
-      refetch()
+      closeModal();
+      setLoading(false);
+      refetch();
     } catch (error) {
-      console.log(error)
-      setLoading(false)
+      console.log(error);
+      setLoading(false);
     }
   }
 
   async function handleRejectClick() {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await fetch(`/api/posts/proposals/${proposal._id}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ action: "downvote" })
-      })
+        body: JSON.stringify({ action: "downvote" }),
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (data.success === false) {
-        setError("Action failed")
-        setLoading(false)
-        return
+        setError("Action failed");
+        setLoading(false);
+        return;
       }
 
-      setUpdatedProposal(data)
+      setUpdatedProposal(data);
       // show success
       // close modal
-      refetch()
-      setLoading(false)
+      refetch();
+      setLoading(false);
     } catch (error) {
-      console.log(error)
-      setLoading(false)
+      console.log(error);
+      setLoading(false);
     }
   }
 
   function handleCommishVeto(status: string) {
-    setVerifyVeto(!verifyVeto)
-    setCommishStatus(status)
+    setVerifyVeto(!verifyVeto);
+    setCommishStatus(status);
   }
 
   async function handleCommishOverride() {
     if (user && user.isCommissioner === false) {
-      setError("Only the commissioner can do that!")
-      return
+      setError("Only the commissioner can do that!");
+      return;
     }
 
     try {
-      setLoading(true)
+      setLoading(true);
       const res = await fetch(`/api/posts/proposals/${proposal._id}/reject`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ action: commishStatus })
-      })
+        body: JSON.stringify({ action: commishStatus }),
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (data.success === false) {
-        setError("Action Failed")
-        return
+        setError("Action Failed");
+        return;
       }
       // show success
       // close modal
-      setUpdatedProposal(data)
-      refetch()
-      setLoading(false)
-      closeModal()
+      setUpdatedProposal(data);
+      refetch();
+      setLoading(false);
+      closeModal();
     } catch (error) {
       if (error instanceof Error) {
-        setError(error.message)
+        setError(error.message);
       } else {
-        console.log(error)
+        console.log(error);
       }
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   function handleShowCommishActions() {
-    setShowActions(!showActions)
+    setShowActions(!showActions);
   }
 
   async function handleProposalReset() {
     if (!user || user.isAdmin === false) {
-      setError("Only and Admin can do that!")
-      return
+      setError("Only and Admin can do that!");
+      return;
     }
 
     try {
       const res = await fetch(`/api/posts/proposals/${proposal._id}/reset`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
+          "Content-Type": "application/json",
+        },
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (data.success === false) {
-        setError("Error resetting proposal")
+        setError("Error resetting proposal");
       }
 
       // show success
       // close modal
-      setUpdatedProposal(data)
-      refetch()
-      setLoading(false)
-      closeModal()
+      setUpdatedProposal(data);
+      refetch();
+      setLoading(false);
+      closeModal();
     } catch (error) {
       if (error instanceof Error) {
-        setError("Something went wrong")
+        setError("Something went wrong");
       }
     }
   }
 
   function toggleEditMode() {
-    setEditMode(!editMode)
-    setError(null)
+    setEditMode(!editMode);
+    setError(null);
   }
 
   async function handleEditRequest() {
     if (proposal.commishVeto === true || proposal.commishVeto === false) {
       setError(
-        "Sorry but our fearless leader has already sealed this proposals fate"
-      )
-      return
+        "Sorry but our fearless leader has already sealed this proposals fate",
+      );
+      return;
     }
 
     try {
       const res = await fetch(`/api/posts/proposals/${proposal._id}`, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           title: formData.title,
-          content: formData.content
-        })
-      })
+          content: formData.content,
+        }),
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (data.success === false) {
-        setError("Something went wrong")
-        return
+        setError("Something went wrong");
+        return;
       }
-      setUpdatedProposal(data)
+      setUpdatedProposal(data);
       // show success
       // close modal
-      setEditMode(false)
-      refetch()
-      setError(null)
-      setLoading(false)
+      setEditMode(false);
+      refetch();
+      setError(null);
+      setLoading(false);
     } catch (error) {
       if (error instanceof Error) {
-        setError("Could not update proposal")
+        setError("Could not update proposal");
       }
     }
   }
 
   function handleEditCancel() {
-    setEditMode(false)
+    setEditMode(false);
     setFormData({
       ...formData,
       title: updatedProposal.title,
-      content: updatedProposal.content
-    })
-    setError(null)
+      content: updatedProposal.content,
+    });
+    setError(null);
   }
 
   function handleInputChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value
-    })
+      [e.target.id]: e.target.value,
+    });
   }
 
   const children = (
     <div
       className={`proposal-modal-wrapper modal ${user && user?.preferredTheme}`}
     >
-      <div className="modal-content">
+      <div className="modal-content bg-red-500">
         <div className="modal-top">
           <div className="top-left">
             <p className="date-submitted">
@@ -265,9 +272,9 @@ export default function ViewProposalModal({
                 {updatedProposal.commishVeto === true
                   ? "Rejected by KJD"
                   : updatedProposal.commishVeto === false
-                  ? "Approved by KJD"
-                  : updatedProposal.status.charAt(0).toLocaleUpperCase() +
-                    updatedProposal.status.slice(1)}
+                    ? "Approved by KJD"
+                    : updatedProposal.status.charAt(0).toLocaleUpperCase() +
+                      updatedProposal.status.slice(1)}
               </span>
             </p>
             <p className="votes">
@@ -468,8 +475,8 @@ export default function ViewProposalModal({
       </div>
       <div onClick={closeModal} className="modal-background"></div>
     </div>
-  )
-  const portalRoot = document.getElementById("modal-container")!
+  );
+  const portalRoot = document.getElementById("modal-container")!;
 
-  return createPortal(children, portalRoot)
+  return createPortal(children, portalRoot);
 }

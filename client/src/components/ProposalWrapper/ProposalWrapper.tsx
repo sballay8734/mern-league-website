@@ -38,6 +38,16 @@ export default function ProposalWrapper({
     (state: RootState) => state.proposlasSlice.seenIds[item._id],
   );
 
+  // *********************************************
+  // *********************************************
+  // *********************************************
+
+  // VOTE STATUS NOT UPDATING *********************************************
+
+  // *********************************************
+  // *********************************************
+  // *********************************************
+
   async function handleSetSeenTrue() {
     if (thisProposalSeenStatus === true) return;
 
