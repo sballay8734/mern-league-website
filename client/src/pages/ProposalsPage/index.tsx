@@ -54,6 +54,17 @@ export default function ProposalsPage() {
     filteredProposals = data.filter((item) => item.status === activeButton);
   }
 
+  let shownProposals;
+  if (user?.isGuest) {
+    shownProposals = filteredProposals;
+  } else if (!user?.isGuest) {
+    shownProposals =
+      filteredProposals &&
+      filteredProposals.filter((proposal) => {
+        return proposal.guestCreated === false;
+      });
+  }
+
   return (
     <div className="page proposals-page">
       {user === null ? (
@@ -114,8 +125,8 @@ export default function ProposalsPage() {
             </nav>
           </div>
           <div className="proposals-page-bottom disable-scrollbars">
-            {filteredProposals && filteredProposals.length > 0 ? (
-              filteredProposals.map((item) => {
+            {shownProposals && shownProposals.length > 0 ? (
+              shownProposals.map((item) => {
                 return (
                   <ProposalWrapper
                     key={item._id}

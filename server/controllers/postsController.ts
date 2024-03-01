@@ -38,6 +38,42 @@ export const createProposal = async (
   }
 }
 
+export const guestCreateProposal = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.user) return next(errorHandler(400, "Unauthorized"))
+
+  const userId = req.user.id
+  const user = await User.findById(userId)
+
+  if (user) {
+    const userName = `${user.firstName} ${user.lastInitial}`
+    const proposalData = {
+      ...req.body,
+      userId: userId,
+      userName: userName,
+      guestUpVoters: [userId],
+      seen: [userId],
+      guestCreated: true
+    }
+    try {
+      const proposal = await Proposal.create(proposalData)
+      if (proposal) {
+        const proposalObject = proposal.toObject()
+        res.status(200).json(proposalObject)
+      } else {
+        next(errorHandler(400, "Something went wrong"))
+      }
+    } catch (error) {
+      next(error)
+    }
+  } else {
+    next(errorHandler(500, "Something went wrong"))
+  }
+}
+
 export const voteOnProposal = async (
   req: Request,
   res: Response,
@@ -47,56 +83,54 @@ export const voteOnProposal = async (
     const userId = req.user.id
     const proposalId = req.params.id
 
-    const proposal = await Proposal.findById(proposalId)
+    const user = await User.findById(userId)
+    if (!user) return next(errorHandler(400, "Unauthorized"))
 
+    const proposal = await Proposal.findById(proposalId)
     if (!proposal) {
       next(errorHandler(404, "Proposal not found"))
       return
     }
 
     if (req.body.action === "upvote") {
-      if (proposal.upVoters.includes(userId))
+      if (proposal.upVoters.includes(userId)) {
         return next(errorHandler(400, "You already voted to approve"))
+      }
       if (proposal.downVoters.includes(userId)) {
         // remove userId from downvoters and decrement count
         const index = proposal.downVoters.indexOf(userId)
         proposal.downVoters.splice(index, 1)
-        if (req.user.isGuest === false) {
-          proposal.set({
-            "voteInfo.downVotes": proposal.voteInfo.downVotes - 1,
-            "voteInfo.upVotes": proposal.voteInfo.upVotes + 1,
-            upVoters: [...proposal.upVoters, userId]
-          })
-        }
+
+        proposal.set({
+          "voteInfo.downVotes": proposal.voteInfo.downVotes - 1,
+          "voteInfo.upVotes": proposal.voteInfo.upVotes + 1,
+          upVoters: [...proposal.upVoters, userId]
+        })
       } else {
-        if (req.user.isGuest === false) {
-          proposal.set({
-            "voteInfo.upVotes": proposal.voteInfo.upVotes + 1,
-            upVoters: [...proposal.upVoters, userId]
-          })
-        }
+        proposal.set({
+          "voteInfo.upVotes": proposal.voteInfo.upVotes + 1,
+          upVoters: [...proposal.upVoters, userId]
+        })
       }
     } else if (req.body.action === "downvote") {
-      if (proposal.downVoters.includes(userId))
+      if (proposal.downVoters.includes(userId)) {
         return next(errorHandler(400, "You already voted to reject"))
+      }
       if (proposal.upVoters.includes(userId)) {
         // remove userId from upvoters and decrement count
         const index = proposal.upVoters.indexOf(userId)
         proposal.upVoters.splice(index, 1)
-        if (req.user.isGuest === false) {
-          proposal.set({
-            "voteInfo.upVotes": proposal.voteInfo.upVotes - 1,
-            "voteInfo.downVotes": proposal.voteInfo.downVotes + 1,
-            downVoters: [...proposal.downVoters, userId]
-          })
-        }
+
+        proposal.set({
+          "voteInfo.upVotes": proposal.voteInfo.upVotes - 1,
+          "voteInfo.downVotes": proposal.voteInfo.downVotes + 1,
+          downVoters: [...proposal.downVoters, userId]
+        })
       } else {
-        if (req.user.isGuest === false) {
-          proposal.set({
-            "voteInfo.downVotes": proposal.voteInfo.downVotes + 1,
-            downVoters: [...proposal.downVoters, userId]
-          })
-        }
+        proposal.set({
+          "voteInfo.downVotes": proposal.voteInfo.downVotes + 1,
+          downVoters: [...proposal.downVoters, userId]
+        })
       }
     } else {
       next(errorHandler(400, "Something went wrong"))
@@ -109,21 +143,86 @@ export const voteOnProposal = async (
 
     // console.log(proposalObject)
 
-    if (req.user.isGuest === false) {
-      res.status(200).json({
-        proposal: proposalObject,
-        reqData: {
-          result: "success",
-          message: "Successfully updated votes!"
-        }
-      })
-    }
-
-    res.status(200).json({
+    return res.status(200).json({
       proposal: proposalObject,
       reqData: {
         result: "success",
-        message: "Success: But vote count will not update for guests"
+        message: "Successfully updated votes!"
+      }
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const guestVoteOnProposal = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.user.id
+    const proposalId = req.params.id
+
+    const user = await User.findById(userId)
+    if (!user) return next(errorHandler(400, "Unauthorized"))
+
+    const proposal = await Proposal.findById(proposalId)
+    if (!proposal) {
+      next(errorHandler(404, "Proposal not found"))
+      return
+    }
+
+    if (req.body.action === "upvote") {
+      if (proposal.guestUpVoters.includes(userId)) {
+        return next(errorHandler(400, "You already voted to approve"))
+      }
+      if (proposal.guestDownVoters.includes(userId)) {
+        // remove userId from downvoters and decrement count
+        const index = proposal.guestDownVoters.indexOf(userId)
+        proposal.guestDownVoters.splice(index, 1)
+
+        console.log("RUNNING 1")
+        proposal.set({
+          guestUpVoters: [...proposal.guestUpVoters, userId]
+        })
+      } else {
+        console.log("RUNNING 2")
+        proposal.set({
+          guestUpVoters: [...proposal.guestUpVoters, userId]
+        })
+      }
+    } else if (req.body.action === "downvote") {
+      if (proposal.guestDownVoters.includes(userId)) {
+        return next(errorHandler(400, "You already voted to reject"))
+      }
+      if (proposal.guestUpVoters.includes(userId)) {
+        // remove userId from upvoters and decrement count
+        const index = proposal.guestUpVoters.indexOf(userId)
+        proposal.guestUpVoters.splice(index, 1)
+
+        proposal.set({
+          guestDownVoters: [...proposal.guestDownVoters, userId]
+        })
+      } else {
+        proposal.set({
+          guestDownVoters: [...proposal.guestDownVoters, userId]
+        })
+      }
+    } else {
+      next(errorHandler(400, "Something went wrong"))
+      return
+    }
+
+    const updatedProposal = await proposal.save()
+
+    const proposalObject = updatedProposal.toObject()
+
+    return res.status(200).json({
+      proposal: proposalObject,
+      reqData: {
+        result: "warning",
+        message: "Success: Vote count will not update for guests"
       }
     })
   } catch (error) {
@@ -351,8 +450,6 @@ export const markAsSeen = async (
   const userId = req.user.id
   const proposalId = req.params.proposalId
 
-  console.log("ON SERVER...")
-
   const user = await User.findById(userId)
   if (!user)
     return res.status(403).json({ result: "fail", message: "User not found!" })
@@ -364,18 +461,22 @@ export const markAsSeen = async (
       .json({ result: "fail", message: "Proposal not found!" })
 
   //TODO: Temporary fix (see ProposalWrapper)
-  if (proposal.seen.includes(userId))
+  if (proposal.seen.includes(userId)) {
+    console.log("1")
     return res.status(200).json({
       result: "temp",
-      message: "User already maked as having seen this"
+      message: "User already marked as having seen this"
     })
+  }
 
   try {
+    console.log("2")
     proposal.set({
       seen: [...proposal.seen, userId]
     })
 
     const newProposal = await proposal.save()
+    console.log("3")
     if (!newProposal)
       return res
         .status(403)

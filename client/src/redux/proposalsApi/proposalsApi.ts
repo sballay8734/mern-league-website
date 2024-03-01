@@ -23,10 +23,13 @@ export interface IProposal {
   comments: Comment[];
   upVoters: string[];
   downVoters: string[];
+  guestUpVoters: string[];
+  guestDownVoters: string[];
   yearProposed: number;
   dateProposed: string;
   commishVeto: boolean;
   seen: string[];
+  guestCreated: boolean;
 }
 
 const proposalsApi = createApi({

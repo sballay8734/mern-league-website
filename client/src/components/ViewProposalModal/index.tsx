@@ -48,8 +48,14 @@ export default function ViewProposalModal({
 
   async function handleApproveClick() {
     setLoading(true);
+    let route = "";
+    if (user && user.isGuest) {
+      route = `/api/posts/guestProposals/${proposal._id}`;
+    } else {
+      route = `/api/posts/proposals/${proposal._id}`;
+    }
     try {
-      const res = await fetch(`/api/posts/proposals/${proposal._id}`, {
+      const res = await fetch(route, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,8 +89,14 @@ export default function ViewProposalModal({
 
   async function handleRejectClick() {
     setLoading(true);
+    let route = "";
+    if (user && user.isGuest) {
+      route = `/api/posts/guestProposals/${proposal._id}`;
+    } else {
+      route = `/api/posts/proposals/${proposal._id}`;
+    }
     try {
-      const res = await fetch(`/api/posts/proposals/${proposal._id}`, {
+      const res = await fetch(route, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,17 +106,22 @@ export default function ViewProposalModal({
 
       const data = await res.json();
 
-      if (data.success === false) {
+      if (!data) {
         setError("Action failed");
         setLoading(false);
         return;
       }
 
-      setUpdatedProposal(data);
+      if (data.reqData.result === "success") {
+        console.log("SHOWING");
+        handleShowRequestModal(dispatch, data.reqData);
+      }
+
+      setUpdatedProposal(data.proposal);
       // show success
-      // close modal
-      refetch();
+      closeModal();
       setLoading(false);
+      refetch();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -255,6 +272,8 @@ export default function ViewProposalModal({
     });
   }
 
+  console.log(updatedProposal.voteInfo);
+
   const children = (
     <div
       className={`proposal-modal-wrapper modal ${user && user?.preferredTheme}`}
@@ -280,8 +299,8 @@ export default function ViewProposalModal({
             <p className="votes">
               Votes:{" "}
               <span className="info">
-                {updatedProposal.voteInfo.upVotes +
-                  updatedProposal.voteInfo.downVotes}
+                {updatedProposal.downVoters.length +
+                  updatedProposal.upVoters.length}
                 /12
               </span>
             </p>
@@ -391,12 +410,16 @@ export default function ViewProposalModal({
                 disabled={loading}
                 onClick={handleRejectClick}
                 className={`reject ${
-                  user && updatedProposal.downVoters.includes(user._id)
+                  user &&
+                  (updatedProposal.downVoters.includes(user._id) ||
+                    updatedProposal.guestDownVoters.includes(user._id))
                     ? "disable"
                     : ""
                 }`}
               >
-                {user && updatedProposal.downVoters.includes(user._id)
+                {user &&
+                (updatedProposal.downVoters.includes(user._id) ||
+                  updatedProposal.guestDownVoters.includes(user._id))
                   ? "You Rejected This"
                   : "Vote to Reject"}
                 <span>
@@ -407,12 +430,16 @@ export default function ViewProposalModal({
                 disabled={loading}
                 onClick={handleApproveClick}
                 className={`approve ${
-                  user && updatedProposal.upVoters.includes(user._id)
+                  user &&
+                  (updatedProposal.upVoters.includes(user._id) ||
+                    updatedProposal.guestUpVoters.includes(user._id))
                     ? "disable"
                     : ""
                 }`}
               >
-                {user && updatedProposal.upVoters.includes(user._id)
+                {user &&
+                (updatedProposal.upVoters.includes(user._id) ||
+                  updatedProposal.guestUpVoters.includes(user._id))
                   ? "You Approved This"
                   : "Vote to Approve"}
                 <span>

@@ -1,43 +1,33 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { RootState } from "../../redux/store";
 import { useFetchUserImagesQuery } from "../../redux/owners/ownersApi";
-import {
-  useFetchChallengesByUserQuery,
-  useFetchUnsubmittedPropCountQuery,
-} from "../../redux/props/propsApi";
-import { IChallenge } from "../../types/challenges";
+import { useFetchUnsubmittedPropCountQuery } from "../../redux/props/propsApi";
 import { useFetchProposalsQuery } from "../../redux/proposalsApi/proposalsApi";
 import {
   addIdToSeen,
   setInitialUnseenCount,
 } from "../../redux/proposalsApi/proposalsSlice";
 import "./HomePage.scss";
-import RequestStatusModal from "../../components/RequestStatusModal/RequestStatusModal";
-
-interface UseFetchChallengesResult {
-  data: IChallenge[];
-  refetch: () => void;
-}
 
 export default function HomePage() {
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.user);
 
   const { data, refetch: refetchImages } = useFetchUserImagesQuery();
-  const { data: challenges, refetch: fetchChallenges } =
-    useFetchChallengesByUserQuery(user?._id ?? "");
-  const { data: proposals, refetch: fetchProposals } = useFetchProposalsQuery();
+  const { data: proposals } = useFetchProposalsQuery();
   const { data: propCount, refetch: refetchPropCount } =
     useFetchUnsubmittedPropCountQuery();
 
+  console.log(proposals);
   // handle intitialization of push notifications for proposals
   useEffect(() => {
     const proposalsUnseenCount =
       proposals && user
         ? proposals.reduce((count, proposal) => {
+            if (proposal.guestCreated === true) return count;
             // if status is pending && user has not seen proposal
             if (
               proposal.status === "pending" &&

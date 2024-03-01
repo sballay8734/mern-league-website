@@ -22,10 +22,14 @@ interface IProposal extends Document {
   comments: Comment[]
   upVoters: string[]
   downVoters: string[]
+  guestUpVoters: string[]
+  guestDownVoters: string[]
   yearProposed: number
   dateProposed: Date
   commishVeto: boolean
   seen: string[]
+  voted: string[]
+  guestCreated: boolean
 }
 
 const proposalSchema = new mongoose.Schema({
@@ -42,6 +46,8 @@ const proposalSchema = new mongoose.Schema({
   comments: { type: Array, default: [] },
   upVoters: { type: Array, default: [] },
   downVoters: { type: Array, default: [] },
+  guestUpVoters: { type: Array, default: [] },
+  guestDownVoters: { type: Array, default: [] },
   yearProposed: { type: Number, default: new Date().getFullYear() },
   dateProposed: {
     type: String,
@@ -52,7 +58,8 @@ const proposalSchema = new mongoose.Schema({
     })
   },
   commishVeto: { type: Boolean, default: null },
-  seen: { type: Array, default: [] }
+  seen: { type: Array, default: [] },
+  guestCreated: { type: Boolean, default: false }
 })
 
 const Proposal = mongoose.model<IProposal>("Proposal", proposalSchema)

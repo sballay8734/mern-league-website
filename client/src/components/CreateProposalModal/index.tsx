@@ -36,8 +36,15 @@ export default function CreateProposalModal({
       return;
     }
 
+    let route = "";
+    if (user?.isGuest) {
+      route = "/api/posts/guestProposals";
+    } else {
+      route = "/api/posts/proposals";
+    }
+
     try {
-      const res = await fetch("/api/posts/proposals", {
+      const res = await fetch(route, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +72,7 @@ export default function CreateProposalModal({
 
   const children = (
     <div
-      className={`submit-proposal-modal-wrapper-submit modal ${
+      className={`submit-proposal-modal-wrapper modal ${
         user && user?.preferredTheme
       }`}
     >
@@ -101,7 +108,7 @@ export default function CreateProposalModal({
               maxLength={350}
               name="content"
               id="content"
-              placeholder="KJD has too much power and it is the best interest of the league to overthrow him. Yesterday, I saw him drink a bud light so I now know that he is weak and probably gay. We already have a gay guy in this league (Dan). We don't need another."
+              placeholder="KJD has too much power and it is the best interest of the league to overthrow him. Yesterday, I saw him drink a bud light so I now know that he is weak. We already have a weak guy in this league (Dan). We don't need another."
               rows={6}
               value={formData.content}
               required

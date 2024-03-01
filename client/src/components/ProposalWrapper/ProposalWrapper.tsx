@@ -38,16 +38,6 @@ export default function ProposalWrapper({
     (state: RootState) => state.proposlasSlice.seenIds[item._id],
   );
 
-  // *********************************************
-  // *********************************************
-  // *********************************************
-
-  // VOTE STATUS NOT UPDATING *********************************************
-
-  // *********************************************
-  // *********************************************
-  // *********************************************
-
   async function handleSetSeenTrue() {
     if (thisProposalSeenStatus === true) return;
 
@@ -60,6 +50,8 @@ export default function ProposalWrapper({
       });
 
       const data = await res.json();
+
+      console.log(data);
 
       if (!data) {
         throw new Error("No data in response!");
@@ -116,9 +108,11 @@ export default function ProposalWrapper({
           </h2>
         </div>
         <h2 className="you-voted">
-          {item.downVoters.includes(user._id) ? (
+          {item.downVoters.includes(user._id) ||
+          item.guestDownVoters.includes(user._id) ? (
             <span className="reject">You rejected this</span>
-          ) : item.upVoters.includes(user._id) ? (
+          ) : item.upVoters.includes(user._id) ||
+            item.guestUpVoters.includes(user._id) ? (
             <span className="approve">You approved this</span>
           ) : (
             <span className="no-vote">You did not vote</span>
