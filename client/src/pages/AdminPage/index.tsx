@@ -53,7 +53,7 @@ const nfl2024WeekRanges: WeekRanges = {
   testWeek2: {
     key: "testWeek2",
     start: "2024-02-12T06:00:00Z",
-    end: "2024-02-29T18:30:00Z",
+    end: "2024-12-29T18:30:00Z",
   },
 };
 
@@ -162,20 +162,21 @@ export default function AdminPage() {
       return;
     }
 
-    if (data.length > 0) {
-      const res = await fetch("/api/auth/reduce", {
-        method: "POST",
-      });
+    // TODO: THIS REDUCES COUNT. REMOVED FOR TESTING
+    // if (data.length > 0) {
+    //   const res = await fetch("/api/auth/reduce", {
+    //     method: "POST",
+    //   });
 
-      const data = await res.json();
+    //   const data = await res.json();
 
-      if (!data) {
-        console.log("ERROR");
-        return;
-      }
+    //   if (!data) {
+    //     console.log("ERROR");
+    //     return;
+    //   }
 
-      console.log(data);
-    }
+    //   console.log(data);
+    // }
 
     setBettingData(data);
     setLoading(false);

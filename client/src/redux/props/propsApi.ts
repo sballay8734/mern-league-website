@@ -34,7 +34,7 @@ const nfl2024WeekRanges: WeekRanges = {
   testWeek2: {
     key: "testWeek2",
     start: "2024-02-11T06:00:00Z",
-    end: "2024-02-30T18:30:00Z",
+    end: "2024-12-29T18:30:00Z",
   },
 };
 

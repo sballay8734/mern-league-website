@@ -21,7 +21,6 @@ export default function HomePage() {
   const { data: propCount, refetch: refetchPropCount } =
     useFetchUnsubmittedPropCountQuery();
 
-  console.log(proposals);
   // handle intitialization of push notifications for proposals
   useEffect(() => {
     const proposalsUnseenCount =

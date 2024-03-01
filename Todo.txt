@@ -6,4 +6,4 @@ TEST BRANCH
 TODO:
 -Details view (question mark at the top of each page)
 -Picks page
--Proposals (Can submit, AND vote, but votes don't officially count somehow)
+-GET Request modal working

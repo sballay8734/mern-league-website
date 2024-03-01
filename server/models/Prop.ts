@@ -46,6 +46,7 @@ export interface PropToDbInterface {
   result?: number
 
   voided: boolean
+  guestCreated: boolean
 }
 
 const propSchema = new Schema({
@@ -92,7 +93,8 @@ const propSchema = new Schema({
 
   voided: { type: Boolean, required: true, default: false },
 
-  weekYear: { type: String, index: true, required: true }
+  weekYear: { type: String, index: true, required: true },
+  guestCreated: { type: Boolean, default: false }
 })
 
 const Prop = mongoose.model<PropToDbInterface>("Prop", propSchema)
