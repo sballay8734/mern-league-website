@@ -530,7 +530,6 @@ export const getUnsubmittedPropCount = async (
       return res.status(200).json(0)
     }
 
-    // TODO: Add a field called "voted" to each prop to more easily check if a user has already made a selction. Checking 4 different fields is NOT efficient
     const filteredPropsForThisWeek = propsForThisWeek.filter((prop) => {
       const expirationDate = new Date(prop.expiration)
       return (

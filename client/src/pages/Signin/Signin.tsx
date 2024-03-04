@@ -115,9 +115,11 @@ export default function Signin() {
         {/* <h3>Or</h3> */}
         <OAuth />
         <p className="description">
-          Your bitch-ass didn't register yet?{" "}
+          Didn't register yet?{" "}
           <span>
-            <Link to="/signup">Register here</Link>
+            <Link to="/signup" className="text-blue-400">
+              Register here
+            </Link>
           </span>
         </p>
       </form>

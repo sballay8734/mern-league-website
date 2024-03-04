@@ -29,14 +29,20 @@ export const signup = async (
         password: hashedPassword,
         firstName: capitalizedName,
         lastInitial: capitalizedInitial,
+        fullName: firstName + " " + lastInitial,
         isGuest: true
       })
       await newUser.save()
 
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET!)
+
       const userObject = newUser.toObject()
       const { password, ...rest } = userObject
 
-      res.status(200).json(rest)
+      return res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(201)
+        .json(rest)
     } catch (error) {
       next(error)
     }
@@ -56,10 +62,15 @@ export const signup = async (
     })
     await newUser.save()
 
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET!)
+
     const userObject = newUser.toObject()
     const { password, ...rest } = userObject
 
-    res.status(200).json(rest)
+    return res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(201)
+      .json(rest)
   } catch (error) {
     next(error)
   }

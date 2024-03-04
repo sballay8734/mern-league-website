@@ -1,9 +1,10 @@
 TEST BRANCH
 
-- Request modal not showing properly (NOTHING YOU FUCKING DO GETS THIS MODAL TO SHOW)
-- add ms input for modal function
+TODO: NOW
+-Guest created proposals aren't displaying notification circle
+-Guest challenges aren't persistant 
 
-TODO:
+TODO: Eventually
 -Details view (question mark at the top of each page)
--Picks page
--GET Request modal working
+-Get Request modal working on home page?
+-Add ms input for modal function

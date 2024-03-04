@@ -1,154 +1,156 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 import {
   getDownloadURL,
   getStorage,
   ref,
-  uploadBytesResumable
-} from "firebase/storage"
+  uploadBytesResumable,
+} from "firebase/storage";
 
-import { FaCheck } from "react-icons/fa6"
-import { IoMdCloseCircle } from "react-icons/io"
-import { AiFillCheckCircle } from "react-icons/ai"
-import { themeOptions } from "./themeData"
-import "./ProfilePage.scss"
-import { app } from "../../firebase"
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../redux/store"
-import { setUser, setUserTheme, signOutUser } from "../../redux/user/userSlice"
+import { FaCheck } from "react-icons/fa6";
+import { IoMdCloseCircle } from "react-icons/io";
+import { AiFillCheckCircle } from "react-icons/ai";
+import { themeOptions } from "./themeData";
+import "./ProfilePage.scss";
+import { app } from "../../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { setUser, setUserTheme, signOutUser } from "../../redux/user/userSlice";
 
 interface formData {
-  newPassword: string
-  confirmPassword: string
-  avatar: string
-  preferredTheme: string
+  newPassword: string;
+  confirmPassword: string;
+  avatar: string;
+  preferredTheme: string;
 }
 
 export default function ProfilePage() {
-  const { user } = useSelector((state: RootState) => state.user)
-  const [file, setFile] = useState<null | File>(null)
-  const imgRef = useRef<HTMLInputElement | null>(null)
-  const [filePct, setFilePct] = useState<number>(0)
-  const [fileUploadError, setFileUploadError] = useState<string | null>(null)
+  const { user } = useSelector((state: RootState) => state.user);
+  const [file, setFile] = useState<null | File>(null);
+  const imgRef = useRef<HTMLInputElement | null>(null);
+  const [filePct, setFilePct] = useState<number>(0);
+  const [fileUploadError, setFileUploadError] = useState<string | null>(null);
   const [formData, setFormData] = useState<formData>({
     newPassword: "",
     confirmPassword: "",
     avatar: user?.avatar || "",
-    preferredTheme: user?.preferredTheme || "eagles"
-  })
-  const dispatch = useDispatch()
-  const [updateLoading, setUpdateLoading] = useState<boolean>(false)
-  const [updateSuccess, setUpdateSuccess] = useState<boolean>(false)
+    preferredTheme: user?.preferredTheme || "eagles",
+  });
+  const dispatch = useDispatch();
+  const [updateLoading, setUpdateLoading] = useState<boolean>(false);
+  const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
   const [activeTheme, setActiveTheme] = useState<string>(
-    user?.preferredTheme || "eagles"
-  )
+    user?.preferredTheme || "eagles",
+  );
   const [initialTheme, setInitialTheme] = useState(() => {
-    const storedTheme = localStorage.getItem("initialTheme")
-    return storedTheme || null
-  })
+    const storedTheme = localStorage.getItem("initialTheme");
+    return storedTheme || null;
+  });
 
   useEffect(() => {
     if (file) {
       if (isValidImageFile(file)) {
-        handleFileUpload(file)
+        handleFileUpload(file);
       } else {
-        setFile(null)
-        setFileUploadError("File must be smaller than 2MB")
+        setFile(null);
+        setFileUploadError("File must be smaller than 2MB");
       }
     }
-  }, [file])
+  }, [file]);
 
   async function handleSignOut() {
-    setFileUploadError(null)
+    setFileUploadError(null);
     try {
-      const res = await fetch("api/auth/signout")
-      const data = await res.json()
+      const res = await fetch("api/auth/signout");
+      const data = await res.json();
 
       if (data.success === false) {
-        setFileUploadError("Error logging out")
-        return
+        setFileUploadError("Error logging out");
+        return;
       }
-      dispatch(signOutUser())
+      dispatch(signOutUser());
+      localStorage.clear();
       // navigate("/") NOT WORKING DUE TO PRIVATE ROUTE I THINK
     } catch (error) {
       if (error instanceof Error) {
-        setFileUploadError(error.message)
+        setFileUploadError(error.message);
       }
     }
   }
 
   function handleThemeSelect(theme: string) {
-    setFileUploadError(null)
-    setActiveTheme(theme)
+    setFileUploadError(null);
+    setActiveTheme(theme);
 
-    dispatch(setUserTheme(theme))
+    dispatch(setUserTheme(theme));
     setFormData({
       ...formData,
-      preferredTheme: theme
-    })
+      preferredTheme: theme,
+    });
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setFileUploadError(null)
+    setFileUploadError(null);
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value
-    })
+      [e.target.id]: e.target.value,
+    });
   }
 
   function isMatching(pass1: string, pass2: string) {
-    return pass1 === pass2
+    return pass1 === pass2;
   }
 
   function isValidImageFile(file: File) {
-    return file.type.startsWith("image/") && file.size <= 2 * 1024 * 1024
+    return file.type.startsWith("image/") && file.size <= 2 * 1024 * 1024;
   }
 
   function resetFormData() {
     setFormData({
       ...formData,
       newPassword: "",
-      confirmPassword: ""
-    })
+      confirmPassword: "",
+    });
   }
 
   function handleFileUpload(file: File) {
-    setFilePct(0)
-    setFileUploadError(null)
-    setUpdateSuccess(false)
+    setFilePct(0);
+    setFileUploadError(null);
+    setUpdateSuccess(false);
 
-    const storage = getStorage(app)
-    const fileName = new Date().getTime() + file.name
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + file.name;
 
-    const storageRef = ref(storage, fileName)
+    const storageRef = ref(storage, fileName);
 
-    const uploadTask = uploadBytesResumable(storageRef, file)
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        setFilePct(Math.round(progress))
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setFilePct(Math.round(progress));
       },
       (error: Error) => {
-        setFileUploadError("Error uploading file")
-        console.log(error)
+        setFileUploadError("Error uploading file");
+        console.log(error);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setFormData({ ...formData, avatar: downloadURL })
-        })
-      }
-    )
+          setFormData({ ...formData, avatar: downloadURL });
+        });
+      },
+    );
   }
 
-  console.log(localStorage.getItem("initialTheme"))
+  console.log(localStorage.getItem("initialTheme"));
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+    e.preventDefault();
 
-    setUpdateSuccess(false)
-    setFileUploadError(null)
-    setUpdateLoading(true)
+    setUpdateSuccess(false);
+    setFileUploadError(null);
+    setUpdateLoading(true);
 
     // if image is unchanged
     if (
@@ -156,60 +158,60 @@ export default function ProfilePage() {
       formData.newPassword.length === 0 &&
       initialTheme === user.preferredTheme
     ) {
-      setFileUploadError("You need to make a change")
-      setUpdateLoading(false)
-      return
+      setFileUploadError("You need to make a change");
+      setUpdateLoading(false);
+      return;
     }
 
     if (formData.newPassword !== formData.confirmPassword) {
-      setFileUploadError("Passwords must match")
-      setUpdateLoading(false)
-      return
+      setFileUploadError("Passwords must match");
+      setUpdateLoading(false);
+      return;
     }
 
     if (formData.newPassword.length > 0 && formData.newPassword.length < 8) {
-      setFileUploadError("Password must be at least 8 characters")
-      setUpdateLoading(false)
-      return
+      setFileUploadError("Password must be at least 8 characters");
+      setUpdateLoading(false);
+      return;
     }
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const updateData: any = {
         avatar: formData.avatar,
-        preferredTheme: formData.preferredTheme
-      }
+        preferredTheme: formData.preferredTheme,
+      };
 
       if (formData.newPassword.length > 0) {
-        updateData.newPassword = formData.newPassword
-        updateData.confirmPassword = formData.confirmPassword
+        updateData.newPassword = formData.newPassword;
+        updateData.confirmPassword = formData.confirmPassword;
       }
 
       const response = await fetch(`/api/profile/update/${user?._id}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(updateData)
-      })
-      const data = await response.json()
+        body: JSON.stringify(updateData),
+      });
+      const data = await response.json();
 
       if (data.success === false) {
-        console.log("Error updating user")
-        setUpdateLoading(false)
-        return
+        console.log("Error updating user");
+        setUpdateLoading(false);
+        return;
       }
-      dispatch(setUser(data))
-      setUpdateSuccess(true)
-      setUpdateLoading(false)
-      setFileUploadError(null)
-      setFilePct(0)
-      resetFormData()
-      localStorage.setItem("initialTheme", data.preferredTheme)
-      setInitialTheme(data.preferredTheme)
+      dispatch(setUser(data));
+      setUpdateSuccess(true);
+      setUpdateLoading(false);
+      setFileUploadError(null);
+      setFilePct(0);
+      resetFormData();
+      localStorage.setItem("initialTheme", data.preferredTheme);
+      setInitialTheme(data.preferredTheme);
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error.message)
+        console.log(error.message);
       }
     }
   }
@@ -358,5 +360,5 @@ export default function ProfilePage() {
         </a>
       </form>
     </div>
-  )
+  );
 }

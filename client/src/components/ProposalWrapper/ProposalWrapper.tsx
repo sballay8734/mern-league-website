@@ -38,8 +38,11 @@ export default function ProposalWrapper({
     (state: RootState) => state.proposlasSlice.seenIds[item._id],
   );
 
+  console.log(thisProposalSeenStatus);
+
   async function handleSetSeenTrue() {
     if (thisProposalSeenStatus === true) return;
+    if (item.status === "rejected" || item.status === "approved") return;
 
     try {
       const res = await fetch(`/api/posts/proposals/${item._id}/seen`, {

@@ -44,7 +44,7 @@ export default function HomePage() {
   // handle initialization of push notifications for props
   useEffect(() => {
     refetchPropCount();
-  }, [propCount]);
+  }, [propCount, user]);
 
   useEffect(() => {
     refetchImages();

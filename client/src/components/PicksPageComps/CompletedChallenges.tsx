@@ -8,15 +8,16 @@ export default function CompletedChallenges({
   completedChallenges,
 }: completedChallengesProps) {
   return (
-    <div>
-      {completedChallenges &&
+    <div className="flex h-full items-center justify-center">
+      You have no completed challenges
+      {/* {completedChallenges &&
         completedChallenges.map((challenge) => {
           return (
             <div key={challenge._id}>
               {challenge.challengerName} vs. {challenge.acceptorName}
             </div>
           );
-        })}
+        })} */}
     </div>
   );
 }

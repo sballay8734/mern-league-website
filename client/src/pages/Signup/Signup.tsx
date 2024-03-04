@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOAuthError, setUser } from "../../redux/user/userSlice";
 
 import { useLazyStandardSignupMutation } from "../../redux/auth/authApi";
+import { useFetchUnsubmittedPropCountQuery } from "../../redux/props/propsApi";
 import OAuth from "../../components/OAuth/OAuth";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa6";
@@ -27,6 +28,7 @@ export default function Signup() {
   const { error } = useSelector((state: RootState) => state.user);
   const [trigger, { isError, isLoading, isSuccess }] =
     useLazyStandardSignupMutation();
+  const { refetch: refetchPropCount } = useFetchUnsubmittedPropCountQuery();
   const [formData, setFormData] = useState<FormData>({
     email: "",
     firstName: "",
@@ -59,6 +61,7 @@ export default function Signup() {
       return;
     }
 
+    // TODO: Problem is that i'm not assigning a token when user signs up
     try {
       const response = await trigger(formData);
 
@@ -66,6 +69,7 @@ export default function Signup() {
         dispatch(setUser(response.data));
         localStorage.setItem("initialTheme", response.data.preferredTheme);
         setTimeout(() => {
+          refetchPropCount();
           navigate("/");
         }, 300);
       } else if ("error" in response) {

@@ -67,7 +67,7 @@ export default function ConfirmModal() {
   const children = (
     <div className={`proposal-modal-wrapper modal`}>
       <div className="modal-content">
-        <div className="text-white">{responseMessage}</div>
+        <div className="text-black">{responseMessage}</div>
         <div className="flex w-full gap-2 overflow-hidden">
           <button
             onClick={handleConfirmed}
